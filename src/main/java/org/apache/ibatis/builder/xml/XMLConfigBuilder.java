@@ -33,9 +33,8 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.JdbcType;
 
 /**
- * @author Clinton Begin
- * @author Kazuki Shimizu
- */
+ * XMLConfigBuilder 用来解析MyBatis的配置文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
+*/
 public class XMLConfigBuilder extends BaseBuilder {
 
   private boolean parsed;
@@ -67,6 +66,9 @@ public class XMLConfigBuilder extends BaseBuilder {
     this(new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
+  /**
+   *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的typeAliasRegistry容器中
+  */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
     ErrorContext.instance().resource("SQL Mapper Configuration");
@@ -87,21 +89,26 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   private void parseConfiguration(XNode root) {
     try {
-      //issue #117 read properties first
+      //issue #117 read properties first // 解析<properties>节点
       propertiesElement(root.evalNode("properties"));
+      // 解析<settings>节点 <settings>属性的解析过程和 <properties>属性的解析过程极为类似，这里不再赘述。最终，所有的setting属性都被存储在Configuration对象中。
       Properties settings = settingsAsProperties(root.evalNode("settings"));
       loadCustomVfs(settings);
       loadCustomLogImpl(settings);
+      // 解析<typeAliases>节点
       typeAliasesElement(root.evalNode("typeAliases"));
+      // 解析<plugins>节点
       pluginElement(root.evalNode("plugins"));
       objectFactoryElement(root.evalNode("objectFactory"));
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
+      // 解析<reflectorFactory>节点
       reflectorFactoryElement(root.evalNode("reflectorFactory"));
       settingsElement(settings);
-      // read it after objectFactory and objectWrapperFactory issue #631
+      // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>节点
       environmentsElement(root.evalNode("environments"));
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
       typeHandlerElement(root.evalNode("typeHandlers"));
+      // 解析<mappers>节点
       mapperElement(root.evalNode("mappers"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
@@ -142,15 +149,26 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setLogImpl(logImpl);
   }
 
+/**
+ 如果<typeAliases>节点下定义了<package>节点，那么MyBatis会给该包下的所有类起一个别名（以类名首字母小写作为别名）
+ 如果<typeAliases>节点下定义了<typeAlias>节点，那么MyBatis就会给指定的类起指定的别名。
+ 这些别名都会被存入configuration的typeAliasRegistry容器中。
+*/
   private void typeAliasesElement(XNode parent) {
     if (parent != null) {
+      // 遍历<typeAliases>下的所有子节点
       for (XNode child : parent.getChildren()) {
+        // 若当前结点为<package>
         if ("package".equals(child.getName())) {
+          // 获取<package>上的name属性（包名）
           String typeAliasPackage = child.getStringAttribute("name");
+          // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
           configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage);
-        } else {
+        } else { // 如果当前结点为< typeAlias >
+          // 获取alias和type属性
           String alias = child.getStringAttribute("alias");
           String type = child.getStringAttribute("type");
+          // 注册进configuration的typeAliasRegistry中
           try {
             Class<?> clazz = Resources.classForName(type);
             if (alias == null) {
@@ -204,24 +222,38 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   首先读取<resources>节点下的所有<resource>节点，并将每个节点的name和value属性存入Properties中。
+   然后读取<resources>节点上的resource、url属性，并获取指定配置文件中的name和value，也存入Properties中。
+   （PS：由此可知，如果resource节点上定义的属性和properties文件中的属性重名，那么properties文件中的属性值会覆盖resource节点上定义的属性值。）
+   最终，携带所有属性的Properties对象会被存储在Configuration对象中。
+  */
   private void propertiesElement(XNode context) throws Exception {
     if (context != null) {
+      // 获取<properties>节点的所有子节点
       Properties defaults = context.getChildrenAsProperties();
+      // 获取<properties>节点上的resource属性
       String resource = context.getStringAttribute("resource");
+      // 获取<properties>节点上的url属性
       String url = context.getStringAttribute("url");
+      // resource和url不能同时存在
       if (resource != null && url != null) {
         throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
       }
       if (resource != null) {
+        // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中
         defaults.putAll(Resources.getResourceAsProperties(resource));
       } else if (url != null) {
+        // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中
         defaults.putAll(Resources.getUrlAsProperties(url));
       }
+      // 获取configuration中原本的属性，并添加至defaults容器中
       Properties vars = configuration.getVariables();
       if (vars != null) {
         defaults.putAll(vars);
       }
       parser.setVariables(defaults);
+      // 将defaults容器添加至configuration中
       configuration.setVariables(defaults);
     }
   }
@@ -342,28 +374,60 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   方式1：
+   <mappers>
+   <package name="org.mybatis.builder"/>
+   </mappers>
+
+   方式2：
+   <mappers>
+   <mapper resource="org/mybatis/builder/AuthorMapper.xml"/>
+   </mappers>
+
+   方式3：
+   <mappers>
+   <mapper url="file:///var/mappers/AuthorMapper.xml"/>
+   </mappers>
+
+   方式4：
+   <mappers>
+   <mapper class="org.mybatis.builder.AuthorMapper"/>
+   </mappers>
+  */
   private void mapperElement(XNode parent) throws Exception {
     if (parent != null) {
+      // 遍历<mappers>下所有子节点
       for (XNode child : parent.getChildren()) {
+        // 如果当前节点为<package>
         if ("package".equals(child.getName())) {
+          // 获取<package>的name属性（该属性值为mapper class所在的包名）
           String mapperPackage = child.getStringAttribute("name");
+          // 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
           configuration.addMappers(mapperPackage);
-        } else {
+        } else {  // 如果当前节点为<mapper>
+
+          // 依次获取resource、url、class属性
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
+          // 解析resource属性（Mapper.xml文件的路径）
           if (resource != null && url == null && mapperClass == null) {
             ErrorContext.instance().resource(resource);
+            // 将Mapper.xml文件解析成输入流
             InputStream inputStream = Resources.getResourceAsStream(resource);
+            // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
             mapperParser.parse();
-          } else if (resource == null && url != null && mapperClass == null) {
+          } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径）
             ErrorContext.instance().resource(url);
             InputStream inputStream = Resources.getUrlAsStream(url);
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
             mapperParser.parse();
-          } else if (resource == null && url == null && mapperClass != null) {
+          } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）
+            // 将Mapper Class的权限定名转化成Class对象
             Class<?> mapperInterface = Resources.classForName(mapperClass);
+            // 注册进configuration对象的mapperRegistry容器中
             configuration.addMapper(mapperInterface);
           } else {
             throw new BuilderException("A mapper element may only specify a url, resource or class, but not more than one.");

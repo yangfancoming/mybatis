@@ -55,9 +55,7 @@ class NestedResultHandlerMultipleAssociationTest {
   @Test
   void success() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-
       ParentBean parent = sqlSession.selectOne("selectParentBeanById", 2);
-
       // If you only select the Parent2 it works
       for (Binome<ChildBean, ChildBean> childs : parent.getChilds()) {
         Assertions.assertNotNull(childs);

@@ -35,8 +35,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- * @author Clinton Begin
- * @author Kazuki Shimizu
+ XMLMapperBuilder用来解析MyBatis中的映射文件（如上文提到的ProductMapper.xml）
  */
 public class XMLMapperBuilder extends BaseBuilder {
 
@@ -68,7 +67,9 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private XMLMapperBuilder(XPathParser parser, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
+    // 将configuration赋给BaseBuilder
     super(configuration);
+    // 创建MapperBuilderAssistant对象（该对象为MapperBuilder的协助者）
     this.builderAssistant = new MapperBuilderAssistant(configuration, resource);
     this.parser = parser;
     this.sqlFragments = sqlFragments;
@@ -76,9 +77,14 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   public void parse() {
+    // 若当前的Mapper.xml尚未被解析，则开始解析
+    // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了
     if (!configuration.isResourceLoaded(resource)) {
+      // 解析<mapper>节点
       configurationElement(parser.evalNode("/mapper"));
+      // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解
       configuration.addLoadedResource(resource);
+      // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中
       bindMapperForNamespace();
     }
 
@@ -91,18 +97,27 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
+
   private void configurationElement(XNode context) {
     try {
+      // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前映射文件对应的Mapper Class是谁
       String namespace = context.getStringAttribute("namespace");
       if (namespace == null || namespace.equals("")) {
         throw new BuilderException("Mapper's namespace cannot be empty");
       }
+      // 将namespace属性值赋给builderAssistant
       builderAssistant.setCurrentNamespace(namespace);
+      // 解析<cache-ref>节点
       cacheRefElement(context.evalNode("cache-ref"));
+      // 解析<cache>节点
       cacheElement(context.evalNode("cache"));
+      // 解析<parameterMap>节点
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
+      // 解析<resultMap>节点
       resultMapElements(context.evalNodes("/mapper/resultMap"));
+      // 解析<sql>节点
       sqlElement(context.evalNodes("/mapper/sql"));
+      // 解析sql语句
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing Mapper XML. The XML location is '" + resource + "'. Cause: " + e, e);
@@ -225,6 +240,9 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   该函数用于解析映射文件中所有的<resultMap>节点，这些节点会被解析成ResultMap对象，存储在Configuration对象的resultMaps容器中
+  */
   private void resultMapElements(List<XNode> list) throws Exception {
     for (XNode resultMapNode : list) {
       try {
@@ -241,19 +259,21 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings, Class<?> enclosingType) throws Exception {
     ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
-    String type = resultMapNode.getStringAttribute("type",
-        resultMapNode.getStringAttribute("ofType",
-            resultMapNode.getStringAttribute("resultType",
-                resultMapNode.getStringAttribute("javaType"))));
+    // 获取<ResultMap>上的type属性（即resultMap的返回值类型）
+    String type = resultMapNode.getStringAttribute("type",resultMapNode.getStringAttribute("ofType",resultMapNode.getStringAttribute("resultType",resultMapNode.getStringAttribute("javaType"))));
+    // 将resultMap的返回值类型转换成Class对象
     Class<?> typeClass = resolveClass(type);
     if (typeClass == null) {
       typeClass = inheritEnclosingType(resultMapNode, enclosingType);
     }
     Discriminator discriminator = null;
+    // resultMappings用于存储<resultMap>下所有的子节点
     List<ResultMapping> resultMappings = new ArrayList<>();
     resultMappings.addAll(additionalResultMappings);
     List<XNode> resultChildren = resultMapNode.getChildren();
+    // 获取并遍历<resultMap>下所有的子节点
     for (XNode resultChild : resultChildren) {
+      // 若当前节点为<constructor>，则将它的子节点们添加到resultMappings中去
       if ("constructor".equals(resultChild.getName())) {
         processConstructorElement(resultChild, typeClass, resultMappings);
       } else if ("discriminator".equals(resultChild.getName())) {
@@ -266,10 +286,14 @@ public class XMLMapperBuilder extends BaseBuilder {
         resultMappings.add(buildResultMappingFromContext(resultChild, typeClass, flags));
       }
     }
-    String id = resultMapNode.getStringAttribute("id",
-            resultMapNode.getValueBasedIdentifier());
+    // 获取<ResultMap>上的id属性
+    String id = resultMapNode.getStringAttribute("id", resultMapNode.getValueBasedIdentifier());
+    // 获取extends属性
     String extend = resultMapNode.getStringAttribute("extends");
+    // 获取autoMapping属性
     Boolean autoMapping = resultMapNode.getBooleanAttribute("autoMapping");
+
+    // ResultMapResolver的作用是生成ResultMap对象，并将其加入到Configuration对象的resultMaps容器中（具体过程见下）
     ResultMapResolver resultMapResolver = new ResultMapResolver(builderAssistant, id, typeClass, extend, discriminator, resultMappings, autoMapping);
     try {
       return resultMapResolver.resolve();

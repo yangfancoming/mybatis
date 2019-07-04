@@ -19,9 +19,7 @@ import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- */
+// XMLStatementBuilder 用来解析映射文件中的SQL语句
 public class XMLStatementBuilder extends BaseBuilder {
 
   private final MapperBuilderAssistant builderAssistant;

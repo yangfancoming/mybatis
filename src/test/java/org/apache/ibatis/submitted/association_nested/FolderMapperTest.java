@@ -14,7 +14,6 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.List;
 
-
 class FolderMapperTest {
 
   @Test
@@ -29,7 +28,6 @@ class FolderMapperTest {
       stmt.execute("insert into folder values(4, 'Folder 2_1', 3)");
       stmt.execute("insert into folder values(5, 'Folder 2_2', 3)");
     }
-
     /**
      * Root/
      *    Folder 1/
@@ -37,8 +35,8 @@ class FolderMapperTest {
      *      Folder 2_1
      *      Folder 2_2
      */
-
     String resource = "org/apache/ibatis/submitted/association_nested/mybatis-config.xml";
+    // 当系统初始化时，首先会读取配置文件，并将其解析成InputStream
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
       try (SqlSession session = sqlSessionFactory.openSession()) {

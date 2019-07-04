@@ -80,9 +80,7 @@ import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-/**
- * @author Clinton Begin
- */
+
 public class Configuration {
 
   protected Environment environment;
