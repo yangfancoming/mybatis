@@ -14,7 +14,10 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
-
+/**
+ 存储每条sql语句的详细信息
+ 在mapper xml文件中，我们会将各种动态sql写在该映射文件中，mybatis解析过后，会按语句为单位将信息放在MappedStatement中。
+*/
 public final class MappedStatement {
 
   private String resource;

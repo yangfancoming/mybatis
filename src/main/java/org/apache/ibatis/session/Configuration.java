@@ -80,7 +80,7 @@ import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-//
+// Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
 public class Configuration {
 
   protected Environment environment;

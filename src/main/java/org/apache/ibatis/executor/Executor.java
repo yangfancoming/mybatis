@@ -13,7 +13,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
-
+// Executor是mybatis为了封装语句执行、调用结果集解析的核心接口。
 public interface Executor {
 
   ResultHandler NO_RESULT_HANDLER = null;

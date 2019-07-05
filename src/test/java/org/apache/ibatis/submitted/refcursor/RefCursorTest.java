@@ -22,9 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Jeff Butler
- */
+
 @Tag("TestcontainersTests")
 class RefCursorTest {
 

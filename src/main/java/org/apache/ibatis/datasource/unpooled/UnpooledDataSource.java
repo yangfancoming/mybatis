@@ -18,10 +18,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.io.Resources;
 
-/**
- * @author Clinton Begin
- * @author Eduardo Macarron
- */
+
 public class UnpooledDataSource implements DataSource {
 
   private ClassLoader driverClassLoader;

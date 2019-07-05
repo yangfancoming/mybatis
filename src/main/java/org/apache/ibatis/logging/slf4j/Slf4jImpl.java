@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;
 
-/**
- * @author Clinton Begin
- * @author Eduardo Macarron
- */
+
 public class Slf4jImpl implements Log {
 
   private Log log;
