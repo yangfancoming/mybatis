@@ -148,8 +148,7 @@ public interface BoundBlogMapper {
 
   //======================================================
 
-  @Select("SELECT * FROM " +
-    "post WHERE id = #{id}")
+  @Select("SELECT * FROM post WHERE id = #{id}")
   List<Post> selectPostsById(int id);
 
   //======================================================
@@ -183,10 +182,7 @@ public interface BoundBlogMapper {
 
   //======================================================
 
-  @Select({
-      "SELECT *",
-      "FROM blog"
-  })
+  @Select({"SELECT * FROM blog"})
   @Results({
       @Result(property = "author", column = "author_id", one = @One(select = "org.apache.ibatis.binding.BoundAuthorMapper.selectAuthor")),
       @Result(property = "posts", column = "id", many = @Many(select = "selectPostsById"))

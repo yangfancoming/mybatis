@@ -42,14 +42,7 @@ public interface BoundAuthorMapper {
       @Result(property = "email", column = "AUTHOR_EMAIL"),
       @Result(property = "bio", column = "AUTHOR_BIO")
   })
-  @Select({
-      "SELECT ",
-      "  ID as AUTHOR_ID,",
-      "  USERNAME as AUTHOR_USERNAME,",
-      "  PASSWORD as AUTHOR_PASSWORD,",
-      "  EMAIL as AUTHOR_EMAIL,",
-      "  BIO as AUTHOR_BIO",
-      "FROM AUTHOR WHERE ID = #{id}"})
+  @Select({ "SELECT ID as AUTHOR_ID, USERNAME as AUTHOR_USERNAME, PASSWORD as AUTHOR_PASSWORD, EMAIL as AUTHOR_EMAIL, BIO as AUTHOR_BIO FROM AUTHOR WHERE ID = #{id}"})
   Author selectAuthor(int id);
 
   //======================================================
