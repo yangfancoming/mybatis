@@ -17,9 +17,7 @@ import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.ParamNameUtil;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- */
+
 public class ResultMap {
   private Configuration configuration;
 

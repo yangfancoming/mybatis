@@ -19,9 +19,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-/**
- * @author Clinton Begin
- */
+
 public abstract class BaseStatementHandler implements StatementHandler {
 
   protected final Configuration configuration;

@@ -1,9 +1,7 @@
 
 package org.apache.ibatis.session;
 
-/**
- * @author Clinton Begin
- */
+
 public class RowBounds {
 
   public static final int NO_ROW_OFFSET = 0;

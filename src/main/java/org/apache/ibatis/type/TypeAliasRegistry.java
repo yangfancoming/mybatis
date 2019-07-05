@@ -18,9 +18,7 @@ import java.util.Set;
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 
-/**
- * @author Clinton Begin
- */
+
 public class TypeAliasRegistry {
 
   private final Map<String, Class<?>> typeAliases = new HashMap<>();

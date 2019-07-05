@@ -19,9 +19,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
-/**
- * @author Clinton Begin
- */
+
 public class ReuseExecutor extends BaseExecutor {
 
   private final Map<String, Statement> statementMap = new HashMap<>();

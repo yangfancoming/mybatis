@@ -19,9 +19,7 @@ import java.time.OffsetTime;
 import java.util.Calendar;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author Clinton Begin
- */
+
 public class ArrayTypeHandler extends BaseTypeHandler<Object> {
 
   private static final ConcurrentHashMap<Class<?>, String> STANDARD_MAPPING;

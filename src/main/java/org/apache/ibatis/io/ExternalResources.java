@@ -11,9 +11,7 @@ import java.util.Properties;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
-/**
- * @author Clinton Begin
- */
+
 @Deprecated
 public class ExternalResources {
 

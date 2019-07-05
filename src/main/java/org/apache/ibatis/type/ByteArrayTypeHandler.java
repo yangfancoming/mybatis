@@ -6,9 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * @author Clinton Begin
- */
+
 public class ByteArrayTypeHandler extends BaseTypeHandler<byte[]> {
 
   @Override

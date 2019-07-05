@@ -15,9 +15,7 @@ import org.apache.ibatis.session.Configuration;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/**
- * @author Clinton Begin
- */
+
 public class XMLScriptBuilder extends BaseBuilder {
 
   private final XNode context;

@@ -7,9 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
-/**
- * @author Clinton Begin
- */
+
 public class PerpetualCache implements Cache {
 
   private final String id;

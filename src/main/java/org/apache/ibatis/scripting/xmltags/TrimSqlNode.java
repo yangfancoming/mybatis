@@ -10,9 +10,7 @@ import java.util.StringTokenizer;
 
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- */
+
 public class TrimSqlNode implements SqlNode {
 
   private final SqlNode contents;

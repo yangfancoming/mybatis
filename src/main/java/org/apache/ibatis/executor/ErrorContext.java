@@ -1,9 +1,7 @@
 
 package org.apache.ibatis.executor;
 
-/**
- * @author Clinton Begin
- */
+
 public class ErrorContext {
 
   private static final String LINE_SEPARATOR = System.getProperty("line.separator","\n");

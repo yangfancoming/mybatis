@@ -10,9 +10,7 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
-/**
- * @author Clinton Begin
- */
+
 public class MapWrapper extends BaseWrapper {
 
   private final Map<String, Object> map;

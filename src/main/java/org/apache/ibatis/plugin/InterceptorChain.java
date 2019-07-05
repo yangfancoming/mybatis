@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * @author Clinton Begin
- */
+
 public class InterceptorChain {
 
   private final List<Interceptor> interceptors = new ArrayList<>();

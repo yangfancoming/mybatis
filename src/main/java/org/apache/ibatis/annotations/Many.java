@@ -8,9 +8,7 @@ import java.lang.annotation.Target;
 
 import org.apache.ibatis.mapping.FetchType;
 
-/**
- * @author Clinton Begin
- */
+
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})

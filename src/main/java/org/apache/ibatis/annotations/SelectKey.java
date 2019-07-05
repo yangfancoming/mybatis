@@ -9,9 +9,7 @@ import java.lang.annotation.Target;
 
 import org.apache.ibatis.mapping.StatementType;
 
-/**
- * @author Clinton Begin
- */
+
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

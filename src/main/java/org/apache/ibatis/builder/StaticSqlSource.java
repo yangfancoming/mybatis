@@ -8,9 +8,7 @@ import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- */
+
 public class StaticSqlSource implements SqlSource {
 
   private final String sql;

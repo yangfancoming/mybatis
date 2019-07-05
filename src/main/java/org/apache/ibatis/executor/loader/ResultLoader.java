@@ -20,9 +20,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 
-/**
- * @author Clinton Begin
- */
+
 public class ResultLoader {
 
   protected final Configuration configuration;

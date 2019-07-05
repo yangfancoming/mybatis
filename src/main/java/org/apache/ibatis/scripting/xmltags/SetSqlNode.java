@@ -6,9 +6,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- */
+
 public class SetSqlNode extends TrimSqlNode {
 
   private static final List<String> COMMA = Collections.singletonList(",");

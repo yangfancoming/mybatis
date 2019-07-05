@@ -3,9 +3,7 @@ package org.apache.ibatis.scripting.xmltags;
 
 import java.util.List;
 
-/**
- * @author Clinton Begin
- */
+
 public class ChooseSqlNode implements SqlNode {
   private final SqlNode defaultSqlNode;
   private final List<SqlNode> ifSqlNodes;

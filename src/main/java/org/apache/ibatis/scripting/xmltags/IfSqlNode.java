@@ -1,9 +1,7 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
-/**
- * @author Clinton Begin
- */
+
 public class IfSqlNode implements SqlNode {
   private final ExpressionEvaluator evaluator;
   private final String test;

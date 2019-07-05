@@ -4,9 +4,7 @@ package org.apache.ibatis.reflection;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
-/**
- * @author Clinton Begin
- */
+
 public class ExceptionUtil {
 
   private ExceptionUtil() {

@@ -8,9 +8,7 @@ import org.apache.ibatis.parsing.TokenHandler;
 import org.apache.ibatis.scripting.ScriptingException;
 import org.apache.ibatis.type.SimpleTypeRegistry;
 
-/**
- * @author Clinton Begin
- */
+
 public class TextSqlNode implements SqlNode {
   private final String text;
   private final Pattern injectionFilter;

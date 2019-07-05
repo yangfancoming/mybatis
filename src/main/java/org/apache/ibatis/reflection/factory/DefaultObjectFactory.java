@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 import org.apache.ibatis.reflection.ReflectionException;
 import org.apache.ibatis.reflection.Reflector;
 
-/**
- * @author Clinton Begin
- */
+
 public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
   private static final long serialVersionUID = -8855120656740914948L;

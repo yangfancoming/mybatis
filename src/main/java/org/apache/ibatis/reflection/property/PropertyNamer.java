@@ -5,9 +5,7 @@ import java.util.Locale;
 
 import org.apache.ibatis.reflection.ReflectionException;
 
-/**
- * @author Clinton Begin
- */
+
 public final class PropertyNamer {
 
   private PropertyNamer() {

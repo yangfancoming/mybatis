@@ -5,9 +5,7 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
-/**
- * @author Clinton Begin
- */
+
 public class LoggingCache implements Cache {
 
   private final Log log;

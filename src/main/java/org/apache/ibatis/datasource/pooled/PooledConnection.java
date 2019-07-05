@@ -9,9 +9,7 @@ import java.sql.SQLException;
 
 import org.apache.ibatis.reflection.ExceptionUtil;
 
-/**
- * @author Clinton Begin
- */
+
 class PooledConnection implements InvocationHandler {
 
   private static final String CLOSE = "close";

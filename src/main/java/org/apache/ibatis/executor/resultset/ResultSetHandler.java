@@ -8,9 +8,7 @@ import java.util.List;
 
 import org.apache.ibatis.cursor.Cursor;
 
-/**
- * @author Clinton Begin
- */
+
 public interface ResultSetHandler {
 
   <E> List<E> handleResultSets(Statement stmt) throws SQLException;

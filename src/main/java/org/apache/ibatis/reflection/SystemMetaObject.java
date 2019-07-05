@@ -6,9 +6,7 @@ import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 
-/**
- * @author Clinton Begin
- */
+
 public final class SystemMetaObject {
 
   public static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();

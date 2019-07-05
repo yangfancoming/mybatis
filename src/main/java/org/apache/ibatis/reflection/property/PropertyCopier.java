@@ -5,9 +5,7 @@ import java.lang.reflect.Field;
 
 import org.apache.ibatis.reflection.Reflector;
 
-/**
- * @author Clinton Begin
- */
+
 public final class PropertyCopier {
 
   private PropertyCopier() {

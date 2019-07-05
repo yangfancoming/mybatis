@@ -14,9 +14,7 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 import org.apache.ibatis.io.Resources;
 
-/**
- * @author Clinton Begin
- */
+
 public class SerializedCache implements Cache {
 
   private final Cache delegate;

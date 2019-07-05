@@ -6,9 +6,7 @@ import java.util.logging.Logger;
 
 import org.apache.ibatis.logging.Log;
 
-/**
- * @author Clinton Begin
- */
+
 public class Jdk14LoggingImpl implements Log {
 
   private final Logger log;

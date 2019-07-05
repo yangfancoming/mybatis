@@ -8,9 +8,7 @@ import java.util.StringJoiner;
 
 import org.apache.ibatis.reflection.ArrayUtil;
 
-/**
- * @author Clinton Begin
- */
+
 public class CacheKey implements Cloneable, Serializable {
 
   private static final long serialVersionUID = 1146682552656046210L;
