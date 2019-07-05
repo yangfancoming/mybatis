@@ -6,10 +6,7 @@ import java.sql.Statement;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
 
-/**
- * @author Clinton Begin
- * @author Kazuki Shimizu
- */
+
 public class NoKeyGenerator implements KeyGenerator {
 
   /**

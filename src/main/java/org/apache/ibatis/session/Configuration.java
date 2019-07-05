@@ -80,7 +80,7 @@ import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-
+//
 public class Configuration {
 
   protected Environment environment;

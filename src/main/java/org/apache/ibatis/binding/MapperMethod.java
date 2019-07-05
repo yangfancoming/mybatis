@@ -24,12 +24,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-/**
- * @author Clinton Begin
- * @author Eduardo Macarron
- * @author Lasse Voss
- * @author Kazuki Shimizu
- */
+
 public class MapperMethod {
 
   private final SqlCommand command;

@@ -3,10 +3,7 @@ package org.apache.ibatis.parsing;
 
 import java.util.Properties;
 
-/**
- * @author Clinton Begin
- * @author Kazuki Shimizu
- */
+
 public class PropertyParser {
 
   private static final String KEY_PREFIX = "org.apache.ibatis.parsing.PropertyParser.";

@@ -27,10 +27,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-/**
- * @author Clinton Begin
- * @author Kazuki Shimizu
- */
+
 public class Jdbc3KeyGenerator implements KeyGenerator {
 
   /**

@@ -15,10 +15,7 @@ import org.apache.ibatis.reflection.ParamNameResolver;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Clinton Begin
- * @author Kazuki Shimizu
- */
+
 public class ProviderSqlSource implements SqlSource {
 
   private final Configuration configuration;

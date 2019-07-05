@@ -5,8 +5,6 @@ import java.sql.Connection;
 
 /**
  * Creates an {@link SqlSession} out of a connection or a DataSource
- *
- * @author Clinton Begin
  */
 public interface SqlSessionFactory {
 

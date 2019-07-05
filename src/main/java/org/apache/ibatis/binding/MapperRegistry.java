@@ -12,11 +12,7 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
-/**
- * @author Clinton Begin
- * @author Eduardo Macarron
- * @author Lasse Voss
- */
+
 public class MapperRegistry {
 
   private final Configuration config;
