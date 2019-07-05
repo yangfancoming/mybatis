@@ -198,21 +198,16 @@ class BindingTest {
 
   @Test
   void shouldExecuteMultipleBoundSelectOfBlogsByIdInWithProvidedResultHandlerInSameSession() {
-    
       final DefaultResultHandler handler = new DefaultResultHandler();
       session.select("selectBlogsAsMapById", handler);
-
       final DefaultResultHandler moreHandler = new DefaultResultHandler();
       session.select("selectBlogsAsMapById", moreHandler);
-
       assertEquals(2, handler.getResultList().size());
       assertEquals(2, moreHandler.getResultList().size());
   }
 
   @Test
   void shouldExecuteMultipleBoundSelectMapOfBlogsByIdInSameSessionWithoutClearingLocalCache() {
-    
-    
       Map<Integer,Blog> blogs = mapper.selectBlogsAsMapById();
       Map<Integer,Blog> moreBlogs = mapper.selectBlogsAsMapById();
       assertEquals(2, blogs.size());
@@ -227,20 +222,16 @@ class BindingTest {
 
   @Test
   void shouldExecuteMultipleBoundSelectMapOfBlogsByIdBetweenTwoSessionsWithGlobalCacheEnabled() {
-    Map<Integer,Blog> blogs;
-    
-      blogs = mapper.selectBlogsAsMapById();
-
-    
-      Map<Integer,Blog> moreBlogs = mapper.selectBlogsAsMapById();
-      assertEquals(2, blogs.size());
-      assertEquals(2, moreBlogs.size());
-      for(Map.Entry<Integer,Blog> blogEntry : blogs.entrySet()) {
-        assertEquals(blogEntry.getKey(), (Integer) blogEntry.getValue().getId());
-      }
-      for(Map.Entry<Integer,Blog> blogEntry : moreBlogs.entrySet()) {
-        assertEquals(blogEntry.getKey(), (Integer) blogEntry.getValue().getId());
-      }
+    Map<Integer,Blog> blogs = mapper.selectBlogsAsMapById();
+    Map<Integer,Blog> moreBlogs = mapper.selectBlogsAsMapById();
+    assertEquals(2, blogs.size());
+    assertEquals(2, moreBlogs.size());
+    for(Map.Entry<Integer,Blog> blogEntry : blogs.entrySet()) {
+      assertEquals(blogEntry.getKey(), (Integer) blogEntry.getValue().getId());
+    }
+    for(Map.Entry<Integer,Blog> blogEntry : moreBlogs.entrySet()) {
+      assertEquals(blogEntry.getKey(), (Integer) blogEntry.getValue().getId());
+    }
   }
 
   @Test

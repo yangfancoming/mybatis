@@ -54,7 +54,7 @@ public abstract class BaseDataTest {
     }
   }
 
-  public static void runScript(ScriptRunner runner, String resource) throws IOException, SQLException {
+  public static void runScript(ScriptRunner runner, String resource) throws IOException {
     try (Reader reader = Resources.getResourceAsReader(resource)) {
       runner.runScript(reader);
     }
