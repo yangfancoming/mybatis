@@ -9,9 +9,10 @@ import org.junit.jupiter.api.Test;
 
 class ScheduledCacheTest {
 
+  Cache cache = new PerpetualCache("DefaultCache");
+
   @Test
   void shouldDemonstrateHowAllObjectsAreFlushedAfterBasedOnTime() throws Exception {
-    Cache cache = new PerpetualCache("DefaultCache");
     cache = new ScheduledCache(cache);
     ((ScheduledCache) cache).setClearInterval(2500);
     cache = new LoggingCache(cache);
@@ -25,7 +26,7 @@ class ScheduledCacheTest {
 
   @Test
   void shouldRemoveItemOnDemand() {
-    Cache cache = new PerpetualCache("DefaultCache");
+
     cache = new ScheduledCache(cache);
     ((ScheduledCache) cache).setClearInterval(60000);
     cache = new LoggingCache(cache);
@@ -37,7 +38,7 @@ class ScheduledCacheTest {
 
   @Test
   void shouldFlushAllItemsOnDemand() {
-    Cache cache = new PerpetualCache("DefaultCache");
+
     cache = new ScheduledCache(cache);
     ((ScheduledCache) cache).setClearInterval(60000);
     cache = new LoggingCache(cache);

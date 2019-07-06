@@ -29,14 +29,11 @@ class CacheTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/cache/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/cache/CreateDB.sql");
 
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/cache/CreateDB.sql");
   }
 
   /*
@@ -51,11 +48,11 @@ class CacheTest {
    */
   @Test
   void testplan1() {
+
     try (SqlSession sqlSession1 = sqlSessionFactory.openSession(false)) {
       PersonMapper pm = sqlSession1.getMapper(PersonMapper.class);
       Assertions.assertEquals(2, pm.findAll().size());
     }
-
     try (SqlSession sqlSession2 = sqlSessionFactory.openSession(false)) {
       try {
         PersonMapper pm = sqlSession2.getMapper(PersonMapper.class);
