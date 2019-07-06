@@ -16,15 +16,18 @@ import org.apache.ibatis.logging.LogFactory;
  * Entries are sent to the cache when commit is called or discarded if the Session is rolled back.
  * Blocking cache support has been added. Therefore any get() that returns a cache miss
  * will be followed by a put() so any lock associated with the key can be released.
- * 事务性的缓存
+ * 事务性的缓存  主要用于保存在某个 SqlSession 的某个事务中需要向某个二级缓存中添加的数据
  */
 public class TransactionalCache implements Cache {
 
   private static final Log log = LogFactory.getLog(TransactionalCache.class);
-
+  // 底层封装的二级缓存对应的Cache对象
   private final Cache delegate;
+  // 为true时，表示当前的 TransactionalCache 不可查询，且提交事务时会清空缓存
   private boolean clearOnCommit;
+  // 存放需要添加到二级缓存中的数据
   private final Map<Object, Object> entriesToAddOnCommit;
+  // 存放为命中缓存的 CacheKey 对象
   private final Set<Object> entriesMissedInCache;
 
   public TransactionalCache(Cache delegate) {
@@ -59,6 +62,7 @@ public class TransactionalCache implements Cache {
     }
   }
 
+  // 添加缓存数据的时候，先暂时放到 entriesToAddOnCommit 集合中，在事务提交的时候，再把数据放入到二级缓存中，避免脏数据
   @Override
   public void putObject(Object key, Object object) {
     entriesToAddOnCommit.put(key, object);
@@ -74,7 +78,7 @@ public class TransactionalCache implements Cache {
     clearOnCommit = true;
     entriesToAddOnCommit.clear();
   }
-
+  // 提交事务，
   public void commit() {
     if (clearOnCommit) {
       delegate.clear();
@@ -82,7 +86,7 @@ public class TransactionalCache implements Cache {
     flushPendingEntries();
     reset();
   }
-
+  // 把未命中缓存的数据清除掉
   public void rollback() {
     unlockMissedEntries();
     reset();
@@ -93,9 +97,10 @@ public class TransactionalCache implements Cache {
     entriesToAddOnCommit.clear();
     entriesMissedInCache.clear();
   }
-
+  // 把 entriesToAddOnCommit  集合中的数据放入到二级缓存中
   private void flushPendingEntries() {
     for (Map.Entry<Object, Object> entry : entriesToAddOnCommit.entrySet()) {
+      // 放入到二级缓存中
       delegate.putObject(entry.getKey(), entry.getValue());
     }
     for (Object entry : entriesMissedInCache) {

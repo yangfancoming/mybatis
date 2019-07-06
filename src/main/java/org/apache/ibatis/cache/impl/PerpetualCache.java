@@ -7,11 +7,17 @@ import java.util.Map;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
-
+/**
+ Mybatis 为 Cache 接口提供的唯一一个实现类就是 PerpetualCache，
+ 这个唯一并不是说 Cache 只有一个实现类，只是缓存的处理逻辑，
+ Cache 还有其他的实现类，但是只是作为装饰器存在，只是对 Cache 进行包装而已。
+*/
 public class PerpetualCache implements Cache {
 
+  // id,一般对应mapper.xml 的namespace 的值
   private final String id;
 
+  // 用来存放数据，即缓存底层就是使用 map 来实现的
   private Map<Object, Object> cache = new HashMap<>();
 
   public PerpetualCache(String id) {

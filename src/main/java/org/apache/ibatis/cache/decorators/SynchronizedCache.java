@@ -3,7 +3,12 @@ package org.apache.ibatis.cache.decorators;
 
 import org.apache.ibatis.cache.Cache;
 
-
+/**
+ 来看看 SynchronizedCache 装饰器类吧，在上面的缓存实现中介绍到了 Mybatis 其实就是使用 HashMap 来实现缓存的，
+ 即把数据放入到 HashMap中，但是 HashMap 不是线安全的，
+ Mybatis 是如何来保证缓存中的线程安全问题呢？就是使用了 SynchronizedCache 来保证的，
+ 它是一个装饰器类，其中的方法都加上了 synchronized 关键字：
+*/
 public class SynchronizedCache implements Cache {
 
   private final Cache delegate;

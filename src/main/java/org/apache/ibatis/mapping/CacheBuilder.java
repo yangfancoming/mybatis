@@ -88,6 +88,7 @@ public class CacheBuilder {
         // 应用标准的装饰器，比如 LoggingCache、 SynchronizedCache
         setCacheProperties(cache);
       }
+      // 为 Cache 添加装饰器
       cache = setStandardDecorators(cache);
     } else if (!LoggingCache.class.isAssignableFrom(cache.getClass())) {
       // 应用具有日志功能的缓存装饰器
@@ -104,23 +105,28 @@ public class CacheBuilder {
       }
     }
   }
-
+  // 添加装饰器
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);
       if (size != null && metaCache.hasSetter("size")) {
         metaCache.setValue("size", size);
       }
+      // 添加 ScheduledCache 装饰器
       if (clearInterval != null) {
         cache = new ScheduledCache(cache);
         ((ScheduledCache) cache).setClearInterval(clearInterval);
       }
+      // 添加SerializedCache装饰器
       if (readWrite) {
         cache = new SerializedCache(cache);
       }
+      // 添加 LoggingCache 装饰器
       cache = new LoggingCache(cache);
+      // 添加  SynchronizedCache 装饰器，保证线程安全
       cache = new SynchronizedCache(cache);
       if (blocking) {
+        // 添加 BlockingCache 装饰器
         cache = new BlockingCache(cache);
       }
       return cache;

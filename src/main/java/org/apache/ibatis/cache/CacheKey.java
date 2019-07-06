@@ -8,7 +8,9 @@ import java.util.StringJoiner;
 
 import org.apache.ibatis.reflection.ArrayUtil;
 
-
+/**
+ Mybatis 的缓存使用了 key-value 的形式存入到 HashMap 中，而 key 的话，Mybatis 使用了 CacheKey 来表示 key，它的生成规则为：mappedStementId + offset + limit + SQL + queryParams + environment生成一个哈希码.
+*/
 public class CacheKey implements Cloneable, Serializable {
 
   private static final long serialVersionUID = 1146682552656046210L;
@@ -18,11 +20,17 @@ public class CacheKey implements Cloneable, Serializable {
   private static final int DEFAULT_MULTIPLYER = 37;
   private static final int DEFAULT_HASHCODE = 17;
 
+  // 参与计算hashcode，默认值为37
   private final int multiplier;
+  // CacheKey 对象的 hashcode ，默认值 17
   private int hashcode;
+  // 检验和
   private long checksum;
+
+  // updateList 集合的个数
   private int count;
   // 8/21/2017 - Sonarlint flags this as needing to be marked transient.  While true if content is not serializable, this is not always true and thus should not be marked transient.
+  // 由该集合中的所有对象来共同决定两个 CacheKey 是否相等
   private List<Object> updateList;
 
   public CacheKey() {
@@ -41,15 +49,13 @@ public class CacheKey implements Cloneable, Serializable {
     return updateList.size();
   }
 
+  // 调用该方法，向 updateList 集合添加对应的对象
   public void update(Object object) {
     int baseHashCode = object == null ? 1 : ArrayUtil.hashCode(object);
-
     count++;
     checksum += baseHashCode;
     baseHashCode *= count;
-
     hashcode = multiplier * hashcode + baseHashCode;
-
     updateList.add(object);
   }
 
