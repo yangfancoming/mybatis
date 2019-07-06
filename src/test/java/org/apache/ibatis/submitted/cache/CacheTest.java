@@ -3,6 +3,7 @@ package org.apache.ibatis.submitted.cache;
 
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.annotations.CacheNamespace;
@@ -36,6 +37,28 @@ class CacheTest {
 
   }
 
+  @Test
+  void test() {
+    SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
+    PersonMapper pm1 = sqlSession1.getMapper(PersonMapper.class);
+    List<Person> all1 = pm1.findAll();
+    System.out.println(all1);
+    //第二次查询，由于是同一个sqlSession,会在缓存中查找查询结果 如果有，则直接从缓存中取出来，不和数据库进行交互
+    List<Person> all2 = pm1.findAll();
+    System.out.println(all2);
+  }
+
+  @Test
+  void test1() {
+    SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
+    PersonMapper pm1 = sqlSession1.getMapper(PersonMapper.class);
+    List<Person> all1 = pm1.findAll();
+    pm1.delete(1);
+    System.out.println(all1);
+    //第二次查询，由于有改动 所以会走数据库
+    List<Person> all2 = pm1.findAll();
+    System.out.println(all2);
+  }
   /*
    * Test Plan:
    *  1) SqlSession 1 executes "select * from A".
