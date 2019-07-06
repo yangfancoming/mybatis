@@ -55,7 +55,7 @@ class CacheTest {
     List<Person> all1 = pm1.findAll();
     pm1.delete(1);
     System.out.println(all1);
-    //第二次查询，由于有改动 所以会走数据库
+    //第二次查询，由于 执行 insert | update | delete 语句，调用 doUpdate 方法实现,在执行这些语句的时候，会清空缓存  所以会走数据库
     List<Person> all2 = pm1.findAll();
     System.out.println(all2);
   }

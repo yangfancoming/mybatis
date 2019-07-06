@@ -14,7 +14,7 @@ public class MapperProxyFactory<T> {
   //mapperInterface就是Mapper接口  被代理类
   private final Class<T> mapperInterface;
 
-  ////支持对被代理类进行缓存  methodCache就是对Mapper接口中的方法和方法的封装类（MapperMethod）的映射。 MapperMethod处理的事情主要就是：处理Mapper接口中方法的注解，参数，和返回值
+  //支持对被代理类进行缓存  methodCache就是对Mapper接口中的方法和方法的封装类（MapperMethod）的映射。 MapperMethod处理的事情主要就是：处理Mapper接口中方法的注解，参数，和返回值
   private final Map<Method, MapperMethod> methodCache = new ConcurrentHashMap<>();
 
   public MapperProxyFactory(Class<T> mapperInterface) {
