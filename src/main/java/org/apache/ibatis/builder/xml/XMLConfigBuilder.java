@@ -36,10 +36,13 @@ import org.apache.ibatis.type.JdbcType;
  * XMLConfigBuilder 用来解析MyBatis的配置文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
 */
 public class XMLConfigBuilder extends BaseBuilder {
-
+  //标识是否已经解析过mybatis-config.xml配置文件
   private boolean parsed;
+  //用于解析mybatis-config.xml配置文件的XPathParser对象
   private final XPathParser parser;
+  //标识<enviroment>配置的名称，默认读取<enviroment>标签的default属性
   private String environment;
+  //反射工厂，用于创建和缓存反射对象
   private final ReflectorFactory localReflectorFactory = new DefaultReflectorFactory();
 
   public XMLConfigBuilder(Reader reader) {
@@ -79,6 +82,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   public Configuration parse() {
+    //判断是否已经完成对mybatis-config.xml配置文件的解析
     if (parsed) {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
@@ -86,6 +90,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     /**  解析 xml 配置文件
      注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 配置文件的 <configuration> 节点
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
+     即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
     */
     XNode xNode = parser.evalNode("/configuration");
     parseConfiguration(xNode);
@@ -315,6 +320,19 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setConfigurationFactory(resolveClass(props.getProperty("configurationFactory")));
   }
 
+  /**
+   <environments default="development">
+     <environment id="development">
+       <transactionManager type="JDBC"/>
+         <dataSource type="POOLED">
+             <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+             <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
+             <property name="username" value="SA"/>
+             <property name="password" value=""/>
+         </dataSource>
+     </environment>
+   </environments>
+  */
   private void environmentsElement(XNode context) throws Exception {
     if (context != null) {
       if (environment == null) {

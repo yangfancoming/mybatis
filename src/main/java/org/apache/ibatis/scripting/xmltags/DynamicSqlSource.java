@@ -7,6 +7,7 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.session.Configuration;
 
 
+// 动态SQL
 public class DynamicSqlSource implements SqlSource {
 
   private final Configuration configuration;

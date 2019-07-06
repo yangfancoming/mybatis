@@ -12,7 +12,7 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
-
+/**注册和获取Mapper对象的代理 */
 public class MapperRegistry {
 
   private final Configuration config;
@@ -48,10 +48,15 @@ public class MapperRegistry {
       }
       boolean loadCompleted = false;
       try {
+        //将mapper接口包装成mapper代理
         knownMappers.put(type, new MapperProxyFactory<>(type));
-        // It's important that the type is added before the parser is run
-        // otherwise the binding may automatically be attempted by the
-        // mapper parser. If the type is already known, it won't try.
+        /**
+         It's important that the type is added before the parser is run
+         otherwise the binding may automatically be attempted by the
+         mapper parser. If the type is already known, it won't try.
+         在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试
+         解析接口上的注解或者加载mapper配置文件生成mappedStatement
+        */
         MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
         parser.parse();
         loadCompleted = true;

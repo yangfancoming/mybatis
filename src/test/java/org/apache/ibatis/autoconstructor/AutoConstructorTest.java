@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AutoConstructorTest {
+
   private static SqlSessionFactory sqlSessionFactory;
 
   @BeforeAll
@@ -26,10 +27,9 @@ class AutoConstructorTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/autoconstructor/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
+    // populate in-memory database 填充内存数据库
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/autoconstructor/CreateDB.sql");
 
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/autoconstructor/CreateDB.sql");
   }
 
   @Test

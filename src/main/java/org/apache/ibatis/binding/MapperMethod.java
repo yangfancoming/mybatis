@@ -27,7 +27,10 @@ import org.apache.ibatis.session.SqlSession;
 
 public class MapperMethod {
 
+  //Sql指令类
   private final SqlCommand command;
+
+  //方法签名类
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -39,6 +42,7 @@ public class MapperMethod {
 
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
+    // CURD操作，对持久层返回的结果集进行处理  获取method方法上的带有@Param的参数，默认返回0,1,2,3...
     switch (command.getType()) {
       case INSERT: {
         Object param = method.convertArgsToSqlCommandParam(args);
@@ -55,6 +59,7 @@ public class MapperMethod {
         result = rowCountResult(sqlSession.delete(command.getName(), param));
         break;
       }
+      //查询语句的各种情况应对
       case SELECT:
         if (method.returnsVoid() && method.hasResultHandler()) {
           executeWithResultHandler(sqlSession, args);

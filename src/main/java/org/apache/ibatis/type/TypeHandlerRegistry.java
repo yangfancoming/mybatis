@@ -299,8 +299,9 @@ public final class TypeHandlerRegistry {
   // Only handler
 
   @SuppressWarnings("unchecked")
-  public <T> void register(TypeHandler<T> typeHandler) {
+  public <T> void register(TypeHandler<T> typeHandler) { //typeHandler为当前自定义类型处理器
     boolean mappedTypeFound = false;
+    //mappedTypes即String
     MappedTypes mappedTypes = typeHandler.getClass().getAnnotation(MappedTypes.class);
     if (mappedTypes != null) {
       for (Class<?> handledType : mappedTypes.value()) {
@@ -330,6 +331,7 @@ public final class TypeHandlerRegistry {
   }
 
   private <T> void register(Type javaType, TypeHandler<? extends T> typeHandler) {
+    //JDBC的类型，即TIMESTAMP
     MappedJdbcTypes mappedJdbcTypes = typeHandler.getClass().getAnnotation(MappedJdbcTypes.class);
     if (mappedJdbcTypes != null) {
       for (JdbcType handledJdbcType : mappedJdbcTypes.value()) {
