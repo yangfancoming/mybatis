@@ -83,7 +83,12 @@ public class XMLConfigBuilder extends BaseBuilder {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
     parsed = true;
-    parseConfiguration(parser.evalNode("/configuration"));
+    /**  解析 xml 配置文件
+     注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 配置文件的 <configuration> 节点
+     这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
+    */
+    XNode xNode = parser.evalNode("/configuration");
+    parseConfiguration(xNode);
     return configuration;
   }
 
@@ -91,22 +96,28 @@ public class XMLConfigBuilder extends BaseBuilder {
     try {
       //issue #117 read properties first // 解析<properties>节点
       propertiesElement(root.evalNode("properties"));
-      // 解析<settings>节点 <settings>属性的解析过程和 <properties>属性的解析过程极为类似，这里不再赘述。最终，所有的setting属性都被存储在Configuration对象中。
+      // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似，这里不再赘述。最终，所有的setting属性都被存储在Configuration对象中。
       Properties settings = settingsAsProperties(root.evalNode("settings"));
+      // 加载 vfs
       loadCustomVfs(settings);
       loadCustomLogImpl(settings);
       // 解析<typeAliases>节点
       typeAliasesElement(root.evalNode("typeAliases"));
       // 解析<plugins>节点
       pluginElement(root.evalNode("plugins"));
+      // 解析 objectFactory 配置
       objectFactoryElement(root.evalNode("objectFactory"));
+      // 解析 objectWrapperFactory 配置
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
       // 解析<reflectorFactory>节点
       reflectorFactoryElement(root.evalNode("reflectorFactory"));
+      // settings 中的信息设置到 Configuration 对象中
       settingsElement(settings);
       // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>节点
       environmentsElement(root.evalNode("environments"));
+      // 解析 databaseIdProvider，获取并设置 databaseId 到 Configuration 对象
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
+      // 解析 typeHandlers 配置
       typeHandlerElement(root.evalNode("typeHandlers"));
       // 解析<mappers>节点
       mapperElement(root.evalNode("mappers"));
@@ -227,10 +238,16 @@ public class XMLConfigBuilder extends BaseBuilder {
    然后读取<resources>节点上的resource、url属性，并获取指定配置文件中的name和value，也存入Properties中。
    （PS：由此可知，如果resource节点上定义的属性和properties文件中的属性重名，那么properties文件中的属性值会覆盖resource节点上定义的属性值。）
    最终，携带所有属性的Properties对象会被存储在Configuration对象中。
+
+   <properties>节点解析过程，不是很复杂。主要包含三个步骤，
+   一是解析 <properties>节点的子节点，并将解析结果设置到 Properties 对象中。
+   二是从文件系统或通过网络读取属性配置，这取决于<properties>节点的 resource 和 url 是否为空。
+   最后一步则是将包含属性信息的 Properties 对象设置到
+   XPathParser 和 Configuration 中
   */
   private void propertiesElement(XNode context) throws Exception {
     if (context != null) {
-      // 获取<properties>节点的所有子节点
+      // 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
       Properties defaults = context.getChildrenAsProperties();
       // 获取<properties>节点上的resource属性
       String resource = context.getStringAttribute("resource");

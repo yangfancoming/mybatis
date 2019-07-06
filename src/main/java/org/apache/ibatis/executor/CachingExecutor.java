@@ -18,7 +18,11 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
-
+/**
+ CachingExecutor的构造函数需要一个Executor参数，然后CachingExecutor对这个executor做功能增强，
+ 给它添加上缓存特性。我们遇到第三种设计模式，它就是装饰器模式（Decorator），
+ 它的意图描述为：动态的给一个对象添加一些额外的职责。
+*/
 public class CachingExecutor implements Executor {
 
   private final Executor delegate;

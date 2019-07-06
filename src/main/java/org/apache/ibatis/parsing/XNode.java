@@ -12,9 +12,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * 这个是mybatis的封装了jdk原有的Node的对象，自己构造出来的，这样子，自己以后的使用中会很方便，不用来回的切换了
+ * 这个是xml文件中一个节点的详细信息（注意：mybatis只会解析xml文件，就是只会读取，不会写入）
+*/
 
 public class XNode {
-
+  /**
+   * 还好都是jdk本身的工具类，只有最后一个解析xml的基础工具类是mybatis的io的
+   */
   private final Node node;
   private final String name;
   private final String body;
@@ -22,6 +28,12 @@ public class XNode {
   private final Properties variables;
   private final XPathParser xpathParser;
 
+  /**
+   * 使用解析器构造XNode对象，感觉这个对象是一个dom对象，只有一个对象，因为一个xml最好还是个一个dom树最好
+   * @param xpathParser xml解析
+   * @param node        节点
+   * @param variables   属性节点
+   */
   public XNode(XPathParser xpathParser, Node node, Properties variables) {
     this.xpathParser = xpathParser;
     this.node = node;
@@ -31,10 +43,19 @@ public class XNode {
     this.body = parseBody(node);
   }
 
+  /**
+   * 构造一个信息的XNode节点（保存在内存中 ）
+   * @param node jdk的一般普通节点，也就是document返回的Node对象，自己进行封装一下
+   * @return
+   */
   public XNode newXNode(Node node) {
     return new XNode(xpathParser, node, variables);
   }
 
+  /**
+   * 获取XNode的父亲（双亲），还是使用原始的node的操作，之后转化成XNode
+   * @return 父亲的XNode对象
+   */
   public XNode getParent() {
     Node parent = node.getParentNode();
     if (parent == null || !(parent instanceof Element)) {
@@ -44,6 +65,10 @@ public class XNode {
     }
   }
 
+  /**
+   * 获取路径，是xml中的标签的路径
+   * @return 路径
+   */
   public String getPath() {
     StringBuilder builder = new StringBuilder();
     Node current = node;
@@ -57,6 +82,10 @@ public class XNode {
     return builder.toString();
   }
 
+  /**
+   * 不明白是干什么的，反正是觉得应该是mybatis自己应用解析模式吧
+   * @return
+   */
   public String getValueBasedIdentifier() {
     StringBuilder builder = new StringBuilder();
     XNode current = this;
@@ -80,6 +109,12 @@ public class XNode {
     return builder.toString();
   }
 
+
+  /**
+   * 下面是引用 XPathParse 的一些解析方法
+   * @param expression 解析的表达式
+   * @return 解析之后的值
+   */
   public String evalString(String expression) {
     return xpathParser.evalString(node, expression);
   }
@@ -271,13 +306,19 @@ public class XNode {
     }
   }
 
+  /**
+   * 获取孩子节点的List集合
+   * @return list的node集合
+   */
   public List<XNode> getChildren() {
     List<XNode> children = new ArrayList<>();
+    // 获取子节点列表
     NodeList nodeList = node.getChildNodes();
     if (nodeList != null) {
       for (int i = 0, n = nodeList.getLength(); i < n; i++) {
         Node node = nodeList.item(i);
         if (node.getNodeType() == Node.ELEMENT_NODE) {
+          // 将节点对象封装到 XNode 中，并将 XNode 对象放入 children 列表中
           children.add(new XNode(xpathParser, node, variables));
         }
       }
@@ -285,18 +326,28 @@ public class XNode {
     return children;
   }
 
+  /**
+   * 获取孩子的属性当做属性配置
+   * @return Properties
+   */
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
+    // 获取并遍历子节点
     for (XNode child : getChildren()) {
+      // 获取 property 节点的 name 和 value 属性
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");
       if (name != null && value != null) {
-        properties.setProperty(name, value);
+        properties.setProperty(name, value);// 设置属性到属性对象中
       }
     }
     return properties;
   }
 
+  /**
+   * 给了一个toString方法，这样子，我能在显示的时候更加的友好
+   * @return 字符串
+   */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
@@ -331,7 +382,15 @@ public class XNode {
     return builder.toString();
   }
 
+  /**
+   * 获取这个节点的属性，就是你配置在这个节点中的属性，不是text内容(XNode并没有采用一种继承的策略，而是一种组合的关系，这样子最好了)
+   * @param n 节点
+   * @return 节点的属性内容
+   */
   private Properties parseAttributes(Node n) {
+    /**
+     * 获取Node之中的属性，然后是进行遍历属性获取内容
+     */
     Properties attributes = new Properties();
     NamedNodeMap attributeNodes = n.getAttributes();
     if (attributeNodes != null) {
@@ -344,6 +403,11 @@ public class XNode {
     return attributes;
   }
 
+  /**
+   * 解析身体的东西，不知道干什么用,反正是递归的调用这个东西
+   * @param node
+   * @return
+   */
   private String parseBody(Node node) {
     String data = getBodyData(node);
     if (data == null) {
