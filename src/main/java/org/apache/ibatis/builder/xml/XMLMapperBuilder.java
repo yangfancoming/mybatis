@@ -82,9 +82,9 @@ public class XMLMapperBuilder extends BaseBuilder {
     if (!configuration.isResourceLoaded(resource)) {
       // 解析<mapper>节点
       configurationElement(parser.evalNode("/mapper"));
-      // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解
+      // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
       configuration.addLoadedResource(resource);
-      // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中
+      // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中 。 通过命名空间绑定 Mapper 接口
       bindMapperForNamespace();
     }
 
@@ -201,6 +201,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private void cacheElement(XNode context) {
     if (context != null) {
+      // 获取各种属性
       String type = context.getStringAttribute("type", "PERPETUAL");
       Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
       String eviction = context.getStringAttribute("eviction", "LRU");
@@ -209,7 +210,9 @@ public class XMLMapperBuilder extends BaseBuilder {
       Integer size = context.getIntAttribute("size");
       boolean readWrite = !context.getBooleanAttribute("readOnly", false);
       boolean blocking = context.getBooleanAttribute("blocking", false);
+      // 获取子节点配置
       Properties props = context.getChildrenAsProperties();
+      // 构建缓存对象
       builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
     }
   }

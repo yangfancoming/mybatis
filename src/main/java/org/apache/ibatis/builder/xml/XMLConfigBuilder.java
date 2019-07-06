@@ -126,14 +126,23 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   1. 解析 settings 子节点的内容，并将解析结果转成 Properties 对象
+   2. 为 Configuration 创建元信息对象
+   3. 通过 MetaClass 检测 Configuration 中是否存在某个属性的 setter 方法，不存在则抛异常
+   4. 若通过 MetaClass 的检测，则返回 Properties 对象，方法逻辑结束
+  */
   private Properties settingsAsProperties(XNode context) {
     if (context == null) {
       return new Properties();
     }
+    // 获取 settings 子节点中的内容
     Properties props = context.getChildrenAsProperties();
     // Check that all settings are known to the configuration class
+    // 创建 Configuration 类的“元信息”对象
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     for (Object key : props.keySet()) {
+      // 检测 Configuration 中是否存在相关属性，不存在则抛出异常
       if (!metaConfig.hasSetter(String.valueOf(key))) {
         throw new BuilderException("The setting " + key + " is not known.  Make sure you spelled it correctly (case sensitive).");
       }
@@ -276,8 +285,10 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private void settingsElement(Properties props) {
+    // 设置 autoMappingBehavior 属性，默认值为 PARTIAL
     configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(props.getProperty("autoMappingBehavior", "PARTIAL")));
     configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(props.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
+    // 设置 cacheEnabled 属性，默认值为 true
     configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));
     configuration.setProxyFactory((ProxyFactory) createInstance(props.getProperty("proxyFactory")));
     configuration.setLazyLoadingEnabled(booleanValueOf(props.getProperty("lazyLoadingEnabled"), false));
@@ -295,6 +306,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setLazyLoadTriggerMethods(stringSetValueOf(props.getProperty("lazyLoadTriggerMethods"), "equals,clone,hashCode,toString"));
     configuration.setSafeResultHandlerEnabled(booleanValueOf(props.getProperty("safeResultHandlerEnabled"), true));
     configuration.setDefaultScriptingLanguage(resolveClass(props.getProperty("defaultScriptingLanguage")));
+    // 解析默认的枚举处理器
     configuration.setDefaultEnumTypeHandler(resolveClass(props.getProperty("defaultEnumTypeHandler")));
     configuration.setCallSettersOnNulls(booleanValueOf(props.getProperty("callSettersOnNulls"), false));
     configuration.setUseActualParamName(booleanValueOf(props.getProperty("useActualParamName"), true));
