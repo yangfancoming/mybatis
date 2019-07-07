@@ -5,10 +5,30 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.transaction.TransactionFactory;
 
+/**  决定加载哪种环境(开发环境/生产环境)
+ <environments default="development">
+   <environment id="development">
+
+     <transactionManager type="JDBC">
+     <property name="" value="" />
+     </transactionManager>
+
+     <dataSource type="UNPOOLED">
+       <property name="driver" value="org.hsqldb.jdbcDriver" />
+       <property name="url" value="jdbc:hsqldb:mem:cache" />
+       <property name="username" value="sa" />
+     </dataSource>
+
+   </environment>
+ </environments>
+*/
 
 public final class Environment {
+  //环境id
   private final String id;
+  //事务工厂
   private final TransactionFactory transactionFactory;
+  //数据源
   private final DataSource dataSource;
 
   public Environment(String id, TransactionFactory transactionFactory, DataSource dataSource) {
@@ -25,7 +45,11 @@ public final class Environment {
     this.transactionFactory = transactionFactory;
     this.dataSource = dataSource;
   }
-
+/**
+   一个静态内部类Builder
+   建造模式
+   用法应该是new Environment.Builder(id).transactionFactory(xx).dataSource(xx).build();
+*/
   public static class Builder {
     private String id;
     private TransactionFactory transactionFactory;

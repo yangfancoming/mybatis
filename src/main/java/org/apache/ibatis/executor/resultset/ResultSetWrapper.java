@@ -21,9 +21,6 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.apache.ibatis.type.UnknownTypeHandler;
 
-/**
- * @author Iwao AVE!
- */
 public class ResultSetWrapper {
 
   private final ResultSet resultSet;
@@ -41,10 +38,11 @@ public class ResultSetWrapper {
     this.resultSet = rs;
     final ResultSetMetaData metaData = rs.getMetaData();
     final int columnCount = metaData.getColumnCount();
+    // 循环将 java中的类型 与 数据库中的类型 进行对应！  再list中的顺序都是一样的
     for (int i = 1; i <= columnCount; i++) {
-      columnNames.add(configuration.isUseColumnLabel() ? metaData.getColumnLabel(i) : metaData.getColumnName(i));
-      jdbcTypes.add(JdbcType.forCode(metaData.getColumnType(i)));
-      classNames.add(metaData.getColumnClassName(i));
+      columnNames.add(configuration.isUseColumnLabel() ? metaData.getColumnLabel(i) : metaData.getColumnName(i)); // sql 中的列名 id,username,password 即对应实体类中的属性名
+      jdbcTypes.add(JdbcType.forCode(metaData.getColumnType(i))); // mysql 中的数据类型  VARCHAR
+      classNames.add(metaData.getColumnClassName(i)); // java 中的数据类型  java.lang.String
     }
   }
 

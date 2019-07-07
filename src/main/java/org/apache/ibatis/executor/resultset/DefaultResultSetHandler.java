@@ -168,16 +168,17 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
 
     final List<Object> multipleResults = new ArrayList<>();
-
     int resultSetCount = 0;
+    //结果集的第一个结果
     ResultSetWrapper rsw = getFirstResultSet(stmt);
-
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     int resultMapCount = resultMaps.size();
     validateResultMapsCount(rsw, resultMapCount);
     while (rsw != null && resultMapCount > resultSetCount) {
       ResultMap resultMap = resultMaps.get(resultSetCount);
+      //根据resultMap处理rsw生成java对象
       handleResultSet(rsw, resultMap, multipleResults, null);
+      //获取结果集的下一个结果
       rsw = getNextResultSet(stmt);
       cleanUpAfterHandlingResultSet();
       resultSetCount++;
@@ -185,6 +186,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
     String[] resultSets = mappedStatement.getResultSets();
     if (resultSets != null) {
+      //和resultMaps的遍历处理类似
       while (rsw != null && resultSetCount < resultSets.length) {
         ResultMapping parentMapping = nextResultMaps.get(resultSets[resultSetCount]);
         if (parentMapping != null) {
@@ -197,7 +199,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         resultSetCount++;
       }
     }
-
+    //当list长度为1，表示该list的元素就是list类型的，返回元素即可。
     return collapseSingleResultList(multipleResults);
   }
 
