@@ -103,3 +103,27 @@ Essentials
        第四种方式：（url）通过url指定mapper文件位置 <mapper url="file://........"/>
       
        
+#  Mybatis包目录简介
+    包名称	包内内容简介
+    annotation	注解目录。包括所有的注解。如@SELECT,@UPDATE等
+    binding	Mapper类的实例反射生成工具目录
+    builder	主要是注解，mapper和SqlSuorce的构造器及转换器
+    cache	Mybatis内部缓存接口。实现了一些特定的缓存策略。FifoCache,LruCache,BlockingCache,LoggingCache等
+    cursor	默认的游标处理类
+    dataSource	数据源工厂类及实现。实现类包括JndiDataSourceFactory、PooledDataSourceFactory、UnpooledDataSourceFactory。 数据源实现类： UnpooledDataSource、PooledDataSource
+    exceptions	Mybatis自定义的三个异常类。ExceptionFactory、PersistenceException、TooManyResultsException、IbatisException。都继承自RuntimeException
+    executor	执行器相关包。包括Key生成器、加载器（包括Cglib、Javassist的代理，结果加载器）、参数处理器接口、结果处理器、结果集(resultSet)处理器、Statement处理器(实现类：BaseStatementHandler、CallableStatementHandler、PreparedStatementHandler、RoutingStatementHandler、SimpleStatementHandler)、执行器(SimpleExecutor、ReuseExecutor、CachingExecutor、BatchExecutor、BaseExecutor)
+    io	主要是定义的几个VFS(VFS、DefaultVFS、ClassLoaderWrapper)
+    javassist	javassist的字节码处理包
+    jdbc	与Sql相关的操作。如Sql运行器，脚本运行器和Sql封装类等
+    lang	指定是用java7还是java8的API的注解.UsesJava7、UsesJava8
+    logging	各个类型的日志适配器，都实现了Log接口。StdOutImpl、Slf4jImpl、NoLoggingImpl、Log4j2Impl、Log4jImpl、Jdk14LoggingImpl、BaseJdbcLogger、JakartaCommonsLoggingImpl
+    mapping	主要是接口参数，sql和返回结果的映射类，主要类包括:MappedStatement,ParameterMap,ParameterMapping,ResultMap,ResultMapping,BoundSql,SqlSource等类
+    ognl	ognl包在Mybatis中的内部代码引用
+    parsing	变量解析.如解析${},#{}等
+    plugin	主要包含插件的定义接口。如Interceptor,Plugin,InterceptorChain等
+    reflection	主要是一些反射操作的工具方法和对象工厂类，以及一些常用的包装类，如BaseWrapper,BeanWrapper,CollectionWrapper,MapWrapper,ObjectWrapper,,,
+    scripting	执行驱动和动态Sql解析的老巢
+    session	主要是SqlSession和SqlSessionFactory
+    transaction	主要是mybatis简单封装的jdbc事务操作类
+    type	各个类型数据的处理器。用于动态的设置参数和转换数据。如IntegerTypeHandler用来处理Integer类型的值的set和get操作。除了八大基本类型。还有常用的集合及Map类型，还增加了各种时间类型的处理器

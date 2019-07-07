@@ -19,20 +19,17 @@ public class ParamNameResolver {
   private static final String GENERIC_NAME_PREFIX = "param";
 
   /**
-   * <p>
    * The key is the index and the value is the name of the parameter.<br />
    * The name is obtained from {@link Param} if specified. When {@link Param} is not specified,
    * the parameter index is used. Note that this index could be different from the actual index
    * when the method has special parameters (i.e. {@link RowBounds} or {@link ResultHandler}).
-   * </p>
-   * <ul>
    * <li>aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
    * <li>aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
    * <li>aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
-   * </ul>
+   *   存放参数的位置和对应的参数名
    */
   private final SortedMap<Integer, String> names;
-
+  //是否使用param注解
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
@@ -90,12 +87,13 @@ public class ParamNameResolver {
   }
 
   /**
-   * <p>
    * A single non-special parameter is returned without a name.
    * Multiple parameters are named using the naming rule.
-   * In addition to the default names, this method also adds the generic names (param1, param2,
-   * ...).
-   * </p>
+   * In addition to the default names, this method also adds the generic names (param1, param2,...).
+   *
+   *   Author selectAuthForBlog(@Param("id") Integer id,@Param("name") String name );
+   *   传入的参数是[1,"张三"]
+   *   最后解析的map为{"id":"1","name":"张三"}
    */
   public Object getNamedParams(Object[] args) {
     final int paramCount = names.size();
@@ -109,7 +107,7 @@ public class ParamNameResolver {
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
         param.put(entry.getValue(), args[entry.getKey()]);
         // add generic param names (param1, param2, ...)
-        final String genericParamName = GENERIC_NAME_PREFIX + String.valueOf(i + 1);
+        final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);
         // ensure not to overwrite parameter named with @Param
         if (!names.containsValue(genericParamName)) {
           param.put(genericParamName, args[entry.getKey()]);
