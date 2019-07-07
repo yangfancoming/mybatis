@@ -48,8 +48,10 @@ public class XMLScriptBuilder extends BaseBuilder {
   }
 
   public SqlSource parseScriptNode() {
+    //解析SQL语句节点，创建MixedSqlNode对象
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
     SqlSource sqlSource;
+    //根据是否是动态的语句，创建DynamicSqlSource或是RawSqlSource对象，并返回
     if (isDynamic) {
       sqlSource = new DynamicSqlSource(configuration, rootSqlNode);
     } else {
@@ -58,21 +60,26 @@ public class XMLScriptBuilder extends BaseBuilder {
     return sqlSource;
   }
 
+  //node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
   protected MixedSqlNode parseDynamicTags(XNode node) {
     List<SqlNode> contents = new ArrayList<>();
-    NodeList children = node.getNode().getChildNodes();
+    //获取SQL下面的子节点
+    NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
+    //遍历子节点，解析成对应的sqlNode类型，并添加到contents中
     for (int i = 0; i < children.getLength(); i++) {
       XNode child = node.newXNode(children.item(i));
+      //如果是文本节点，则先解析成TextSqlNode对象
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
-        String data = child.getStringBody("");
-        TextSqlNode textSqlNode = new TextSqlNode(data);
+        String data = child.getStringBody(""); //获取文本信息
+        TextSqlNode textSqlNode = new TextSqlNode(data);   //创建TextSqlNode对象
+        //判断是否是动态Sql，其过程会调用GenericTokenParser判断文本中是否含有"${"字符
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
-          isDynamic = true;
-        } else {
+          isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
+        } else { //不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
           contents.add(new StaticTextSqlNode(data));
         }
-      } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628
+      } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628 //其他类型的节点，由不同的节点处理器来对应处理成本成不同的SqlNode类型
         String nodeName = child.getNode().getNodeName();
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler == null) {
@@ -82,6 +89,7 @@ public class XMLScriptBuilder extends BaseBuilder {
         isDynamic = true;
       }
     }
+    //用contents构建MixedSqlNode对象
     return new MixedSqlNode(contents);
   }
 

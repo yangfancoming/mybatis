@@ -97,7 +97,20 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
+/** 参数 XNode context
+ <mapper namespace="org.apache.ibatis.submitted.cache.FooMapper">
+   <cache/>
 
+   <select id="findAll" resultType="Foo">
+     select * from foo
+   </select>
+
+   <delete parameterType="int" id="deleteById">
+     delete from foo where id = #{id}
+   </delete>
+ </mapper>
+
+*/
   private void configurationElement(XNode context) {
     try {
       // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前映射文件对应的Mapper Class是谁
