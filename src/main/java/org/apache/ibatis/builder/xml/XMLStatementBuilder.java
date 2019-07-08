@@ -45,7 +45,12 @@ public class XMLStatementBuilder extends BaseBuilder {
       return;
     }
 
-    String nodeName = context.getNode().getNodeName();
+    /** context 的值
+     <select id="findAll" resultType="Foo">
+       select * from foo
+     </select>
+    */
+    String nodeName = context.getNode().getNodeName(); //  select
     //SQLCommand类型
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;

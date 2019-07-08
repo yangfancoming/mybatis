@@ -673,7 +673,8 @@ public class Configuration {
   }
 
   public void addMappedStatement(MappedStatement ms) {
-    mappedStatements.put(ms.getId(), ms);
+    // 源码中唯一put 的地方
+    mappedStatements.put(ms.getId(), ms); // com.goat.test.none.findAll
   }
 
   public Collection<String> getMappedStatementNames() {
