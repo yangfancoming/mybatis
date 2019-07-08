@@ -1,5 +1,6 @@
 
-package org.apache.ibatis.zgoat.A02;
+package org.apache.ibatis.zgoat.A03;
+
 
 import org.apache.ibatis.zgoat.common.Foo;
 import java.util.List;

@@ -8,7 +8,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="org.apache.ibatis.zgoat.A01.Foo" alias="Foo" />
+		<typeAlias type="org.apache.ibatis.zgoat.common.Foo" alias="Foo" />
 	</typeAliases>
 
 	<environments default="development">

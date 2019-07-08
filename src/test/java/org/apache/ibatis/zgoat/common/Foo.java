@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.zgoat.A01;
+package org.apache.ibatis.zgoat.common;
 
 import java.io.Serializable;
 
