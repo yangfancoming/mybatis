@@ -214,18 +214,22 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private void cacheElement(XNode context) {
     if (context != null) {
-      // 获取各种属性
+      // 基础缓存类型
       String type = context.getStringAttribute("type", "PERPETUAL");
       Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
+      // 排除算法缓存类型
       String eviction = context.getStringAttribute("eviction", "LRU");
       Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
+      // 缓存自动刷新时间
       Long flushInterval = context.getLongAttribute("flushInterval");
+      // 缓存存储实例引用的大小
       Integer size = context.getIntAttribute("size");
+      // 是否是只读缓存
       boolean readWrite = !context.getBooleanAttribute("readOnly", false);
       boolean blocking = context.getBooleanAttribute("blocking", false);
       // 获取子节点配置
       Properties props = context.getChildrenAsProperties();
-      // 构建缓存对象
+      // 初始化缓存实现
       builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
     }
   }

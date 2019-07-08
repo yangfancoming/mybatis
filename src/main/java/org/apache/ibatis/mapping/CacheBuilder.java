@@ -94,6 +94,7 @@ public class CacheBuilder {
       // 应用具有日志功能的缓存装饰器
       cache = new LoggingCache(cache);
     }
+    // 返回最终缓存的责任链对象
     return cache;
   }
 

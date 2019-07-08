@@ -7,9 +7,7 @@ import java.util.Properties;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Eduardo Macarron
- */
+
 public interface ProxyFactory {
 
   default void setProperties(Properties properties) {
