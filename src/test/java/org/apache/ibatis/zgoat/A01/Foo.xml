@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.apache.ibatis.zgoat.A01.FooMapper">
+  <!--
+  namespace:名称空间;指定为接口的全类名  org.apache.ibatis.zgoat.A01.FooMapper
+  id：唯一标识
+  resultType：返回值类型
+  #{id}：从传递过来的参数中取出id值
+   -->
+
+
+  <select id="findAll"  resultType="Foo" >
+    select * from foo
+  </select>
+
+  <select id="selectById" parameterType="int"  resultType="Foo" >
+    select * from foo where id = #{id}
+  </select>
+
+  <delete id="deleteById"  parameterType="int">
+    delete from foo where id = #{id}
+  </delete>
+
+</mapper>
