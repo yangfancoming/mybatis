@@ -10,16 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PluginTest {
 
+  Map map = new HashMap();
+
   @Test
   void mapPluginShouldInterceptGet() {
-    Map map = new HashMap();
     map = (Map) new AlwaysMapPlugin().plugin(map);
     assertEquals("Always", map.get("Anything"));
   }
 
   @Test
   void shouldNotInterceptToString() {
-    Map map = new HashMap();
     map = (Map) new AlwaysMapPlugin().plugin(map);
     assertNotEquals("Always", map.toString());
   }

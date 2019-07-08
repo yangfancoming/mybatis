@@ -13,9 +13,11 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 
 public class Plugin implements InvocationHandler {
-
+  //被代理的目标类
   private final Object target;
+  //对应的拦截器
   private final Interceptor interceptor;
+  //拦截器拦截的方法
   private final Map<Class<?>, Set<Method>> signatureMap;
 
   private Plugin(Object target, Interceptor interceptor, Map<Class<?>, Set<Method>> signatureMap) {
@@ -25,8 +27,10 @@ public class Plugin implements InvocationHandler {
   }
 
   public static Object wrap(Object target, Interceptor interceptor) {
+    //从拦截器的注解中获取拦截的类名和方法信息
     Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
     Class<?> type = target.getClass();
+    //解析被拦截对象的所有接口（注意是接口）
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
     if (interfaces.length > 0) {
       return Proxy.newProxyInstance(type.getClassLoader(),interfaces,new Plugin(target, interceptor, signatureMap));

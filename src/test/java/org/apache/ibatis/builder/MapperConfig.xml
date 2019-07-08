@@ -38,6 +38,7 @@
   <plugins>
     <plugin interceptor="org.apache.ibatis.builder.ExamplePlugin">
       <property name="pluginProperty" value="100"/>
+      <property name="username" value="zhangsan"/>
     </plugin>
   </plugins>
 

@@ -19,7 +19,7 @@ class SoftCacheTest {
       cache.putObject(i, array);
       Object value = cache.getObject(i);
       if (cache.getSize() < i + 1) {
-        //System.out.println("Cache exceeded with " + (i + 1) + " entries.");
+        System.out.println("Cache exceeded with " + (i + 1) + " entries.");
         break;
       }
     }

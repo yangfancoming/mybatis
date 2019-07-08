@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReadWriteLock;
  *  initialize();
  * }
  */
-
+// 装饰器模式
 public interface Cache {
 
   /**

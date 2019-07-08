@@ -4,13 +4,22 @@ package org.apache.ibatis.cache;
 import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 class LruCacheTest {
 
+  PerpetualCache perpetualCache = new PerpetualCache("default");
+
+  @Before
+  public void before(){
+    
+  }
+
   @Test
   void shouldRemoveLeastRecentlyUsedItemInBeyondFiveEntries() {
-    LruCache cache = new LruCache(new PerpetualCache("default"));
+    LruCache cache = new LruCache(perpetualCache);
     cache.setSize(5);
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);
@@ -23,7 +32,7 @@ class LruCacheTest {
 
   @Test
   void shouldRemoveItemOnDemand() {
-    Cache cache = new LruCache(new PerpetualCache("default"));
+    Cache cache = new LruCache(perpetualCache);
     cache.putObject(0, 0);
     assertNotNull(cache.getObject(0));
     cache.removeObject(0);
@@ -32,7 +41,7 @@ class LruCacheTest {
 
   @Test
   void shouldFlushAllItemsOnDemand() {
-    Cache cache = new LruCache(new PerpetualCache("default"));
+    Cache cache = new LruCache(perpetualCache);
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);
     }

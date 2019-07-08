@@ -15,9 +15,7 @@ import org.apache.ibatis.cache.CacheException;
  * Simple and inefficient version of EhCache's BlockingCache decorator.
  * It sets a lock over a cache key when the element is not found in cache.
  * This way, other threads will wait until this element is filled instead of hitting the database.
- *
- * @author Eduardo Macarron
- *
+ * BlockingCache 是阻塞版本的缓存装饰器，它保证只有一个线程到数据库中查找指定key对应的数据。
  */
 public class BlockingCache implements Cache {
 
@@ -51,10 +49,10 @@ public class BlockingCache implements Cache {
 
   @Override
   public Object getObject(Object key) {
-    acquireLock(key);
-    Object value = delegate.getObject(key);
+    acquireLock(key);// 获取key对应的锁
+    Object value = delegate.getObject(key); // 查询key
     if (value != null) {
-      releaseLock(key);
+      releaseLock(key);// 如果从缓存（PrepetualCache是用HashMap实现的）中查找到，则释放锁，否则继续持有锁
     }
     return value;
   }
@@ -76,10 +74,13 @@ public class BlockingCache implements Cache {
   }
 
   private void acquireLock(Object key) {
+    // 获取ReentrantLock 对象
     Lock lock = getLockForKey(key);
     if (timeout > 0) {
       try {
+        // 指定的时间内是否能够获取锁
         boolean acquired = lock.tryLock(timeout, TimeUnit.MILLISECONDS);
+        // 超时抛出异常
         if (!acquired) {
           throw new CacheException("Couldn't get a lock in " + timeout + " for the key " +  key + " at the cache " + delegate.getId());
         }
@@ -87,6 +88,7 @@ public class BlockingCache implements Cache {
         throw new CacheException("Got interrupted while trying to acquire lock for key " + key, e);
       }
     } else {
+      // 如果timeout<=0 既没有时间设置，直接获取锁
       lock.lock();
     }
   }
