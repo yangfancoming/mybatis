@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--<mapper namespace="org.apache.ibatis.zgoat.A01.FooMapper">-->
-<!--<mapper namespace="haha">-->
+
 <mapper namespace="com.goat.test.none">
   <!--
   namespace:名称空间;指定为接口的全类名  org.apache.ibatis.zgoat.A01.FooMapper

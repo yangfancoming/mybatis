@@ -5,8 +5,6 @@
 <configuration>
 	<settings>
     <setting name="cacheEnabled" value="false"/>
-    <!--<setting name="mapUnderscoreToCamelCase" value="true"/>-->
-    <!-- sos 坑点：开始我配置成resultType="hashMap"是可以返回结果，但是结果是没有自动转成驼峰，要真正存在一个与它对应的驼峰Bean与它对应才生效，resultType="org.me.menu.Menu"-->
 	</settings>
 
 	<typeAliases>
@@ -28,7 +26,6 @@
 
   <!-- 将我们写好的sql映射文件（EmployeeMapper.xml）一定要注册到全局配置文件（mybatis-config.xml）中 -->
 	<mappers>
-		<!--<mapper class="org.apache.ibatis.submitted.cache.PersonMapper"/>-->
 		<mapper resource="org/apache/ibatis/zgoat/A01/Foo.xml"/>
 	</mappers>
 </configuration>
