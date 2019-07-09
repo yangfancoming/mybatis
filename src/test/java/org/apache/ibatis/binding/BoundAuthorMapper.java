@@ -73,6 +73,7 @@ public interface BoundAuthorMapper {
                                     @Param("two") int two,
                                     int three);
 
+
   @Flush
   List<BatchResult> flush();
 
