@@ -20,13 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class AutoConstructorTest {
 
   private static SqlSessionFactory sqlSessionFactory;
+  public static  AutoConstructorMapper mapper ;
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/autoconstructor/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
+    SqlSession sqlSession = sqlSessionFactory.openSession();
+     mapper = sqlSession.getMapper(AutoConstructorMapper.class);
     // populate in-memory database 填充内存数据库
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/autoconstructor/CreateDB.sql");
 
@@ -34,27 +36,20 @@ class AutoConstructorTest {
 
   @Test
   void fullyPopulatedSubject() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      final AutoConstructorMapper mapper = sqlSession.getMapper(AutoConstructorMapper.class);
       final Object subject = mapper.getSubject(1);
       assertNotNull(subject);
-    }
   }
 
   @Test
   void primitiveSubjects() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      final AutoConstructorMapper mapper = sqlSession.getMapper(AutoConstructorMapper.class);
-      assertThrows(PersistenceException.class, mapper::getSubjects);
-    }
+    List<PrimitiveSubject> subjects = mapper.getSubjects();
+    System.out.println(subjects);
+//    assertThrows(PersistenceException.class, mapper::getSubjects);
   }
 
   @Test
   void annotatedSubject() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      final AutoConstructorMapper mapper = sqlSession.getMapper(AutoConstructorMapper.class);
       verifySubjects(mapper.getAnnotatedSubjects());
-    }
   }
 
   @Test

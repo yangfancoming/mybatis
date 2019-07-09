@@ -48,6 +48,6 @@ public class ExtensiveSubject {
     }
 
     public enum TestEnum {
-        AVALUE, BVALUE, CVALUE;
+        AVALUE, BVALUE, CVALUE
     }
 }

@@ -12,129 +12,146 @@ import java.io.Reader;
 
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.io.Resources;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.*;
 
 class XPathParserTest {
   private String resource = "resources/nodelet_test.xml";
+  XPathParser parser ;
+  /**
+   <employee id="${id_var}">
+     <blah something="that"/>
+     <first_name>Jim</first_name>
+     <last_name>Smith</last_name>
+     <birth_date>
+       <year>1970</year>
+       <month>6</month>
+       <day>15</day>
+     </birth_date>
+     <height units="ft">5.8</height>
+     <weight units="lbs">200</weight>
+     <active>true</active>
+   </employee>
+  */
 
-  //InputStream Source
-  @Test
+  private void testEvalMethod(XPathParser parser) {
+    assertEquals((Long) 1970L, parser.evalLong("/employee/birth_date/year"));
+    assertEquals((short) 6, (short) parser.evalShort("/employee/birth_date/month"));
+    assertEquals((Integer) 15, parser.evalInteger("/employee/birth_date/day"));
+    assertEquals((Float) 5.8f, parser.evalFloat("/employee/height"));
+    assertEquals((Double) 5.8d, parser.evalDouble("/employee/height"));
+    assertEquals("${id_var}", parser.evalString("/employee/@id"));
+    assertEquals(Boolean.TRUE, parser.evalBoolean("/employee/active"));
+    assertEquals("<id>${id_var}</id>", parser.evalNode("/employee/@id").toString().trim());
+    assertEquals(7, parser.evalNodes("/employee/*").size());
+    XNode node = parser.evalNode("/employee/height");
+    assertEquals("employee/height", node.getPath());
+    assertEquals("employee[${id_var}]_height", node.getValueBasedIdentifier());
+  }
+  @AfterEach
+  void after(){
+    testEvalMethod(parser);
+  }
+
+  @Test /** 4 个参数 */
   void constructorWithInputStreamValidationVariablesEntityResolver() throws Exception {
-
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XPathParser parser = new XPathParser(inputStream, false, null, null);
-      testEvalMethod(parser);
+      parser = new XPathParser(inputStream, false, null, null);
     }
   }
 
-  @Test
+  @Test  /** 3 个参数 */
   void constructorWithInputStreamValidationVariables() throws IOException {
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XPathParser parser = new XPathParser(inputStream, false, null);
-      testEvalMethod(parser);
+       parser = new XPathParser(inputStream, false, null);
     }
   }
 
-  @Test
+  @Test  /** 2 个参数 */
   void constructorWithInputStreamValidation() throws IOException {
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XPathParser parser = new XPathParser(inputStream, false);
-      testEvalMethod(parser);
+       parser = new XPathParser(inputStream, false);
     }
   }
 
-  @Test
+  @Test  /** 1 个参数 */
   void constructorWithInputStream() throws IOException {
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XPathParser parser = new XPathParser(inputStream);
-      testEvalMethod(parser);
+       parser = new XPathParser(inputStream);
     }
   }
 
   //Reader Source
   @Test
   void constructorWithReaderValidationVariablesEntityResolver() throws Exception {
-
     try (Reader reader = Resources.getResourceAsReader(resource)) {
-      XPathParser parser = new XPathParser(reader, false, null, null);
-      testEvalMethod(parser);
+       parser = new XPathParser(reader, false, null, null);
     }
   }
 
   @Test
   void constructorWithReaderValidationVariables() throws IOException {
     try (Reader reader = Resources.getResourceAsReader(resource)) {
-      XPathParser parser = new XPathParser(reader, false, null);
-      testEvalMethod(parser);
+       parser = new XPathParser(reader, false, null);
     }
   }
 
   @Test
   void constructorWithReaderValidation() throws IOException {
     try (Reader reader = Resources.getResourceAsReader(resource)) {
-      XPathParser parser = new XPathParser(reader, false);
-      testEvalMethod(parser);
+       parser = new XPathParser(reader, false);
     }
   }
 
   @Test
   void constructorWithReader() throws IOException {
     try (Reader reader = Resources.getResourceAsReader(resource)) {
-      XPathParser parser = new XPathParser(reader);
-      testEvalMethod(parser);
+       parser = new XPathParser(reader);
     }
   }
 
   //Xml String Source
   @Test
   void constructorWithStringValidationVariablesEntityResolver() throws Exception {
-    XPathParser parser = new XPathParser(getXmlString(resource), false, null, null);
-    testEvalMethod(parser);
+     parser = new XPathParser(getXmlString(resource), false, null, null);
   }
 
   @Test
   void constructorWithStringValidationVariables() throws IOException {
-    XPathParser parser = new XPathParser(getXmlString(resource), false, null);
-    testEvalMethod(parser);
+     parser = new XPathParser(getXmlString(resource), false, null);
   }
 
   @Test
   void constructorWithStringValidation() throws IOException {
-    XPathParser parser = new XPathParser(getXmlString(resource), false);
-    testEvalMethod(parser);
+     parser = new XPathParser(getXmlString(resource), false);
   }
 
   @Test
   void constructorWithString() throws IOException {
-    XPathParser parser = new XPathParser(getXmlString(resource));
-    testEvalMethod(parser);
+     parser = new XPathParser(getXmlString(resource));
   }
 
   //Document Source
   @Test
   void constructorWithDocumentValidationVariablesEntityResolver() {
-    XPathParser parser = new XPathParser(getDocument(resource), false, null, null);
-    testEvalMethod(parser);
+     parser = new XPathParser(getDocument(resource), false, null, null);
   }
 
   @Test
   void constructorWithDocumentValidationVariables() {
-    XPathParser parser = new XPathParser(getDocument(resource), false, null);
-    testEvalMethod(parser);
+     parser = new XPathParser(getDocument(resource), false, null);
   }
 
   @Test
   void constructorWithDocumentValidation() {
-    XPathParser parser = new XPathParser(getDocument(resource), false);
-    testEvalMethod(parser);
+     parser = new XPathParser(getDocument(resource), false);
   }
 
   @Test
   void constructorWithDocument() {
-    XPathParser parser = new XPathParser(getDocument(resource));
-    testEvalMethod(parser);
+     parser = new XPathParser(getDocument(resource));
   }
 
   private Document getDocument(String resource) {
@@ -162,21 +179,6 @@ class XPathParserTest {
       }
       return sb.toString();
     }
-  }
-
-  private void testEvalMethod(XPathParser parser) {
-    assertEquals((Long) 1970L, parser.evalLong("/employee/birth_date/year"));
-    assertEquals((short) 6, (short) parser.evalShort("/employee/birth_date/month"));
-    assertEquals((Integer) 15, parser.evalInteger("/employee/birth_date/day"));
-    assertEquals((Float) 5.8f, parser.evalFloat("/employee/height"));
-    assertEquals((Double) 5.8d, parser.evalDouble("/employee/height"));
-    assertEquals("${id_var}", parser.evalString("/employee/@id"));
-    assertEquals(Boolean.TRUE, parser.evalBoolean("/employee/active"));
-    assertEquals("<id>${id_var}</id>", parser.evalNode("/employee/@id").toString().trim());
-    assertEquals(7, parser.evalNodes("/employee/*").size());
-    XNode node = parser.evalNode("/employee/height");
-    assertEquals("employee/height", node.getPath());
-    assertEquals("employee[${id_var}]_height", node.getValueBasedIdentifier());
   }
 
 }

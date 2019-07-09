@@ -17,18 +17,13 @@ import org.apache.ibatis.reflection.ReflectionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * DefaultObjectFactoryTest
- *
- * @author Ryan Lamore
- */
+
 class DefaultObjectFactoryTest {
 
   @Test
   void createClass() {
     DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
-    TestClass testClass = defaultObjectFactory.create(TestClass.class,
-        Arrays.asList(String.class, Integer.class), Arrays.asList("foo", 0));
+    TestClass testClass = defaultObjectFactory.create(TestClass.class, Arrays.asList(String.class, Integer.class), Arrays.asList("foo", 0));
 
     Assertions.assertEquals((Integer) 0, testClass.myInteger, "myInteger didn't match expected");
     Assertions.assertEquals("foo", testClass.myString, "myString didn't match expected");

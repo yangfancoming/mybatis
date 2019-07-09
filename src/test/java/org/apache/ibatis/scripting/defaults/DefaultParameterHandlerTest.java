@@ -26,8 +26,6 @@ import static org.mockito.Mockito.when;
 
 /**
  * DefaultParameterHandlerTest
- *
- * @author Ryan Lamore
  */
 class DefaultParameterHandlerTest {
 
