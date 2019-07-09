@@ -33,7 +33,7 @@ class ErrorContextTest {
   }
 
   @Test
-  void verifyStoreRecall() throws Exception {
+  void verifyStoreRecall() {
     ErrorContext outer = ErrorContext.instance();
     ErrorContext inner = ErrorContext.instance().store();
     assertEquals(inner, ErrorContext.instance());

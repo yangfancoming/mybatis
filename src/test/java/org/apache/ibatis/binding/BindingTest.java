@@ -111,7 +111,6 @@ class BindingTest {
 
   @Test
   void shouldInsertAuthorWithSelectKey() {
-
     int rows = authorMapper.insertAuthor(author);
     assertEquals(1, rows);
   }
@@ -402,7 +401,7 @@ class BindingTest {
 
   @Test // Decided that maps are dynamic so no existent params do not fail
   void shouldFailWhenSelectingOneBlogWithNonExistentNestedParam() {
-    blogMapper.selectBlogByNonExistentNestedParam(1, Collections.<String, Object>emptyMap());
+    blogMapper.selectBlogByNonExistentNestedParam(1, Collections.emptyMap());
   }
 
   @Test
@@ -411,12 +410,20 @@ class BindingTest {
     assertNotNull(blog);
   }
 
+  /**
+   @Select ("SELECT * FROM blog WHERE id = #{param1} AND title = #{param2}")
+   Blog selectBlogByDefault31ParamNames(int id, String title);
+  */
   @Test
   void shouldSelectBlogWithDefault31ParamNames() {
     Blog blog = blogMapper.selectBlogByDefault31ParamNames(1, "Jim Business");
     assertNotNull(blog);
   }
 
+  /** 测试点  动态传入 列名
+   @Select ("SELECT * FROM blog WHERE ${column} = #{id} AND title = #{value}")
+   Blog selectBlogWithAParamNamedValue(@Param("column") String column, @Param("id") int id, @Param("value") String title);
+  */
   @Test
   void shouldSelectBlogWithAParamNamedValue() {
     Blog blog = blogMapper.selectBlogWithAParamNamedValue("id", 1, "Jim Business");
@@ -493,6 +500,11 @@ class BindingTest {
     assertEquals(2, blog.getId());
   }
 
+  /**
+   @Select ({ "SELECT * FROM blog ORDER BY id"})
+   @MapKey ("id")
+   Map<Integer,Blog> selectRangeBlogsAsMapById(RowBounds rowBounds);
+  */
   @Test
   void executeWithMapKeyAndRowBounds() {
     Map<Integer, Blog> blogs = blogMapper.selectRangeBlogsAsMapById(new RowBounds(1, 1));
