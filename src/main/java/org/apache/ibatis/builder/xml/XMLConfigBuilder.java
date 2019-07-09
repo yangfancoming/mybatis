@@ -110,7 +110,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       typeAliasesElement(root.evalNode("typeAliases"));
       // 解析<plugins>节点
       pluginElement(root.evalNode("plugins"));
-      // 解析 objectFactory 配置
+      // 解析 objectFactory 配置  mybatis为结果创建对象时都会用到objectFactory
       objectFactoryElement(root.evalNode("objectFactory"));
       // 解析 objectWrapperFactory 配置
       objectWrapperFactoryElement(root.evalNode("objectWrapperFactory"));
@@ -121,10 +121,11 @@ public class XMLConfigBuilder extends BaseBuilder {
       // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>节点
       environmentsElement(root.evalNode("environments"));
       // 解析 databaseIdProvider，获取并设置 databaseId 到 Configuration 对象
+      // MyBatis能够执行不同的语句取决于你提供的数据库供应商。许多数据库供应商的支持是基于databaseId映射
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
-      // 解析 typeHandlers 配置
+      // 解析 typeHandlers 配置  当MyBatis设置参数到PreparedStatement 或者从ResultSet 结果集中取得值时，就会使用TypeHandler  来处理数据库类型与java 类型之间转换
       typeHandlerElement(root.evalNode("typeHandlers"));
-      // 解析<mappers>节点
+      // 解析<mappers>节点  主要的crud操作都是在mappers中定义的
       mapperElement(root.evalNode("mappers"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing SQL Mapper Configuration. Cause: " + e, e);
@@ -452,8 +453,10 @@ public class XMLConfigBuilder extends BaseBuilder {
           String mapperPackage = child.getStringAttribute("name");
           // 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
           configuration.addMappers(mapperPackage);
-        } else {  // 如果当前节点为<mapper>
-          // 依次获取resource、url、class属性
+        } else {
+          /** 如果当前节点为<mapper> 依次获取resource、url、class属性
+           * mapper节点配置有3个属性：resource,url,class。他们处理的优先级依次是resource,url,class，3个属性只处理一种
+          */
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
@@ -466,6 +469,7 @@ public class XMLConfigBuilder extends BaseBuilder {
           } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file://........"/>
             ErrorContext.instance().resource(url);
             InputStream inputStream = Resources.getUrlAsStream(url);
+            // 通过读取resource或url属性得到xml的访问路径后，交给XMLMapperBuilder对象来解析
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
             mapperParser.parse();
           } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="com.dy.dao.UserDao"/>

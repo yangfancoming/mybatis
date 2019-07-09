@@ -16,6 +16,13 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  * 这个父类维护了一个全局的Configuration对象，MyBatis的配置文件解析后就以Configuration对象的形式存储。
+ * MapperBuilderAssistant
+ * ParameterMappingTokenHandler
+ * SqlSourceBuilder
+ * XMLConfigBuilder
+ * XMLMapperBuilder
+ * XMLScriptBuilder
+ * XMLStatementBuilder
 */
 public abstract class BaseBuilder {
   protected final Configuration configuration;

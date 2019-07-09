@@ -13,6 +13,13 @@ import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 
 /**
  * Builds {@link SqlSession} instances.
+ *
+ * 我们可以看到这个类用很多的构造方法，但主要分为三大类：
+ * 1、通过读取字符流（Reader）的方式构件SqlSessionFactory。
+ * 2、通过字节流（InputStream）的方式构件SqlSessionFacotry。
+ * 3、通过Configuration对象构建SqlSessionFactory。
+ * 第1、2种方式是通过配置文件方式，第3种是通过Java代码方式。
+ * build方法返回SqlSessionFactory接口的实现对象DefaultSqlSessionFactory。
  */
 public class SqlSessionFactoryBuilder {
 
@@ -56,6 +63,11 @@ public class SqlSessionFactoryBuilder {
     return build(inputStream, null, properties);
   }
 
+
+  /**
+   我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，
+   构造出Configuration，最终返回new DefaultSqlSessionFactory(config)的SqlSessionFactory实例
+  */
   public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
     try {
       // 创建配置文件解析器

@@ -28,6 +28,9 @@ import org.apache.ibatis.transaction.Transaction;
  2. Mapper.xml 配置文件中配置的 <cache> 和 <cache-ref>标签，如果 Mapper.xml 配置文件中配置了这两个标签中的任何一个，则表示开启了二级缓存的功能，在 Mybatis 解析 SQL 源码分析一 文章中已经分析过，如果配置了 <cache> 标签，则在解析配置文件的时候，会为该配置文件指定的 namespace 创建相应的 Cache 对象作为其二级缓存（默认为 PerpetualCache 对象），如果配置了 <cache-ref> 节点，则通过 ref 属性的namespace值引用别的Cache对象作为其二级缓存。通过 <cache> 和 <cache-ref> 标签来管理其在namespace中二级缓存功能的开启和关闭
  3. <select> 节点中的 useCache 属性也可以开启二级缓存，该属性表示查询的结果是否要存入到二级缓存中，该属性默认为 true，也就是说 <select> 标签默认会把查询结果放入到二级缓存中。
 
+ CacheExecutor有一个重要属性delegate，它保存的是某类普通的Executor，值在构照时传入。（装饰器模式）
+ 执行数据库update操作时，它直接调用delegate的update方法，执行query方法时先尝试从cache中取值，
+ 取不到再调用delegate的查询方法，并将查询结果存入cache中
 */
 public class CachingExecutor implements Executor {
 
@@ -65,8 +68,8 @@ public class CachingExecutor implements Executor {
 
   @Override
   public int update(MappedStatement ms, Object parameterObject) throws SQLException {
-    flushCacheIfRequired(ms);
-    return delegate.update(ms, parameterObject);
+    flushCacheIfRequired(ms);//是否需要更缓存
+    return delegate.update(ms, parameterObject);//更新数据
   }
 
   @Override

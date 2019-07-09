@@ -17,7 +17,11 @@ import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 
-
+/**
+ 这么多的openSession重载方法，都是通过传入不同的参数构造SqlSession实例，
+ 有通过设置事务是否自动提交"autoCommit"，有设置执行器类型"ExecutorType"来构造的，还有事务的隔离级别等等。
+ 最后一个方法就告诉我们可以通过SqlSessionFactory来获取Configuration对象。
+*/
 public class DefaultSqlSessionFactory implements SqlSessionFactory {
 
   private final Configuration configuration;
@@ -85,6 +89,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       //通过配置创建一个Executor，Executor是对jdbc中Statement的封装
       final Executor executor = configuration.newExecutor(tx, execType);
       //此处也是写死的，创建一个DefaultSqlSession对象
+      //从此处可以看出 DefaultSqlSession是SqlSession的实例。
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {
       closeTransaction(tx); // may have fetched a connection so lets call close()  //可能已经获取了一个连接，所以此处调用close事务

@@ -127,3 +127,29 @@ Essentials
     session	主要是SqlSession和SqlSessionFactory
     transaction	主要是mybatis简单封装的jdbc事务操作类
     type	各个类型数据的处理器。用于动态的设置参数和转换数据。如IntegerTypeHandler用来处理Integer类型的值的set和get操作。除了八大基本类型。还有常用的集合及Map类型，还增加了各种时间类型的处理器
+    
+    
+# mybatis创建sqlsession经过了以下几个主要步骤： 
+    
+    1.       从核心配置文件mybatis-config.xml中获取Environment（这里面是数据源）；
+    2.       从Environment中取得DataSource；
+    3.       从Environment中取得TransactionFactory；
+    4.       从DataSource里获取数据库连接对象Connection；
+    5.       在取得的数据库连接上创建事务对象Transaction；
+    6.       创建Executor对象（该对象非常重要，事实上sqlsession的所有操作都是通过它完成的）；
+    7.       创建sqlsession对象
+    
+# mapper 对应 Session 
+    当执行MapperMethod的execute方法的时候，根据当前 MapperMethod 对应的 mapper 配置会执行Session的insert, update, delete, select, selectList, selectMap, selectCursor, selectOne或flushStatements方法。 
+    具体执行Session对象的方法对照如下：
+    
+    Mapper节点	SqlSession方法
+        insert	insert
+        update	update
+        delete	delete
+        select	select: 方法返回void,并且包含resultHandler配置
+        select	selectList:方法返回数组或Collection子类
+        select	selectMap: 存在MapKey注解
+        select	selectCursor: 方法返回Cursor
+        select	selectOne 其它
+        flush	Flush注解

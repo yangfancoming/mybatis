@@ -37,28 +37,31 @@ public class BatchExecutor extends BaseExecutor {
 
   @Override
   public int doUpdate(MappedStatement ms, Object parameterObject) throws SQLException {
-    final Configuration configuration = ms.getConfiguration();
+    final Configuration configuration = ms.getConfiguration();//获得配置信息
     final StatementHandler handler = configuration.newStatementHandler(this, ms, parameterObject, RowBounds.DEFAULT, null, null);
     final BoundSql boundSql = handler.getBoundSql();
-    final String sql = boundSql.getSql();
+    final String sql = boundSql.getSql();//获得Sql语句
     final Statement stmt;
+    //如果sql语句等于当前sql MappedStatement 等于当前Map碰到Statement
     if (sql.equals(currentSql) && ms.equals(currentStatement)) {
       int last = statementList.size() - 1;
       stmt = statementList.get(last);
       applyTransactionTimeout(stmt);
-      handler.parameterize(stmt);//fix Issues 322
+      handler.parameterize(stmt);//fix Issues 322 //获得最后一个
+      //有相同的MappedStatement和参数
       BatchResult batchResult = batchResultList.get(last);
       batchResult.addParameterObject(parameterObject);
     } else {
+      //如果不存在就创建一个批处理操作
       Connection connection = getConnection(ms.getStatementLog());
       stmt = handler.prepare(connection, transaction.getTimeout());
       handler.parameterize(stmt);    //fix Issues 322
       currentSql = sql;
       currentStatement = ms;
-      statementList.add(stmt);
+      statementList.add(stmt);//添加批量处理操作
       batchResultList.add(new BatchResult(ms, sql, parameterObject));
     }
-    handler.batch(stmt);
+    handler.batch(stmt);//最终是调用jdbc的批处理操作
     return BATCH_UPDATE_RETURN_VALUE;
   }
 
@@ -90,23 +93,25 @@ public class BatchExecutor extends BaseExecutor {
     handler.parameterize(stmt);
     return handler.queryCursor(stmt);
   }
-
+  //刷新Statement，记录执行次数
   @Override
   public List<BatchResult> doFlushStatements(boolean isRollback) throws SQLException {
     try {
       List<BatchResult> results = new ArrayList<>();
       if (isRollback) {
         return Collections.emptyList();
-      }
+      } // doit 这里原来有个else
+      //如果进行了批量处理
       for (int i = 0, n = statementList.size(); i < n; i++) {
         Statement stmt = statementList.get(i);
         applyTransactionTimeout(stmt);
         BatchResult batchResult = batchResultList.get(i);
         try {
+          //记录批量处理执行操作的条数
           batchResult.setUpdateCounts(stmt.executeBatch());
           MappedStatement ms = batchResult.getMappedStatement();
-          List<Object> parameterObjects = batchResult.getParameterObjects();
-          KeyGenerator keyGenerator = ms.getKeyGenerator();
+          List<Object> parameterObjects = batchResult.getParameterObjects();//参数对象集合
+          KeyGenerator keyGenerator = ms.getKeyGenerator();//生成key
           if (Jdbc3KeyGenerator.class.equals(keyGenerator.getClass())) {
             Jdbc3KeyGenerator jdbc3KeyGenerator = (Jdbc3KeyGenerator) keyGenerator;
             jdbc3KeyGenerator.processBatch(ms, stmt, parameterObjects);
@@ -119,19 +124,13 @@ public class BatchExecutor extends BaseExecutor {
           closeStatement(stmt);
         } catch (BatchUpdateException e) {
           StringBuilder message = new StringBuilder();
-          message.append(batchResult.getMappedStatement().getId())
-              .append(" (batch index #")
-              .append(i + 1)
-              .append(")")
-              .append(" failed.");
+          message.append(batchResult.getMappedStatement().getId()).append(" (batch index #").append(i + 1).append(")") .append(" failed.");
           if (i > 0) {
-            message.append(" ")
-                .append(i)
-                .append(" prior sub executor(s) completed successfully, but will be rolled back.");
+            message.append(" ").append(i) .append(" prior sub executor(s) completed successfully, but will be rolled back.");
           }
           throw new BatchExecutorException(message.toString(), e, results, batchResult);
         }
-        results.add(batchResult);
+        results.add(batchResult);//记录操作
       }
       return results;
     } finally {

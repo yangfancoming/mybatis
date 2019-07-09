@@ -26,11 +26,11 @@ public class MapperRegistry {
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
     // 从 knownMappers 中获取与 type 对应的 MapperProxyFactory
     final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
-    if (mapperProxyFactory == null) {
+    if (mapperProxyFactory == null) { //说明这个Mapper接口没有注册
       throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
     }
     try {
-      // 创建代理对象
+      //生成一个MapperProxy对象
       return mapperProxyFactory.newInstance(sqlSession);
     } catch (Exception e) {
       throw new BindingException("Error getting mapper instance. Cause: " + e, e);

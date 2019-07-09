@@ -87,9 +87,11 @@ public class XMLMapperBuilder extends BaseBuilder {
       // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中 。 通过命名空间绑定 Mapper 接口
       bindMapperForNamespace();
     }
-
+    //将resultMap映射信息转换成ResultMap对象
     parsePendingResultMaps();
+    //将cache映射信息转换成Cache对象
     parsePendingCacheRefs();
+    //将sql映射转换成MappedStatement
     parsePendingStatements();
   }
 
@@ -97,7 +99,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
-/** 参数 XNode context
+/** 解析xml    参数 XNode context
  <mapper namespace="org.apache.ibatis.submitted.cache.FooMapper">
    <cache/>
 

@@ -42,10 +42,13 @@ public class PreparedStatementHandler extends BaseStatementHandler {
     ps.addBatch();
   }
 
+  /**
+   在PreparedStatementHandler中的query()方法中，用 ResultSetHandler 来完成结果集的映射。
+   */
   @Override
   public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
     PreparedStatement ps = (PreparedStatement) statement;
-    ps.execute();
+    ps.execute(); // 真正的执行sql
     return resultSetHandler.handleResultSets(ps);
   }
 

@@ -80,71 +80,125 @@ import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-// Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
+/**
+ * Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
+ * Configuration类主要是用来存储对Mybatis的配置文件及mapper文件解析后的数据，Configuration对象会贯穿整个Mybatis的执行流程，为Mybatis的执行过程提供必要的配置信息。
+*/
 public class Configuration {
 
-  // 对应配置文件中的    <environments default="development"> 标签
+  /** 对应配置文件中的    <environments default="development"> 标签
+   * MyBatis 可以配置成适应多种环境，这种机制有助于将 SQL 映射应用于多种数据库之中,
+   * 比如设置不同的开发、测试、线上配置，在每个配置中可以配置事务管理器和数据源对象.
+   */
   protected Environment environment;
-
+  //允许在嵌套语句中使用分页（RowBounds）。如果允许使用则设置为false。
   protected boolean safeRowBoundsEnabled;
+  //允许在嵌套语句中使用分页（ResultHandler）。如果允许使用则设置为false
   protected boolean safeResultHandlerEnabled = true;
+  //是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。
   protected boolean mapUnderscoreToCamelCase;
+  //当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考lazyLoadTriggerMethods).
   protected boolean aggressiveLazyLoading;
+  // 是否允许单一语句返回多结果集（需要兼容驱动）
   protected boolean multipleResultSetsEnabled = true;
+  //允许 JDBC 支持自动生成主键，需要驱动兼容。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作（比如 Derby）。
   protected boolean useGeneratedKeys;
+  //使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
+  //配置全局性的cache开关
   protected boolean cacheEnabled = true;
+  /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
+  注意基本类型（int、boolean等）是不能设置成 null 的。*/
   protected boolean callSettersOnNulls;
+
   protected boolean useActualParamName = true;
   protected boolean returnInstanceForEmptyRow;
-
+  //指定 MyBatis 增加到日志名称的前缀。
   protected String logPrefix;
+  //指定 MyBatis 所用日志的具体实现，未指定时将自动查找
   protected Class<? extends Log> logImpl;
   protected Class<? extends VFS> vfsImpl;
+  /*MyBatis 利用本地缓存机制（Local Cache）防止循环引用（circular references）和加速重复嵌套查询。
+   默认值为 SESSION，这种情况下会缓存一个会话中执行的所有查询。
+   若设置值为 STATEMENT，本地会话仅用在语句执行上，对相同 SqlSession 的不同调用将不会共享数据。*/
   protected LocalCacheScope localCacheScope = LocalCacheScope.SESSION;
+  /*当没有为参数提供特定的 JDBC 类型时，为空值指定 JDBC 类型。
+    某些驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。*/
   protected JdbcType jdbcTypeForNull = JdbcType.OTHER;
+  //指定哪个对象的方法触发一次延迟加载。
   protected Set<String> lazyLoadTriggerMethods = new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString"));
+  //设置超时时间，它决定驱动等待数据库响应的秒数。
   protected Integer defaultStatementTimeout;
   protected Integer defaultFetchSize;
-  protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE;
+  /**
+   * 配置默认的执行器。
+  SIMPLE 就是普通的执行器；
+  REUSE 执行器会重用预处理语句（prepared statements）；
+  BATCH 执行器将重用语句并执行批量更新。
+   */
+  protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE; // 默认是 SimpleExecutor 实现类
+  /**
+   * 指定 MyBatis 应如何自动映射列到字段或属性。
+   * NONE 表示取消自动映射；
+   * PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集。
+   * FULL 会自动映射任意复杂的结果集（无论是否嵌套）。
+   */
   protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;
   protected AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior = AutoMappingUnknownColumnBehavior.NONE;
-
+  //这里配置的属性可以在整个配置文件中使用来替换需要动态配置的属性值
   protected Properties variables = new Properties();
+
   protected ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+  //对象创建工厂，默认的实现类DefaultObjectFactory，用来创建对象，比如传入List.class，利用反射返回ArrayList的实例
   protected ObjectFactory objectFactory = new DefaultObjectFactory();
+  //对象包装工厂，默认实现类是DefaultObjectWrapperFactory，包装Object实例
   protected ObjectWrapperFactory objectWrapperFactory = new DefaultObjectWrapperFactory();
-
+  //延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态。
   protected boolean lazyLoadingEnabled = false;
+  //指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具
   protected ProxyFactory proxyFactory = new JavassistProxyFactory(); // #224 Using internal Javassist instead of OGNL
-
+  //数据库类型id，MyBatis 可以根据不同的数据库厂商执行不同的语句，这种多厂商的支持是基于映射语句中的 databaseId 属性
   protected String databaseId;
   /**
    * Configuration factory class.
    * Used to create Configuration for loading deserialized unread properties.
    * @see <a href='https://code.google.com/p/mybatis/issues/detail?id=300'>Issue 300 (google code)</a>
+   * 指定一个提供Configuration实例的类. 这个被返回的Configuration实例是用来加载被反序列化对象的懒加载属性值.
+   * 这个类必须包含一个签名方法static Configuration getConfiguration(). (从 3.2.3 版本开始)
    */
   protected Class<?> configurationFactory;
 
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
+  //拦截器链
   protected final InterceptorChain interceptorChain = new InterceptorChain();
+  //TypeHandler注册
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
+  //别名和具体类注册
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
+  //这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
 
+  //对应Mapper.xml里配置的Statement
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection")
       .conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
 
+  //对应Mapper.xml里配置的cache
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
+  //对应Mapper.xml里的ResultMap
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
+  //对应Mapper.xml里的ParameterMap
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
+  //主键生成器
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
-
+  //存储已经加载过的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource
   protected final Set<String> loadedResources = new HashSet<>();
+  //存储已经解析过的mapper对应的xml节点
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
-
+  //存储所有未处理的
   protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();
+  //存储所有未处理的缓存信息
   protected final Collection<CacheRefResolver> incompleteCacheRefs = new LinkedList<>();
+  //存储所有未处理ResultMap的映射信息
   protected final Collection<ResultMapResolver> incompleteResultMaps = new LinkedList<>();
   protected final Collection<MethodResolver> incompleteMethods = new LinkedList<>();
 
@@ -160,6 +214,7 @@ public class Configuration {
     this.environment = environment;
   }
 
+  //通过使用TypeAliasRegistry来注册一些类的别名
   public Configuration() {
     typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
     typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
@@ -560,6 +615,8 @@ public class Configuration {
 
   /**对StatementHandler 进行拦截**/
   public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    /** 在MyBatis中，Configuration对象会采用new RoutingStatementHandler()来生成StatementHandler对象：
+     * 然后它会根据Executor的类型去创建对应具体的statementHandler对象（SimpleStatementHandler，PreparedStatementHandler和CallableStatementHandler）。*/
     StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
     // 对statementHandler 插入所有的Interceptor以便进行拦截，InterceptorChain里保存了所有的拦截器，它在Configuration 对象被构造出来的时候创建。
     statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
@@ -573,8 +630,9 @@ public class Configuration {
 
   /**对Executor 进行拦截**/
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
+    //根据executorType来选择实现子类
     executorType = executorType == null ? defaultExecutorType : executorType;
-    executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
+    executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // 默认实现类是 ExecutorType.SIMPLE
     Executor executor;
     if (ExecutorType.BATCH == executorType) {
       executor = new BatchExecutor(this, transaction);

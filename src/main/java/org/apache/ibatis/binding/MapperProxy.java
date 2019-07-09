@@ -25,10 +25,11 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     this.methodCache = methodCache;
   }
 
+  //这里会拦截Mapper接口的所有方法
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
-      // 如果方法是定义在 Object 类中的，则直接调用
+      // 如果是Object中定义的方法，直接执行。如toString(),hashCode()等
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
         /*
@@ -43,10 +44,14 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
-    // 从缓存中获取 MapperMethod 对象，若缓存未命中，则创建 MapperMethod 对象
+
+    /** 其他Mapper接口定义的方法交由mapperMethod来执行
+     * 最后2句关键，我们执行所调用Mapper的每一个接口方法，最后返回的是MapperMethod.execute方法。
+     * 每一个MapperMethod对应了一个mapper文件中配置的一个sql语句或FLUSH配置，对应的sql语句通过mapper对应的class文件名+方法名从Configuration对象中获得。
+     * 从缓存中获取 MapperMethod 对象，若缓存未命中，则创建 MapperMethod 对象
+    */
     final MapperMethod mapperMethod = cachedMapperMethod(method);
-    // 调用 execute 方法执行 SQL
-    return mapperMethod.execute(sqlSession, args);
+    return mapperMethod.execute(sqlSession, args);  // 调用 execute 方法执行 SQL
   }
 
   private MapperMethod cachedMapperMethod(Method method) {

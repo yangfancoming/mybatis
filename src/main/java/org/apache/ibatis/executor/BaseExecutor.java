@@ -36,15 +36,22 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * 只有 4 个基本方法：doUpdate,  doQuery,  doQueryCursor,  doFlushStatement 没有实现，
  * 还是一个抽象方法，由子类实现，这 4 个方法相当于模板方法中变化的那部分。
  * Mybatis 的一级缓存就是在该类中实现的。
+ *
+ *  具体实现类有抽象类BaseExecutor、实现类CachingExecutor、实现类BatchExecutor、实现类ReuseExecutor和实现类SimpleExecutor。
+ *  具体选用哪个子类SimpleExecutor、ReuseExecutor和BatchExecutor实现，可以在Mybatis的配置文件中进行配，配置如下：
+ * <settings>
+ *     <setting name="defaultExecutorType" value="REUSE"/>   SIMPLE、REUSE、BATCH
+ * </settings>
+ * 配置之后在 Configuration 类中的 newExecutor()   函数会选择具体使用的子类。
 */
 public abstract class BaseExecutor implements Executor {
 
   private static final Log log = LogFactory.getLog(BaseExecutor.class);
   // 事务，提交，回滚，关闭事务
   protected Transaction transaction;
-  // 底层的 Executor 对象
+  // 底层的 Executor 包装对象
   protected Executor wrapper;
-  // 延迟加载队列
+  // 延迟加载队列 / 线程安全队列
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
   // 一级缓存，用于缓存查询结果
   protected PerpetualCache localCache;
@@ -99,6 +106,7 @@ public abstract class BaseExecutor implements Executor {
   public boolean isClosed() {
     return closed;
   }
+
   // 执行 insert | update | delete 语句，调用 doUpdate 方法实现,在执行这些语句的时候，会清空缓存
   @Override
   public int update(MappedStatement ms, Object parameter) throws SQLException {
@@ -106,11 +114,12 @@ public abstract class BaseExecutor implements Executor {
     if (closed) {
       throw new ExecutorException("Executor was closed.");
     }
-    // 清空缓存
+    //先清局部缓存，再更新，如何更新由子类实现，模板方法模式
     clearLocalCache();
     // 执行SQL语句
     return doUpdate(ms, parameter);
   }
+
   // 刷新批处理语句，且执行缓存中还没执行的SQL语句
   @Override
   public List<BatchResult> flushStatements() throws SQLException {
@@ -125,6 +134,7 @@ public abstract class BaseExecutor implements Executor {
     return doFlushStatements(isRollBack);
   }
 
+  //SqlSession.selectList会调用此方法
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     // 获取查询SQL
@@ -135,6 +145,7 @@ public abstract class BaseExecutor implements Executor {
   }
 
   // 它封装了缓存逻辑，如果缓存中无法找到，则从数据库中查询，而具体的查询实现doQuery被延迟到了子类来实现
+  //先清局部缓存，再查询，但仅仅查询堆栈为0才清，为了处理递归调用
   @SuppressWarnings("unchecked")
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
@@ -148,11 +159,11 @@ public abstract class BaseExecutor implements Executor {
     }
     List<E> list;
     try {
-      queryStack++;// 嵌套查询层数加1
-      // 首先从一级缓存中进行查询
+      queryStack++;// 嵌套查询层数加1  //加一，这样递归调用到上面的时候就不会再清局部缓存了
+      // 首先从一级缓存中进行查询  //根据cachekey从localCache去查
       list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
-        // 如果命中缓存，则处理存储过程
+        // 如果命中缓存，则处理存储过程 //如果查到localCache缓存，处理localOutputParameterCache
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
       } else {
         // 如果缓存中没有对应的数据，则查数据库中查询数据
@@ -162,13 +173,14 @@ public abstract class BaseExecutor implements Executor {
       queryStack--;
     }
     if (queryStack == 0) {
+      //延迟加载队列中所有元素
       for (DeferredLoad deferredLoad : deferredLoads) {
         deferredLoad.load();
       }
-      // issue #601
+      // issue #601  //清空延迟加载队列
       deferredLoads.clear();
       if (configuration.getLocalCacheScope() == LocalCacheScope.STATEMENT) {
-        // issue #482
+        // issue #482  //如果是statement，清本地缓存
         clearLocalCache();
       }
     }
@@ -187,13 +199,14 @@ public abstract class BaseExecutor implements Executor {
       throw new ExecutorException("Executor was closed.");
     }
     DeferredLoad deferredLoad = new DeferredLoad(resultObject, property, key, localCache, configuration, targetType);
-    if (deferredLoad.canLoad()) {
+    if (deferredLoad.canLoad()) { //如果能加载则立即加载，否则加入到延迟加载队列中
       deferredLoad.load();
     } else {
       deferredLoads.add(new DeferredLoad(resultObject, property, key, localCache, configuration, targetType));
     }
   }
 
+  //创建缓存key
   @Override
   public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
     if (closed) {
@@ -314,6 +327,7 @@ public abstract class BaseExecutor implements Executor {
       }
     }
   }
+
   // 从数据库查询数据
   private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     List<E> list;
