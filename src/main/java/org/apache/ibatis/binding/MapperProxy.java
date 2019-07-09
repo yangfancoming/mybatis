@@ -39,6 +39,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
          * https://github.com/mybatis/mybatis-3/issues/709
          */
       } else if (method.isDefault()) {
+        //如果是默认的method则调用默认的method
         return invokeDefaultMethod(proxy, method, args);
       }
     } catch (Throwable t) {
@@ -54,7 +55,12 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     return mapperMethod.execute(sqlSession, args);  // 调用 execute 方法执行 SQL
   }
 
-  private MapperMethod cachedMapperMethod(Method method) {
+  /**
+    private final Map<Method, MapperMethod> methodCache;
+   Mapper接口中的每个方法都会生成一个MapperMethod对象, methodCache维护着他们的对应关系
+    获取方法对象来获取接口方法mapperMethod
+  */
+  private MapperMethod cachedMapperMethod(Method method) { //doit  这里 版本代码有改变
     return methodCache.computeIfAbsent(method, k -> new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));
   }
 

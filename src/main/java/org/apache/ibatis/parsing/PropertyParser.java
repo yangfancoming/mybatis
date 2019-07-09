@@ -79,7 +79,7 @@ public class PropertyParser {
           }
           if (defaultValue != null) {
             //优先使用变量集合中的值，其次使用默认值
-            return variables.getProperty(key, defaultValue); // doit 原来的代码 返回字符串  最后统一return
+            return variables.getProperty(key, defaultValue);
           }
         }
         if (variables.containsKey(key)) {

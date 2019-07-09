@@ -100,7 +100,7 @@ public class BatchExecutor extends BaseExecutor {
       List<BatchResult> results = new ArrayList<>();
       if (isRollback) {
         return Collections.emptyList();
-      } // doit 这里原来有个else
+      }
       //如果进行了批量处理
       for (int i = 0, n = statementList.size(); i < n; i++) {
         Statement stmt = statementList.get(i);
