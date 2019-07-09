@@ -110,7 +110,7 @@ public class Configuration {
   /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
   protected boolean callSettersOnNulls;
-
+  // 允许使用方法签名中的名称作为语句参数名称。 为了使用该特性，你的项目必须采用 Java 8 编译，并且加上 -parameters 选项。（新增于 3.4.1）
   protected boolean useActualParamName = true;
   protected boolean returnInstanceForEmptyRow;
   //指定 MyBatis 增加到日志名称的前缀。

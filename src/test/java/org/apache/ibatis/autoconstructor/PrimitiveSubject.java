@@ -23,6 +23,7 @@ import java.util.Date;
  2. 使用 @AutomapConstructor 注解
 */
 public class PrimitiveSubject {
+
   private final int id;
   private final String name;
   private final int age;
