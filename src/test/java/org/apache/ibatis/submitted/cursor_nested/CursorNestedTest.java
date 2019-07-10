@@ -21,14 +21,10 @@ class CursorNestedTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/cursor_nested/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/submitted/cursor_nested/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/cursor_nested/CreateDB.sql");
   }
 
   @Test
@@ -78,14 +74,11 @@ class CursorNestedTest {
   void testCursorWithRowBound() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Cursor<User> usersCursor = sqlSession.selectCursor("getAllUsers", null, new RowBounds(2, 1));
-
       Iterator<User> iterator = usersCursor.iterator();
-
       Assertions.assertTrue(iterator.hasNext());
       User user = iterator.next();
       Assertions.assertEquals("User3", user.getName());
       Assertions.assertEquals(2, usersCursor.getCurrentIndex());
-
       Assertions.assertFalse(iterator.hasNext());
       Assertions.assertFalse(usersCursor.isOpen());
       Assertions.assertTrue(usersCursor.isConsumed());

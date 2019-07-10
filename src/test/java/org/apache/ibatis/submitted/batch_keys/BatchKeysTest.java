@@ -31,9 +31,7 @@ class BatchKeysTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/batch_keys/Config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/batch_keys/CreateDB.sql");
-
   }
 
   public void testJdbc3Support() throws Exception {

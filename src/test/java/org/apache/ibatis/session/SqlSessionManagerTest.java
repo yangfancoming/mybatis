@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 class SqlSessionManagerTest extends BaseDataTest {
 
   private static SqlSessionManager manager;
+  private static AuthorMapper mapper;
 
   @BeforeAll
   static void setup() throws Exception {
@@ -26,12 +27,13 @@ class SqlSessionManagerTest extends BaseDataTest {
     final String resource = "org/apache/ibatis/builder/MapperConfig.xml";
     final Reader reader = Resources.getResourceAsReader(resource);
     manager = SqlSessionManager.newInstance(reader);
+    manager.startManagedSession();
+    mapper = manager.getMapper(AuthorMapper.class);
   }
 
   @Test
   void shouldThrowExceptionIfMappedStatementDoesNotExistAndSqlSessionIsOpen() {
     try {
-      manager.startManagedSession();
       manager.selectList("ThisStatementDoesNotExist");
       fail("Expected exception to be thrown due to statement that does not exist.");
     } catch (PersistenceException e) {
@@ -44,8 +46,6 @@ class SqlSessionManagerTest extends BaseDataTest {
   @Test
   void shouldCommitInsertedAuthor() {
     try {
-      manager.startManagedSession();
-      AuthorMapper mapper = manager.getMapper(AuthorMapper.class);
       Author expected = new Author(500, "cbegin", "******", "cbegin@somewhere.com", "Something...", null);
       mapper.insertAuthor(expected);
       manager.commit();
@@ -59,8 +59,6 @@ class SqlSessionManagerTest extends BaseDataTest {
   @Test
   void shouldRollbackInsertedAuthor() {
     try {
-      manager.startManagedSession();
-      AuthorMapper mapper = manager.getMapper(AuthorMapper.class);
       Author expected = new Author(501, "lmeadors", "******", "lmeadors@somewhere.com", "Something...", null);
       mapper.insertAuthor(expected);
       manager.rollback();
@@ -73,8 +71,6 @@ class SqlSessionManagerTest extends BaseDataTest {
 
   @Test
   void shouldImplicitlyRollbackInsertedAuthor() {
-    manager.startManagedSession();
-    AuthorMapper mapper = manager.getMapper(AuthorMapper.class);
     Author expected = new Author(502, "emacarron", "******", "emacarron@somewhere.com", "Something...", null);
     mapper.insertAuthor(expected);
     manager.close();

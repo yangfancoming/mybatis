@@ -24,9 +24,7 @@ class CriterionTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/criterion/MapperConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/criterion/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/criterion/CreateDB.sql");
   }
 
   @Test
@@ -37,10 +35,7 @@ class CriterionTest {
       criterion.setValue("Fred");
       Parameter parameter = new Parameter();
       parameter.setCriterion(criterion);
-
-      List<Map<String, Object>> answer =
-          sqlSession.selectList("org.apache.ibatis.submitted.criterion.simpleSelect", parameter);
-
+      List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.criterion.simpleSelect", parameter);
       assertEquals(1, answer.size());
     }
   }

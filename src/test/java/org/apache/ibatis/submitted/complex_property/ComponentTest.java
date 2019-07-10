@@ -22,9 +22,7 @@ class ComponentTest {
     String resource = "org/apache/ibatis/submitted/complex_property/Configuration.xml";
     Reader reader = Resources.getResourceAsReader(resource);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/complex_property/db.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/complex_property/db.sql");
   }
 
   @Test
@@ -36,14 +34,10 @@ class ComponentTest {
       user.setPassword(new EncryptedString("secret"));
       user.setUsername("johnny" + Calendar.getInstance().getTimeInMillis());// random
       user.setAdministrator(true);
-
       sqlSession.insert("User.insert", user);
-
       // Retrieve User
       user = sqlSession.selectOne("User.find", user.getId());
-
       assertNotNull(user.getId());
-
       sqlSession.rollback();
     }
   }

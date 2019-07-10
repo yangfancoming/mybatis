@@ -21,31 +21,22 @@ class BlockingCacheTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/blocking_cache/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/blocking_cache/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/blocking_cache/CreateDB.sql");
   }
 
   @Test
   void testBlockingCache() {
     ExecutorService defaultThreadPool = Executors.newFixedThreadPool(2);
-
     long init = System.currentTimeMillis();
-
     for (int i = 0; i < 2; i++) {
       defaultThreadPool.execute(this::accessDB);
     }
-
     defaultThreadPool.shutdown();
-
     while (!defaultThreadPool.isTerminated()) {
     }
-
     long totalTime = System.currentTimeMillis() - init;
     Assertions.assertTrue(totalTime > 1000);
   }

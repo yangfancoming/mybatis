@@ -19,14 +19,10 @@ class BatchTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create an SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/batch_test/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/batch_test/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/batch_test/CreateDB.sql");
   }
 
   @Test
@@ -34,9 +30,7 @@ class BatchTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH,false)) {
       try {
         Mapper mapper = sqlSession.getMapper(Mapper.class);
-
         User user = mapper.getUser(1);
-
         user.setId(2);
         user.setName("User2");
         mapper.insertUser(user);

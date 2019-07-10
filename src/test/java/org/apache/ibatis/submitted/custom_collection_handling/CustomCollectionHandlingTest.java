@@ -17,12 +17,13 @@ import org.junit.jupiter.api.Test;
 
 class CustomCollectionHandlingTest {
 
-    /**
+  String xmlConfig = "org/apache/ibatis/submitted/custom_collection_handling/MapperConfig.xml";
+
+  /**
      * Custom collections with nested resultMap.
      */
     @Test
     void testSelectListWithNestedResultMap() throws Exception {
-        String xmlConfig = "org/apache/ibatis/submitted/custom_collection_handling/MapperConfig.xml";
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryXmlConfig(xmlConfig);
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             List<Person> list = sqlSession.selectList("org.apache.ibatis.submitted.custom_collection_handling.PersonMapper.findWithResultMap");
@@ -38,7 +39,6 @@ class CustomCollectionHandlingTest {
      */
     @Test
     void testSelectListWithNestedSelect() throws Exception {
-        String xmlConfig = "org/apache/ibatis/submitted/custom_collection_handling/MapperConfig.xml";
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryXmlConfig(xmlConfig);
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
             List<Person> list = sqlSession.selectList("org.apache.ibatis.submitted.custom_collection_handling.PersonMapper.findWithSelect");
@@ -60,7 +60,6 @@ class CustomCollectionHandlingTest {
     }
 
     private static void initDb(SqlSessionFactory sqlSessionFactory) throws IOException, SQLException {
-        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-                "org/apache/ibatis/submitted/custom_collection_handling/CreateDB.sql");
+        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/custom_collection_handling/CreateDB.sql");
     }
 }

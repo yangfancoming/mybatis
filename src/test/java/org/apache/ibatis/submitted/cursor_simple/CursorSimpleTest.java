@@ -25,14 +25,10 @@ class CursorSimpleTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/cursor_simple/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/submitted/cursor_simple/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/cursor_simple/CreateDB.sql");
   }
 
   @Test
@@ -40,14 +36,10 @@ class CursorSimpleTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Mapper mapper = sqlSession.getMapper(Mapper.class);
       Cursor<User> usersCursor = mapper.getAllUsers();
-
       Assertions.assertFalse(usersCursor.isOpen());
-
       // Cursor is just created, current index is -1
       Assertions.assertEquals(-1, usersCursor.getCurrentIndex());
-
       Iterator<User> iterator = usersCursor.iterator();
-
       // Check if hasNext, fetching is started
       Assertions.assertTrue(iterator.hasNext());
       Assertions.assertTrue(usersCursor.isOpen());
@@ -89,20 +81,15 @@ class CursorSimpleTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Mapper mapper = sqlSession.getMapper(Mapper.class);
       usersCursor = mapper.getAllUsers();
-
       Assertions.assertFalse(usersCursor.isOpen());
-
       Iterator<User> iterator = usersCursor.iterator();
-
       // Check if hasNext, fetching is started
       Assertions.assertTrue(iterator.hasNext());
       Assertions.assertTrue(usersCursor.isOpen());
       Assertions.assertFalse(usersCursor.isConsumed());
-
       // Consume only the first result
       User user = iterator.next();
       Assertions.assertEquals("User1", user.getName());
-
       // Check there is still remaining elements
       Assertions.assertTrue(iterator.hasNext());
       Assertions.assertTrue(usersCursor.isOpen());

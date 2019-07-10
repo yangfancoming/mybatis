@@ -16,86 +16,84 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class BlobTest {
-    private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSessionFactory sqlSessionFactory;
 
-    @BeforeAll
-    static void initDatabase() throws Exception {
-        try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/blobtest/MapperConfig.xml")) {
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-        }
-
-        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-                "org/apache/ibatis/submitted/blobtest/CreateDB.sql");
+  @BeforeAll
+  static void initDatabase() throws Exception {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/blobtest/MapperConfig.xml")) {
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/blobtest/CreateDB.sql");
+  }
 
-    @Test
+  @Test
     /*
      * This test demonstrates the use of type aliases for primitive types
      * in constructor based result maps
      */
-    void testInsertBlobThenSelectAll() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            BlobMapper blobMapper = sqlSession.getMapper(BlobMapper.class);
+  void testInsertBlobThenSelectAll() {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      BlobMapper blobMapper = sqlSession.getMapper(BlobMapper.class);
 
-            byte[] myblob = new byte[] {1, 2, 3, 4, 5};
-            BlobRecord blobRecord = new BlobRecord(1, myblob);
-            int rows = blobMapper.insert(blobRecord);
-            assertEquals(1, rows);
+      byte[] myblob = new byte[] {1, 2, 3, 4, 5};
+      BlobRecord blobRecord = new BlobRecord(1, myblob);
+      int rows = blobMapper.insert(blobRecord);
+      assertEquals(1, rows);
 
-            // NPE here due to unresolved type handler
-            List<BlobRecord> results = blobMapper.selectAll();
+      // NPE here due to unresolved type handler
+      List<BlobRecord> results = blobMapper.selectAll();
 
-            assertEquals(1, results.size());
-            BlobRecord result = results.get(0);
-            assertEquals (blobRecord.getId(), result.getId());
-            assertTrue (blobsAreEqual(blobRecord.getBlob(), result.getBlob()));
-        }
+      assertEquals(1, results.size());
+      BlobRecord result = results.get(0);
+      assertEquals (blobRecord.getId(), result.getId());
+      assertTrue (blobsAreEqual(blobRecord.getBlob(), result.getBlob()));
     }
+  }
 
-    @Test
+  @Test
     /*
      * This test demonstrates the use of type aliases for primitive types
      * in constructor based result maps
      */
-    void testInsertBlobObjectsThenSelectAll() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            BlobMapper blobMapper = sqlSession.getMapper(BlobMapper.class);
+  void testInsertBlobObjectsThenSelectAll() {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      BlobMapper blobMapper = sqlSession.getMapper(BlobMapper.class);
 
-            Byte[] myblob = new Byte[] {1, 2, 3, 4, 5};
-            BlobRecord blobRecord = new BlobRecord(1, myblob);
-            int rows = blobMapper.insert(blobRecord);
-            assertEquals(1, rows);
+      Byte[] myblob = new Byte[] {1, 2, 3, 4, 5};
+      BlobRecord blobRecord = new BlobRecord(1, myblob);
+      int rows = blobMapper.insert(blobRecord);
+      assertEquals(1, rows);
 
-            // NPE here due to unresolved type handler
-            List<BlobRecord> results = blobMapper.selectAllWithBlobObjects();
+      // NPE here due to unresolved type handler
+      List<BlobRecord> results = blobMapper.selectAllWithBlobObjects();
 
-            assertEquals(1, results.size());
-            BlobRecord result = results.get(0);
-            assertEquals (blobRecord.getId(), result.getId());
-            assertTrue (blobsAreEqual(blobRecord.getBlob(), result.getBlob()));
-        }
+      assertEquals(1, results.size());
+      BlobRecord result = results.get(0);
+      assertEquals (blobRecord.getId(), result.getId());
+      assertTrue (blobsAreEqual(blobRecord.getBlob(), result.getBlob()));
+    }
+  }
+
+  static boolean blobsAreEqual(byte[] blob1, byte[] blob2) {
+    if (blob1 == null) {
+      return blob2 == null;
     }
 
-    static boolean blobsAreEqual(byte[] blob1, byte[] blob2) {
-        if (blob1 == null) {
-            return blob2 == null;
-        }
-
-        if (blob2 == null) {
-            return blob1 == null;
-        }
-
-        boolean rc = blob1.length == blob2.length;
-
-        if (rc) {
-            for (int i = 0; i < blob1.length; i++) {
-                if (blob1[i] != blob2[i]) {
-                    rc = false;
-                    break;
-                }
-            }
-        }
-
-        return rc;
+    if (blob2 == null) {
+      return blob1 == null;
     }
+
+    boolean rc = blob1.length == blob2.length;
+
+    if (rc) {
+      for (int i = 0; i < blob1.length; i++) {
+        if (blob1[i] != blob2[i]) {
+          rc = false;
+          break;
+        }
+      }
+    }
+
+    return rc;
+  }
 }

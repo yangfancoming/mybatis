@@ -20,17 +20,14 @@ public class ArrayTypeHandlerTest {
 
   @BeforeEach
   public void setUp() throws Exception {
-    try (Reader reader = Resources
-        .getResourceAsReader("org/apache/ibatis/submitted/array_type_handler/mybatis-config.xml")) {
+    try (Reader reader = Resources .getResourceAsReader("org/apache/ibatis/submitted/array_type_handler/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/submitted/array_type_handler/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/array_type_handler/CreateDB.sql");
   }
 
   @Test
-  public void shouldInsertArrayValue() throws Exception {
+  public void shouldInsertArrayValue() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       User user = new User();
       user.setId(1);
@@ -50,7 +47,7 @@ public class ArrayTypeHandlerTest {
   }
 
   @Test
-  public void shouldInsertNullValue() throws Exception {
+  public void shouldInsertNullValue() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       User user = new User();
       user.setId(1);
