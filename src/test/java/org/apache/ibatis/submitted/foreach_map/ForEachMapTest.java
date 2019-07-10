@@ -21,14 +21,10 @@ class ForEachMapTest {
 
   @BeforeAll
   static void setUpClass() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/foreach_map/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/foreach_map/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/foreach_map/CreateDB.sql");
   }
 
   @BeforeEach
