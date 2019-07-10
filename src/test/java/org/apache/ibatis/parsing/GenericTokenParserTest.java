@@ -75,15 +75,14 @@ class GenericTokenParserTest {
   @Test
   void shouldParseFastOnJdk7u6() {
     Assertions.assertTimeout(Duration.ofMillis(1), () -> {
+      Map<String,String> map = new HashMap<>();
+      map.put("first_name", "James");
+      map.put("initial", "T");
+      map.put("last_name", "Kirk");
+      map.put("", "");
+
       // issue #760
-      GenericTokenParser parser = new GenericTokenParser("${", "}", new VariableTokenHandler(new HashMap<String, String>() {
-        {
-          put("first_name", "James");
-          put("initial", "T");
-          put("last_name", "Kirk");
-          put("", "");
-        }
-      }));
+      GenericTokenParser parser = new GenericTokenParser("${", "}", new VariableTokenHandler(map));
 
       StringBuilder input = new StringBuilder();
       for (int i = 0; i < 10000; i++) {
