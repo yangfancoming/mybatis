@@ -26,7 +26,7 @@ class NamedConstructorArgsUseActualNameTest {
 
     sqlSessionFactory.getConfiguration().addMapper(UseActualNameMapper.class);
 
-    // populate in-memory database
+
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
             "org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
   }

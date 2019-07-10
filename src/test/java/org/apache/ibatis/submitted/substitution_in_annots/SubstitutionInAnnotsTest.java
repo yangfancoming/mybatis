@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 class SubstitutionInAnnotsTest {
 
   protected static SqlSessionFactory sqlSessionFactory;
+  private static SqlSession sqlSession;
+  private static SubstitutionInAnnotsMapper mapper;
 
   @BeforeAll
   static void setUp() throws Exception {
@@ -25,41 +27,29 @@ class SubstitutionInAnnotsTest {
     configuration.setEnvironment(environment);
     configuration.addMapper(SubstitutionInAnnotsMapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/substitution_in_annots/CreateDB.sql");
+    sqlSession = sqlSessionFactory.openSession();
+    mapper = sqlSession.getMapper(SubstitutionInAnnotsMapper.class);
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/substitution_in_annots/CreateDB.sql");
   }
 
   @Test
   void testSubstitutionWithXml() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      SubstitutionInAnnotsMapper mapper = sqlSession.getMapper(SubstitutionInAnnotsMapper.class);
-      assertEquals("Barney", mapper.getPersonNameByIdWithXml(4));
-    }
+    assertEquals("Barney", mapper.getPersonNameByIdWithXml(4));
   }
 
   @Test
   void testSubstitutionWithAnnotsValue() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      SubstitutionInAnnotsMapper mapper = sqlSession.getMapper(SubstitutionInAnnotsMapper.class);
-      assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsValue(4));
-    }
+    assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsValue(4));
   }
 
   @Test
   void testSubstitutionWithAnnotsParameter() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      SubstitutionInAnnotsMapper mapper = sqlSession.getMapper(SubstitutionInAnnotsMapper.class);
-      assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsParameter(4));
-    }
+    assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsParameter(4));
   }
 
   @Test
   void testSubstitutionWithAnnotsParamAnnot() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      SubstitutionInAnnotsMapper mapper = sqlSession.getMapper(SubstitutionInAnnotsMapper.class);
-      assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsParamAnnot(4));
-    }
+    assertEquals("Barney", mapper.getPersonNameByIdWithAnnotsParamAnnot(4));
   }
 
 }

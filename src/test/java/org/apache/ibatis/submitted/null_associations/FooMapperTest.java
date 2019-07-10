@@ -20,27 +20,26 @@ class FooMapperTest {
   private final static String SQL_MAP_CONFIG = "org/apache/ibatis/submitted/null_associations/sqlmap.xml";
   private static SqlSession session;
   private static Connection conn;
+  private static  FooMapper mapper;
 
   @BeforeAll
   static void setUpBeforeClass() throws Exception {
     final SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader(SQL_MAP_CONFIG));
     session = factory.openSession();
     conn = session.getConnection();
+    mapper = session.getMapper(FooMapper.class);
+    BaseDataTest.runScript(factory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/null_associations/create-schema-mysql.sql");
 
-    BaseDataTest.runScript(factory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/null_associations/create-schema-mysql.sql");
   }
 
   @BeforeEach
   void setUp() {
-    final FooMapper mapper = session.getMapper(FooMapper.class);
     mapper.deleteAllFoo();
     session.commit();
   }
 
   @Test
   void testNullAssociation() {
-    final FooMapper mapper = session.getMapper(FooMapper.class);
     final Foo foo = new Foo(1L, null, true);
     mapper.insertFoo(foo);
     session.commit();
@@ -52,7 +51,6 @@ class FooMapperTest {
 
   @Test
   void testNotNullAssociation() {
-    final FooMapper mapper = session.getMapper(FooMapper.class);
     final Bar bar = new Bar(1L, 2L, 3L);
     final Foo foo = new Foo(1L, bar, true);
     mapper.insertFoo(foo);

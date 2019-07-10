@@ -29,7 +29,6 @@ class AutoConstructorTest {
     }
     SqlSession sqlSession = sqlSessionFactory.openSession();
      mapper = sqlSession.getMapper(AutoConstructorMapper.class);
-    // populate in-memory database 填充内存数据库
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/autoconstructor/CreateDB.sql");
 
   }

@@ -29,7 +29,7 @@ class NestedResultHandlerAssociationTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
-    // populate in-memory database
+
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
             "org/apache/ibatis/submitted/nestedresulthandler_association/CreateDB.sql");
   }

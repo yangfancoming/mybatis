@@ -23,20 +23,16 @@ class OrderPrefixRemovedTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/order_prefix_removed/ibatisConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/order_prefix_removed/CreateDB.sql");
 
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/order_prefix_removed/CreateDB.sql");
   }
 
   @Test
   void testOrderPrefixNotRemoved() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
       PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-
       Person person = personMapper.select("slow");
-
       assertNotNull(person);
-
       sqlSession.commit();
     }
   }

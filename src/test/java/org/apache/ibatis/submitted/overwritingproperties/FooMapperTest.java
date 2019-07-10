@@ -29,9 +29,7 @@ class FooMapperTest {
     final SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(Resources.getResourceAsReader(SQL_MAP_CONFIG));
     session = factory.openSession();
     conn = session.getConnection();
-
-    BaseDataTest.runScript(factory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/overwritingproperties/create-schema-mysql.sql");
+    BaseDataTest.runScript(factory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/overwritingproperties/create-schema-mysql.sql");
   }
 
   @BeforeEach

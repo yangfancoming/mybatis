@@ -15,17 +15,17 @@ import org.junit.jupiter.api.Test;
 class OgnlStaticTest {
 
   private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSession sqlSession;
+  private static Mapper mapper;
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create a SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognlstatic/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+      sqlSession = sqlSessionFactory.openSession();
+      mapper = sqlSession.getMapper(Mapper.class);
     }
-
-    // populate in-memory database
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/ognlstatic/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/ognlstatic/CreateDB.sql");
   }
 
   /**
@@ -37,21 +37,15 @@ class OgnlStaticTest {
    */
   @Test // see issue #448
   void shouldGetAUserStatic() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
       User user = mapper.getUserStatic(1);
       Assertions.assertNotNull(user);
       Assertions.assertEquals("User1", user.getName());
-    }
   }
 
   @Test // see issue #61 (gh)
   void shouldGetAUserWithIfNode() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
       User user = mapper.getUserIfNode("User1");
       Assertions.assertEquals("User1", user.getName());
-    }
   }
 
 }

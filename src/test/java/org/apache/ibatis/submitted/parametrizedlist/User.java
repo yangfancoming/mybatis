@@ -1,7 +1,7 @@
 
 package org.apache.ibatis.submitted.parametrizedlist;
 
-public class User<T> {
+public class User {
   private Integer id;
   private String name;
 

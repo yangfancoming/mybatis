@@ -10,65 +10,56 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.submitted.ognl_enum.Person.Type;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class EnumWithOgnlTest {
 
-    private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSession sqlSession;
+  private static PersonMapper personMapper;
 
-    @BeforeAll
-    static void initDatabase() throws Exception {
-        try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognl_enum/ibatisConfig.xml")) {
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-        }
+  List<Person> persons;
+  @BeforeAll
+  static void initDatabase() throws Exception {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognl_enum/ibatisConfig.xml")) {
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+      sqlSession = sqlSessionFactory.openSession();
+      personMapper = sqlSession.getMapper(PersonMapper.class);
+    }
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/ognl_enum/CreateDB.sql");
+  }
 
-        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-                "org/apache/ibatis/submitted/ognl_enum/CreateDB.sql");
-    }
+  @Test
+  void testEnumWithOgnl() {
+     persons = personMapper.selectAllByType(null);
+    Assertions.assertEquals(3, persons.size(), "Persons must contain 3 persons");
+  }
 
-    @Test
-    void testEnumWithOgnl() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-            List<Person> persons = personMapper.selectAllByType(null);
-            Assertions.assertEquals(3, persons.size(), "Persons must contain 3 persons");
-        }
-    }
+  @Test
+  void testEnumWithOgnlDirector() {
+     persons = personMapper.selectAllByType(Person.Type.DIRECTOR);
+  }
 
-    @Test
-    void testEnumWithOgnlDirector() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-            List<Person> persons = personMapper.selectAllByType(Person.Type.DIRECTOR);
-            Assertions.assertEquals(1, persons.size(), "Persons must contain 1 persons");
-        }
-    }
+  @Test
+  void testEnumWithOgnlDirectorNameAttribute() {
+     persons = personMapper.selectAllByTypeNameAttribute(Person.Type.DIRECTOR);
+  }
 
-    @Test
-    void testEnumWithOgnlDirectorNameAttribute() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-            List<Person> persons = personMapper.selectAllByTypeNameAttribute(Person.Type.DIRECTOR);
-            Assertions.assertEquals(1, persons.size(), "Persons must contain 1 persons");
-        }
-    }
+  @Test
+  void testEnumWithOgnlDirectorWithInterface() {
+     persons = personMapper.selectAllByTypeWithInterface(() -> Type.DIRECTOR);
+  }
 
-    @Test
-    void testEnumWithOgnlDirectorWithInterface() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-            List<Person> persons = personMapper.selectAllByTypeWithInterface(() -> Type.DIRECTOR);
-            Assertions.assertEquals(1, persons.size(), "Persons must contain 1 persons");
-        }
-    }
-    @Test
-    void testEnumWithOgnlDirectorNameAttributeWithInterface() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-            List<Person> persons = personMapper.selectAllByTypeNameAttributeWithInterface(() -> Type.DIRECTOR);
-            Assertions.assertEquals(1, persons.size(), "Persons must contain 1 persons");
-        }
-    }
+  @Test
+  void testEnumWithOgnlDirectorNameAttributeWithInterface() {
+     persons = personMapper.selectAllByTypeNameAttributeWithInterface(() -> Type.DIRECTOR);
+  }
+
+  @AfterEach
+  public void after(){
+    Assertions.assertEquals(1, persons.size(), "Persons must contain 1 persons");
+  }
 }

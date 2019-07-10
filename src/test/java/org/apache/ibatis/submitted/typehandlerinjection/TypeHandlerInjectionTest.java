@@ -21,7 +21,7 @@ class TypeHandlerInjectionTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create a SqlSessionFactory
+
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/typehandlerinjection/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
@@ -29,7 +29,7 @@ class TypeHandlerInjectionTest {
     sqlSessionFactory.getConfiguration().getTypeHandlerRegistry().register(handler);
     sqlSessionFactory.getConfiguration().addMapper(Mapper.class);
 
-    // populate in-memory database
+
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
             "org/apache/ibatis/submitted/typehandlerinjection/CreateDB.sql");
   }

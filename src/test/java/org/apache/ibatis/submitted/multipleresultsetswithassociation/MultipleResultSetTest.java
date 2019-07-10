@@ -29,7 +29,7 @@ class MultipleResultSetTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
-    // populate in-memory database
+
     // Could not get the table creation, procedure creation, and data population to work from the same script.
     // Once it was in three scripts, all seemed well.
     try (SqlSession session = sqlSessionFactory.openSession();
