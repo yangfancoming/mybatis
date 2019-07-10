@@ -434,59 +434,47 @@ class SqlSessionTest extends BaseDataTest {
     }
     assertTrue(first != second);
   }
+  AuthorMapper mapper = session.getMapper(AuthorMapper.class);
 
   @Test
   void shouldSelectAuthorsUsingMapperClass() {
-    try (SqlSession session = sqlMapper.openSession()) {
-      AuthorMapper mapper = session.getMapper(AuthorMapper.class);
       List<Author> authors = mapper.selectAllAuthors();
       assertEquals(2, authors.size());
-    }
   }
 
   @Test
   void shouldExecuteSelectOneAuthorUsingMapperClass() {
-    try (SqlSession session = sqlMapper.openSession()) {
-      AuthorMapper mapper = session.getMapper(AuthorMapper.class);
       Author author = mapper.selectAuthor(101);
       assertEquals(101, author.getId());
-    }
   }
 
 
   @Test
   void shouldExecuteSelectOneAuthorUsingMapperClassThatReturnsALinedHashMap() {
-    try (SqlSession session = sqlMapper.openSession()) {
-      AuthorMapper mapper = session.getMapper(AuthorMapper.class);
       LinkedHashMap<String, Object> author = mapper.selectAuthorLinkedHashMap(101);
       assertEquals(101, author.get("ID"));
-    }
   }
 
   @Test
   void shouldExecuteSelectAllAuthorsUsingMapperClassThatReturnsSet() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Collection<Author> authors = mapper.selectAllAuthorsSet();
     assertEquals(2, authors.size());
   }
 
   @Test
   void shouldExecuteSelectAllAuthorsUsingMapperClassThatReturnsVector() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Collection<Author> authors = mapper.selectAllAuthorsVector();
     assertEquals(2, authors.size());
   }
 
   @Test
   void shouldExecuteSelectAllAuthorsUsingMapperClassThatReturnsLinkedList() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Collection<Author> authors = mapper.selectAllAuthorsLinkedList();
     assertEquals(2, authors.size());
   }
 
   @Test
   void shouldExecuteSelectAllAuthorsUsingMapperClassThatReturnsAnArray() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Author[] authors = mapper.selectAllAuthorsArray();
     assertEquals(2, authors.length);
   }
@@ -494,7 +482,6 @@ class SqlSessionTest extends BaseDataTest {
   @Test
   void shouldExecuteSelectOneAuthorUsingMapperClassWithResultHandler() {
     DefaultResultHandler handler = new DefaultResultHandler();
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     mapper.selectAuthor(101, handler);
     Author author = (Author) handler.getResultList().get(0);
     assertEquals(101, author.getId());
@@ -503,7 +490,6 @@ class SqlSessionTest extends BaseDataTest {
   @Test
   void shouldFailExecutingAnAnnotatedMapperClassWithResultHandler() {
     DefaultResultHandler handler = new DefaultResultHandler();
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Assertions.assertThrows(BindingException.class, () -> {
       mapper.selectAuthor2(101, handler);
     });
@@ -512,7 +498,6 @@ class SqlSessionTest extends BaseDataTest {
   @Test
   void shouldSelectAuthorsUsingMapperClassWithResultHandler() {
     DefaultResultHandler handler = new DefaultResultHandler();
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     mapper.selectAllAuthors(handler);
     assertEquals(2, handler.getResultList().size());
   }
@@ -545,8 +530,6 @@ class SqlSessionTest extends BaseDataTest {
 
   @Test
   void shouldInsertAuthorUsingMapperClass() {
-
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Author expected = new Author(500, "cbegin", "******", "cbegin@somewhere.com", "Something...", null);
     mapper.insertAuthor(expected);
     Author actual = mapper.selectAuthor(500);
@@ -560,7 +543,6 @@ class SqlSessionTest extends BaseDataTest {
 
   @Test
   void shouldDeleteAuthorUsingMapperClass() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     int count = mapper.deleteAuthor(101);
     assertEquals(1, count);
     assertNull(mapper.selectAuthor(101));
@@ -568,7 +550,6 @@ class SqlSessionTest extends BaseDataTest {
 
   @Test
   void shouldUpdateAuthorUsingMapperClass() {
-    AuthorMapper mapper = session.getMapper(AuthorMapper.class);
     Author expected = mapper.selectAuthor(101);
     expected.setUsername("NewUsername");
     int count = mapper.updateAuthor(expected);
