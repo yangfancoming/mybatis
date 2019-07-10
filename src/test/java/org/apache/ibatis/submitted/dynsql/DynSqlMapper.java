@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface DynSqlMapper {
+
   String selectDescription(@Param("p") String p);
 
   List<String> selectDescriptionById(Integer id);

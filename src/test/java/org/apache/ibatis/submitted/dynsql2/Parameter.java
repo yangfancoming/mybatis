@@ -3,10 +3,9 @@ package org.apache.ibatis.submitted.dynsql2;
 
 import java.util.List;
 
-/*
- * @author Jeff Butler
- */
+
 public class Parameter {
+
   private List<Name> names;
 
   public List<Name> getNames() {
@@ -16,4 +15,5 @@ public class Parameter {
   public void setNames(List<Name> names) {
     this.names = names;
   }
+
 }

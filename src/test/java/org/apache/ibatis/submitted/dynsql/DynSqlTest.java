@@ -36,8 +36,7 @@ class DynSqlTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
     }
 
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/dynsql/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/dynsql/CreateDB.sql");
   }
 
   @Test
@@ -79,9 +78,7 @@ class DynSqlTest {
   @Test
   void testSelectLike() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-
       List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.selectLike", "Ba");
-
       assertEquals(2, answer.size());
       assertEquals(4, answer.get(0).get("ID"));
       assertEquals(6, answer.get(1).get("ID"));
@@ -92,9 +89,7 @@ class DynSqlTest {
   void testNumerics() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       List<NumericRow> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.selectNumerics");
-
       assertEquals(1, answer.size());
-
       NumericRow row = answer.get(0);
       assertEquals(1, (int) row.getId());
       assertEquals(2, (int) row.getTinynumber());
@@ -139,7 +134,6 @@ class DynSqlTest {
       List<String> descriptions = mapper.selectDescriptionById(3);
       assertEquals(1, descriptions.size());
       assertEquals("Pebbles", descriptions.get(0));
-
       assertEquals(7, mapper.selectDescriptionById(null).size());
     }
   }

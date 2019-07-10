@@ -3,9 +3,7 @@ package org.apache.ibatis.submitted.dynsql;
 
 import java.util.List;
 
-/*
- * @author Jeff Butler
- */
+
 public class Parameter {
   private String schema;
   private List<Integer> ids;
