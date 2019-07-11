@@ -79,7 +79,7 @@ class CacheTest {
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     PersonMapper pm1 = sqlSession1.getMapper(PersonMapper.class);
     List<Person> all1 = pm1.findAll();
-    pm1.delete(1);
+    pm1.deleteById(1);
     System.out.println(all1);
     //第二次查询，由于 执行 insert | update | delete 语句，调用 doUpdate 方法实现,在执行这些语句的时候，会清空缓存  所以会走数据库
     List<Person> all2 = pm1.findAll();
@@ -166,13 +166,13 @@ class CacheTest {
   void testplan1() {
 
     try (SqlSession sqlSession1 = sqlSessionFactory.openSession(false)) {
-      PersonMapper pm = sqlSession1.getMapper(PersonMapper.class);
+      FooMapper pm = sqlSession1.getMapper(FooMapper.class);
       Assertions.assertEquals(2, pm.findAll().size());
     }
     try (SqlSession sqlSession2 = sqlSessionFactory.openSession(false)) {
       try {
-        PersonMapper pm = sqlSession2.getMapper(PersonMapper.class);
-        pm.delete(1);
+        FooMapper pm = sqlSession2.getMapper(FooMapper.class);
+        pm.deleteById(1);
         Assertions.assertEquals(1, pm.findAll().size());
       } finally {
         sqlSession2.commit(); // 提交事务后 删除数据库中记录
@@ -202,7 +202,7 @@ class CacheTest {
     try (SqlSession sqlSession2 = sqlSessionFactory.openSession(false)) {
       try {
         PersonMapper pm = sqlSession2.getMapper(PersonMapper.class);
-        pm.delete(1);
+        pm.deleteById(1);
       } finally {
         sqlSession2.rollback();
       }
@@ -236,7 +236,7 @@ class CacheTest {
 
     try (SqlSession sqlSession2 = sqlSessionFactory.openSession(true)) {
       PersonMapper pm = sqlSession2.getMapper(PersonMapper.class);
-      pm.delete(1);
+      pm.deleteById(1);
     }
 
     try (SqlSession sqlSession3 = sqlSessionFactory.openSession(true)) {

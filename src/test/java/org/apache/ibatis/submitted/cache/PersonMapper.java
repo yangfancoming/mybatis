@@ -10,6 +10,11 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Options.FlushCachePolicy;
 import org.apache.ibatis.annotations.Select;
 
+/**
+ <cache/> 与 @CacheNamespace 是一样的
+ <cache/> 用在 xml 配置文件中
+ @CacheNamespace 用 mapper接口类中
+*/
 @CacheNamespace
 public interface PersonMapper {
 
@@ -25,7 +30,7 @@ public interface PersonMapper {
   void createWithoutFlushCache(Person person);
 
   @Delete("delete from person where id = #{id}")
-  void delete(int id);
+  void deleteById(int id);
 
   @Select("select id, firstname, lastname from person")
   List<Person> findAll();
