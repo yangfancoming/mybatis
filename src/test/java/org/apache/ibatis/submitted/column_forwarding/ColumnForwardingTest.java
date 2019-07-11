@@ -15,19 +15,22 @@ import org.junit.jupiter.api.Test;
 class ColumnForwardingTest {
 
   private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSession sqlSession;
+  private static Mapper mapper;
 
   @BeforeAll
   static void setUp() throws Exception {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/column_forwarding/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+      sqlSession = sqlSessionFactory.openSession();
+      mapper = sqlSession.getMapper(Mapper.class);
+
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/column_forwarding/CreateDB.sql");
   }
 
   @Test
   void shouldGetUserWithGroup() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
       User user = mapper.getUser(1);
       Assertions.assertNotNull(user);
       Assertions.assertNotNull(user.getId());
@@ -35,18 +38,14 @@ class ColumnForwardingTest {
       Assertions.assertNotNull(user.getGroup());
       Assertions.assertNotNull(user.getGroup().getId());
       Assertions.assertEquals("active", user.getGroup().getState());
-    }
   }
 
   @Test
   void shouldGetUserWithoutGroup() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
       User user = mapper.getUser(2);
       Assertions.assertNotNull(user);
       Assertions.assertNotNull(user.getId());
       Assertions.assertNull(user.getState());
       Assertions.assertNull(user.getGroup());
-    }
   }
 }

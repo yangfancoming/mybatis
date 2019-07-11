@@ -24,9 +24,8 @@ class ResulthandlerTest {
       sqlSessionFactory.getConfiguration().addMapper(Mapper.class);
     }
 
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/result_handler/CreateDB.sql");
 
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/result_handler/CreateDB.sql");
   }
 
   @Test
@@ -42,8 +41,11 @@ class ResulthandlerTest {
   void shouldGetAllUsers() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Mapper mapper = sqlSession.getMapper(Mapper.class);
+      // 创建自定义 结果集处理器
       UserResultHandler userResultHandler = new UserResultHandler();
+      // 查库后 使用自定义结果集处理器 处理返回数据
       mapper.getAllUsers(userResultHandler);
+      // 在自定义结果集处理器中 获取返回数据！
       Assertions.assertEquals(3, userResultHandler.getUsers().size());
     }
   }

@@ -19,14 +19,10 @@ class ResultMapWithAssociationsTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/resultmapwithassociationstest/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/resultmapwithassociationstest/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/resultmapwithassociationstest/CreateDB.sql");
   }
 
   @Test

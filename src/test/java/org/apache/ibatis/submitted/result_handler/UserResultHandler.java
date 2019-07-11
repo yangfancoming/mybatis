@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
 
+/**
+  自定义 的 结果集处理器  需要实现 ResultHandler 接口
+*/
 public class UserResultHandler implements ResultHandler {
   private List<User> users;
 
@@ -18,6 +21,7 @@ public class UserResultHandler implements ResultHandler {
   @Override
   public void handleResult(ResultContext context) {
     User user = (User) context.getResultObject();
+    users.add(user);
     users.add(user);
   }
 
