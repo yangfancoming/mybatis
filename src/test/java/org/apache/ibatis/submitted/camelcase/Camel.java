@@ -3,6 +3,11 @@ package org.apache.ibatis.submitted.camelcase;
 
 public class Camel {
 
+  /**  对应数据库 字段
+     ID int,
+     FIRST_NAME varchar(20),
+     LAST_NAME varchar(20)
+  */
   private String id;
   private String firstName;
   private String LAST_NAME;

@@ -1,6 +1,6 @@
 
 
-drop table names if exists;
+drop table if exists names ;
 
 create table names (
   ID int,
