@@ -5,7 +5,7 @@ import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaClass;
 import org.junit.jupiter.api.Test;
 
-class MyMetaClassTest {
+class App {
 
   @Test
   public void testHasSetter() {

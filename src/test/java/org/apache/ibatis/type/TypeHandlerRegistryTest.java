@@ -162,8 +162,7 @@ class TypeHandlerRegistryTest {
   @MappedTypes(SomeInterface.class)
   public static class SomeInterfaceTypeHandler<E extends Enum<E> & SomeInterface> extends BaseTypeHandler<E> {
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType)
-        throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType) {
     }
 
     @Override

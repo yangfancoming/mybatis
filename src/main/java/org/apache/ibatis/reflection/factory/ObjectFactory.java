@@ -6,8 +6,6 @@ import java.util.Properties;
 
 /**
  * MyBatis uses an ObjectFactory to create all needed new Objects.
- *
- * @author Clinton Begin
  */
 public interface ObjectFactory {
 

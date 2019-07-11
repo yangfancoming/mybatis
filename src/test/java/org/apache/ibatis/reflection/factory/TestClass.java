@@ -10,4 +10,8 @@ public class TestClass {
     this.myString = myString;
     this.myInteger = myInteger;
   }
+
+//  public TestClass(String myString) {
+//    this.myString = myString;
+//  }
 }

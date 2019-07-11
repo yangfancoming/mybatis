@@ -1,57 +1,43 @@
 
 package org.apache.ibatis.reflection.factory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import org.apache.ibatis.reflection.ReflectionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.*;
 
 
 class DefaultObjectFactoryTest {
 
+  DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
+
   @Test
   void createClass() {
-    DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
-    TestClass testClass = defaultObjectFactory.create(TestClass.class, Arrays.asList(String.class, Integer.class), Arrays.asList("foo", 0));
-
+    List<Class<?>> list = Arrays.asList(String.class, Integer.class);
+    List<Object> foo = Arrays.asList("foo", 0); // ok
+    //    List<Object> foo = Arrays.asList("foo", "bar"); // error
+    TestClass testClass = defaultObjectFactory.create(TestClass.class,list,foo);
     Assertions.assertEquals((Integer) 0, testClass.myInteger, "myInteger didn't match expected");
     Assertions.assertEquals("foo", testClass.myString, "myString didn't match expected");
   }
 
   @Test
   void createClassThrowsProperErrorMsg() {
-    DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
-    try {
-      defaultObjectFactory.create(TestClass.class, Collections.singletonList(String.class), Collections.singletonList("foo"));
-      Assertions.fail("Should have thrown ReflectionException");
-    } catch (Exception e) {
-      Assertions.assertTrue(e instanceof ReflectionException, "Should be ReflectionException");
-      Assertions.assertTrue(e.getMessage().contains("(String)"), "Should not have trailing commas in types list");
-      Assertions.assertTrue(e.getMessage().contains("(foo)"), "Should not have trailing commas in values list");
-    }
+    // 没有单个 String 的构造函数 ： Caused by: java.lang.NoSuchMethodException: org.apache.ibatis.reflection.factory.TestClass.<init>(java.lang.String)
+    List<Class<?>> list = Collections.singletonList(String.class);
+    List<Object> foo =  Collections.singletonList("foo");
+    TestClass testClass = defaultObjectFactory.create(TestClass.class, list, foo);
+    System.out.println(testClass);
   }
 
   @Test
   void creatHashMap() {
-     DefaultObjectFactory defaultObjectFactory=new DefaultObjectFactory();
-     Map  map= defaultObjectFactory.create(Map.class,null,null);
-     Assertions.assertTrue(map instanceof HashMap, "Should be HashMap");
+    Map  map = defaultObjectFactory.create(Map.class,null,null);
+    Assertions.assertTrue(map instanceof HashMap, "Should be HashMap");
   }
 
   @Test
   void createArrayList() {
-    DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
     List list = defaultObjectFactory.create(List.class);
     Assertions.assertTrue(list instanceof ArrayList, " list should be ArrayList");
 
@@ -64,14 +50,12 @@ class DefaultObjectFactoryTest {
 
   @Test
   void createTreeSet() {
-    DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
     SortedSet sortedSet = defaultObjectFactory.create(SortedSet.class);
     Assertions.assertTrue(sortedSet instanceof TreeSet, " sortedSet should be TreeSet");
   }
 
   @Test
   void createHashSet() {
-    DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
     Set set = defaultObjectFactory.create(Set.class);
     Assertions.assertTrue(set instanceof HashSet, " set should be HashSet");
   }

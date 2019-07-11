@@ -13,7 +13,6 @@ public class Author {
   private Integer age;
   /** 一个作者对应多篇文章 */
   private Article[] articles;
-  // 省略 getter/setter
 
 
   public Integer getId() {
