@@ -48,6 +48,9 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
+/**
+ DefaultResultSetHandler 是 Myabtis 为 ResultSetHandler 提供的唯一一个实现类
+*/
 public class DefaultResultSetHandler implements ResultSetHandler {
 
   private static final Object DEFERRED = new Object();
@@ -154,13 +157,10 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     }
   }
 
-  //
-  // HANDLE RESULT SETS
-  //  查库后 封装结果集
+  // HANDLE RESULT SETS 查库后 封装结果集
   @Override
   public List<Object> handleResultSets(Statement stmt) throws SQLException {
     ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
-
     final List<Object> multipleResults = new ArrayList<>();
     int resultSetCount = 0;
     //结果集的第一个结果

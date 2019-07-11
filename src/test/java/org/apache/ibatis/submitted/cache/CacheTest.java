@@ -145,7 +145,6 @@ class CacheTest {
     sqlSession3.commit();
     sqlSession3.close();
 
-
     SqlSession sqlSession2 = sqlSessionFactory.openSession(false);
     FooMapper fooMapper2 = sqlSession2.getMapper(FooMapper.class);
     List<Foo> all2 = fooMapper2.findAll(); // 查库
@@ -159,19 +158,19 @@ class CacheTest {
    *  3) SqlSession 2 executes "delete from A where id = 1"
    *  4) SqlSession 2 executes "select * from A"
    *
-   * Assert:
+   * Assert:  doit 没看懂  就是开启了二级缓存  也没有报错啊？？？
    *   Step 4 returns 1 row. (This case fails when caching is enabled.)
    */
   @Test
   void testplan1() {
 
     try (SqlSession sqlSession1 = sqlSessionFactory.openSession(false)) {
-      FooMapper pm = sqlSession1.getMapper(FooMapper.class);
+      PersonMapper pm = sqlSession1.getMapper(PersonMapper.class);
       Assertions.assertEquals(2, pm.findAll().size());
     }
     try (SqlSession sqlSession2 = sqlSessionFactory.openSession(false)) {
       try {
-        FooMapper pm = sqlSession2.getMapper(FooMapper.class);
+        PersonMapper pm = sqlSession2.getMapper(PersonMapper.class);
         pm.deleteById(1);
         Assertions.assertEquals(1, pm.findAll().size());
       } finally {

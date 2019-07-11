@@ -46,17 +46,14 @@ class BaseStatementHandlerTest {
     void notSpecifyTimeout() throws SQLException {
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, null);
-
         verifyZeroInteractions(statement); // not apply anything
     }
 
     @Test
     void specifyMappedStatementTimeoutOnly() throws SQLException {
         mappedStatementBuilder.timeout(10);
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, null);
-
         verify(statement).setQueryTimeout(10); // apply a mapped statement timeout
     }
 

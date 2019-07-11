@@ -54,14 +54,11 @@ class DefaultResultSetHandlerTest {
 
   /**
    * Contrary to the spec, some drivers require case-sensitive column names when getting result.
-   *
    * @see <a href="http://code.google.com/p/mybatis/issues/detail?id=557">Issue 557</a>
    */
   @Test
   void shouldRetainColumnNameCase() throws Exception {
-
     final MappedStatement ms = getMappedStatement();
-
     final Executor executor = null;
     final ParameterHandler parameterHandler = null;
     final ResultHandler resultHandler = null;
@@ -91,23 +88,19 @@ class DefaultResultSetHandlerTest {
   void shouldThrowExceptionWithColumnName() throws Exception {
     final MappedStatement ms = getMappedStatement();
     final RowBounds rowBounds = new RowBounds(0, 100);
-
-    final DefaultResultSetHandler defaultResultSetHandler = new DefaultResultSetHandler(null/*executor*/, ms,
-            null/*parameterHandler*/, null/*resultHandler*/, null/*boundSql*/, rowBounds);
+    final DefaultResultSetHandler defaultResultSetHandler =
+      new DefaultResultSetHandler(null, ms,null, null, null, rowBounds);
 
     final ResultSetWrapper rsw = mock(ResultSetWrapper.class);
     when(rsw.getResultSet()).thenReturn(mock(ResultSet.class));
-
     final ResultMapping resultMapping = mock(ResultMapping.class);
     final TypeHandler typeHandler = mock(TypeHandler.class);
     when(resultMapping.getColumn()).thenReturn("column");
     when(resultMapping.getTypeHandler()).thenReturn(typeHandler);
     when(typeHandler.getResult(any(ResultSet.class), any(String.class))).thenThrow(new SQLException("exception"));
     List<ResultMapping> constructorMappings = Collections.singletonList(resultMapping);
-
     try {
-      defaultResultSetHandler.createParameterizedResultObject(rsw, null/*resultType*/, constructorMappings,
-              null/*constructorArgTypes*/, null/*constructorArgs*/, null/*columnPrefix*/);
+      defaultResultSetHandler.createParameterizedResultObject(rsw, null/*resultType*/, constructorMappings,null, null, null);
       Assertions.fail("Should have thrown ExecutorException");
     } catch (Exception e) {
       Assertions.assertTrue(e instanceof ExecutorException, "Expected ExecutorException");

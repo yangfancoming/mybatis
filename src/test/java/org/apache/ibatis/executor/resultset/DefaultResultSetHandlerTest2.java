@@ -51,6 +51,7 @@ class DefaultResultSetHandlerTest2 {
   @SuppressWarnings("serial")
   @Test
   void shouldNotCallNextOnClosedResultSet_SimpleResult() throws Exception {
+    // 模拟 全局xml配置文件
     final Configuration config = new Configuration();
     final TypeHandlerRegistry registry = config.getTypeHandlerRegistry();
     final MappedStatement ms = new MappedStatement.Builder(config, "testSelect",
@@ -70,8 +71,7 @@ class DefaultResultSetHandlerTest2 {
     final ResultHandler<?> resultHandler = null;
     final BoundSql boundSql = null;
     final RowBounds rowBounds = new RowBounds(5, 1);
-    final DefaultResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, ms, parameterHandler,
-      resultHandler, boundSql, rowBounds);
+    final DefaultResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, ms, parameterHandler, resultHandler, boundSql, rowBounds);
 
     when(stmt.getResultSet()).thenReturn(rs);
     when(rsmd.getColumnCount()).thenReturn(1);
@@ -121,9 +121,7 @@ class DefaultResultSetHandlerTest2 {
     final ResultHandler<?> resultHandler = null;
     final BoundSql boundSql = null;
     final RowBounds rowBounds = new RowBounds(5, 1);
-    final DefaultResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, ms, parameterHandler,
-      resultHandler, boundSql, rowBounds);
-
+    final DefaultResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, ms, parameterHandler, resultHandler, boundSql, rowBounds);
     when(stmt.getResultSet()).thenReturn(rs);
     when(rsmd.getColumnCount()).thenReturn(2);
     when(rsmd.getColumnLabel(1)).thenReturn("id");
