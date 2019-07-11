@@ -47,7 +47,12 @@ class CacheTest {
 
   }
 
-  /**   一级缓存 测试   基于 BaseExecutor  类
+  /**
+   * 一级缓存 测试   基于 BaseExecutor  类
+   *
+   * Mybatis的一级缓存。只需要在Mybatis的配置文件中，添加如下语句，就可以使用一级缓存。共有两个选项，SESSION或者STATEMENT，默认是SESSION级别。
+   *  <setting name="localCacheScope" value="SESSION"/>
+   *
    * 一级缓存：（本地缓存）：sqlSession级别的缓存。一级缓存是一直开启的，程序员无法将其关闭！ SqlSession级别的一个Map
    * 		与数据库同一次会话期间查询到的数据会放在本地缓存中。
    * 		以后如果需要获取相同的数据，直接从缓存中拿，没必要再去查询数据库
@@ -170,7 +175,7 @@ class CacheTest {
         pm.delete(1);
         Assertions.assertEquals(1, pm.findAll().size());
       } finally {
-        sqlSession2.commit();
+        sqlSession2.commit(); // 提交事务后 删除数据库中记录
       }
     }
   }

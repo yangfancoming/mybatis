@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class RichType {
 
-  private RichType richType;
+  private RichType richType; // nested 嵌套属性
 
-  private String richField;
+  private String richField; // 通过反射 动态赋值该属性
 
   private String richProperty;
 

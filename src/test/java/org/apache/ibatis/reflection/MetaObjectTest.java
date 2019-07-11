@@ -18,98 +18,78 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MetaObjectTest {
 
+  RichType rich = new RichType();
+  MetaObject meta = SystemMetaObject.forObject(rich);
   @Test
   void shouldGetAndSetField() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richField", "foo");
     assertEquals("foo", meta.getValue("richField"));
   }
 
   @Test
   void shouldGetAndSetNestedField() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
-    meta.setValue("richType.richField", "foo");
+    meta.setValue("richType.richField", "bar");
     assertEquals("foo", meta.getValue("richType.richField"));
   }
 
   @Test
   void shouldGetAndSetProperty() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richProperty", "foo");
     assertEquals("foo", meta.getValue("richProperty"));
   }
 
   @Test
   void shouldGetAndSetNestedProperty() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richType.richProperty", "foo");
     assertEquals("foo", meta.getValue("richType.richProperty"));
   }
 
+  // 处理 map 属性
   @Test
   void shouldGetAndSetMapPair() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richMap.key", "foo");
     assertEquals("foo", meta.getValue("richMap.key"));
   }
 
   @Test
   void shouldGetAndSetMapPairUsingArraySyntax() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richMap[key]", "foo");
     assertEquals("foo", meta.getValue("richMap[key]"));
   }
 
+  // 处理 嵌套 map 属性
   @Test
   void shouldGetAndSetNestedMapPair() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richType.richMap.key", "foo");
     assertEquals("foo", meta.getValue("richType.richMap.key"));
   }
 
   @Test
   void shouldGetAndSetNestedMapPairUsingArraySyntax() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richType.richMap[key]", "foo");
     assertEquals("foo", meta.getValue("richType.richMap[key]"));
   }
 
   @Test
   void shouldGetAndSetListItem() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richList[0]", "foo");
     assertEquals("foo", meta.getValue("richList[0]"));
   }
 
   @Test
   void shouldSetAndGetSelfListItem() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richList[0]", "foo");
     assertEquals("foo", meta.getValue("richList[0]"));
   }
 
   @Test
   void shouldGetAndSetNestedListItem() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     meta.setValue("richType.richList[0]", "foo");
     assertEquals("foo", meta.getValue("richType.richList[0]"));
   }
 
   @Test
   void shouldGetReadablePropertyNames() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     String[] readables = meta.getGetterNames();
     assertEquals(5, readables.length);
     for (String readable : readables) {
@@ -121,8 +101,6 @@ class MetaObjectTest {
 
   @Test
   void shouldGetWriteablePropertyNames() {
-    RichType rich = new RichType();
-    MetaObject meta = SystemMetaObject.forObject(rich);
     String[] writeables = meta.getSetterNames();
     assertEquals(5, writeables.length);
     for (String writeable : writeables) {
