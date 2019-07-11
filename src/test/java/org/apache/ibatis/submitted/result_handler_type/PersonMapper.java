@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Select;
 
 public interface PersonMapper {
+
   List<Person> doSelect();
 
   @Select("select * from person")

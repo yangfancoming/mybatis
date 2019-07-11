@@ -16,25 +16,27 @@ import org.junit.jupiter.api.Test;
 
 class DefaultResultHandlerTypeTest {
 
+  String xmlConfig = "org/apache/ibatis/submitted/result_handler_type/MapperConfig.xml";
+
   @Test
   void testSelectList() throws Exception {
-    String xmlConfig = "org/apache/ibatis/submitted/result_handler_type/MapperConfig.xml";
     SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryXmlConfig(xmlConfig);
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      List<Person> list = sqlSession
-          .selectList("org.apache.ibatis.submitted.result_handler_type.PersonMapper.doSelect");
+      List<Person> list = sqlSession.selectList("org.apache.ibatis.submitted.result_handler_type.PersonMapper.doSelect");
       assertEquals(list.size(), 2);
+        /**  doit 为啥 注释掉 ObjectFactory 和 	<objectFactory type="org.apache.ibatis.submitted.result_handler_type.ObjectFactory" />  后  报错：
+         *       Expected :java.util.LinkedList
+         *       Actual   :java.util.ArrayList
+        */
       assertEquals("java.util.LinkedList", list.getClass().getCanonicalName());
     }
   }
 
   @Test
   void testSelectMap() throws Exception {
-    String xmlConfig = "org/apache/ibatis/submitted/result_handler_type/MapperConfig.xml";
     SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryXmlConfig(xmlConfig);
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Map<Integer, Person> map = sqlSession.selectMap(
-          "org.apache.ibatis.submitted.result_handler_type.PersonMapper.doSelect", "id");
+      Map<Integer, Person> map = sqlSession.selectMap("org.apache.ibatis.submitted.result_handler_type.PersonMapper.doSelect", "id");
       assertEquals(map.size(), 2);
       assertEquals("java.util.LinkedHashMap", map.getClass().getCanonicalName());
     }
@@ -42,7 +44,6 @@ class DefaultResultHandlerTypeTest {
 
   @Test
   void testSelectMapAnnotation() throws Exception {
-    String xmlConfig = "org/apache/ibatis/submitted/result_handler_type/MapperConfig.xml";
     SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryXmlConfig(xmlConfig);
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       PersonMapper mapper = sqlSession.getMapper(PersonMapper.class);
@@ -55,9 +56,7 @@ class DefaultResultHandlerTypeTest {
   private SqlSessionFactory getSqlSessionFactoryXmlConfig(String resource) throws Exception {
     try (Reader configReader = Resources.getResourceAsReader(resource)) {
       SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
-      BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/result_handler_type/CreateDB.sql");
-
+      BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/result_handler_type/CreateDB.sql");
       return sqlSessionFactory;
     }
   }
