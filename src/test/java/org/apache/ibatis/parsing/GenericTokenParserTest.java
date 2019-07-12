@@ -13,19 +13,6 @@ import java.util.Map;
 
 class GenericTokenParserTest {
 
-  public static class VariableTokenHandler implements TokenHandler {
-    private Map<String, String> variables;
-
-    VariableTokenHandler(Map<String, String> variables) {
-      this.variables = variables;
-    }
-
-    @Override
-    public String handleToken(String content) {
-      return variables.get(content);
-    }
-  }
-
   @Test
   void shouldDemonstrateGenericTokenReplacement() {
     Map<String,String> map = new HashMap<>();
@@ -64,7 +51,6 @@ class GenericTokenParserTest {
   @Test
   void shallNotInterpolateSkippedVaiables() {
     GenericTokenParser parser = new GenericTokenParser("${", "}", new VariableTokenHandler(new HashMap<>()));
-
     assertEquals("${skipped} variable", parser.parse("\\${skipped} variable"));
     assertEquals("This is a ${skipped} variable", parser.parse("This is a \\${skipped} variable"));
     assertEquals("null ${skipped} variable", parser.parse("${skipped} \\${skipped} variable"));

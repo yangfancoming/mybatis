@@ -9,14 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.domain.misc.RichType;
+import org.apache.ibatis.domain.misc.User;
 import org.apache.ibatis.domain.misc.generics.GenericConcrete;
 import org.junit.jupiter.api.Test;
 
 class MetaClassTest {
 
+  ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+
   @Test
   void shouldTestDataTypeOfGenericMethod() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(GenericConcrete.class, reflectorFactory);
     assertEquals(Long.class, meta.getGetterType("id"));
     assertEquals(Long.class, meta.getSetterType("id"));
@@ -25,7 +27,6 @@ class MetaClassTest {
   @Test
   void shouldThrowReflectionExceptionGetGetterType() {
     try {
-      ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
       MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
       meta.getGetterType("aString");
       org.junit.jupiter.api.Assertions.fail("should have thrown ReflectionException");
@@ -35,8 +36,15 @@ class MetaClassTest {
   }
 
   @Test
+  public void test(){
+    MetaClass meta = MetaClass.forClass(User.class, reflectorFactory);
+    assertTrue(meta.hasGetter("id"));
+    assertTrue(meta.hasGetter("name"));
+    assertTrue(meta.hasGetter("what")); // false
+  }
+
+  @Test
   void shouldCheckGetterExistance() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertTrue(meta.hasGetter("richField"));
     assertTrue(meta.hasGetter("richProperty"));
@@ -52,13 +60,11 @@ class MetaClassTest {
     assertTrue(meta.hasGetter("richType.richList[0]"));
 
     assertEquals("richType.richProperty", meta.findProperty("richType.richProperty", false));
-
     assertFalse(meta.hasGetter("[0]"));
   }
 
   @Test
   void shouldCheckSetterExistance() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertTrue(meta.hasSetter("richField"));
     assertTrue(meta.hasSetter("richProperty"));
@@ -78,7 +84,6 @@ class MetaClassTest {
 
   @Test
   void shouldCheckTypeForEachGetter() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertEquals(String.class, meta.getGetterType("richField"));
     assertEquals(String.class, meta.getGetterType("richProperty"));
@@ -96,7 +101,6 @@ class MetaClassTest {
 
   @Test
   void shouldCheckTypeForEachSetter() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertEquals(String.class, meta.getSetterType("richField"));
     assertEquals(String.class, meta.getSetterType("richProperty"));
@@ -114,7 +118,6 @@ class MetaClassTest {
 
   @Test
   void shouldCheckGetterAndSetterNames() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertEquals(5, meta.getGetterNames().length);
     assertEquals(5, meta.getSetterNames().length);
@@ -122,7 +125,6 @@ class MetaClassTest {
 
   @Test
   void shouldFindPropertyName() {
-    ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
     MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
     assertEquals("richField", meta.findProperty("RICHfield"));
   }
