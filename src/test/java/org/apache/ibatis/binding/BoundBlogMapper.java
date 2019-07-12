@@ -86,12 +86,10 @@ public interface BoundBlogMapper {
   )
   List<Post> selectPostsWithResultMap();
 
-  //======================================================
 
   @Select("SELECT * FROM blog WHERE id = #{id}")
   Blog selectBlog(int id);
 
-  //======================================================
 
   @Select("SELECT * FROM blog WHERE id = #{id}")
   @ConstructorArgs({

@@ -18,6 +18,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+映射方法参数
+*/
 class MapperMethodParamTest {
 
   private static SqlSessionFactory sqlSessionFactory;
@@ -33,7 +36,7 @@ class MapperMethodParamTest {
     Configuration configuration = new Configuration(environment);
     configuration.addMapper(Mapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-    session = sqlSessionFactory.openSession();
+    session = sqlSessionFactory.openSession(true);
     mapper = session.getMapper(Mapper.class);
   }
 
