@@ -10,7 +10,9 @@ import java.lang.annotation.Target;
 import org.apache.ibatis.mapping.ResultSetType;
 import org.apache.ibatis.mapping.StatementType;
 
-
+/**
+ 缓存的操作可选项
+*/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

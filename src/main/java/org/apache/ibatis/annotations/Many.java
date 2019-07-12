@@ -8,7 +8,9 @@ import java.lang.annotation.Target;
 
 import org.apache.ibatis.mapping.FetchType;
 
-
+/**
+ @Many 复杂类型的集合属性值的注解
+*/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})

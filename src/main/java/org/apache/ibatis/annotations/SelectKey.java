@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 import org.apache.ibatis.mapping.StatementType;
 
-/**
+/** @SelectKey 通过 SQL 语句获得主键的注解；
  用于在sql语句执行前（后）插入执行，如在执行前（后）查询当前自增张id的值，注解中声明的属性为：
 
  （1）sql语句执行后

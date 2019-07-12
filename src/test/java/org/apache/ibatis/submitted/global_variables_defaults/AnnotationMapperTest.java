@@ -35,7 +35,6 @@ public class AnnotationMapperTest {
 
     try (SqlSession sqlSession = factory.openSession()) {
       AnnotationMapper mapper = sqlSession.getMapper(AnnotationMapper.class);
-
       Assertions.assertThat(mapper.ping()).isEqualTo("Hello");
     }
 
