@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import org.apache.ibatis.reflection.Reflector;
 
 
+// 如果没有getter， 则使用该方法， 通过Field类直接读取成员变量的值
 public class SetFieldInvoker implements Invoker {
   private final Field field;
 

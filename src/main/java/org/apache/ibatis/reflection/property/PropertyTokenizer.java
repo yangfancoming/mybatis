@@ -3,6 +3,16 @@ package org.apache.ibatis.reflection.property;
 
 import java.util.Iterator;
 
+/**
+ <resultMap id="map" type="Order">
+   <result property="orders[0].items[0].name" column="col1"/>
+   <result property="orders[0].items[1].name" column="col2"/>
+   ...
+ </resultMap>
+
+ orders[0].items[0].name 这样的表达式是由 PropertyTokenizer 解析的，
+ 其构造方法能够对表达式进行解析；同时还实现了 Iterator 接口，能够迭代解析表达式
+*/
 
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
   private String name;
@@ -56,12 +66,13 @@ public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
     return children;
   }
 
+  // 是否有children表达式继续迭代
   @Override
   public boolean hasNext() {
     return children != null;
   }
 
-  // 对 children 进行再次切分，用于解析多重复合属性
+  // 对 children 进行再次切分，用于解析多重复合属性  //分解出的 . 分隔符的 children 表达式可以继续迭代
   @Override
   public PropertyTokenizer next() {
     return new PropertyTokenizer(children);
