@@ -52,9 +52,9 @@ class SqlSessionTest extends BaseDataTest {
     session = sqlMapper.openSession();
   }
 
+  Configuration c = new Configuration();
   @Test
   void shouldResolveBothSimpleNameAndFullyQualifiedName() {
-    Configuration c = new Configuration();
     final String fullName = "com.mycache.MyCache";
     final String shortName = "MyCache";
     final PerpetualCache cache = new PerpetualCache(fullName);
@@ -65,7 +65,6 @@ class SqlSessionTest extends BaseDataTest {
 
   @Test
   void shouldFailOverToMostApplicableSimpleName() {
-    Configuration c = new Configuration();
     final String fullName = "com.mycache.MyCache";
     final String invalidName = "unknown.namespace.MyCache";
     final PerpetualCache cache = new PerpetualCache(fullName);
@@ -76,33 +75,26 @@ class SqlSessionTest extends BaseDataTest {
 
   @Test
   void shouldSucceedWhenFullyQualifiedButFailDueToAmbiguity() {
-    Configuration c = new Configuration();
-
     final String name1 = "com.mycache.MyCache";
     final PerpetualCache cache1 = new PerpetualCache(name1);
     c.addCache(cache1);
-
     final String name2 = "com.other.MyCache";
     final PerpetualCache cache2 = new PerpetualCache(name2);
     c.addCache(cache2);
-
     final String shortName = "MyCache";
-
     assertEquals(cache1, c.getCache(name1));
     assertEquals(cache2, c.getCache(name2));
-
     try {
       c.getCache(shortName);
       fail("Exception expected.");
     } catch (Exception e) {
       assertTrue(e.getMessage().contains("ambiguous"));
     }
-
   }
 
   @Test
   void shouldFailToAddDueToNameConflict() {
-    Configuration c = new Configuration();
+  
     final String fullName = "com.mycache.MyCache";
     final PerpetualCache cache = new PerpetualCache(fullName);
     try {

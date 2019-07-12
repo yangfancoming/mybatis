@@ -4,7 +4,7 @@
 <mapper namespace="org.mybatis.spring.TestProblemMapper">
 
     <select id="findProblemTest">
-        SELECT *
-        FROM table_test WHERE id = #{}
+        SELECT * FROM table_test WHERE id = #{}
     </select>
+
 </mapper>

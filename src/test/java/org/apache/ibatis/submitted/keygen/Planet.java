@@ -2,6 +2,7 @@
 package org.apache.ibatis.submitted.keygen;
 
 public class Planet {
+
   private Integer id;
 
   private String name;

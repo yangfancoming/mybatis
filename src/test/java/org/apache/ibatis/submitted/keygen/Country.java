@@ -1,9 +1,7 @@
 
 package org.apache.ibatis.submitted.keygen;
 
-/**
- * @author liuzh
- */
+
 public class Country {
   private Integer id;
   private String countryname;

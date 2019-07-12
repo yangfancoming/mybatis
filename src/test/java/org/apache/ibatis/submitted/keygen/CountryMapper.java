@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface CountryMapper {
 
+  //useGeneratedKeys ：使用自动生成主键 插入记录后  keyProperty：指定将自动生成的主键保存在实体类的哪个属性
   @Options(useGeneratedKeys = true, keyProperty = "id")
   @Insert({ "insert into country (countryname,countrycode) values (#{countryname},#{countrycode})" })
   int insertBean(Country country);
