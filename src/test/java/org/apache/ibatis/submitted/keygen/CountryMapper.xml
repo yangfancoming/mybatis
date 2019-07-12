@@ -3,6 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.apache.ibatis.submitted.keygen.CountryMapper">
 
+  <!--  collection="list"  -->
   <insert id="insertList" useGeneratedKeys="true" keyProperty="id">
     insert into country (countryname,countrycode)  values
     <foreach collection="list" separator="," item="country">
@@ -10,7 +11,7 @@
     </foreach>
   </insert>
 
-
+  <!--  collection="countries"  -->
   <insert id="insertNamedList" useGeneratedKeys="true" keyProperty="id">
     insert into country (countryname,countrycode)  values
     <foreach collection="countries" separator="," item="country">
@@ -18,7 +19,7 @@
     </foreach>
   </insert>
 
-
+  <!--  collection="collection"  -->
   <insert id="insertSet" useGeneratedKeys="true" keyProperty="id">
     insert into country (countryname,countrycode) values
     <foreach collection="collection" separator="," item="country">
@@ -26,7 +27,7 @@
     </foreach>
   </insert>
 
-
+  <!--  collection="countries"  -->
   <insert id="insertNamedSet" useGeneratedKeys="true" keyProperty="id">
     insert into country (countryname,countrycode) values
     <foreach collection="countries" separator="," item="country">
