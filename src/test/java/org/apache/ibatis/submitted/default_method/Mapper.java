@@ -16,10 +16,4 @@ public interface Mapper {
     return getUserById((Integer) args[0]);
   }
 
-  interface SubMapper extends Mapper {
-    default User defaultGetUser(Object... args) {
-      return getUserByIdAndName((String) args[0], (Integer) args[1]);
-    }
-  }
-
 }

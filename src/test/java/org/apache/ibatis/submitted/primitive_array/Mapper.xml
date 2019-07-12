@@ -11,8 +11,7 @@
   </resultMap>
 
   <select id="getUser" resultMap="userMap">
-    select * from users u
-    where id = #{id}
+    select * from users u where id = #{id}
   </select>
 
   <select id="getNum" resultType="_int">

@@ -17,7 +17,9 @@
 
 	<mappers>
 		<mapper class="org.apache.ibatis.submitted.default_method.Mapper" />
-		<mapper class="org.apache.ibatis.submitted.default_method.Mapper$SubMapper" />
+    <!--原来 SubMapper 是在 Mapper 内部  被我抽取出来了-->
+		<!--<mapper class="org.apache.ibatis.submitted.default_method.Mapper$SubMapper" />-->
+		<mapper class="org.apache.ibatis.submitted.default_method.SubMapper" />
 		<mapper class="org.apache.ibatis.submitted.default_method.PackageMapper" />
 	</mappers>
 

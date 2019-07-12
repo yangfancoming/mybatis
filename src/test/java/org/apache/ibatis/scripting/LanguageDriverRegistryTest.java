@@ -15,9 +15,7 @@ import org.junit.jupiter.api.Test;
 import static com.googlecode.catchexception.apis.BDDCatchException.*;
 import static org.assertj.core.api.BDDAssertions.then;
 
-/**
- * @author Kazuki Shimizu
- */
+
 class LanguageDriverRegistryTest {
 
   private LanguageDriverRegistry registry = new LanguageDriverRegistry();
@@ -26,7 +24,6 @@ class LanguageDriverRegistryTest {
   void registerByType() {
     registry.register(RawLanguageDriver.class);
     LanguageDriver driver = registry.getDriver(RawLanguageDriver.class);
-
     assertThat(driver).isInstanceOf(RawLanguageDriver.class);
   }
 
@@ -34,9 +31,7 @@ class LanguageDriverRegistryTest {
   void registerByTypeSameType() {
     registry.register(RawLanguageDriver.class);
     LanguageDriver driver = registry.getDriver(RawLanguageDriver.class);
-
     registry.register(RawLanguageDriver.class);
-
     assertThat(driver).isSameAs(registry.getDriver(RawLanguageDriver.class));
   }
 
@@ -66,9 +61,7 @@ class LanguageDriverRegistryTest {
   void registerByInstanceSameType() {
     registry.register(new PrivateLanguageDriver());
     LanguageDriver driver = registry.getDriver(PrivateLanguageDriver.class);
-
     registry.register(new PrivateLanguageDriver());
-
     assertThat(driver).isSameAs(registry.getDriver(PrivateLanguageDriver.class));
   }
 

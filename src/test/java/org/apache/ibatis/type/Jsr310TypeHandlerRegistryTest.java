@@ -18,9 +18,7 @@ import java.time.chrono.JapaneseDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Kazuki Shimizu
- */
+
 class Jsr310TypeHandlerRegistryTest {
 
   private TypeHandlerRegistry typeHandlerRegistry;

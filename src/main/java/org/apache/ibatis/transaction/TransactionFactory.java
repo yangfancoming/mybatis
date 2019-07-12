@@ -13,7 +13,7 @@ import org.apache.ibatis.session.TransactionIsolationLevel;
  */
 public interface TransactionFactory {
 
-  /**
+  /** 设置工厂的属性
    * Sets transaction factory custom properties.
    * @param props
    */
@@ -21,7 +21,7 @@ public interface TransactionFactory {
     // NOP
   }
 
-  /**
+  /** 创建新的事务   需要连接对象
    * Creates a {@link Transaction} out of an existing connection.
    * @param conn Existing database connection
    * @return Transaction
@@ -29,7 +29,7 @@ public interface TransactionFactory {
    */
   Transaction newTransaction(Connection conn);
 
-  /**
+  /** 创建事务，需要数据源，事务级别，是否自动提交
    * Creates a {@link Transaction} out of a datasource.
    * @param dataSource DataSource to take the connection from
    * @param level Desired isolation level
