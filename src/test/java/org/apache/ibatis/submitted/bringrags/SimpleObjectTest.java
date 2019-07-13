@@ -24,7 +24,6 @@ class SimpleObjectTest {
   void setUp() throws Exception {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/bringrags/mybatis-config.xml")) {
       SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-
       sqlSession = sqlSessionFactory.openSession();
       conn = sqlSession.getConnection();
       ScriptRunner runner = new ScriptRunner(conn);

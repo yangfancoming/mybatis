@@ -8,7 +8,7 @@ import org.apache.ibatis.logging.Log;
 
 
 public class Jdk14LoggingImpl implements Log {
-
+  //真正提供日志能力的jdk的日志类
   private final Logger log;
 
   public Jdk14LoggingImpl(String clazz) {

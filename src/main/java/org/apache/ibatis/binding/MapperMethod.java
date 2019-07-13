@@ -27,7 +27,7 @@ import org.apache.ibatis.session.SqlSession;
 
 public class MapperMethod {
 
-  //一个内部封 封装了SQL标签的类型 insert update delete select
+  //一个内部类 封装了SQL标签的类型 insert update delete select
   private final SqlCommand command;
   //一个内部类 封装了方法的参数信息 返回类型信息等
   private final MethodSignature method;
@@ -38,7 +38,7 @@ public class MapperMethod {
     // 创建 MethodSignature 对象， 由类名可知，该对象包含了被拦截方法的一些信息
     this.method = new MethodSignature(config, mapperInterface, method);
   }
- // 这个方法是对SqlSession的包装，对应insert、delete、update、select四种操作
+ // 这个方法是对SqlSession的包装，对应insert、delete、update、select四种操作 // 根据解析结果，路由到恰当的SqlSession方法上
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
     // CURD操作，对持久层返回的结果集进行处理  获取method方法上的带有@Param的参数，默认返回0,1,2,3...

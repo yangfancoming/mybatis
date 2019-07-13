@@ -628,22 +628,30 @@ public class Configuration {
     return newExecutor(transaction, defaultExecutorType);
   }
 
-  /**对Executor 进行拦截**/
+  /**  对Executor 进行拦截
+   * 配置对象创建Executor组件，BatchExecutor/ReuseExecutor/SimpleExecutor三种
+   * 该方法在SqlSessionFactory的实现类DefaultSqlSessionFactory中会调用，得到的Executor组件会传到SqlSession中，
+   * 因为SqlSession对数据库的访问需要使用Executor来实现
+   * */
+
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
-    //根据executorType来选择实现子类
+    //根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = executorType == null ? defaultExecutorType : executorType;
     executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // 默认实现类是 ExecutorType.SIMPLE
     Executor executor;
+    //2.BATCH
     if (ExecutorType.BATCH == executorType) {
       executor = new BatchExecutor(this, transaction);
-    } else if (ExecutorType.REUSE == executorType) {
+    } else if (ExecutorType.REUSE == executorType) { //3.REUSE
       executor = new ReuseExecutor(this, transaction);
-    } else {
+    } else { //4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
+    //5.如果开启了二级缓存，那么就装饰一下
     if (cacheEnabled) { // mybatis 二级缓存 默认是开启的
       executor = new CachingExecutor(executor);
     }
+    //6.处理插件
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }
@@ -803,7 +811,7 @@ public class Configuration {
   public void addMappers(String packageName) {
     mapperRegistry.addMappers(packageName);
   }
-
+  // 通过 接口mapper类  会进入该方法
   public <T> void addMapper(Class<T> type) {
     mapperRegistry.addMapper(type);
   }

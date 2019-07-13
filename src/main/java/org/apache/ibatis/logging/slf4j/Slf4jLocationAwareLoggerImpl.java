@@ -8,6 +8,9 @@ import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 
+/**
+ * 适配者，将目标接口 Log 的方法调用转换为 LocationAwareLogger 自身 logger 实例的方法调用
+ */
 class Slf4jLocationAwareLoggerImpl implements Log {
 
   private static final Marker MARKER = MarkerFactory.getMarker(LogFactory.MARKER);
@@ -20,6 +23,9 @@ class Slf4jLocationAwareLoggerImpl implements Log {
     this.logger = logger;
   }
 
+  /**
+   * 实现Log接口，并重写对应的方法，在方法内部调用的是slf4j的日志实现，
+   */
   @Override
   public boolean isDebugEnabled() {
     return logger.isDebugEnabled();

@@ -1,7 +1,9 @@
 
 package org.apache.ibatis.logging;
 
-
+/**
+ mybatis  目标接口   期待第三方日志组件 来实现它
+*/
 public interface Log {
 
   boolean isDebugEnabled();

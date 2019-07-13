@@ -70,7 +70,8 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的typeAliasRegistry容器中
+   *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，
+   *  并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的 typeAliasRegistry 容器中
   */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
@@ -105,6 +106,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       Properties settings = settingsAsProperties(root.evalNode("settings"));
       // 加载 vfs
       loadCustomVfs(settings);
+      // 加载自定义日志
       loadCustomLogImpl(settings);
       // 解析<typeAliases>节点
       typeAliasesElement(root.evalNode("typeAliases"));
@@ -170,8 +172,14 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+    从 MyBatis 的 TypeAliasRegistry 中查找 logImpl 键所对应值的类对象
+    这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
+    注意 Log 类，这是 MyBatis 内部对日志对象的抽象
+  */
   private void loadCustomLogImpl(Properties props) {
     Class<? extends Log> logImpl = resolveClass(props.getProperty("logImpl"));
+    // 将查找到的 Class 对象设置到 Configuration 对象中
     configuration.setLogImpl(logImpl);
   }
 

@@ -23,15 +23,20 @@ import org.apache.ibatis.reflection.ArrayUtil;
  */
 public abstract class BaseJdbcLogger {
 
+  // 静态字段，记录 PreparedStatement 中 set 开头的的方法名
   protected static final Set<String> SET_METHODS;
+  // 静态字段，记录 SQL 执行的方法名
   protected static final Set<String> EXECUTE_METHODS = new HashSet<>();
 
+  // 实例字段，记录 SQL 参数信息
   private final Map<Object, Object> columnMap = new HashMap<>();
 
   private final List<Object> columnNames = new ArrayList<>();
   private final List<Object> columnValues = new ArrayList<>();
 
+  // statementLog：日志对象
   protected final Log statementLog;
+  // queryStack：查询栈数
   protected final int queryStack;
 
   /*
@@ -69,6 +74,7 @@ public abstract class BaseJdbcLogger {
     return columnMap.get(key);
   }
 
+  // 将 SQL 参数转为一个字符串
   protected String getParameterValueString() {
     List<Object> typeList = new ArrayList<>(columnValues.size());
     for (Object value : columnValues) {
@@ -103,6 +109,7 @@ public abstract class BaseJdbcLogger {
     columnValues.clear();
   }
 
+  // 移除 SQL 中多余的空白字符
   protected String removeBreakingWhitespace(String original) {
     StringTokenizer whitespaceStripper = new StringTokenizer(original);
     StringBuilder builder = new StringBuilder();

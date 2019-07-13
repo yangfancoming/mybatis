@@ -18,6 +18,14 @@ import org.junit.jupiter.api.Test;
 
 class LogFactoryTest {
 
+  /**
+   [2019-07-13 19:41:44,197]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   [2019-07-13 19:41:44,214]org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl.debug(JakartaCommonsLoggingImpl.java:38)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl' adapter.
+   [2019-07-13 19:41:44,214]org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl.warn(JakartaCommonsLoggingImpl.java:48) WARN:Warning message.
+   [2019-07-13 19:41:44,215]org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl.debug(JakartaCommonsLoggingImpl.java:38)DEBUG:Debug message.
+   [2019-07-13 19:41:44,215]org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl.error(JakartaCommonsLoggingImpl.java:33)ERROR:Error message.
+   [2019-07-13 19:41:44,216]org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl.error(JakartaCommonsLoggingImpl.java:28)ERROR:Error with Exception.
+  */
   @Test
   void shouldUseCommonsLogging() {
     LogFactory.useCommonsLogging();
@@ -26,6 +34,14 @@ class LogFactoryTest {
     assertEquals(log.getClass().getName(), JakartaCommonsLoggingImpl.class.getName());
   }
 
+  /**
+   [2019-07-13 19:41:20,508]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   [2019-07-13 19:41:20,511]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+   [2019-07-13 19:41:20,512]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:90) WARN:Warning message.
+   [2019-07-13 19:41:20,512]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:91)DEBUG:Debug message.
+   [2019-07-13 19:41:20,512]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:92)ERROR:Error message.
+   [2019-07-13 19:41:20,513]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:93)ERROR:Error with Exception.
+  */
   @Test
   void shouldUseLog4J() {
     LogFactory.useLog4JLogging();
@@ -34,6 +50,12 @@ class LogFactoryTest {
     assertEquals(log.getClass().getName(), Log4jImpl.class.getName());
   }
 
+  /**
+   [2019-07-13 19:42:07,832]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   ERROR StatusLogger No Log4j 2 configuration file found. Using default configuration (logging only errors to the console), or user programmatically provided configurations. Set system property 'log4j2.debug' to show Log4j 2 internal initialization logging. See https://logging.apache.org/log4j/2.x/manual/configuration.html for instructions on how to configure Log4j 2
+   19:42:08.198 [main] ERROR java.lang.Object - Error message.
+   19:42:08.203 [main] ERROR java.lang.Object - Error with Exception.
+  */
   @Test
   void shouldUseLog4J2() {
     LogFactory.useLog4J2Logging();
@@ -49,7 +71,14 @@ class LogFactoryTest {
     logSomething(log);
     assertEquals(log.getClass().getName(), Jdk14LoggingImpl.class.getName());
   }
-
+  /**
+   [2019-07-13 19:42:47,852]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   [2019-07-13 19:42:47,855]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   [2019-07-13 19:42:47,856]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:111) WARN:Warning message.
+   [2019-07-13 19:42:47,856]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:112)DEBUG:Debug message.
+   [2019-07-13 19:42:47,856]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:113)ERROR:Error message.
+   [2019-07-13 19:42:47,857]org.apache.ibatis.logging.LogFactoryTest.logSomething(LogFactoryTest.java:114)ERROR:Error with Exception.
+  */
   @Test
   void shouldUseSlf4j() {
     LogFactory.useSlf4jLogging();
@@ -58,6 +87,13 @@ class LogFactoryTest {
     assertEquals(log.getClass().getName(), Slf4jImpl.class.getName());
   }
 
+  /**
+   [2019-07-13 19:43:18,817]org.apache.ibatis.logging.LogFactory.setImplementation(LogFactory.java:116)DEBUG:Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+   Logging initialized using 'class org.apache.ibatis.logging.stdout.StdOutImpl' adapter.
+   Warning message.Error message.
+   Debug message.
+   Error with Exception.
+  */
   @Test
   void shouldUseStdOut() {
     LogFactory.useStdOutLogging();

@@ -5,7 +5,11 @@ import org.apache.ibatis.logging.Log;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-
+/**
+ * 我们再看一个相对简单的，Log4jImpl是Mybatis的Log到log4j的适配器，只有一个类就搞定了。
+ * 这里的Log4jImpl类就是适配器，它实现了Log接口，而适配者就是构造方法的创建的log对象，因此很简单。
+ * 适配器，将目标接口Log的方法调用转换为Logger自身log实例的方法调用
+ */
 public class Log4jImpl implements Log {
 
   private static final String FQCN = Log4jImpl.class.getName();

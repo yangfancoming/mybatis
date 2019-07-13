@@ -76,6 +76,15 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   }
 
   /**
+   SqlSession中的策略模式体现在：创建数据源有3种方式，POOL、UNPOOL和JNDI。
+   在创建Sqlsession的时候，是根据环境创建的，在Environment里面会指定数据源的方式，对于Sqlsession的使用代码来说，
+   不管底层是如何创建Sqlsession的，都没有关系。只需要改配置，数据源模块就能够生产出3种不同类型的SqlSession。
+   在上面的2个方法中，configuration.newExecutor(tx, execType)说明传到DefaultSqlSession的executor都是根据具体的类型execType创建的，
+   我们看看Configuration#newExecutor()方法
+  */
+
+
+  /** 方式一：从数据源获取SqlSession
    核心方法，DefaultSqlSessionFactory其他方法都是调用此方法
    **/
   private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
@@ -85,6 +94,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       final Environment environment = configuration.getEnvironment();
       //通过环境配置获取事务工厂，如果没有配置默认是   new ManagedTransactionFactory();
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      //1.从数据源DataSource获取tx，这是和方式二最大的区别，其他的都差不多
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
       //通过配置创建一个Executor，Executor是对jdbc中Statement的封装
       final Executor executor = configuration.newExecutor(tx, execType);
@@ -99,9 +109,12 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     }
   }
 
+  /**
+   * 方式二：从数据库连接获取SqlSession
+   * */
   private SqlSession openSessionFromConnection(ExecutorType execType, Connection connection) {
     try {
-      boolean autoCommit;
+      boolean autoCommit; //1.确认是否自动提交
       try {
         autoCommit = connection.getAutoCommit();
       } catch (SQLException e) {
@@ -111,6 +124,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       }
       final Environment environment = configuration.getEnvironment();
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+      //2.从一个连接connection获取tx，这是和方式一最大的区别，其他的都差不多
       final Transaction tx = transactionFactory.newTransaction(connection);
       final Executor executor = configuration.newExecutor(tx, execType);
       return new DefaultSqlSession(configuration, executor, autoCommit);

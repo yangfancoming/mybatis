@@ -25,7 +25,12 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     this.methodCache = methodCache;
   }
 
-  //这里会拦截Mapper接口的所有方法
+  /** 这里会拦截Mapper接口的所有方法
+   * 执行动态代理的所有方法时,都会白替换成执行如下的invoke方法
+   * @param proxy  代表 被代理对象
+   * @param method 代表 正在执行的方法
+   * @param args   代表 调用目标方法时传入的实参
+   */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
@@ -38,15 +43,14 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
          * 去 Github 上看一下相关的相关的讨论（issue #709），链接如下：
          * https://github.com/mybatis/mybatis-3/issues/709
          */
-      } else if (method.isDefault()) {
-        //如果是默认的method则调用默认的method
+      } else if (method.isDefault()) { //如果是默认的method则调用默认的method
         return invokeDefaultMethod(proxy, method, args);
       }
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
 
-    /** 其他Mapper接口定义的方法交由mapperMethod来执行
+    /** 其他Mapper接口定义的方法交由 mapperMethod 来执行
      * 最后2句关键，我们执行所调用Mapper的每一个接口方法，最后返回的是MapperMethod.execute方法。
      * 每一个MapperMethod对应了一个mapper文件中配置的一个sql语句或FLUSH配置，对应的sql语句通过mapper对应的class文件名+方法名从Configuration对象中获得。
      * 从缓存中获取 MapperMethod 对象，若缓存未命中，则创建 MapperMethod 对象
