@@ -270,21 +270,14 @@ class Jdbc3KeyGeneratorTest {
 
   @Test
   void shouldAssignMultipleGeneratedKeysToBeans() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      try {
-
-        Planet planet1 = new Planet();
-        planet1.setName("pluto");
-        Planet planet2 = new Planet();
-        planet2.setName("neptune");
-        List<Planet> planets = Arrays.asList(planet1, planet2);
-        mapper.insertPlanets(planets);
-        assertEquals("pluto-" + planet1.getId(), planet1.getCode());
-        assertEquals("neptune-" + planet2.getId(), planet2.getCode());
-      } finally {
-        sqlSession.rollback();
-      }
-    }
+    Planet planet1 = new Planet();
+    planet1.setName("pluto");
+    Planet planet2 = new Planet();
+    planet2.setName("neptune");
+    List<Planet> planets = Arrays.asList(planet1, planet2);
+    mapper.insertPlanets(planets);
+    assertEquals("pluto-" + planet1.getId(), planet1.getCode());
+    assertEquals("neptune-" + planet2.getId(), planet2.getCode());
   }
 
   @Test
@@ -294,6 +287,7 @@ class Jdbc3KeyGeneratorTest {
     mapper.insertPlanet_MultiParams(planet, 1);
     assertEquals("pluto-" + planet.getId(), planet.getCode());
   }
+
   @Test
   void shouldAssignMultipleGeneratedKeysToABean_MultiParams_batch() {
     Planet planet1 = new Planet();

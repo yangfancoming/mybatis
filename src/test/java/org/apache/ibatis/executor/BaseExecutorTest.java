@@ -50,8 +50,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldInsertNewAuthorWithBeforeAutoKey() throws Exception {
-
- 
     try {
       Author author = new Author(-1, "someone", "******", "someone@apache.org", null, Section.NEWS);
       MappedStatement insertStatement = ExecutorTestHelper.prepareInsertAuthorMappedStatementWithBeforeAutoKey(config);
@@ -77,8 +75,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldInsertNewAuthor() throws Exception {
-
-  
     try {
       Author author = new Author(99, "someone", "******", "someone@apache.org", null, Section.NEWS);
       MappedStatement insertStatement = ExecutorTestHelper.prepareInsertAuthorMappedStatement(config);
