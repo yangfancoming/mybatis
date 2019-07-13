@@ -1,19 +1,14 @@
 
 package org.apache.ibatis.jdbcgoat;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.Properties;
 
-class App {
+class CurdApp extends Base {
 
-  Connection connection = null;
-  ResultSet resultSet = null;
-  Statement statement = null;
-  String url = "jdbc:mysql://172.16.163.135:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false";
   String sql ="select * from foo";
 
   /** DriverManager 2个参数 构造函数 */
@@ -26,13 +21,7 @@ class App {
     System.out.println(connection); // com.mysql.jdbc.JDBC4Connection@387a8303
   }
 
-  /** DriverManager 3个参数 构造函数 */
-  @BeforeEach
-  public void before() throws SQLException {
-    connection = DriverManager.getConnection(url, "root","12345");
-    statement = connection.createStatement();
-    System.out.println(connection); // com.mysql.jdbc.JDBC4Connection@387a8303
-  }
+
 
   // 根据列索引 获取数据
   @Test
@@ -74,12 +63,6 @@ class App {
     System.out.println(i);
   }
 
-  @AfterEach
-  public void after() throws SQLException {
-    if (resultSet!=null){
-      resultSet.close();
-    }
-    statement.close();
-    connection.close();
-  }
+
+
 }
