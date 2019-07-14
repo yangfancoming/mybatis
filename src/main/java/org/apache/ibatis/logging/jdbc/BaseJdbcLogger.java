@@ -23,20 +23,22 @@ import org.apache.ibatis.reflection.ArrayUtil;
  */
 public abstract class BaseJdbcLogger {
 
-  // 静态字段，记录 PreparedStatement 中 set 开头的的方法名
+  // 静态字段，记录 PreparedStatement 中 set 开头的的方法名  //记录了 PreparedStateme 口t 接口中定义的常用的 set *（）方法
   protected static final Set<String> SET_METHODS;
-  // 静态字段，记录 SQL 执行的方法名
+  // 静态字段，记录 SQL 执行的方法名  // 记录了 Statement 接口和 PreparedStatement 接口中与执行 SQL 语句相关的方法
   protected static final Set<String> EXECUTE_METHODS = new HashSet<>();
 
-  // 实例字段，记录 SQL 参数信息
+  // 实例字段，记录 SQL 参数信息   // 记录了 PreparedStatement.set *（）方法设置 的键位对
   private final Map<Object, Object> columnMap = new HashMap<>();
 
+  // 记录了 PreparedStatement . set *（）方法设置的 key 位
   private final List<Object> columnNames = new ArrayList<>();
+  // 记录了 PreparedStatement . set *（）方法设置 的 value 值
   private final List<Object> columnValues = new ArrayList<>();
 
-  // statementLog：日志对象
+  // statementLog：日志对象  用于输出日志的Log对象
   protected final Log statementLog;
-  // queryStack：查询栈数
+  // queryStack：查询栈数  记录了 SQL 的层数， 用 于格式化输 出 SQL
   protected final int queryStack;
 
   /*

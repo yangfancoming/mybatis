@@ -150,7 +150,7 @@ public final class LogFactory {
       //1.获取绑定类的构造方法 //获取指定适配器的构造方法  // 获取 Log 实现类的构造方法，它只有一个字符串作为参数
       Constructor<? extends Log> candidate = implClass.getConstructor(String.class);
       //2.通过构造方法创建一个实例赋值给Log，因为采用了适配器模式，传进来的都是适配者，适配者本身是实现了目标接口的，因此进来的类都是Log接口的子类，这是一个多态的写法
-      //实例化适配器 // 创建一个 Log 对象，打印 debug 日志
+      //实例化适配器  创建一个 Log 对象，打印 debug 日志
       Log log = candidate.newInstance(LogFactory.class.getName());
       //3.这里第2步的赋值只是为了在这里打印日志，打印提示初始化适配器的类型
       if (log.isDebugEnabled()) {

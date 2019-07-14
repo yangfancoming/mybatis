@@ -64,6 +64,14 @@ class LogFactoryTest {
     assertEquals(log.getClass().getName(), Log4j2Impl.class.getName());
   }
 
+  /**
+   7月 14, 2019 12:48:38 下午 org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl warn
+   警告: Warning message.
+   7月 14, 2019 12:48:38 下午 org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl error
+   严重: Error message.
+   7月 14, 2019 12:48:38 下午 org.apache.ibatis.logging.jdk14.Jdk14LoggingImpl error
+   严重: Error with Exception.
+  */
   @Test
   void shouldUseJdKLogging() {
     LogFactory.useJdkLogging();
@@ -110,12 +118,12 @@ class LogFactoryTest {
     assertEquals(log.getClass().getName(), NoLoggingImpl.class.getName());
   }
 
+  // 将从 mybatis-config.xml 读取 NO_LOGGING 设置
   @Test
   void shouldReadLogImplFromSettings() throws Exception {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/logging/mybatis-config.xml")) {
       new SqlSessionFactoryBuilder().build(reader);
     }
-
     Log log = LogFactory.getLog(Object.class);
     log.debug("Debug message.");
     assertEquals(log.getClass().getName(), NoLoggingImpl.class.getName());

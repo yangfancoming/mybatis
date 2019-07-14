@@ -13,10 +13,6 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * PreparedStatement proxy to add logging.
- *
- * @author Clinton Begin
- * @author Eduardo Macarron
- *
  */
 public final class PreparedStatementLogger extends BaseJdbcLogger implements InvocationHandler {
 
@@ -27,6 +23,10 @@ public final class PreparedStatementLogger extends BaseJdbcLogger implements Inv
     this.statement = stmt;
   }
 
+  /**
+   PreparedStatementLogger. invoke（） 方法会 为 EXCUTE_METHODS 集合中的方法 、
+   SET_METHODS 集合中的方法、 getResultSet（）等方法提供代理，
+  */
   @Override
   public Object invoke(Object proxy, Method method, Object[] params) throws Throwable {
     try {
@@ -37,14 +37,18 @@ public final class PreparedStatementLogger extends BaseJdbcLogger implements Inv
         if (isDebugEnabled()) {
           debug("Parameters: " + getParameterValueString(), true);
         }
-        clearColumnInfo();
+        clearColumnInfo();//清空 BaseJdbcLogger 中定义的三个 column*集合
         if ("executeQuery".equals(method.getName())) {
+          //如果调用 executeQuery （）方法， 则为 ResultSet 创建代理对象
           ResultSet rs = (ResultSet) method.invoke(statement, params);
           return rs == null ? null : ResultSetLogger.newInstance(rs, statementLog, queryStack);
-        } else {
+        } else { //不是 executeQuery （）方法则 直接返回结果
           return method.invoke(statement, params);
         }
       } else if (SET_METHODS.contains(method.getName())) {
+        /**
+         如果调用 SET_MTHODS 集合中的方法， 则通过 setColumn （）方法记录到 BaseJdbcLogger 中定义的 三个 column*集合
+        */
         if ("setNull".equals(method.getName())) {
           setColumn(params[0], null);
         } else {
@@ -52,9 +56,11 @@ public final class PreparedStatementLogger extends BaseJdbcLogger implements Inv
         }
         return method.invoke(statement, params);
       } else if ("getResultSet".equals(method.getName())) {
+        // 如果调用 getResultSet （）方法，则为 ResultSet i1J 建代理对象
         ResultSet rs = (ResultSet) method.invoke(statement, params);
         return rs == null ? null : ResultSetLogger.newInstance(rs, statementLog, queryStack);
       } else if ("getUpdateCount".equals(method.getName())) {
+        // 如果调用 getUpdateCount()方法，则通过 日志框架输出其结果
         int updateCount = (Integer) method.invoke(statement, params);
         if (updateCount != -1) {
           debug("   Updates: " + updateCount, false);
