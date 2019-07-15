@@ -3,7 +3,9 @@ package org.apache.ibatis.logging.stdout;
 
 import org.apache.ibatis.logging.Log;
 
-
+/**
+ stdout包下的StdOutImpl使用 System.err.println(s)和System.out.println(s) 实现了Log接口
+*/
 public class StdOutImpl implements Log {
 
   public StdOutImpl(String clazz) {

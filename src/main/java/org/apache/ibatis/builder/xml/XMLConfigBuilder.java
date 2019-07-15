@@ -106,7 +106,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       Properties settings = settingsAsProperties(root.evalNode("settings"));
       // 加载 vfs
       loadCustomVfs(settings);
-      // 加载自定义日志
+      // 加载自定义日志  日志加载配置
       loadCustomLogImpl(settings);
       // 解析<typeAliases>节点
       typeAliasesElement(root.evalNode("typeAliases"));
@@ -176,6 +176,10 @@ public class XMLConfigBuilder extends BaseBuilder {
     从 MyBatis 的 TypeAliasRegistry 中查找 logImpl 键所对应值的类对象
     这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
     注意 Log 类，这是 MyBatis 内部对日志对象的抽象
+
+   <settings>
+     <setting name="logImpl" value="NO_LOGGING"/>
+   </settings>
   */
   private void loadCustomLogImpl(Properties props) {
     Class<? extends Log> logImpl = resolveClass(props.getProperty("logImpl"));

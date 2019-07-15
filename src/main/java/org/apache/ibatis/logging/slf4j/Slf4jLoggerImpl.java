@@ -5,7 +5,7 @@ import org.apache.ibatis.logging.Log;
 import org.slf4j.Logger;
 
 
-/**
+/** slf4j包下的Slf4jImpl，Slf4jLocationAwareLoggerImpl，Slf4jLoggerImpl 都使用Slf4J包 实现了 Log接口
  * 适配者，将目标接口Log的方法调用转换为Slf4jLoggerImpl自身log实例的方法调用
  */
 class Slf4jLoggerImpl implements Log {

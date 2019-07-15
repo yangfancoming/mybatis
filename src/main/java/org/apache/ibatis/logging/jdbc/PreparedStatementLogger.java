@@ -13,6 +13,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * PreparedStatement proxy to add logging.
+ * PreparedStatement的代理类，增加了日志功能
  */
 public final class PreparedStatementLogger extends BaseJdbcLogger implements InvocationHandler {
 

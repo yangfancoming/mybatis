@@ -17,6 +17,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * ResultSet proxy to add logging.
+ * ResultSet的代理类，增加了日志功能
  */
 public final class ResultSetLogger extends BaseJdbcLogger implements InvocationHandler {
 

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;
 
-/**
+/** slf4j包下的Slf4jImpl，Slf4jLocationAwareLoggerImpl，Slf4jLoggerImpl 都使用Slf4J包 实现了 Log接口
  slf4j包含2个适配者，Slf4jLocationAwareLoggerImpl 和 Slf4jLoggerImpl，
  并且这两个类也实现了目标接口，因此在后面的适配器Slf4jImpl中直接使用Log在内部持有他们
  (看源码注释，有两个类是因为在JDK的不同版本有所不同)

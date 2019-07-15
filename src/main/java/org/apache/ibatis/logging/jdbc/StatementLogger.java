@@ -12,6 +12,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * Statement proxy to add logging.
+ * Statement的代理类，增加了日志功能
  */
 public final class StatementLogger extends BaseJdbcLogger implements InvocationHandler {
 

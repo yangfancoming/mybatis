@@ -3,7 +3,9 @@ package org.apache.ibatis.logging.nologging;
 
 import org.apache.ibatis.logging.Log;
 
-
+/**
+ nologging包下的NoLoggingImpl 空实现了 Log接口，即Log接口的实现方法没有意义，或者没有任何代码。
+*/
 public class NoLoggingImpl implements Log {
 
   public NoLoggingImpl(String clazz) {

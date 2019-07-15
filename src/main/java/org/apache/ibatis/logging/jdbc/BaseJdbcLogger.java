@@ -54,12 +54,14 @@ public abstract class BaseJdbcLogger {
   }
 
   static {
+    // 对应jdbc 的参数set 的类型
     SET_METHODS = Arrays.stream(PreparedStatement.class.getDeclaredMethods())
             .filter(method -> method.getName().startsWith("set"))
             .filter(method -> method.getParameterCount() > 1)
             .map(Method::getName)
             .collect(Collectors.toSet());
 
+    // 对应jdbc 的增删改查
     EXECUTE_METHODS.add("execute");
     EXECUTE_METHODS.add("executeUpdate");
     EXECUTE_METHODS.add("executeQuery");

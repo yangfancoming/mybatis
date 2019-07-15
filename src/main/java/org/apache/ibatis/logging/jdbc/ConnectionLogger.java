@@ -13,6 +13,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * Connection proxy to add logging.
+ * Connection 的代理类，增加了日志功能
  */
 public final class ConnectionLogger extends BaseJdbcLogger implements InvocationHandler {
 
@@ -80,7 +81,6 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
 
   /**
    * return the wrapped connection.
-   *
    * @return the connection
    */
   public Connection getConnection() {
