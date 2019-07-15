@@ -22,9 +22,7 @@ public interface Mapper {
   })
   User getUser(Integer id);
 
-  @Insert({
-    "insert into product (name) values (#{name})"
-  })
+  @Insert({ "insert into product (name) values (#{name})" })
   @Options(useGeneratedKeys = true, keyProperty = "id")
   int insertProduct(Product product);
 

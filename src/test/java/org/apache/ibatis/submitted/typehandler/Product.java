@@ -54,6 +54,7 @@ public class Product {
   }
 
   public static class ProductIdTypeHandler extends BaseTypeHandler<ProductId> {
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, ProductId parameter, JdbcType jdbcType) throws SQLException {
       ps.setInt(i, parameter.getValue());

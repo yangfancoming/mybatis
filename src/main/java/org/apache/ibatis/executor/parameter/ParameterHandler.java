@@ -6,6 +6,10 @@ import java.sql.SQLException;
 
 /**
  * A parameter handler sets the parameters of the {@code PreparedStatement}.
+ *
+ * getParameterObject是用来获取参数的，setParameters(PreparedStatement ps)是用来设置参数的，sos 相当于对sql中所有的参数都执行ps.setXXX(value);
+ * ParameterHandler的默认实现类是DefaultParameterHandler，其实现了接口中定义的两个方法。
+
  */
 public interface ParameterHandler {
 

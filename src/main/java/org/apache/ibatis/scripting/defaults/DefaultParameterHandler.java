@@ -20,9 +20,9 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  getParameterObject是获取参数，这个参数值就是你传递进来的值，可能是个实体、map或单个基本类型数据。
- 重点看setParameters()，首先它读取了ParameterObject参数对象，然后用typeHandler对参数进行设置，而typeHandler里面需要对jdbcType和javaType进行处理，
+ 重点看setParameters()，首先它读取了ParameterObject 参数对象，然后用typeHandler 对参数进行设置，而typeHandler里面需要对jdbcType和javaType进行处理，
  然后就设置参数了。也很好理解。所以当我们使用TypeHandler的时候完全可以控制如何设置SQL参数。
- 设置参数，其实就是你在sql语句中配置的java对象和jdbc类型对应的关系，例如#{id,jdbcType=INTEGER}，id默认类型是javaType=class java.lang.Integer。
+ 设置参数，其实就是你在sql语句中配置的java对象和jdbc类型对应的关系，例如#{id,jdbcType=INTEGER}，id 默认类型是javaType=class java.lang.Integer。
 */
 public class DefaultParameterHandler implements ParameterHandler {
 

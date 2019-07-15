@@ -22,9 +22,7 @@ class GenericTypesTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/generictypes/Config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/generictypes/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/generictypes/CreateDB.sql");
   }
 
   @Test
