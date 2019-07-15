@@ -3,21 +3,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.apache.ibatis.submitted.dynsql.DynSqlMapper">
-  <select id="selectDescription" resultType="string">
+
+  <select id="selectDescription" resultType="map">
     <bind name="condition" value="p" />
-    SELECT description
-    FROM ibtest.names
-    <if test="condition == null">
-      WHERE id = 3
-    </if>
+    SELECT * FROM ibtest.names
+    <if test="condition == null">  WHERE id = 3 </if>
   </select>
+
   <select id="selectDescriptionById" resultType="string">
-    SELECT description
-    FROM ibtest.names
-    <if test="id != null">
-      WHERE id = #{id}
-    </if>
+    SELECT description  FROM ibtest.names
+    <if test="id != null"> WHERE id = #{id} </if>
   </select>
+
+
+  <!--这个“where”标签会知道如果它包含的标签中有返回值的话，它就插入一个‘where’。此外，如果标签返回的内容是以AND 或OR 开头的，则它会剔除掉。-->
+  <!--<select id="selectWhere" resultMap="map">-->
+    <!--select * from ibtest.names-->
+    <!--<where>-->
+      <!--<if test="id != null">-->
+        <!--id=#{id}-->
+      <!--</if>-->
+      <!--<if test="description != null">-->
+        <!--and description=#{description}-->
+    <!--</if>-->
+    <!--</where>-->
+  <!--</select>-->
+
+
   <!-- Specify a property name as variable name (Valid always) -->
   <select id="selectDescriptionByConditions" resultType="string">
     SELECT description
@@ -26,6 +38,7 @@
       WHERE id = #{id}
     </if>
   </select>
+
   <!-- Specify a any name(object name) as variable name (Valid if exists type handler) -->
   <select id="selectDescriptionByConditions2" resultType="string">
     SELECT description
@@ -34,6 +47,7 @@
       WHERE id = #{conditions}
     </if>
   </select>
+
   <!-- Specify a any name(object name) and nested property name (Valid if exists type handler) -->
   <select id="selectDescriptionByConditions3" resultType="string">
     SELECT description

@@ -25,14 +25,18 @@ public abstract class BaseStatementHandler implements StatementHandler {
   protected final Configuration configuration;
   protected final ObjectFactory objectFactory;
   protected final TypeHandlerRegistry typeHandlerRegistry;
+  //NOTE: 将结果集映射成结果对象
   protected final ResultSetHandler resultSetHandler;
-  protected final ParameterHandler parameterHandler;
-
+  //NOTE：为SQL语句绑定实参，也就是使用传入的实参替换SQL语句中的"？"占位符
+  protected final ParameterHandler parameterHandler; // 真正存储解析后的参数  解析后参数
+  //NOTE: 记录执行SQL的Executor对象
   protected final Executor executor;
+  //NOTE: 记录SQL语句对应的MappedStatement和BoundSql
   protected final MappedStatement mappedStatement;
+  protected BoundSql boundSql;
+
   protected final RowBounds rowBounds;
 
-  protected BoundSql boundSql;
 
   protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     this.configuration = mappedStatement.getConfiguration();
@@ -42,14 +46,14 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
     this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();
     this.objectFactory = configuration.getObjectFactory();
-
+    //NOTE: <1> 如果 boundSql 为空，一般是写类操作，例如：insert、update、delete ，则先获得自增主键，然后再创建 BoundSql 对象
     if (boundSql == null) { // issue #435, get the key before calculating the statement
       generateKeys(parameterObject);
       boundSql = mappedStatement.getBoundSql(parameterObject);
     }
 
     this.boundSql = boundSql;
-
+    //创建ParameterHandler和ResultSetHandler
     this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
     this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowBounds, parameterHandler, resultHandler, boundSql);
   }

@@ -4,12 +4,16 @@ package org.apache.ibatis.submitted.dynsql;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DynSqlMapper {
 
-  String selectDescription(@Param("p") String p);
+  List<Map> selectDescription(@Param("p") String p);
+
+//  List<Map> selectWhere(Integer id,String description);
 
   List<String> selectDescriptionById(Integer id);
+
   List<String> selectDescriptionByConditions(Conditions conditions);
   List<String> selectDescriptionByConditions2(Conditions conditions);
   List<String> selectDescriptionByConditions3(Conditions conditions);

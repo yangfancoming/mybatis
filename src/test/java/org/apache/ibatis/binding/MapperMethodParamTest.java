@@ -41,11 +41,16 @@ class MapperMethodParamTest {
   }
 
   @Test
-  void parameterNameIsSizeAndTypeIsLong() {
-    mapper.insert("foo", Long.MAX_VALUE);
-    assertThat(mapper.selectSize("foo")).isEqualTo(Long.MAX_VALUE);
+  public void selectAll(){
     Map<String, Object> map = mapper.selectAll();
     System.out.println(map);
+  }
+
+  @Test
+  void parameterNameIsSizeAndTypeIsLong() {
+    mapper.insert("foo", Long.MAX_VALUE);
+    long foo = mapper.selectSize("foo");
+    assertThat(foo).isEqualTo(Long.MAX_VALUE);
   }
 
   @Test

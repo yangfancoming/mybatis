@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by 64274 on 2019/7/9.
  *
- * @ Description: TODO
+ * @ Description: 查询参数  参数映射  方法参数
  * @ author  山羊来了
  * @ date 2019/7/9---16:54
  */
@@ -27,4 +27,7 @@ public interface Mapper {
 
   @Select("select * from param_test")
   Map<String,Object> selectAll();
+
+//  @Select("select * from param_test where id = #{param1} and size = #{param2}")
+//  Map<String,Object> selectUsingMutiParam(Integer id, String dname);
 }

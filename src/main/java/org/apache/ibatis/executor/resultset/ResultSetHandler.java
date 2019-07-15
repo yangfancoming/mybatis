@@ -19,13 +19,13 @@ import org.apache.ibatis.cursor.Cursor;
 */
 public interface ResultSetHandler {
 
-  //对普通查询到的结果转换  //将结果集转化成list
+  //对普通查询到的结果转换  //将结果集转化成list  //该方法会在除存储过程及返回值类型为Cursor< T > 以外的查询方法中被调用
   <E> List<E> handleResultSets(Statement stmt) throws SQLException;
 
-  //将结果集转化出cursor
+  //将结果集转化出cursor //只会在返回值类型为Cursor < T ＞ 的查询方法中被调用
   <E> Cursor<E> handleCursorResultSets(Statement stmt) throws SQLException;
 
-  //调用存储过程返回结果，将结果值放在参数中  //处理存储过程的输出
+  //调用存储过程返回结果，将结果值放在参数中  //处理存储过程的输出   //该方法只在使用存储过程处理出参时被调用
   void handleOutputParameters(CallableStatement cs) throws SQLException;
 
 }

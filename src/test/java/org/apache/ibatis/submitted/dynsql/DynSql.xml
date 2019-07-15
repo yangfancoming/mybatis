@@ -42,9 +42,9 @@
 
   <!--SELECT * FROM ibtest.names WHERE description LIKE %Ba%  ORDER BY id-->
   <select id="selectLike" resultType="map" parameterType="string">
+    <!-- bind标签中，value对应传入实体类的某个字段，name属性给对应字段取的变量名。在value属性中可以使用字符串拼接等特殊处理。-->
     <bind name="pattern" value="'%' + _parameter + '%'" />
-    SELECT *
-    FROM ibtest.names
+    SELECT * FROM ibtest.names
     WHERE description LIKE #{pattern}
     ORDER BY id
   </select>

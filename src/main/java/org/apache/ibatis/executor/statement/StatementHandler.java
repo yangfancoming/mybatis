@@ -19,17 +19,17 @@ import org.apache.ibatis.session.ResultHandler;
  CallableStatementHandler 它将实存储过程的调度。
 */
 public interface StatementHandler {
-  //获取Statement
+  //获取Statement //该方法会在数据库执行前被调用
   Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException;
-  //设置参数
+  //设置参数 //该方法在prepare 方法之后执行
   void parameterize(Statement statement) throws SQLException;
-  //批量处理
+  //批量处理  //在全局设置配置defaultExecutorType ＝ ” BATCH ” 时
   void batch(Statement statement) throws SQLException;
   //更新处理
   int update(Statement statement)  throws SQLException;
-  //查找处理
+  //查找处理 //执行SELECT 方法时调用
   <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException;
-
+  //只会在返回值类型为Cursor<T ＞的查询中被调用，
   <E> Cursor<E> queryCursor(Statement statement) throws SQLException;
   //获得BoundSql
   BoundSql getBoundSql();

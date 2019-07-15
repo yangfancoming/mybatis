@@ -68,10 +68,8 @@ public interface BoundAuthorMapper {
 
   //======================================================
 
-  List<Post> findThreeSpecificPosts(@Param("one") int one,
-                                    RowBounds rowBounds,
-                                    @Param("two") int two,
-                                    int three);
+  List<Post> findThreeSpecificPosts(@Param("one") int one, RowBounds rowBounds, @Param("two") int two,int three);
+
 
 
   @Flush

@@ -26,10 +26,14 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 */
 public class DefaultParameterHandler implements ParameterHandler {
 
+  // 记录Mybatis中全部的TypeHandler对象，用于参数类型转换（JdbcType -> JavaType 或 JavaType -> JbdcType）。
   private final TypeHandlerRegistry typeHandlerRegistry;
 
+  // 记录SQL节点相应的配置信息
   private final MappedStatement mappedStatement;
+  // 传入的参数对象
   private final Object parameterObject;//所有的参数值
+  // 为Statement设置参数，就是根据BoundSql中记录的SQL语句创建的。
   private final BoundSql boundSql;
   private final Configuration configuration;
 
@@ -49,9 +53,10 @@ public class DefaultParameterHandler implements ParameterHandler {
   @Override
   public void setParameters(PreparedStatement ps) {
     ErrorContext.instance().activity("setting parameters").object(mappedStatement.getParameterMap().getId());
-    //获取所有参数，ParameterMapping是java类型和jdbc类型的对应关系
+    //获取所有参数，ParameterMapping是java类型和jdbc类型的对应关系 //NOTE: 获取SQL片段对应的ParameterMapping（与每个#{xxx}占位符都会生成一个ParameterMapping对象）
     List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
     if (parameterMappings != null) {
+      //遍历所有参数，将java 类型设置成jdbc类型
       for (int i = 0; i < parameterMappings.size(); i++) {
         ParameterMapping parameterMapping = parameterMappings.get(i);
         if (parameterMapping.getMode() != ParameterMode.OUT) {
@@ -64,21 +69,22 @@ public class DefaultParameterHandler implements ParameterHandler {
             value = boundSql.getAdditionalParameter(propertyName);
           } else if (parameterObject == null) {
             value = null;
-          } else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
+          } else if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) { //NOTE: 若有对应JavaType的TypeHandler，则直接返回parameterObject，因为可以直接通过TypeHandler转化为对应的jdbcType
             //如果是单个值则直接赋值
             value = parameterObject;
           } else {
+            //NOTE: 可能会是对象，然后找对应属性的值，或者是一个Map则找对应key的value
             MetaObject metaObject = configuration.newMetaObject(parameterObject);
             value = metaObject.getValue(propertyName);
           }
-          //获取参数值对应的jdbc类型
+          //获取参数值对应的jdbc类型 //NOTE: 根据不同的typeHandler来设置参数值
           TypeHandler typeHandler = parameterMapping.getTypeHandler();
           JdbcType jdbcType = parameterMapping.getJdbcType();
           if (value == null && jdbcType == null) {
             jdbcType = configuration.getJdbcTypeForNull();
           }
           try {
-            //设置参数值和jdbc类型的对应关系
+            //设置参数值和jdbc类型的对应关系 //NOTE: 使用typeHandler 设置对应 #{} 位置的具体参数值
             typeHandler.setParameter(ps, i + 1, value, jdbcType);
           } catch (TypeException | SQLException e) {
             throw new TypeException("Could not set parameters for mapping: " + parameterMapping + ". Cause: " + e, e);

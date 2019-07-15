@@ -243,6 +243,13 @@ class BindingTest {
   }
 
   @Test
+  void shouldSelectListOfPostsOneParameter() {
+    List<Post> posts = blogMapper.selectPostsById(1);
+    assertEquals(1, posts.size());
+  }
+
+
+  @Test
   void shouldExecuteBoundSelectOneBlogStatement() {
     Blog blog = blogMapper.selectBlog(1);
     assertEquals(1, blog.getId());
@@ -399,6 +406,10 @@ class BindingTest {
     blogMapper.selectBlogByNonExistentNestedParam(1, Collections.emptyMap());
   }
 
+  /**
+   @Select ("SELECT * FROM blog WHERE id = #{0} AND title = #{1}")
+   Blog selectBlogByDefault30ParamNames(int id, String title);
+   */
   @Test
   void shouldSelectBlogWithDefault30ParamNames() {
     Blog blog = blogMapper.selectBlogByDefault30ParamNames(1, "Jim Business");
