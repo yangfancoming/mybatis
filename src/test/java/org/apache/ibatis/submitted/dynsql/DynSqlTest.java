@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,24 +36,18 @@ class DynSqlTest {
     try (Reader configReader = Resources.getResourceAsReader("org/apache/ibatis/submitted/dynsql/MapperConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
     }
-
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/dynsql/CreateDB.sql");
   }
 
   @Test
   void testSelect() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      List<Integer> ids = new ArrayList<>();
-      ids.add(1);
-      ids.add(3);
-      ids.add(5);
+      List<Integer> ids = Arrays.asList(1,3,5);
       Parameter parameter = new Parameter();
       parameter.setEnabled(true);
       parameter.setSchema("ibtest");
       parameter.setIds(ids);
-
       List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.select", parameter);
-
       assertEquals(3, answer.size());
     }
   }
@@ -60,17 +55,12 @@ class DynSqlTest {
   @Test
   void testSelectSimple() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      List<Integer> ids = new ArrayList<>();
-      ids.add(1);
-      ids.add(3);
-      ids.add(5);
+      List<Integer> ids = Arrays.asList(1,3,5);
       Parameter parameter = new Parameter();
       parameter.setEnabled(true);
       parameter.setSchema("ibtest");
       parameter.setIds(ids);
-
       List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.select_simple", parameter);
-
       assertEquals(3, answer.size());
     }
   }
@@ -80,8 +70,8 @@ class DynSqlTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.selectLike", "Ba");
       assertEquals(2, answer.size());
-      assertEquals(4, answer.get(0).get("ID"));
-      assertEquals(6, answer.get(1).get("ID"));
+      assertEquals(4, answer.get(0).get("id"));
+      assertEquals(6, answer.get(1).get("id"));
     }
   }
 

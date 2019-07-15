@@ -1,7 +1,10 @@
 
 
-create schema ibtest authorization dba;
+drop schema if exists ibtest;
+create schema ibtest;
 
+
+drop table if exists ibtest.names;
 create table ibtest.names (
 id int,
 description varchar(20)
@@ -15,6 +18,7 @@ insert into ibtest.names (id, description) values(5, 'Betty');
 insert into ibtest.names (id, description) values(6, 'Bamm Bamm');
 insert into ibtest.names (id, description) values(7, 'Rock ''n Roll');
 
+drop table if exists ibtest.numerics;
 create table ibtest.numerics (
   id int,
   tinynumber tinyint,
