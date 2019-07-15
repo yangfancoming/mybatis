@@ -20,14 +20,10 @@ class IncludeTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/includes/MapperConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/includes/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/includes/CreateDB.sql");
   }
 
   @Test

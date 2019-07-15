@@ -29,15 +29,12 @@ class SelectKeyTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
       sqlSessionFactory.getConfiguration().addMapper(AnnotatedMapper.class);
     }
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/selectkey/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/selectkey/CreateDB.sql");
   }
 
   @Test
   void testSelectKey() throws Exception {
-    // this test checks to make sure that we can have select keys with the same
-    // insert id in different namespaces
+    // this test checks to make sure that we can have select keys with the same  insert id in different namespaces
     String resource = "org/apache/ibatis/submitted/selectkey/MapperConfig.xml";
     Reader reader = Resources.getResourceAsReader(resource);
     SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
@@ -45,7 +42,8 @@ class SelectKeyTest {
     assertNotNull(sqlMapper);
   }
 
-  @Test
+
+  @Test // 插入数据 主键从11开始 自增
   void testInsertTable1() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Map<String, Object> parms = new HashMap<>();
@@ -56,7 +54,7 @@ class SelectKeyTest {
     }
   }
 
-  @Test
+  @Test   // 插入数据 主键从22开始 自增
   void testInsertTable2() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Map<String, Object> parms = new HashMap<>();

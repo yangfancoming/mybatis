@@ -20,8 +20,7 @@ class ConstructorColumnPrefixTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    try (Reader reader = Resources
-        .getResourceAsReader("org/apache/ibatis/submitted/constructor_columnprefix/mybatis-config.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/constructor_columnprefix/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/constructor_columnprefix/CreateDB.sql");

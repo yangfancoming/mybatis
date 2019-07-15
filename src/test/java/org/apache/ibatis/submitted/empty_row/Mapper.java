@@ -19,8 +19,8 @@ public interface Mapper {
   Map<String, String> getMap(Integer id);
 
   @ResultMap("associationRM")
-  @Select({ "select p.id, c.name child_name from parent p",
-      "left join child c on c.parent_id = p.id where p.id = #{id}" })
+  @Select({ "select p.id, c.name child_name from parent p left join child c on c.parent_id = p.id where p.id = #{id}" })
+
   Parent getAssociation(Integer id);
 
   @ResultMap("associationWithNotNullColumnRM")
@@ -33,8 +33,7 @@ public interface Mapper {
   Parent getNestedAssociation();
 
   @ResultMap("collectionRM")
-  @Select({ "select p.id, c.name child_name from parent p",
-      "left join child c on c.parent_id = p.id where p.id = #{id}" })
+  @Select({ "select p.id, c.name child_name from parent p left join child c on c.parent_id = p.id where p.id = #{id}" })
   Parent getCollection(Integer id);
 
   @ResultMap("twoCollectionsRM")

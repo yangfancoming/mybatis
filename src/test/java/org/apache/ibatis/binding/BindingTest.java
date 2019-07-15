@@ -4,17 +4,12 @@ package org.apache.ibatis.binding;
 import static com.googlecode.catchexception.apis.BDDCatchException.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
-
 import javassist.util.proxy.Proxy;
-
 import javax.sql.DataSource;
-
 import net.sf.cglib.proxy.Factory;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.domain.blog.Author;
