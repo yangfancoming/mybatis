@@ -20,6 +20,7 @@ class BaseCacheTest {
   SerializedCache serializedCache = new SerializedCache(cache);
   LoggingCache loggingCache = new LoggingCache(cache);
   ScheduledCache scheduledCache = new ScheduledCache(cache);
+
   // 证明：对于不同的实现类型 他们的 Equals And HashCode 都是相同的
   @Test
   void shouldDemonstrateEqualsAndHashCodeForVariousCacheTypes() {

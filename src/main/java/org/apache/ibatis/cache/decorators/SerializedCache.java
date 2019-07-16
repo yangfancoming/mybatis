@@ -14,7 +14,11 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 import org.apache.ibatis.io.Resources;
 
-
+/**
+ SerializedCache 提供了将 value 对象序列化的功能。
+ SerializedCache 在添加缓存项时，会将value 对应的 Java 对象进行序列化，并将序列化后的 byte［］数组作为 value 存入缓存 。
+ SerializedCache 在获取缓存项时，会将缓存项中 的 byte［］数组反序列化成 Java 对象
+*/
 public class SerializedCache implements Cache {
 
   private final Cache delegate;
