@@ -16,6 +16,9 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 
+/**
+ RoutingStatementHandler其实是一个静态代理
+*/
 public class RoutingStatementHandler implements StatementHandler {
 
   private final StatementHandler delegate;
