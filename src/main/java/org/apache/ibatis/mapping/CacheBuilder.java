@@ -106,7 +106,7 @@ public class CacheBuilder {
       }
     }
   }
-  // 添加装饰器
+  // 添加装饰器 装饰模式具体实现
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);
@@ -118,7 +118,7 @@ public class CacheBuilder {
         cache = new ScheduledCache(cache);
         ((ScheduledCache) cache).setClearInterval(clearInterval);
       }
-      // 添加SerializedCache装饰器
+      // 添加 SerializedCache 装饰器
       if (readWrite) {
         cache = new SerializedCache(cache);
       }

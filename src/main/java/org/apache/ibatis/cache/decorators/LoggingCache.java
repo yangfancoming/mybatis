@@ -5,12 +5,16 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 
-
+/**
+ LoggingCache 在 Cache 的基础上提供了日志功能
+*/
 public class LoggingCache implements Cache {
 
   private final Log log;
   private final Cache delegate;
+  // 缓存请求次数
   protected int requests = 0;
+  // 缓存命中次数
   protected int hits = 0;
 
   public LoggingCache(Cache delegate) {
@@ -33,6 +37,7 @@ public class LoggingCache implements Cache {
     delegate.putObject(key, object);
   }
 
+  // 统计命中次数和访问次数 这两个指标，井按照指定的日志输出方式输出命中率。
   @Override
   public Object getObject(Object key) {
     requests++;

@@ -5,17 +5,12 @@ import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
+//Least Recently Used  最少使用频率
 class LruCacheTest {
 
   PerpetualCache perpetualCache = new PerpetualCache("default");
-
-  @Before
-  public void before(){
-    
-  }
 
   @Test
   void shouldRemoveLeastRecentlyUsedItemInBeyondFiveEntries() {
@@ -24,7 +19,8 @@ class LruCacheTest {
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);
     }
-    assertEquals(0, cache.getObject(0));
+    // 本应该先删除先进入的0元素  但是这里使用了一次 0元素  导致 按照最少使用频率不会删除 0元素 而是会删除 1元素
+    assertEquals(0, cache.getObject(0)); //
     cache.putObject(5, 5);
     assertNull(cache.getObject(1));
     assertEquals(5, cache.getSize());
