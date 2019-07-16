@@ -37,10 +37,15 @@ public class XMLStatementBuilder extends BaseBuilder {
     this.requiredDatabaseId = databaseId;
   }
 
+  /**
+   *解析sql节点的核心方法
+   */
   public void parseStatementNode() {
+    //1.获取sql节点的id
     String id = context.getStringAttribute("id");
+    //2.获取databaseId
     String databaseId = context.getStringAttribute("databaseId");
-    //验证databaseId是否匹配
+    //验证databaseId是否匹配   //不符合就返回
     if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId)) {
       return;
     }
@@ -50,6 +55,7 @@ public class XMLStatementBuilder extends BaseBuilder {
        select * from foo
      </select>
     */
+    //3.获取sql节点的各种属性
     String nodeName = context.getNode().getNodeName(); //  select
     //SQLCommand类型
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));

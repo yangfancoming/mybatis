@@ -81,6 +81,11 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * Mybatis的核心配置文件
+ * 1.包含Mybatis全部的配置信息
+ * 2.全局单例的
+ * 3.生命周期贯穿整个Mybatis的生命周期，应用级生命周期
+ *
  * Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
  * Configuration类主要是用来存储对Mybatis的配置文件及mapper文件解析后的数据，Configuration对象会贯穿整个Mybatis的执行流程，为Mybatis的执行过程提供必要的配置信息。
 */
@@ -167,32 +172,32 @@ public class Configuration {
    * 这个类必须包含一个签名方法static Configuration getConfiguration(). (从 3.2.3 版本开始)
    */
   protected Class<?> configurationFactory;
-
+  //mapper接口的动态代理注册中心
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
   //拦截器链
   protected final InterceptorChain interceptorChain = new InterceptorChain();
-  //TypeHandler注册
+  //TypeHandler注册 //TypeHandler注册中心
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
-  //别名和具体类注册
+  //别名和具体类注册  //TypeAlias别名注册中心
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
   //这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
 
-  //对应Mapper.xml里配置的Statement
+  //对应Mapper.xml里配置的Statement  //mapper文件中增删改查操作的注册中心
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection")
       .conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
 
-  //对应Mapper.xml里配置的cache
+  //对应Mapper.xml里配置的cache  //mapper文件中配置cache节点的 二级缓存
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
-  //对应Mapper.xml里的ResultMap
+  //对应Mapper.xml里的ResultMap  //mapper文件中配置的所有resultMap对象  key为命名空间+ID
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
   //对应Mapper.xml里的ParameterMap
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
-  //主键生成器
+  //主键生成器 //mapper文件中配置KeyGenerator的insert和update节点，key为命名空间+ID
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
-  //存储已经加载过的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource
+  //存储已经加载过的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource  //加载到的所有*mapper.xml文件
   protected final Set<String> loadedResources = new HashSet<>();
-  //存储已经解析过的mapper对应的xml节点
+  //存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
   //存储所有未处理的
   protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();
