@@ -65,6 +65,18 @@ public class CacheKey implements Cloneable, Serializable {
     }
   }
 
+  /**
+   * CacheKey#equals
+   *  缓存key的设计包含命名空间，分页信息，sql语句 ，参数值的信息，在BaseExecutor#createCacheKey这里是创建cacheKey的方法，包含了上面的四个要素。
+   * 判断2个key相等的逻辑
+   * 1.是一个对象，那么返回true
+   * 2.被比较对象类型不是CacheKey，直接返回false
+   * 3.hashcode不一样，返回false
+   * 4.checksum不一样，返回false
+   * 5.count不一样，返回false
+   * 6.updateList列表不一样，返回false
+   * 7.满足上面的条件，返回true，认为两个缓存key是一样的
+   */
   @Override
   public boolean equals(Object object) {
     if (this == object) {
