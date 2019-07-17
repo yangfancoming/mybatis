@@ -15,7 +15,10 @@ import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.BatchResult;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
-
+/**
+ 问题：mybatis是如何控制解决并发问题的。
+ 解答：通过SqlSession管理员类SqlSessionManager中线程本地变量ThreadLocal localSqlSession+动态代理SqlSession解决
+ */
 public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
   private final SqlSessionFactory sqlSessionFactory;
@@ -25,10 +28,7 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
   private SqlSessionManager(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
-    this.sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(
-        SqlSessionFactory.class.getClassLoader(),
-        new Class[]{SqlSession.class},
-        new SqlSessionInterceptor());
+    this.sqlSessionProxy = (SqlSession) Proxy.newProxyInstance(SqlSessionFactory.class.getClassLoader(),new Class[]{SqlSession.class}, new SqlSessionInterceptor());
   }
 
   public static SqlSessionManager newInstance(Reader reader) {
@@ -328,9 +328,11 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+      //调用SqlSessionUtils的getSqlSession方法从Spring的事务管理器获取合适的SqlSession
       final SqlSession sqlSession = SqlSessionManager.this.localSqlSession.get();
       if (sqlSession != null) {
         try {
+          //通过sqlSession对象调用该方法
           return method.invoke(sqlSession, args);
         } catch (Throwable t) {
           throw ExceptionUtil.unwrapThrowable(t);

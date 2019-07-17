@@ -8,6 +8,7 @@ package org.apache.ibatis.reflection.test;
  * @ date 2019/7/6---10:13
  */
 public class Author {
+
   private Integer id;
   private String name;
   private Integer age;

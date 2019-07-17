@@ -26,17 +26,17 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * The default implementation for {@link SqlSession}.
- * Note that this class is not Thread-Safe.
- *
+ * The default implementation for SqlSession . Note that this class is not Thread-Safe.
  * DefaultSqlSession 为我们屏蔽了从配置信息中获取映射的sql语句封装类，再交给executor执行，最终获得结果集的过程。
  * 我们使用mybatis不用获得Configuration和Executor的对象，仅需要和SqlSession这个门面打交道。
  */
 public class DefaultSqlSession implements SqlSession {
 
   private final Configuration configuration;
+  // 执行器接口
   private final Executor executor;
 
+  // 事务是否自动提交
   private final boolean autoCommit;
   private boolean dirty;
   private List<Cursor<?>> cursorList;
@@ -84,7 +84,7 @@ public class DefaultSqlSession implements SqlSession {
   public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey, RowBounds rowBounds) {
     final List<? extends V> list = selectList(statement, parameter, rowBounds);
     final DefaultMapResultHandler<K, V> mapResultHandler = new DefaultMapResultHandler<>(mapKey,
-            configuration.getObjectFactory(), configuration.getObjectWrapperFactory(), configuration.getReflectorFactory());
+      configuration.getObjectFactory(), configuration.getObjectWrapperFactory(), configuration.getReflectorFactory());
     final DefaultResultContext<V> context = new DefaultResultContext<>();
     for (V o : list) {
       context.nextResultObject(o);

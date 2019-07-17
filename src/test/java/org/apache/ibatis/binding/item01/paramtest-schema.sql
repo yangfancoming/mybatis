@@ -5,3 +5,4 @@ drop table if exists param_test;
   size BIGINT,
   PRIMARY KEY (id)
 );
+INSERT INTO param_test (id, size) VALUES ('foo', 9223372036854775807);

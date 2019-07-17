@@ -8,10 +8,9 @@ import java.util.concurrent.ConcurrentMap;
 
 public class DefaultReflectorFactory implements ReflectorFactory {
 
-  /**
-   * 默认开启对Reflector对象的缓存
-   */
+  /*** 默认开启对Reflector对象的缓存 */
   private boolean classCacheEnabled = true;
+
   /** 目标类和反射器映射缓存  使用集合ConcurrentHashMap实现对Reflector的缓存*/
   private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 

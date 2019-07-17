@@ -15,7 +15,7 @@ class DefaultObjectFactoryTest {
   void createClass() {
     List<Class<?>> list = Arrays.asList(String.class, Integer.class);
     List<Object> foo = Arrays.asList("foo", 0); // ok
-    //    List<Object> foo = Arrays.asList("foo", "bar"); // error
+//        List<Object> foo = Arrays.asList("foo", "bar"); // error
     TestClass testClass = defaultObjectFactory.create(TestClass.class,list,foo);
     Assertions.assertEquals((Integer) 0, testClass.myInteger, "myInteger didn't match expected");
     Assertions.assertEquals("foo", testClass.myString, "myString didn't match expected");

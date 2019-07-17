@@ -38,8 +38,6 @@ class MapperMethodParamTest {
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     session = sqlSessionFactory.openSession(true);
     mapper = session.getMapper(Mapper.class);
-    // 先差一条数据进去
-    mapper.insert("foo", Long.MAX_VALUE);
   }
 
   @Test
@@ -56,7 +54,6 @@ class MapperMethodParamTest {
     System.out.println(foo2);
   }
 
-
   @Test
   void parameterNameIsSizeAndTypeIsLong() {
     Long foo = mapper.selectSize1("foo");
@@ -71,6 +68,5 @@ class MapperMethodParamTest {
       mapper.insertUsingHashMap(params);
       assertThat(mapper.selectSize1("foo")).isEqualTo(Long.MAX_VALUE);
   }
-
 
 }

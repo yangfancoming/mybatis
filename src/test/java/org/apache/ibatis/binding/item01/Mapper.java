@@ -22,9 +22,11 @@ public interface Mapper {
   @Insert("insert into param_test (id, size) values(#{id}, #{size})")
   void insertUsingHashMap(HashMap<String, Object> params);
 
+  // 走 @Param  注解的情况
   @Select("select size from param_test where id = #{id}")
   Long selectSize1(@Param("id") String id);
 
+  // 没有 @Param  注解的情况
   @Select("select size from param_test where id = #{id}")
   Long selectSize2(String id);
 

@@ -41,9 +41,6 @@ public abstract class BaseJdbcLogger {
   // queryStack：查询栈数  记录了 SQL 的层数， 用 于格式化输 出 SQL
   protected final int queryStack;
 
-  /*
-   * Default constructor
-   */
   public BaseJdbcLogger(Log log, int queryStack) {
     this.statementLog = log;
     if (queryStack == 0) {

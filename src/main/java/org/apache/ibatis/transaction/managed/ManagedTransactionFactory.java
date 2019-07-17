@@ -12,9 +12,6 @@ import org.apache.ibatis.transaction.TransactionFactory;
 
 /**
  * Creates {@link ManagedTransaction} instances.
- *
- * @author Clinton Begin
- *
  * @see ManagedTransaction
  */
 public class ManagedTransactionFactory implements TransactionFactory {

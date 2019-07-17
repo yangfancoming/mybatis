@@ -24,7 +24,9 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-
+/**
+ * MapperMethod代理Mapper所有方法
+ */
 public class MapperMethod {
 
   //一个内部类 封装了SQL标签的类型 insert update delete select
@@ -86,6 +88,7 @@ public class MapperMethod {
         result = sqlSession.flushStatements();
         break;
       default:
+        //接口方法没有和sql命令绑定
         throw new BindingException("Unknown execution method for: " + command.getName());
     }
     //如果返回值为空 并且方法返回值类型是基础类型 并且不是VOID 则抛出异常
@@ -128,13 +131,16 @@ public class MapperMethod {
     }
   }
 
+  //返回多行结果 调用sqlSession.selectList方法
   private <E> Object executeForMany(SqlSession sqlSession, Object[] args) {
     List<E> result;
     Object param = method.convertArgsToSqlCommandParam(args);
     if (method.hasRowBounds()) {
+      //如果参数含有rowBounds则调用分页的查询
       RowBounds rowBounds = method.extractRowBounds(args);
       result = sqlSession.selectList(command.getName(), param, rowBounds);
     } else {
+      //没有分页则调用普通查询
       result = sqlSession.selectList(command.getName(), param);
     }
     // issue #510 Collections & arrays support
