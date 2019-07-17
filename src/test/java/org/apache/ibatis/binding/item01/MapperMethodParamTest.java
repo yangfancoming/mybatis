@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.binding;
+package org.apache.ibatis.binding.item01;
 
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.mapping.Environment;
@@ -30,7 +30,7 @@ class MapperMethodParamTest {
   @BeforeAll
   static void setup() throws Exception {
     DataSource dataSource = BaseDataTest.createUnpooledDataSource(BaseDataTest.BLOG_PROPERTIES);
-    BaseDataTest.runScript(dataSource, "org/apache/ibatis/binding/paramtest-schema.sql");
+    BaseDataTest.runScript(dataSource, "org/apache/ibatis/binding/item01/paramtest-schema.sql");
     TransactionFactory transactionFactory = new JdbcTransactionFactory();
     Environment environment = new Environment("Production", transactionFactory, dataSource);
     Configuration configuration = new Configuration(environment);
@@ -38,6 +38,8 @@ class MapperMethodParamTest {
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     session = sqlSessionFactory.openSession(true);
     mapper = session.getMapper(Mapper.class);
+    // 先差一条数据进去
+    mapper.insert("foo", Long.MAX_VALUE);
   }
 
   @Test
@@ -47,9 +49,17 @@ class MapperMethodParamTest {
   }
 
   @Test
+  public void selectSize2(){
+    Long foo1 = mapper.selectSize1("foo");
+    Long foo2 = mapper.selectSize2("foo");
+    System.out.println(foo1);
+    System.out.println(foo2);
+  }
+
+
+  @Test
   void parameterNameIsSizeAndTypeIsLong() {
-    mapper.insert("foo", Long.MAX_VALUE);
-    long foo = mapper.selectSize("foo");
+    Long foo = mapper.selectSize1("foo");
     assertThat(foo).isEqualTo(Long.MAX_VALUE);
   }
 
@@ -59,7 +69,7 @@ class MapperMethodParamTest {
       params.put("id", "foo");
       params.put("size", Long.MAX_VALUE);
       mapper.insertUsingHashMap(params);
-      assertThat(mapper.selectSize("foo")).isEqualTo(Long.MAX_VALUE);
+      assertThat(mapper.selectSize1("foo")).isEqualTo(Long.MAX_VALUE);
   }
 
 

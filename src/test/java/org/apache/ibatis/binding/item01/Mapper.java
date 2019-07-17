@@ -1,4 +1,4 @@
-package org.apache.ibatis.binding;
+package org.apache.ibatis.binding.item01;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -23,11 +23,13 @@ public interface Mapper {
   void insertUsingHashMap(HashMap<String, Object> params);
 
   @Select("select size from param_test where id = #{id}")
-  long selectSize(@Param("id") String id);
+  Long selectSize1(@Param("id") String id);
+
+  @Select("select size from param_test where id = #{id}")
+  Long selectSize2(String id);
 
   @Select("select * from param_test")
   Map<String,Object> selectAll();
 
-//  @Select("select * from param_test where id = #{param1} and size = #{param2}")
-//  Map<String,Object> selectUsingMutiParam(Integer id, String dname);
+
 }
