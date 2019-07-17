@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.apache.ibatis.zgoat.A02.FooMapper">
 
+  <!--解析缓存标签-->
+  <!--按先进先出的策略淘汰缓存项-->
+  <!--缓存每隔60秒刷新一次-->
+  <!--缓存的容量为 512 个对象引用-->
+  <!--缓存返回的对象是写安全的，即在外部修改对象不会影响到缓存内部存储对象-->
+
+  <cache
+    eviction="FIFO"
+    flushInterval="60000"
+    size="512"
+    readOnly="true"/>
+
   <select id="findAll"  resultType="Foo" >
     select * from foo
   </select>

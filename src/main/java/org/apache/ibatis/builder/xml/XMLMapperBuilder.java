@@ -214,6 +214,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
+  // 解析缓存标签   <cache>
   private void cacheElement(XNode context) {
     if (context != null) {
       // 基础缓存类型

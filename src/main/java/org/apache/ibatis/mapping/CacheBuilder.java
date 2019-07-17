@@ -72,9 +72,17 @@ public class CacheBuilder {
     this.properties = properties;
     return this;
   }
-
+/**
+ 1.设置默认的缓存类型及装饰器
+ 2.应用装饰器到 PerpetualCache 对象上
+   遍历装饰器类型集合，并通过反射创建装饰器实例
+   将属性设置到实例中
+ 3.应用一些标准的装饰器
+ 4.对非 LoggingCache 类型的缓存应用 LoggingCache 装饰器
+*/
+  // 构建缓存实例
   public Cache build() {
-    // 设置默认的缓存类型（PerpetualCache）和缓存装饰器（LruCache）
+    // 设置默认的缓存类型（PerpetualCache）和 缓存装饰器（LruCache）
     setDefaultImplementations();
     // 通过反射创建缓存
     Cache cache = newBaseCacheInstance(implementation, id);
@@ -186,7 +194,7 @@ public class CacheBuilder {
   private Cache newBaseCacheInstance(Class<? extends Cache> cacheClass, String id) {
     Constructor<? extends Cache> cacheConstructor = getBaseCacheConstructor(cacheClass);
     try {
-      return cacheConstructor.newInstance(id);
+      return cacheConstructor.newInstance(id); // 使用反射获取指定构造函数 来创建类对象
     } catch (Exception e) {
       throw new CacheException("Could not instantiate cache implementation (" + cacheClass + "). Cause: " + e, e);
     }
@@ -194,7 +202,7 @@ public class CacheBuilder {
 
   private Constructor<? extends Cache> getBaseCacheConstructor(Class<? extends Cache> cacheClass) {
     try {
-      return cacheClass.getConstructor(String.class);
+      return cacheClass.getConstructor(String.class); // 获取指定构造函数
     } catch (Exception e) {
       throw new CacheException("Invalid base cache implementation (" + cacheClass + ").  "
         + "Base cache implementations must have a constructor that takes a String id as a parameter.  Cause: " + e, e);

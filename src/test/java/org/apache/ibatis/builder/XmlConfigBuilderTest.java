@@ -226,16 +226,15 @@ class XmlConfigBuilderTest {
     }
   }
 
-  @Test
+  @Test // 全局配置文件只能被解析一次
   void parseIsTwice() throws Exception {
     String resource = "org/apache/ibatis/builder/MinimalMapperConfig.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
       builder.parse();
-
       when(builder).parse();
-      then(caughtException()).isInstanceOf(BuilderException.class)
-              .hasMessage("Each XMLConfigBuilder can only be used once.");
+      then(caughtException()).isInstanceOf(BuilderException.class).hasMessage("Each XMLConfigBuilder can only be used once.");
+
     }
   }
 
@@ -250,6 +249,7 @@ class XmlConfigBuilderTest {
             + "</configuration>\n";
 
     XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+    builder.parse();
     when(builder).parse();
     then(caughtException()).isInstanceOf(BuilderException.class)
       .hasMessageContaining("The setting foo is not known.  Make sure you spelled it correctly (case sensitive).");

@@ -166,24 +166,28 @@ public class MetaClass {
     return reflector.getSetInvoker(name);
   }
 
-  // 验证传入的表达式，是否存在指定的字段
+  /** 验证传入的表达式，是否存在指定的字段
+   * 解析属性表达式 会去寻找reflector中是否有对应的的属性
+   */
   private StringBuilder buildProperty(String name, StringBuilder builder) {
-    // 映射文件表达式迭代器
+    // 映射文件表达式迭代器  // 解析属性表达式
     PropertyTokenizer prop = new PropertyTokenizer(name);
+    // 是否有子表达式
     if (prop.hasNext()) {
-      // 复杂表达式，如name = items[0].name，则prop.getName() = items
+      // 查找对应的属性 // 复杂表达式，如name = items[0].name，则prop.getName() = items
       String propertyName = reflector.findPropertyName(prop.getName());
       if (propertyName != null) {
+        // 追加属性名
         builder.append(propertyName);
         // items.
         builder.append(".");
-        // 加载内嵌字段类型对应的MetaClass
+        // 创建对应的 MetaClass 对象  // 加载内嵌字段类型对应的MetaClass
         MetaClass metaProp = metaClassForProperty(propertyName);
-        // 迭代子字段
+        // 解析子表达式, 递归 // 迭代子字段
         metaProp.buildProperty(prop.getChildren(), builder);
       }
     } else {
-      // 非复杂表达式，获取字段名，如：userid->userId
+      // 根据名称查找属性 // 非复杂表达式，获取字段名，如：userid->userId
       String propertyName = reflector.findPropertyName(name);
       if (propertyName != null) {
         builder.append(propertyName);
