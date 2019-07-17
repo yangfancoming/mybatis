@@ -1,7 +1,9 @@
 
 package org.apache.ibatis.executor;
 
-
+/**
+单例模式
+*/
 public class ErrorContext {
 
   private static final String LINE_SEPARATOR = System.getProperty("line.separator","\n");
@@ -15,9 +17,11 @@ public class ErrorContext {
   private String sql;
   private Throwable cause;
 
+  // 私有化构造函数
   private ErrorContext() {
   }
 
+  // 第一次使用时 才new  懒汉式单例
   public static ErrorContext instance() {
     ErrorContext context = LOCAL.get();
     if (context == null) {
