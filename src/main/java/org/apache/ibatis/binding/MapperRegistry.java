@@ -57,6 +57,7 @@ public class MapperRegistry {
          在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试
          解析接口上的注解或者加载mapper配置文件生成mappedStatement
         */
+        //这里就是关键处理类了，对可能存在注解的MapperInterface接口进行处理
         MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
         parser.parse();
         loadCompleted = true;

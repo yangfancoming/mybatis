@@ -49,12 +49,15 @@ public class XMLScriptBuilder extends BaseBuilder {
 
   public SqlSource parseScriptNode() {
     //解析SQL语句节点，创建MixedSqlNode对象
+    //获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句可能都有多个SqlNode对象
+    //包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
     SqlSource sqlSource;
-    //根据是否是动态的语句，创建DynamicSqlSource或是RawSqlSource对象，并返回
+    //是否为动态语句  //根据是否是动态的语句，创建DynamicSqlSource或是RawSqlSource对象，并返回
     if (isDynamic) {
       sqlSource = new DynamicSqlSource(configuration, rootSqlNode);
     } else {
+      //否则生成普通版SqlSource
       sqlSource = new RawSqlSource(configuration, rootSqlNode, parameterType);
     }
     return sqlSource;
@@ -62,6 +65,7 @@ public class XMLScriptBuilder extends BaseBuilder {
 
   //node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
   protected MixedSqlNode parseDynamicTags(XNode node) {
+    //获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
     List<SqlNode> contents = new ArrayList<>();
     //获取SQL下面的子节点
     NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
@@ -70,21 +74,25 @@ public class XMLScriptBuilder extends BaseBuilder {
       XNode child = node.newXNode(children.item(i));
       //如果是文本节点，则先解析成TextSqlNode对象
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
-        String data = child.getStringBody(""); //获取文本信息
+        //直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
+        String data = child.getStringBody("");
         TextSqlNode textSqlNode = new TextSqlNode(data);   //创建TextSqlNode对象
-        //判断是否是动态Sql，其过程会调用GenericTokenParser判断文本中是否含有"${"字符
+        //TextSqlNode对象主要回去检查纯文本语句是否含有'${'和'}'字符串，有则为true  //判断是否是动态Sql，其过程会调用GenericTokenParser判断文本中是否含有"${"字符
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
         } else { //不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
+          //返回最普通的含有data的StaticTextSqlNode对象
           contents.add(new StaticTextSqlNode(data));
         }
       } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628 //其他类型的节点，由不同的节点处理器来对应处理成本成不同的SqlNode类型
         String nodeName = child.getNode().getNodeName();
+        //获取节点名对应的NodeHandler对象，无非就是TrimNodeHandler/WhereNodeHandler等等
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler == null) {
           throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
         }
+        //调用同一接口实现解析生成SqlNode对象并统一存入List<SqlNode>集合中
         handler.handleNode(child, contents);
         isDynamic = true;
       }
@@ -93,24 +101,28 @@ public class XMLScriptBuilder extends BaseBuilder {
     return new MixedSqlNode(contents);
   }
 
+
+  /** 主要应用于对trim/where/set/if等类型为ELEMENT节点的补充解析。 */
   private interface NodeHandler {
     void handleNode(XNode nodeToHandle, List<SqlNode> targetContents);
   }
 
+  /**  用于解析bind标签节点 */
   private class BindHandler implements NodeHandler {
     public BindHandler() {
       // Prevent Synthetic Access
     }
-
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
+      //获取name和value属性
       final String name = nodeToHandle.getStringAttribute("name");
       final String expression = nodeToHandle.getStringAttribute("value");
+      //包装成简单的VarDeclSqlNode类
       final VarDeclSqlNode node = new VarDeclSqlNode(name, expression);
       targetContents.add(node);
     }
   }
-
+  /**  用于解析trim标签节点 */
   private class TrimHandler implements NodeHandler {
     public TrimHandler() {
       // Prevent Synthetic Access
@@ -118,16 +130,19 @@ public class XMLScriptBuilder extends BaseBuilder {
 
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
+      //trim标签下可包含where/set/if/when等标签，将之封装成MixedSqlNode
       MixedSqlNode mixedSqlNode = parseDynamicTags(nodeToHandle);
+      // read prefix/preffixOverrides/suffix/suffixOverrides properties
       String prefix = nodeToHandle.getStringAttribute("prefix");
       String prefixOverrides = nodeToHandle.getStringAttribute("prefixOverrides");
       String suffix = nodeToHandle.getStringAttribute("suffix");
       String suffixOverrides = nodeToHandle.getStringAttribute("suffixOverrides");
+      // delegate TrimSqlNode to process trim sql
       TrimSqlNode trim = new TrimSqlNode(configuration, mixedSqlNode, prefix, prefixOverrides, suffix, suffixOverrides);
       targetContents.add(trim);
     }
   }
-
+  /**  用于解析 where 标签节点 */
   private class WhereHandler implements NodeHandler {
     public WhereHandler() {
       // Prevent Synthetic Access
@@ -136,11 +151,12 @@ public class XMLScriptBuilder extends BaseBuilder {
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
       MixedSqlNode mixedSqlNode = parseDynamicTags(nodeToHandle);
+      // same as TrimSqlNode
       WhereSqlNode where = new WhereSqlNode(configuration, mixedSqlNode);
       targetContents.add(where);
     }
   }
-
+  /**  用于解析 set 标签节点 */
   private class SetHandler implements NodeHandler {
     public SetHandler() {
       // Prevent Synthetic Access
@@ -153,12 +169,21 @@ public class XMLScriptBuilder extends BaseBuilder {
       targetContents.add(set);
     }
   }
-
+  /**  用于解析 foreach 标签节点 */
   private class ForEachHandler implements NodeHandler {
     public ForEachHandler() {
       // Prevent Synthetic Access
     }
 
+    /**
+     foreach节点的属性简析如下
+     collection 代表的是集合的类型,例如list代表参数类型为List.class,array代表参数类型为数组类型
+     item 代表集合的value值
+     index 代表集合的key值，可为下标值也可为HashMap中的key值
+     open 类似于prefix属性
+     close 类似于suffix属性
+     separator 拼装的分隔符号,多为','
+    */
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
       MixedSqlNode mixedSqlNode = parseDynamicTags(nodeToHandle);
@@ -172,7 +197,7 @@ public class XMLScriptBuilder extends BaseBuilder {
       targetContents.add(forEachSqlNode);
     }
   }
-
+  /**  用于解析 if 标签节点 */
   private class IfHandler implements NodeHandler {
     public IfHandler() {
       // Prevent Synthetic Access
@@ -208,12 +233,14 @@ public class XMLScriptBuilder extends BaseBuilder {
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
       List<SqlNode> whenSqlNodes = new ArrayList<>();
       List<SqlNode> otherwiseSqlNodes = new ArrayList<>();
+      //解析choose...when..otherwise结构
       handleWhenOtherwiseNodes(nodeToHandle, whenSqlNodes, otherwiseSqlNodes);
+      //检查otherwise标签是否只有一个，大于一个则报错
       SqlNode defaultSqlNode = getDefaultSqlNode(otherwiseSqlNodes);
       ChooseSqlNode chooseSqlNode = new ChooseSqlNode(whenSqlNodes, defaultSqlNode);
       targetContents.add(chooseSqlNode);
     }
-
+    // when标签使用IfHandler解析，otherwise标签使用OtherwiseHandler
     private void handleWhenOtherwiseNodes(XNode chooseSqlNode, List<SqlNode> ifSqlNodes, List<SqlNode> defaultSqlNodes) {
       List<XNode> children = chooseSqlNode.getChildren();
       for (XNode child : children) {

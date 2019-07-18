@@ -32,6 +32,10 @@ import org.junit.jupiter.api.Test;
 
 class DynamicSqlSourceTest extends BaseDataTest {
 
+  /**
+   * should Demonstrate Simple Expected Text With No Loops Or Conditionals
+   * 应演示没有循环或条件的简单预期文本
+  */
   @Test
   void shouldDemonstrateSimpleExpectedTextWithNoLoopsOrConditionals() throws Exception {
     final String expected = "SELECT * FROM BLOG";
@@ -44,9 +48,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
   @Test
   void shouldDemonstrateMultipartExpectedTextWithNoLoopsOrConditionals() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE ID = ?";
-    DynamicSqlSource source = createDynamicSqlSource(
-        new TextSqlNode("SELECT * FROM BLOG"),
-        new TextSqlNode("WHERE ID = ?"));
+    DynamicSqlSource source = createDynamicSqlSource( new TextSqlNode("SELECT * FROM BLOG"), new TextSqlNode("WHERE ID = ?"));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
   }

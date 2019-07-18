@@ -21,7 +21,9 @@ public class ForEachSqlNode implements SqlNode {
   private final Configuration configuration;
 
   public ForEachSqlNode(Configuration configuration, SqlNode contents, String collectionExpression, String index, String item, String open, String close, String separator) {
+    //解析帮助类
     this.evaluator = new ExpressionEvaluator();
+    // 集合别名
     this.collectionExpression = collectionExpression;
     this.contents = contents;
     this.open = open;

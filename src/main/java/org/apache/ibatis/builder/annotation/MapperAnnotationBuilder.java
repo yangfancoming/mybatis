@@ -88,6 +88,7 @@ public class MapperAnnotationBuilder {
   private final Class<?> type;
 
   static {
+    //从这里看出我们熟悉的CRUD注解了，它这里先预存到sqlAnnotationTypes集合中
     SQL_ANNOTATION_TYPES.add(Select.class);
     SQL_ANNOTATION_TYPES.add(Insert.class);
     SQL_ANNOTATION_TYPES.add(Update.class);
@@ -99,6 +100,7 @@ public class MapperAnnotationBuilder {
     SQL_PROVIDER_ANNOTATION_TYPES.add(DeleteProvider.class);
   }
 
+  // 注意type参数代表MapperInterface接口类
   public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
     String resource = type.getName().replace('.', '/') + ".java (best guess)";
     this.assistant = new MapperBuilderAssistant(configuration, resource);
@@ -107,18 +109,23 @@ public class MapperAnnotationBuilder {
   }
 
   public void parse() {
+    //获取接口类的名字，比如com.jing.test.TestMapper的输出为class com.jing.test.TestMapper
     String resource = type.toString();
     if (!configuration.isResourceLoaded(resource)) {
+      //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
       loadXmlResource();
       configuration.addLoadedResource(resource);
+      //工作空间为当前类全名
       assistant.setCurrentNamespace(type.getName());
       parseCache();
       parseCacheRef();
+      //获得class类中的方法
       Method[] methods = type.getMethods();
       for (Method method : methods) {
         try {
           // issue #237
           if (!method.isBridge()) {
+            //解析方法上的注解式sql语句
             parseStatement(method);
           }
         } catch (IncompleteElementException e) {
@@ -144,11 +151,15 @@ public class MapperAnnotationBuilder {
     }
   }
 
+/**
+ 本函数功能： 优先判断当前类下有无XML配置，有则加载，无则通过MapperAnnotationBuilder#parseStatement()方法解析类上的注解
+*/
   private void loadXmlResource() {
     // Spring may not know the real resource name so we check a flag
     // to prevent loading again a resource twice
     // this flag is set at XMLMapperBuilder#bindMapperForNamespace
     if (!configuration.isResourceLoaded("namespace:" + type.getName())) {
+      //这里发现它会去加载跟Class文件同一目录下且同名的xml配置文件
       String xmlResource = type.getName().replace('.', '/') + ".xml";
       // #1347
       InputStream inputStream = type.getResourceAsStream("/" + xmlResource);
@@ -158,9 +169,13 @@ public class MapperAnnotationBuilder {
           inputStream = Resources.getResourceAsStream(type.getClassLoader(), xmlResource);
         } catch (IOException e2) {
           // ignore, resource is not required
+          //这里发现找不到相应的xml配置文件也没关系，这里其实它认为有其他两种方式实现
+          //1.SqlsessionFactory指定了mapperLocations
+          //2.Class类上有注解形式代替了xml配置
         }
       }
       if (inputStream != null) {
+        //解析相应的mapper xml
         XMLMapperBuilder xmlParser = new XMLMapperBuilder(inputStream, assistant.getConfiguration(), xmlResource, configuration.getSqlFragments(), type.getName());
         xmlParser.parse();
       }
@@ -279,17 +294,27 @@ public class MapperAnnotationBuilder {
     return null;
   }
 
+/**
+ 该函数 表露了 如果相应的接口dao类定义了类似@Select/@Delete的注解方式，其会覆盖XML方式加载的同id的MappedStatement
+*/
   void parseStatement(Method method) {
+    //获得为ParamMap，ibatis内部实现了HashMap
     Class<?> parameterTypeClass = getParameterType(method);
+    //脚本驱动器
     LanguageDriver languageDriver = getLanguageDriver(method);
+    //寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回null
     SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
     if (sqlSource != null) {
+      //查看方法头有无@Option注解
       Options options = method.getAnnotation(Options.class);
+      //注解方式的mapperStatementId为 ${Class全名}.${方法名}
       final String mappedStatementId = type.getName() + "." + method.getName();
       Integer fetchSize = null;
       Integer timeout = null;
+      //默认使用预处理方式
       StatementType statementType = StatementType.PREPARED;
       ResultSetType resultSetType = null;
+      //获取方法的@Select/@Update之类的SQL执行类型
       SqlCommandType sqlCommandType = getSqlCommandType(method);
       boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
       boolean flushCache = !isSelect;
@@ -314,7 +339,7 @@ public class MapperAnnotationBuilder {
       } else {
         keyGenerator = NoKeyGenerator.INSTANCE;
       }
-
+      //加载自定义的@Option的属性
       if (options != null) {
         if (FlushCachePolicy.TRUE.equals(options.flushCache())) {
           flushCache = true;
@@ -329,13 +354,16 @@ public class MapperAnnotationBuilder {
       }
 
       String resultMapId = null;
+      //读取返回类型@ResultMap注解，形式为@ResultMap(value="modelMap")，则必须存在class文件对应的sql XML配置文件，其中的value是sql xml配置中的<resultMap id="modelMap" />
       ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
+      //如果存在@ResultMap注解，则使用其中的value作为返回集合id
       if (resultMapAnnotation != null) {
         resultMapId = String.join(",", resultMapAnnotation.value());
       } else if (isSelect) {
+        //如果是查询式注解则采用另外方式生成,最后格式为${class类全名}.${methodName}-${-methodParameterType1-methodParamterType2-...}
         resultMapId = parseResultMap(method);
       }
-
+      //最终生成MappedStatement执行对象
       assistant.addMappedStatement(
           mappedStatementId,
           sqlSource,
