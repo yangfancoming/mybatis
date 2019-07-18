@@ -12,7 +12,10 @@ import ognl.PropertyAccessor;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 
-
+/**
+ DynamicContext 主要用于记录解析动态 SQL 语句之后产生的 SQL 语句片段，可以认为它
+ 是一个用于记录动态 SQL 语句解析结果的容器
+*/
 public class DynamicContext {
 
   public static final String PARAMETER_OBJECT_KEY = "_parameter";

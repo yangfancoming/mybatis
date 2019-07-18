@@ -8,7 +8,9 @@ import org.apache.ibatis.parsing.TokenHandler;
 import org.apache.ibatis.scripting.ScriptingException;
 import org.apache.ibatis.type.SimpleTypeRegistry;
 
-
+/**
+ 扮演了树叶节点的角色
+*/
 public class TextSqlNode implements SqlNode {
   private final String text;
   private final Pattern injectionFilter;

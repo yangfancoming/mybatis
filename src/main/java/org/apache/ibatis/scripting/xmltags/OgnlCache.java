@@ -10,10 +10,10 @@ import ognl.OgnlException;
 import org.apache.ibatis.builder.BuilderException;
 
 /**
+ * 在 MyBatis 中 ， 使用 OgnlCache 对原生的 OGNL 进行了封装 。 OGNL 表达式的解析过程是
+ * 比较耗时的， 为了提高效率，OgnlCache 中使用 expressionCache 属性 ConcurrentHashMap
+ *  对解析后的 OGNL 表达式进行缓存
  * Caches OGNL parsed expressions.
- *
- * @author Eduardo Macarron
- *
  * @see <a href='http://code.google.com/p/mybatis/issues/detail?id=342'>Issue 342</a>
  */
 public final class OgnlCache {
@@ -29,6 +29,7 @@ public final class OgnlCache {
   public static Object getValue(String expression, Object root) {
     try {
       Map context = Ognl.createDefaultContext(root, MEMBER_ACCESS, CLASS_RESOLVER, null);
+      // 使用 OGNL 执行 expression 表达式
       return Ognl.getValue(parseExpression(expression), context, root);
     } catch (OgnlException e) {
       throw new BuilderException("Error evaluating expression '" + expression + "'. Cause: " + e, e);
@@ -36,9 +37,12 @@ public final class OgnlCache {
   }
 
   private static Object parseExpression(String expression) throws OgnlException {
+    // 查找缓存
     Object node = expressionCache.get(expression);
     if (node == null) {
+      // 解析表达式
       node = Ognl.parseExpression(expression);
+      // 将表达式的解析结采添加到缓存中
       expressionCache.put(expression, node);
     }
     return node;
