@@ -7,6 +7,7 @@ import java.util.Properties;
 /**
  * MyBatis uses an ObjectFactory to create all needed new Objects.
  *  Mybatis 使用ObjectFactory去创建需要的对象
+ *  创建对象工厂类 (通过反射方式创建)
  */
 public interface ObjectFactory {
 

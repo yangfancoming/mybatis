@@ -12,6 +12,7 @@ public class DefaultReflectorFactory implements ReflectorFactory {
   private boolean classCacheEnabled = true;
 
   /** 目标类和反射器映射缓存  使用集合ConcurrentHashMap实现对Reflector的缓存*/
+  /** 缓存了多个类Class的反射器Reflector。（避免一个类，多次重复反射） */
   private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 
   public DefaultReflectorFactory() {

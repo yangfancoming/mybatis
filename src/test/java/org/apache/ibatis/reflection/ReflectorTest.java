@@ -1,12 +1,17 @@
 
 package org.apache.ibatis.reflection;
 
+import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
+import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.model.BeanInterface;
 import org.apache.ibatis.reflection.model.Child;
 import org.apache.ibatis.reflection.model.Section;
+import org.apache.ibatis.submitted.extends_with_constructor.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
@@ -20,6 +25,20 @@ class ReflectorTest {
   ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
   Reflector section_reflector = reflectorFactory.findForClass(Section.class);
   Reflector reflector = reflectorFactory.findForClass(Child.class);
+
+  /**
+   用默认构造方法，反射创建一个Student对象，反射获得studId属性并赋值为20，System.out输出studId的属性值。
+  */
+  @Test
+  void test() throws InvocationTargetException, IllegalAccessException {
+    ObjectFactory objectFactory = new DefaultObjectFactory();
+    Student student = objectFactory.create(Student.class);
+    Reflector reflector = new Reflector(Student.class);
+    Invoker invoker = reflector.getSetInvoker("id");
+    invoker.invoke(student, new Object[] { 20 });
+    invoker = reflector.getGetInvoker("id");
+    System.out.println("id=" + invoker.invoke(student, null));
+  }
 
   @Test
   void testGetSetterType() {

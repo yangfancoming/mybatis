@@ -3,6 +3,7 @@ package org.apache.ibatis.scripting.xmltags;
 
 
 public class StaticTextSqlNode implements SqlNode {
+
   private final String text;
 
   public StaticTextSqlNode(String text) {

@@ -3,8 +3,13 @@ package org.apache.ibatis.reflection.factory;
 
 
 public class TestClass {
-  String myString;
-  Integer myInteger;
+
+  public String myString;
+  public Integer myInteger;
+
+//  private String myString;
+//  private Integer myInteger;
+
 
   public TestClass(String myString, Integer myInteger) {
     this.myString = myString;

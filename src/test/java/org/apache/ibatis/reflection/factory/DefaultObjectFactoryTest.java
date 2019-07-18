@@ -12,11 +12,20 @@ class DefaultObjectFactoryTest {
   DefaultObjectFactory defaultObjectFactory = new DefaultObjectFactory();
 
   @Test
+  public void test(){
+    List<String> list = defaultObjectFactory.create(ArrayList.class);
+    list.add("pear");
+    list.add("apple");
+    list.stream().forEach(x->System.out.println(x));
+  }
+
+  @Test
   void createClass() {
     List<Class<?>> list = Arrays.asList(String.class, Integer.class);
     List<Object> foo = Arrays.asList("foo", 0); // ok
 //        List<Object> foo = Arrays.asList("foo", "bar"); // error
     TestClass testClass = defaultObjectFactory.create(TestClass.class,list,foo);
+    System.out.println(testClass);
     Assertions.assertEquals((Integer) 0, testClass.myInteger, "myInteger didn't match expected");
     Assertions.assertEquals("foo", testClass.myString, "myString didn't match expected");
   }
