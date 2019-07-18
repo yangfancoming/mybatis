@@ -412,8 +412,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     String javaType = context.getStringAttribute("javaType");
     String jdbcType = context.getStringAttribute("jdbcType");
     String nestedSelect = context.getStringAttribute("select");
-    String nestedResultMap = context.getStringAttribute("resultMap",
-        processNestedResultMappings(context, Collections.emptyList(), resultType));
+    String nestedResultMap = context.getStringAttribute("resultMap", processNestedResultMappings(context, Collections.emptyList(), resultType));
     String notNullColumn = context.getStringAttribute("notNullColumn");
     String columnPrefix = context.getStringAttribute("columnPrefix");
     String typeHandler = context.getStringAttribute("typeHandler");
@@ -427,9 +426,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private String processNestedResultMappings(XNode context, List<ResultMapping> resultMappings, Class<?> enclosingType) throws Exception {
-    if ("association".equals(context.getName())
-        || "collection".equals(context.getName())
-        || "case".equals(context.getName())) {
+    if ("association".equals(context.getName()) || "collection".equals(context.getName()) || "case".equals(context.getName())) {
       if (context.getStringAttribute("select") == null) {
         validateCollection(context, enclosingType);
         ResultMap resultMap = resultMapElement(context, resultMappings, enclosingType);

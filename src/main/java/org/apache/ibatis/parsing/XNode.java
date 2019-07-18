@@ -328,7 +328,6 @@ public class XNode {
 
   /**
    * 获取孩子的属性当做属性配置
-   * @return Properties
    */
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
@@ -345,7 +344,7 @@ public class XNode {
   }
 
   /**
-   * 给了一个toString方法，这样子，我能在显示的时候更加的友好
+   * 给了一个toString方法，这样子在显示的时候更加友好
    * @return 字符串
    */
   @Override
