@@ -50,6 +50,7 @@ class XPathParserTest {
     assertEquals("employee/height", node.getPath());
     assertEquals("employee[${id_var}]_height", node.getValueBasedIdentifier());
   }
+
   @AfterEach
   void after(){
     testEvalMethod(parser);

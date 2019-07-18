@@ -2,7 +2,7 @@
 
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"><configuration>
     <typeAliases>
-        <typeAlias alias="Person" type="org.apache.ibatis.submitted.ognl_enum.Person"/>
+        <typeAlias alias="Person" type="org.apache.ibatis.submitted.ognl.ognl_enum.Person"/>
     </typeAliases>
 
     <environments default="test">
@@ -17,6 +17,6 @@
     </environments>
 
     <mappers>
-        <mapper resource="org/apache/ibatis/submitted/ognl_enum/Person.xml"/>
+        <mapper resource="org/apache/ibatis/submitted/ognl/ognl_enum/Person.xml"/>
     </mappers>
 </configuration>

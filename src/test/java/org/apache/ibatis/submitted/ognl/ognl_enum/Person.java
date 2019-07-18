@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.submitted.ognl_enum;
+package org.apache.ibatis.submitted.ognl.ognl_enum;
 
 public class Person {
     public enum Type {

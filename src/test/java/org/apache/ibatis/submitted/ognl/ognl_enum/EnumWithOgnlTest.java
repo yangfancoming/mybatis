@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.submitted.ognl_enum;
+package org.apache.ibatis.submitted.ognl.ognl_enum;
 
 import java.io.Reader;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.submitted.ognl_enum.Person.Type;
+import org.apache.ibatis.submitted.ognl.ognl_enum.Person.Type;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,12 +24,12 @@ class EnumWithOgnlTest {
   List<Person> persons;
   @BeforeAll
   static void initDatabase() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognl_enum/ibatisConfig.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognl/ognl_enum/ibatisConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
       sqlSession = sqlSessionFactory.openSession();
       personMapper = sqlSession.getMapper(PersonMapper.class);
     }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/ognl_enum/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/ibatis/submitted/ognl/ognl_enum/CreateDB.sql");
   }
 
   @Test

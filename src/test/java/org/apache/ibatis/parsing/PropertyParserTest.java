@@ -10,6 +10,7 @@ class PropertyParserTest {
 
   @Test
   void replaceToVariableValue() {
+
     Properties props = new Properties();
     props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
     props.setProperty("key", "value");
@@ -30,6 +31,7 @@ class PropertyParserTest {
 
   @Test
   void notReplace() {
+
     Properties props = new Properties();
     props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
     Assertions.assertThat(PropertyParser.parse("${key}", props)).isEqualTo("${key}");

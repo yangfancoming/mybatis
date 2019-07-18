@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.submitted.ognlstatic;
+package org.apache.ibatis.submitted.ognl.ognlstatic;
 
 import java.io.Reader;
 
@@ -20,12 +20,12 @@ class OgnlStaticTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognlstatic/mybatis-config.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/ognl/ognlstatic/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
       sqlSession = sqlSessionFactory.openSession();
       mapper = sqlSession.getMapper(Mapper.class);
     }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/ognlstatic/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/ibatis/submitted/ognl/ognlstatic/CreateDB.sql");
   }
 
   /**

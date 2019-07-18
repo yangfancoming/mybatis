@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.submitted.ognlstatic;
+package org.apache.ibatis.submitted.ognl.ognlstatic;
 
 public class User {
 

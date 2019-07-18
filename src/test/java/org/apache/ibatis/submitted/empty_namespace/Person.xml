@@ -11,7 +11,7 @@
     </resultMap>
 
 
-    <select id="selectAllByType" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl_enum.Person$Type">
+    <select id="selectAllByType" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl.ognl_enum.Person$Type">
         SELECT id, firstName, lastName, personType
         FROM person
         <where>
@@ -23,7 +23,7 @@
             </if>
         </where>
     </select>
-    <select id="selectAllByTypeNameAttribute" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl_enum.Person$Type">
+    <select id="selectAllByTypeNameAttribute" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl.ognl_enum.Person$Type">
         SELECT id, firstName, lastName, personType
         FROM person
         <where>
@@ -36,7 +36,7 @@
         </where>
     </select>
 
-    <select id="selectAllByTypeWithInterface" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl_enum.PersonMapper$PersonType">
+    <select id="selectAllByTypeWithInterface" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl.ognl_enum.PersonMapper$PersonType">
         SELECT id, firstName, lastName, personType
         FROM person
         <where>
@@ -48,7 +48,7 @@
             </if>
         </where>
     </select>
-    <select id="selectAllByTypeNameAttributeWithInterface" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl_enum.PersonMapper$PersonType">
+    <select id="selectAllByTypeNameAttributeWithInterface" resultMap="personMap" parameterType="org.apache.ibatis.submitted.ognl.ognl_enum.PersonMapper$PersonType">
         SELECT id, firstName, lastName, personType
         FROM person
         <where>

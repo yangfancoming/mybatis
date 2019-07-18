@@ -16,7 +16,7 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="org/apache/ibatis/submitted/ognlstatic/Mapper.xml" />
+		<mapper resource="org/apache/ibatis/submitted/ognl/ognlstatic/Mapper.xml" />
 	</mappers>
 
 </configuration>
