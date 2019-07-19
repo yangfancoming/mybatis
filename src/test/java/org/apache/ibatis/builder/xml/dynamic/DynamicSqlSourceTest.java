@@ -61,6 +61,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
     System.out.println(boundSql.getSql());
     assertEquals(expected, boundSql.getSql());
   }
+
   /**
    * should Conditionally Include Where
    * 应有条件地包括
@@ -68,37 +69,33 @@ class DynamicSqlSourceTest extends BaseDataTest {
   @Test
   void shouldConditionallyIncludeWhere() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE ID = ?";
-    MixedSqlNode mixedSqlNode = mixedContents(textSqlNode2);
-    /**
-     * "false" SELECT * FROM BLOG
-     * "true"  SELECT * FROM BLOG WHERE ID = ?
-     */
-    IfSqlNode ifSqlNode = new IfSqlNode(mixedSqlNode, "true");
-    DynamicSqlSource source = createDynamicSqlSource(textSqlNode,ifSqlNode);
+    DynamicSqlSource source = createDynamicSqlSource( textSqlNode, new IfSqlNode(mixedContents(textSqlNode2), "true" ));
+    BoundSql boundSql = source.getBoundSql(null);
+    System.out.println(boundSql.getSql());
+    assertEquals(expected, boundSql.getSql());
+  }
+
+  /**
+   * should Conditionally Exclude Where
+   * 应有条件地排除
+   */
+  @Test
+  void shouldConditionallyExcludeWhere() throws Exception {
+    DynamicSqlSource source = createDynamicSqlSource( textSqlNode, new IfSqlNode(mixedContents(textSqlNode2), "false" ));
     BoundSql boundSql = source.getBoundSql(null);
     System.out.println(boundSql.getSql());
     assertEquals(expected, boundSql.getSql());
   }
 
   @Test
-  void shouldConditionallyExcludeWhere() throws Exception {
-    DynamicSqlSource source = createDynamicSqlSource( textSqlNode, new IfSqlNode(mixedContents(textSqlNode2), "false" ));
-    BoundSql boundSql = source.getBoundSql(null);
-    assertEquals(expected, boundSql.getSql());
-  }
-
-  @Test
   void shouldConditionallyDefault() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE CATEGORY = 'DEFAULT'";
-    DynamicSqlSource source = createDynamicSqlSource(
-      textSqlNode,
-      new ChooseSqlNode(new ArrayList<SqlNode>() {{
-        add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = ?")), "false"
-        ));
-        add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = 'NONE'")), "false"
-        ));
-      }}, mixedContents(new TextSqlNode("WHERE CATEGORY = 'DEFAULT'"))));
+    List<SqlNode> sqlNodes = new ArrayList<>() ;
+    sqlNodes.add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = ?")), "false"));
+    sqlNodes.add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = 'NONE'")), "false"));
+    DynamicSqlSource source = createDynamicSqlSource( textSqlNode, new ChooseSqlNode(sqlNodes, mixedContents(new TextSqlNode("WHERE CATEGORY = 'DEFAULT'"))));
     BoundSql boundSql = source.getBoundSql(null);
+    System.out.println(boundSql.getSql());
     assertEquals(expected, boundSql.getSql());
   }
 
@@ -106,7 +103,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
   void shouldConditionallyChooseFirst() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE CATEGORY = ?";
     DynamicSqlSource source = createDynamicSqlSource(
-      new TextSqlNode("SELECT * FROM BLOG"),
+      textSqlNode,
       new ChooseSqlNode(new ArrayList<SqlNode>() {{
         add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = ?")), "true"
         ));
@@ -121,7 +118,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
   void shouldConditionallyChooseSecond() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE CATEGORY = 'NONE'";
     DynamicSqlSource source = createDynamicSqlSource(
-      new TextSqlNode("SELECT * FROM BLOG"),
+      textSqlNode,
       new ChooseSqlNode(new ArrayList<SqlNode>() {{
         add(new IfSqlNode(mixedContents(new TextSqlNode("WHERE CATEGORY = ?")), "false"
         ));
@@ -153,8 +150,8 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   and\n ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   and\n ID = ?  ")), "true" )
+
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -166,8 +163,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   and\r\n ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   and\r\n ID = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -179,8 +175,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   and\t ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   and\t ID = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -192,8 +187,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   or\n ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   or\n ID = ?  ")), "true")
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -205,8 +199,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   or\r\n ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   or\r\n ID = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -215,11 +208,9 @@ class DynamicSqlSourceTest extends BaseDataTest {
   @Test
   void shouldTrimWHEREORWithTABForFirstCondition() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE \t ID = ?";
-    DynamicSqlSource source = createDynamicSqlSource(
-      textSqlNode,
+    DynamicSqlSource source = createDynamicSqlSource( textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   or\t ID = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   or\t ID = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -228,13 +219,10 @@ class DynamicSqlSourceTest extends BaseDataTest {
   @Test
   void shouldTrimWHEREInsteadOfORForSecondCondition() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE  NAME = ?";
-    DynamicSqlSource source = createDynamicSqlSource(
-      textSqlNode,
+    DynamicSqlSource source = createDynamicSqlSource(  textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   and ID = ?  ")), "false"
-        ),
-        new IfSqlNode(mixedContents(new TextSqlNode("   or NAME = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   and ID = ?  ")), "false" ),
+        new IfSqlNode(mixedContents(new TextSqlNode("   or NAME = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
@@ -246,10 +234,8 @@ class DynamicSqlSourceTest extends BaseDataTest {
     DynamicSqlSource source = createDynamicSqlSource(
       textSqlNode,
       new WhereSqlNode(new Configuration(),mixedContents(
-        new IfSqlNode(mixedContents(new TextSqlNode("   and ID = ?   ")), "true"
-        ),
-        new IfSqlNode(mixedContents(new TextSqlNode("OR NAME = ?  ")), "true"
-        )
+        new IfSqlNode(mixedContents(new TextSqlNode("   and ID = ?   ")), "true" ),
+        new IfSqlNode(mixedContents(new TextSqlNode("OR NAME = ?  ")), "true" )
       )));
     BoundSql boundSql = source.getBoundSql(null);
     assertEquals(expected, boundSql.getSql());
