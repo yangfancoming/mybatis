@@ -114,19 +114,19 @@ public class XMLMapperBuilder extends BaseBuilder {
       if (namespace == null || namespace.equals("")) {
         throw new BuilderException("Mapper's namespace cannot be empty");
       }
-      // 将namespace属性值赋给builderAssistant
+      // 记录当前命名空间 // 将namespace属性值赋给builderAssistant
       builderAssistant.setCurrentNamespace(namespace);
       // 解析<cache-ref>节点
       cacheRefElement(context.evalNode("cache-ref"));
       // 解析<cache>节点
       cacheElement(context.evalNode("cache"));
-      // 解析<parameterMap>节点
+      // 解析<parameterMap>节点,这个已经被废弃，不推荐使用
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
       // 解析<resultMap>节点
       resultMapElements(context.evalNodes("/mapper/resultMap"));
       // 解析<sql>节点
       sqlElement(context.evalNodes("/mapper/sql"));
-      // 解析sql语句
+      // 解析sql语句 // 解析statement
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing Mapper XML. The XML location is '" + resource + "'. Cause: " + e, e);
@@ -195,6 +195,16 @@ public class XMLMapperBuilder extends BaseBuilder {
       }
     }
   }
+  /**
+   *  cacheRefElement方法负责解析cache-ref元素，它通过调用CacheRefResolver的相应方法完成cache的引用。
+   *  创建好的cache-ref引用关系存入configuration的cacheRefMap缓存中。
+   *
+   *  cache-ref–从其他命名空间引用缓存配置。
+   *         如果你不想定义自己的cache，可以使用cache-ref引用别的cache。
+   *         因为每个cache都以namespace为id，
+   *         所以cache-ref只需要配置一个namespace属性就可以了。
+   *         需要注意的是，如果cache-ref和cache都配置了，以cache为准。
+   */
 
   private void cacheRefElement(XNode context) {
     if (context != null) {
@@ -208,7 +218,23 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
-  // 解析缓存标签   <cache>
+  /** 解析缓存标签   <cache>
+   * cache- 配置本定命名空间的缓存。
+   *         type- cache实现类，默认为PERPETUAL，可以使用自定义的cache实现类（别名或完整类名皆可）
+   *         eviction- 回收算法，默认为LRU，可选的算法有：
+   *             LRU– 最近最少使用的：移除最长时间不被使用的对象。
+   *             FIFO– 先进先出：按对象进入缓存的顺序来移除它们。
+   *             SOFT– 软引用：移除基于垃圾回收器状态和软引用规则的对象。
+   *             WEAK– 弱引用：更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+   *         flushInterval- 刷新间隔，默认为1个小时，单位毫秒
+   *         size- 缓存大小，默认大小1024，单位为引用数
+   *         readOnly- 只读
+   *
+   *    它通过调用CacheBuilder的相应方法完成cache的创建。
+   *    每个cache内部都有一个唯一的ID，这个id的值就是namespace。
+   *    创建好的cache对象存入configuration的cache缓存中
+   *    （该缓存以cache的ID属性即namespace为key，这里再次体现了mybatis的namespace的强大用处）。
+   */
   private void cacheElement(XNode context) {
     if (context != null) {
       // 基础缓存类型

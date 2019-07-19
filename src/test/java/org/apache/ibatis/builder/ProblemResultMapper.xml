@@ -4,7 +4,6 @@
 <mapper namespace="org.mybatis.spring.ErrorProblemMapper">
 
     <select id="findProblemResultMapTest" resultMap="java.lang.String">
-        SELECT *
-        FROM table_test WHERE id = #{id}
+        SELECT * FROM table_test WHERE id = #{id}
     </select>
 </mapper>
