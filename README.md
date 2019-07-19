@@ -155,3 +155,31 @@ Essentials
         select	selectCursor: 方法返回Cursor
         select	selectOne 其它
         flush	Flush注解
+        
+        
+# 标签处理器表:     
+        标签	    处理器	            节点
+        trim	    TrimHandler	        TrimSqlNode
+        where	    WhereHandler	    WhereSqlNode extends TrimSqlNode
+        set	        SetHandler  	    SetSqlNode extends TrimSqlNode
+        foreach	    ForEachHandler  	ForEachSqlNode
+        if  	    IfHandler	        IfSqlNode
+        choose	    ChooseHandler	    ChooseSqlNode
+        when	    IfHandler	        IfSqlNode
+        otherwise	OtherwiseHandler	MixedSqlNode
+        bind	    BindHandler	        VarDeclSqlNode
+
+
+# Xml文件元素和Configuration属性映射表：
+
+    <properties>元素：Properties variables。
+    
+    <settings>元素：Integer defaultStatementTimeout、Integer defaultFetchSize、ExecutorType defaultExecutorType……
+    
+    <typeAliases>元素：TypeAliasRegistry typeAliasRegistry。
+    
+    <typeHandlers>元素：TypeHandlerRegistry typeHandlerRegistry。
+    
+    <environments>元素：Environment environment。配置多个<environment>元素时，Mybatis只会读取默认的那一个。
+    
+    <mappers>元素：MapperRegistry mapperRegistry。

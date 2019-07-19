@@ -49,16 +49,25 @@ class DynSqlMapperTest {
     assertEquals(7, map2.size());
   }
 
-  /**
+  /**   测试 if标签
+   * 不使用 @param 注解的情况 传入参数
+   * SELECT description FROM ibtest.names WHERE id = ?
    * Verify that can specify any variable name for parameter object when parameter is value object that a type handler exists.
    * https://github.com/mybatis/mybatis-3/issues/1486
    */
-  @Test // 测试 if标签
-  void testValueObjectWithoutParamAnnotation() {
+  @Test
+  void testValueObjectWithoutParamAnnotationWithCondition() {
     List<String> descriptions = mapper.selectDescriptionById(3);
     assertEquals(1, descriptions.size());
     assertEquals("Pebbles", descriptions.get(0));
+  }
 
+  /**  测试 if标签
+   * 不使用 @param 注解的情况 传入参数 为null
+   * SELECT description FROM ibtest.names
+  */
+  @Test
+  void testValueObjectWithoutParamAnnotationWithoutCondition() {
     List<String> stringList = mapper.selectDescriptionById(null);
     assertEquals(7, stringList.size());
   }

@@ -28,7 +28,6 @@ class DynSqlTest {
     try (Reader configReader = Resources.getResourceAsReader("org/apache/ibatis/submitted/dynsql/MapperConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
       sqlSession = sqlSessionFactory.openSession();
-
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/dynsql/CreateDB.sql");
   }

@@ -37,8 +37,12 @@ class MetaClassTest {
   public void test(){
     MetaClass meta = MetaClass.forClass(User.class, reflectorFactory);
     assertTrue(meta.hasGetter("id"));
+    assertTrue(meta.hasSetter("id"));
+
+    assertTrue(meta.hasSetter("name"));
     assertTrue(meta.hasGetter("name"));
-//    assertTrue(meta.hasGetter("what")); // false
+
+    assertFalse(meta.hasGetter("what"));
   }
 
   @Test

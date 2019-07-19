@@ -63,7 +63,10 @@ public class XMLScriptBuilder extends BaseBuilder {
     return sqlSource;
   }
 
-  //node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
+  /**
+   * node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
+   *
+  */
   protected MixedSqlNode parseDynamicTags(XNode node) {
     //获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
     List<SqlNode> contents = new ArrayList<>();

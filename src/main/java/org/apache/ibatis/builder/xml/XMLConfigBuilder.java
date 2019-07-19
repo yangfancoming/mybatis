@@ -155,7 +155,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
     // 获取 settings 子节点中的内容
     Properties props = context.getChildrenAsProperties();
-    // Check that all settings are known to the configuration class
+    // Check that all settings are known to the configuration class 检查配置类是否知道所有设置
     // 创建 Configuration 类的“元信息”对象
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     for (Object key : props.keySet()) {

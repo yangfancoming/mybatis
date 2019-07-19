@@ -91,7 +91,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 */
 public class Configuration {
 
-  /** 对应配置文件中的    <environments default="development"> 标签
+  /**  对应全局 xml 文件中的 <environments default="development"> 标签
    * MyBatis 可以配置成适应多种环境，这种机制有助于将 SQL 映射应用于多种数据库之中,
    * 比如设置不同的开发、测试、线上配置，在每个配置中可以配置事务管理器和数据源对象.
    */
@@ -150,7 +150,7 @@ public class Configuration {
    */
   protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;
   protected AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior = AutoMappingUnknownColumnBehavior.NONE;
-  //这里配置的属性可以在整个配置文件中使用来替换需要动态配置的属性值
+  // 对应全局 xml 文件中的 <properties> 标签  这里配置的属性可以在整个配置文件中使用 来替换需要动态配置的属性值
   protected Properties variables = new Properties();
 
   protected ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
@@ -172,13 +172,13 @@ public class Configuration {
    * 这个类必须包含一个签名方法static Configuration getConfiguration(). (从 3.2.3 版本开始)
    */
   protected Class<?> configurationFactory;
-  //mapper接口的动态代理注册中心
+  // 对应全局xml文件中的 <mappers> 标签 mapper接口的动态代理注册中心
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
   //拦截器链
   protected final InterceptorChain interceptorChain = new InterceptorChain();
-  //TypeHandler注册 //TypeHandler注册中心
+  //对应全局xml文件中的 <typeHandlers> 标签  TypeHandler注册
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
-  //别名和具体类注册  //TypeAlias别名注册中心
+  // 对应全局xml文件中的 <typeAliases> 标签 别名和具体类注册  //TypeAlias别名注册中心
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
   //这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();

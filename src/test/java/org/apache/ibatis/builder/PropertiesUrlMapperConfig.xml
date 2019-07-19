@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"><configuration>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
 
   <properties url="file:./src/test/java/org/apache/ibatis/builder/jdbc.properties">
     <property name="prop1" value="bbbb"/>
+    <property name="foo" value="111" />
+    <property name="bar" value="NULL" />
   </properties>
 
 </configuration>

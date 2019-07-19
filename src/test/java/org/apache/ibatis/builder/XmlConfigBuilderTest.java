@@ -46,10 +46,7 @@ import org.junit.jupiter.api.Test;
 import static com.googlecode.catchexception.apis.BDDCatchException.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class XmlConfigBuilderTest {
 
@@ -215,14 +212,15 @@ class XmlConfigBuilderTest {
     }
   }
 
-  @Test
+  @Test  //  遍历 <properties> 标签   jdbc.properties 中4个属性  + 自定义3个属性 共遍历出7个
   void shouldSuccessfullyLoadXMLConfigFileWithPropertiesUrl() throws Exception {
     String resource = "org/apache/ibatis/builder/PropertiesUrlMapperConfig.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
       Configuration config = builder.parse();
-      assertThat(config.getVariables().get("driver").toString()).isEqualTo("org.apache.derby.jdbc.EmbeddedDriver");
-      assertThat(config.getVariables().get("prop1").toString()).isEqualTo("bbbb");
+      Properties variables = config.getVariables();
+      variables.entrySet().stream().forEach(x->System.out.println(x.getKey()+ "---"+x.getValue()));
+      assertEquals(7,variables.size());
     }
   }
 
@@ -234,7 +232,6 @@ class XmlConfigBuilderTest {
       builder.parse();
       when(builder).parse();
       then(caughtException()).isInstanceOf(BuilderException.class).hasMessage("Each XMLConfigBuilder can only be used once.");
-
     }
   }
 
@@ -249,10 +246,23 @@ class XmlConfigBuilderTest {
             + "</configuration>\n";
 
     XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
-    builder.parse();
     when(builder).parse();
     then(caughtException()).isInstanceOf(BuilderException.class)
       .hasMessageContaining("The setting foo is not known.  Make sure you spelled it correctly (case sensitive).");
+  }
+
+  @Test
+  void knownSettings() {
+    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+      + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
+      + "<configuration>\n"
+      + "  <settings>\n"
+      + "    <setting name=\"cacheEnabled\" value=\"false\"/>\n"
+      + "  </settings>\n"
+      + "</configuration>\n";
+    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+    Configuration config = builder.parse();
+    assertNotNull(config);
   }
 
   @Test
