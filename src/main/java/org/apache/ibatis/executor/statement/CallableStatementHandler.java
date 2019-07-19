@@ -23,6 +23,16 @@ import org.apache.ibatis.type.JdbcType;
 
 /**
  java.sql.CallableStatement对象的创建处理器，可用来执行存储过程调用的Statement。
+ 创建了一个CallableStatement对象，parameterize()则委托给ParameterHandler去设置。
+
+ CallableStatementHandler等于下面六句话。
+
+ CallableStatement cs = conn.prepareCall("{call pr_add(?,?,?)}");
+ cs.registerOutParameter(3, Types.INTEGER);
+ cs.setInt(1, 10);
+ cs.setString(2, "Hello");
+ cs.execute();
+ return cs.getInt(3);
 */
 public class CallableStatementHandler extends BaseStatementHandler {
 

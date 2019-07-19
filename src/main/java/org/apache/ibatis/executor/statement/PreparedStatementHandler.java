@@ -18,7 +18,14 @@ import org.apache.ibatis.mapping.ResultSetType;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+/**
+ 创建了一个PrepareStatement对象，parameterize()则委托给ParameterHandler去设置。
 
+ PreparedStatementHandler等于下面三句话。
+ PreparedStatement pstm = conn.prepareStatement(sql);
+ pstm.setString(1, "Hello");
+ return pstm.execute();
+*/
 public class PreparedStatementHandler extends BaseStatementHandler {
 
   public PreparedStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {

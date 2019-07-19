@@ -26,10 +26,14 @@ import org.apache.ibatis.session.SqlSession;
 
 /**
  * MapperMethod代理Mapper所有方法
+ *
+ * MapperMethod的功能：
+ * 1. 解析Mapper接口的方法，并封装成MapperMethod对象。
+ * 2. 将Sql命令，正确路由到恰当的SqlSession的方法上。
  */
 public class MapperMethod {
 
-  //一个内部类 封装了SQL标签的类型 insert update delete select
+  //一个内部类 封装了SQL标签的类型和id  insert update delete select
   private final SqlCommand command;
   //一个内部类 封装了方法的参数信息 返回类型信息等
   private final MethodSignature method;
@@ -214,7 +218,7 @@ public class MapperMethod {
   }
   //封装了具体执行的动作
   public static class SqlCommand {
-    //xml标签的id
+    //xml标签的id   通过它可以找到MappedStatement
     private final String name;
     //insert update delete select的具体类型
     private final SqlCommandType type;
@@ -315,9 +319,9 @@ public class MapperMethod {
       // 解析 @MapKey 注解，获取注解内容
       this.mapKey = getMapKey(method);
       this.returnsMap = this.mapKey != null;
-      // 获取 RowBounds 参数在参数列表中的位置，如果参数列表中包含多个 RowBounds 参数，此方法会抛出异常
+      // 分页参数 // 获取 RowBounds 参数在参数列表中的位置，如果参数列表中包含多个 RowBounds 参数，此方法会抛出异常
       this.rowBoundsIndex = getUniqueParamIndex(method, RowBounds.class);
-      // 获取 ResultHandler 参数在参数列表中的位置
+      // 获取 ResultHandler 参数在参数列表中的位置  // 自定义ResultHandler
       this.resultHandlerIndex = getUniqueParamIndex(method, ResultHandler.class);
 
       /** 解析参数列表

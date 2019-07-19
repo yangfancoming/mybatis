@@ -18,7 +18,13 @@ import org.apache.ibatis.mapping.ResultSetType;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+/**
+ 创建了一个Statement对象，由于Statement对象不支持“?”参数，所以，parameterize()是空实现。
 
+ SimpleStatementHandler等于下面两句话。
+ Statement stm = conn.createStatement()
+ return stm.execute(sql);
+*/
 public class SimpleStatementHandler extends BaseStatementHandler {
 
   public SimpleStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {

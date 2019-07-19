@@ -67,7 +67,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private XMLMapperBuilder(XPathParser parser, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
-    // 将configuration赋给BaseBuilder
+    // 将configuration赋给父类 BaseBuilder
     super(configuration);
     // 创建MapperBuilderAssistant对象（该对象为MapperBuilder的协助者）
     this.builderAssistant = new MapperBuilderAssistant(configuration, resource);
@@ -76,8 +76,8 @@ public class XMLMapperBuilder extends BaseBuilder {
     this.resource = resource;
   }
 
+  // 若当前的Mapper.xml尚未被解析，则开始解析
   public void parse() {
-    // 若当前的Mapper.xml尚未被解析，则开始解析
     // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了
     if (!configuration.isResourceLoaded(resource)) {
       // 解析<mapper>节点
@@ -100,18 +100,12 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
 /** 解析xml    参数 XNode context
- <mapper namespace="org.apache.ibatis.submitted.cache.FooMapper">
+ <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
    <cache/>
-
-   <select id="findAll" resultType="Foo">
-     select * from foo
+   <select id="selectAllPosts" resultType="hashmap">
+       select * from post order by id
    </select>
-
-   <delete parameterType="int" id="deleteById">
-     delete from foo where id = #{id}
-   </delete>
  </mapper>
-
 */
   private void configurationElement(XNode context) {
     try {

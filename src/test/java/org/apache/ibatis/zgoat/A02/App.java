@@ -66,4 +66,11 @@ class App {
     System.out.println(fooMapper.getClass()); // class com.sun.proxy.$Proxy13
   }
 
+
+  @Test
+  void test3() {
+    int i = fooMapper.deleteById(2);
+    System.out.println(i);
+  }
+
 }

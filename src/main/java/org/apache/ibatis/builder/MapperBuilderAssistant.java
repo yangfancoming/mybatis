@@ -37,6 +37,7 @@ import org.apache.ibatis.type.TypeHandler;
 
 public class MapperBuilderAssistant extends BaseBuilder {
 
+  // <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 org.apache.ibatis.domain.blog.mappers.BlogMapper
   private String currentNamespace;
   private final String resource;
   private Cache currentCache;

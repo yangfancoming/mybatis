@@ -450,33 +450,11 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   方式1：
    <mappers>
-   <package name="org.mybatis.builder"/>
-   </mappers>
-
-   方式2：
-   <mappers>
-   <mapper resource="org/mybatis/builder/AuthorMapper.xml"/>
-   </mappers>
-
-   方式3：
-   <mappers>
-   <mapper url="file:///var/mappers/AuthorMapper.xml"/>
-   </mappers>
-
-   方式4：
-   <mappers>
-   <mapper class="org.mybatis.builder.AuthorMapper"/>
-   </mappers>
-
-
-   <mappers>
-   <!--直接映射到相应的mapper文件 -->
-   <mapper resource="mybatis/mapper/EmployeeMapper.xml"/>
-   <mapper url="xx"/>
-   <mapper class="yy"/>
-   <package name="com.intellif.mozping"/>
+     <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
+     <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
+     <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
+     <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
 
    * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，具体的解
@@ -484,7 +462,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void mapperElement(XNode parent) throws Exception {
     if (parent != null) {
-      //1.节点非空，遍历子节点逐个处理，因为mapperElement(root.evalNode("mappers"))解析的mappers里面可能有多个标签 // 遍历<mappers>下所有子节点
+      //  遍历<mappers>下所有子节点 <mapper> 或 <package>
       for (XNode child : parent.getChildren()) {
         // 如果当前节点为<package>
         if ("package".equals(child.getName())) {
@@ -494,29 +472,27 @@ public class XMLConfigBuilder extends BaseBuilder {
           configuration.addMappers(mapperPackage);
         } else {
           /** 如果当前节点为<mapper> 依次获取resource、url、class属性
-           * mapper节点配置有3个属性：resource,url,class。他们处理的优先级依次是resource,url,class，3个属性只处理一种
-           * 1.3 一个一个Mapper.xml文件的添加 ， resource、url和class三者是互斥的，resource优先级最高
+           * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
           */
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
           //1.4 按照resource属性实例化XMLMapperBuilder来解析xml配置文件
-          if (resource != null && url == null && mapperClass == null) { // 解析resource属性（Mapper.xml文件的路径）  <mapper resource="com/dy/dao/userDao.xml"/>
+          if (resource != null && url == null && mapperClass == null) { // 解析resource属性（Mapper.xml文件的路径）  <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
             ErrorContext.instance().resource(resource);
             InputStream inputStream = Resources.getResourceAsStream(resource); // 将Mapper.xml文件解析成输入流
             // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
-            //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此
-            //XMLMapperBuilder解析之后直接把配置设置到Configuration对象
+            //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
             mapperParser.parse();
-          } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file://........"/>
+          } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
             //1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件
             ErrorContext.instance().resource(url);
             InputStream inputStream = Resources.getUrlAsStream(url);
             // 通过读取resource或url属性得到xml的访问路径后，交给XMLMapperBuilder对象来解析
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
             mapperParser.parse();
-          } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="com.dy.dao.UserDao"/>
+          } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
             //1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
             // 将Mapper Class的权限定名转化成Class对象
             Class<?> mapperInterface = Resources.classForName(mapperClass);
