@@ -41,7 +41,6 @@ class CurdApp extends Base {
     }
   }
 
-
   @Test  // insert 测试
   public void insert() throws SQLException {
     String sql ="insert into foo (id, firstname, lastname) values (3, 'Goat', 'jordan'); ";

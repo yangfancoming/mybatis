@@ -17,7 +17,7 @@ public class PreparedStatementTest extends Base {
 
   String sql ="select * from foo where id = ? and firstname = ?";
 
-  @Test  //
+  @Test
   public void test() throws SQLException {
 
     PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -28,5 +28,15 @@ public class PreparedStatementTest extends Base {
       System.out.println( resultSet.getObject("id") + "---" + resultSet.getObject("firstname") + "---" + resultSet.getObject("lastname") );
     }
   }
+
+  @Test
+  public void test2() throws SQLException {
+    PreparedStatement preparedStatement = connection.prepareStatement(sql);
+    preparedStatement.setInt(1,1); // 使用 1 替换掉sql中的第一个 ？
+    preparedStatement.setString(2,"Jane");  // 使用 Jane 替换掉sql中的第二个 ？
+    boolean mark = preparedStatement.execute();
+    System.out.println(mark);
+  }
+
 
 }

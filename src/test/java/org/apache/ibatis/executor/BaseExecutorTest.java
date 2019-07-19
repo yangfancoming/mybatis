@@ -5,15 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javassist.util.proxy.Proxy;
-
 import javax.sql.DataSource;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.domain.blog.Author;
 import org.apache.ibatis.domain.blog.Blog;
@@ -139,8 +135,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldInsertNewAuthorByProc() throws Exception {
-
-  
     try {
       Author author = new Author(97, "someone", "******", "someone@apache.org", null, null);
       MappedStatement insertStatement = ExecutorTestHelper.prepareInsertAuthorProc(config);
@@ -159,8 +153,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldInsertNewAuthorUsingSimpleNonPreparedStatements() throws Exception {
-
-  
     try {
       Author author = new Author(99, "someone", "******", "someone@apache.org", null, null);
       MappedStatement insertStatement = ExecutorTestHelper.createInsertAuthorWithIDof99MappedStatement(config);
@@ -180,8 +172,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldUpdateAuthor() throws Exception {
-
-  
     try {
       Author author = new Author(101, "someone", "******", "someone@apache.org", null, Section.NEWS);
       MappedStatement updateStatement = ExecutorTestHelper.prepareUpdateAuthorMappedStatement(config);
@@ -201,8 +191,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldDeleteAuthor() throws Exception {
-
-  
     try {
       Author author = new Author(101, null, null, null, null, null);
       MappedStatement deleteStatement = ExecutorTestHelper.prepareDeleteAuthorMappedStatement(config);
@@ -221,8 +209,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldSelectDiscriminatedPost() throws Exception {
-
-  
     try {
       MappedStatement selectStatement = ExecutorTestHelper.prepareSelectDiscriminatedPost(config);
       List<Map<String,String>> products = executor.query(selectStatement, null, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
@@ -241,8 +227,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldSelect2DiscriminatedPosts() throws Exception {
-
-  
     try {
       MappedStatement selectStatement = ExecutorTestHelper.prepareSelectDiscriminatedPost(config);
       List<Map<String,String>> products = executor.query(selectStatement, null, new RowBounds(2, 2), Executor.NO_RESULT_HANDLER);
@@ -262,7 +246,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldSelectTwoSetsOfAuthorsViaProc() throws Exception {
-  
     try {
       MappedStatement selectStatement = ExecutorTestHelper.prepareSelectTwoSetsOfAuthorsProc(config);
       List<List<Author>> authorSets = executor.query(selectStatement, new HashMap<String, Object>() {
@@ -286,8 +269,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldSelectAuthorViaOutParams() throws Exception {
-
-  
     try {
       MappedStatement selectStatement = ExecutorTestHelper.prepareSelectAuthorViaOutParams(config);
       Author author = new Author(102, null, null, null, null, null);
@@ -311,8 +292,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldFetchPostsForBlog() throws Exception {
-
-  
     try {
       MappedStatement selectBlog = ExecutorTestHelper.prepareComplexSelectBlogMappedStatement(config);
       MappedStatement selectPosts = ExecutorTestHelper.prepareSelectPostsForBlogMappedStatement(config);
@@ -333,8 +312,6 @@ class BaseExecutorTest extends BaseDataTest {
 
   @Test
   void shouldFetchOneOrphanedPostWithNoBlog() throws Exception {
-
-  
     try {
       MappedStatement selectBlog = ExecutorTestHelper.prepareComplexSelectBlogMappedStatement(config);
       MappedStatement selectPost = ExecutorTestHelper.prepareSelectPostMappedStatement(config);
