@@ -14,6 +14,7 @@ import org.apache.ibatis.type.SimpleTypeRegistry;
 public class TextSqlNode implements SqlNode {
 
   private final String text;
+
   private final Pattern injectionFilter;
 
   public TextSqlNode(String text) {

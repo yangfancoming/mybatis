@@ -24,9 +24,12 @@ public class SqlSourceBuilder extends BaseBuilder {
   }
 
   public SqlSource parse(String originalSql, Class<?> parameterType, Map<String, Object> additionalParameters) {
+    // 对#{}这样的字符串内容的解析处理类
     ParameterMappingTokenHandler handler = new ParameterMappingTokenHandler(configuration, parameterType, additionalParameters);
     GenericTokenParser parser = new GenericTokenParser("#{", "}", handler);
+    // 获取真实的可执行性的sql语句
     String sql = parser.parse(originalSql);
+    // 包装成StaticSqlSource返回
     return new StaticSqlSource(configuration, sql, handler.getParameterMappings());
   }
 
@@ -49,6 +52,8 @@ public class SqlSourceBuilder extends BaseBuilder {
     @Override
     public String handleToken(String content) {
       parameterMappings.add(buildParameterMapping(content));
+      // 此处的作用就是对#{}节点中的key值保存映射，比如javaType/jdbcType/mode等信息，限于篇幅过长，读者可自行分析  parameterMappings.add(buildParameterMapping(content));
+      // 将#{}替换为?，即一般包装成`select * form test where name=? and age=?`预表达式语句
       return "?";
     }
 
