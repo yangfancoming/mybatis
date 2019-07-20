@@ -48,6 +48,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
           return constructor.newInstance();
         } catch (IllegalAccessException e) {
           if (Reflector.canControlMemberAccessible()) {
+            // 设置权限  使其可以访问 类中的私有方法  否则 报权限错误
             constructor.setAccessible(true);
             return constructor.newInstance();
           } else {

@@ -176,6 +176,7 @@ public class Reflector {
    * 收集get方法
    */
   private void addGetMethod(String name, Method method) {
+    //检查属性名是否合法，检查条件方法名不以$开头，不等于serialVersionUID  不等于class
     if (isValidPropertyName(name)) {
       getMethods.put(name, new MethodInvoker(method));
       // 解析返回值类型
@@ -416,7 +417,7 @@ public class Reflector {
 
   /**
    * Checks whether can control member accessible.
-   * 检查是否拥有了访问的权限：除了访问公有的变量， 还能访问 default , protected 和p rivate 变量
+   * 检查是否拥有了访问的权限：除了访问公有的变量， 还能访问 default , protected 和private 变量
    * @return If can control member accessible, it return {@literal true}
    * @since 3.5.0
    */

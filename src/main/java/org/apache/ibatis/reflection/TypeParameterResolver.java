@@ -11,15 +11,24 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 
-
+/**
+ TypeParameterResolver 的功能是：当存在复杂的继承关系以及泛型定义时， TypeParameterResolver 可以帮助我们解析字段、方法参数或方法返回值的类型。
+ TypeParameterResolver 是在Refelctor中的addGetMethod方法中调用的，目的是获取方法的返回值类型。
+                         在Refelctor中的addSetMethod方法中调用的，目的是获取方法的参数类型。
+*/
 public class TypeParameterResolver {
 
   /**
-   * @return The field type as {@link Type}. If it has type parameters in the declaration,<br>
-   *         they will be resolved to the actual runtime {@link Type}s.
+   * resolveFileType
+   * 第一步获取字段的声明类型，
+   * 第二步 获取字段定义所在的类的Class对象。
+   * 第三步resolveType是获取字段的类型
+   * @return The field type as {@link Type}. If it has type parameters in the declaration, they will be resolved to the actual runtime {@link Type}s.
    */
   public static Type resolveFieldType(Field field, Type srcType) {
+    //获取字段的声明类型
     Type fieldType = field.getGenericType();
+    //获取字段定义所在的类的Class对象
     Class<?> declaringClass = field.getDeclaringClass();
     return resolveType(fieldType, srcType, declaringClass);
   }
@@ -48,7 +57,7 @@ public class TypeParameterResolver {
     return result;
   }
 
-  /**
+  /** 主要是根据字段类型来匹配是属于哪个类型的，然后返回
    * 获取类型信息
    *
    * @param type 根据是否有泛型信息签名选择传入泛型类型或简单类型
