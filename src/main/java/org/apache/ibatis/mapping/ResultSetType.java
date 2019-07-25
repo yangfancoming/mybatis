@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 public enum ResultSetType {
   /**
    * behavior with same as unset (driver dependent).
-   *
    * @since 3.5.0
    */
   DEFAULT(-1),

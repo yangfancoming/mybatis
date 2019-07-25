@@ -52,10 +52,10 @@ public class Reflector {
   // 记录了属性响应的 getter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> getMethods = new HashMap<>();
 
-  // 记录了 相应的 setter 方法参数烈性 key是属性名称  value 是参数类型
+  // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> setTypes = new HashMap<>();
 
-  // 记录了 相应的 getter 方法参数烈性 key是属性名称  value 是参数类型
+  // 记录了 相应的 getter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();
 
   // 默认构造方法
@@ -75,7 +75,7 @@ public class Reflector {
     // 从 setMethods 映射中获取可写属性名数组
     writablePropertyNames = setMethods.keySet().toArray(new String[setMethods.keySet().size()]);
 
-    // 将所有属性名的大写形式作为键，属性名作为值，存入到 caseInsensitivePropertyMap 中
+    // 将所有属性名的大写形式作为键，属性名作为值，存入到 caseInsensitivePropertyMap 中  ，其中记录了所有大写的属性名称的集合
     for (String propName : readablePropertyNames) {
       caseInsensitivePropertyMap.put(propName.toUpperCase(Locale.ENGLISH), propName);
     }
@@ -345,8 +345,7 @@ public class Reflector {
    * We use this method, instead of the simpler <code>Class.getMethods()</code>,
    * because we want to look for private methods as well.
    * 此方法返回一个数组，该数组包含该类中声明的所有方法和任何超类
-   * 我们使用此方法不是为了代替 Class.getMethods(),
-   * 因为我们想访问类中的私有方法.
+   * 我们使用此方法不是为了代替 Class.getMethods(),因为我们想访问类中的私有方法.
    *
    * 获取类的所有方法
    * @param cls The class
@@ -366,7 +365,7 @@ public class Reflector {
       for (Class<?> anInterface : interfaces) {
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
       }
-      //当前类的父类
+      //当前类的父类  // 获取父类，继续while循环
       currentClass = currentClass.getSuperclass();
     }
 
@@ -473,7 +472,6 @@ public class Reflector {
 
   /**
    * Gets the type for a property setter.
-   *
    * @param propertyName - the name of the property
    * @return The Class of the property setter
    */

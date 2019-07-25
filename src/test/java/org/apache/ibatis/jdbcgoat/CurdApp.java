@@ -9,7 +9,7 @@ import java.util.Properties;
 
 class CurdApp extends Base {
 
-  String sql ="select * from foo";
+  String sql = "select * from foo";
 
   /** DriverManager 2个参数 构造函数 */
   @Test

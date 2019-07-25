@@ -121,7 +121,6 @@ public class ParameterMapping {
 
   /**
    * Used for handling output of callable statements.
-   * @return
    */
   public ParameterMode getMode() {
     return mode;
@@ -129,7 +128,6 @@ public class ParameterMapping {
 
   /**
    * Used for handling output of callable statements.
-   * @return
    */
   public Class<?> getJavaType() {
     return javaType;
@@ -137,7 +135,6 @@ public class ParameterMapping {
 
   /**
    * Used in the UnknownTypeHandler in case there is no handler for the property type.
-   * @return
    */
   public JdbcType getJdbcType() {
     return jdbcType;
@@ -145,7 +142,6 @@ public class ParameterMapping {
 
   /**
    * Used for handling output of callable statements.
-   * @return
    */
   public Integer getNumericScale() {
     return numericScale;
@@ -153,7 +149,6 @@ public class ParameterMapping {
 
   /**
    * Used when setting parameters to the PreparedStatement.
-   * @return
    */
   public TypeHandler<?> getTypeHandler() {
     return typeHandler;
@@ -161,7 +156,6 @@ public class ParameterMapping {
 
   /**
    * Used for handling output of callable statements.
-   * @return
    */
   public String getResultMapId() {
     return resultMapId;
@@ -169,7 +163,6 @@ public class ParameterMapping {
 
   /**
    * Used for handling output of callable statements.
-   * @return
    */
   public String getJdbcTypeName() {
     return jdbcTypeName;
@@ -177,7 +170,6 @@ public class ParameterMapping {
 
   /**
    * Not used
-   * @return
    */
   public String getExpression() {
     return expression;
