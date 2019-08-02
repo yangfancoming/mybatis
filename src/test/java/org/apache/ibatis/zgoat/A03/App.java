@@ -41,9 +41,27 @@ class App {
   }
 
 
+
+  /**      select * from foo where id = #{id}
+   [2019-08-02 22:07:56,969]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:==>  Preparing: select * from foo where id = ?
+   [2019-08-02 22:07:56,996]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:==> Parameters: 1(Integer)
+   [2019-08-02 22:07:57,024]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:<==      Total: 1
+  */
   @Test
   void test2() {
     Foo foo = fooMapper.selectById(1);
+    System.out.println(foo);
+  }
+
+
+  /**      select * from foo where id = ${id}
+   [2019-08-02 22:07:34,187]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:==>  Preparing: select * from foo where id = 1
+   [2019-08-02 22:07:34,214]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:==> Parameters:
+   [2019-08-02 22:07:34,240]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:134)DEBUG:<==      Total: 1
+  */
+  @Test
+  void test4() {
+    Foo foo = fooMapper.selectById1(1);
     System.out.println(foo);
   }
 

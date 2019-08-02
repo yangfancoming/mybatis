@@ -25,9 +25,9 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * MapperMethod代理Mapper所有方法
+ * MapperMethod 代理Mapper所有方法
  *
- * MapperMethod的功能：
+ * MapperMethod 的功能：
  * 1. 解析Mapper接口的方法，并封装成MapperMethod对象。
  * 2. 将Sql命令，正确路由到恰当的SqlSession的方法上。
  */

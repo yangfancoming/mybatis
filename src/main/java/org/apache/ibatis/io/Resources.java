@@ -77,7 +77,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Stream object
-   *
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -88,7 +87,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Stream object
-   *
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource

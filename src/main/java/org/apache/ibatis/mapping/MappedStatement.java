@@ -17,6 +17,7 @@ import org.apache.ibatis.session.Configuration;
 /**
  存储每条sql语句的详细信息
  在mapper xml文件中，我们会将各种动态sql写在该映射文件中，mybatis解析过后，会按语句为单位将信息放在MappedStatement中。
+ 对应：select id, username from author where id = #{value}
 */
 public final class MappedStatement {
 

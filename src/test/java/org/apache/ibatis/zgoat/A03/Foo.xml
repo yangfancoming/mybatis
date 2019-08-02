@@ -10,6 +10,10 @@
     select * from foo where id = #{id}
   </select>
 
+  <select id="selectById1" parameterType="int"  resultType="Foo" >
+    select * from foo where id = ${id}
+  </select>
+
   <delete id="deleteById"  parameterType="int">
     delete from foo where id = #{id}
   </delete>

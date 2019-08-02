@@ -33,7 +33,7 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.JdbcType;
 
 /**
- * XMLConfigBuilder 用来解析MyBatis的配置文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
+ * XMLConfigBuilder 用来解析MyBatis的全局配置文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
 */
 public class XMLConfigBuilder extends BaseBuilder {
 
@@ -86,6 +86,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     this.parser = parser;
   }
 
+  //外部调用此方法对mybatis的全局配置文件进行解析
   public Configuration parse() {
     //1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
     if (parsed) {
@@ -110,7 +111,8 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void parseConfiguration(XNode root) {
     try {
       //issue #117 read properties first // 解析<properties>节点
-      propertiesElement(root.evalNode("properties"));
+      XNode properties = root.evalNode("properties");
+      propertiesElement(properties);
       // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似，这里不再赘述。最终，所有的setting属性都被存储在Configuration对象中。
       Properties settings = settingsAsProperties(root.evalNode("settings"));
       // 加载 vfs

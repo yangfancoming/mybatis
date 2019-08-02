@@ -9,6 +9,8 @@ public interface FooMapper {
 
   Foo selectById(Integer id);
 
+  Foo selectById1(Integer id);
+
   List<Foo> findAll();
 
   int deleteById(Integer id);
