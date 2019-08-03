@@ -372,16 +372,13 @@ public class Configuration {
     this.autoMappingBehavior = autoMappingBehavior;
   }
 
-  /**
-   * @since 3.4.0
-   */
+
+  /** @since 3.4.0  */
   public AutoMappingUnknownColumnBehavior getAutoMappingUnknownColumnBehavior() {
     return autoMappingUnknownColumnBehavior;
   }
 
-  /**
-   * @since 3.4.0
-   */
+  /** @since 3.4.0  */
   public void setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior) {
     this.autoMappingUnknownColumnBehavior = autoMappingUnknownColumnBehavior;
   }
@@ -461,16 +458,12 @@ public class Configuration {
     this.defaultStatementTimeout = defaultStatementTimeout;
   }
 
-  /**
-   * @since 3.3.0
-   */
+  /** @since 3.3.0  */
   public Integer getDefaultFetchSize() {
     return defaultFetchSize;
   }
 
-  /**
-   * @since 3.3.0
-   */
+  /** @since 3.3.0  */
   public void setDefaultFetchSize(Integer defaultFetchSize) {
     this.defaultFetchSize = defaultFetchSize;
   }
@@ -527,9 +520,7 @@ public class Configuration {
     return typeAliasRegistry;
   }
 
-  /**
-   * @since 3.2.2
-   */
+  /** @since 3.2.2 */
   public MapperRegistry getMapperRegistry() {
     return mapperRegistry;
   }
@@ -558,9 +549,7 @@ public class Configuration {
     this.objectWrapperFactory = objectWrapperFactory;
   }
 
-  /**
-   * @since 3.2.2
-   */
+  /** @since 3.2.2 */
   public List<Interceptor> getInterceptors() {
     return interceptorChain.getInterceptors();
   }
@@ -580,9 +569,7 @@ public class Configuration {
     return languageRegistry.getDefaultDriver();
   }
 
-  /**
-   * @since 3.5.1
-   */
+  /** @since 3.5.1 */
   public LanguageDriver getLanguageDriver(Class<? extends LanguageDriver> langClass) {
     if (langClass == null) {
       return languageRegistry.getDefaultDriver();
@@ -903,7 +890,6 @@ public class Configuration {
 
   /**
    * Extracts namespace from fully qualified statement id.
-   *
    * @param statementId
    * @return namespace or null when id does not contain period.
    */
@@ -974,7 +960,6 @@ public class Configuration {
 
     /**
      * Assign a function for producing a conflict error message when contains value with the same key.
-     * <p>
      * function arguments are 1st is saved value and 2nd is target value.
      * @param conflictMessageProducer A function for producing a conflict error message
      * @return a conflict error message
@@ -989,8 +974,7 @@ public class Configuration {
     @SuppressWarnings("unchecked")
     public V put(String key, V value) {
       if (containsKey(key)) {
-        throw new IllegalArgumentException(name + " already contains value for " + key
-            + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
+        throw new IllegalArgumentException(name + " already contains value for " + key + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
       }
       if (key.contains(".")) {
         final String shortKey = getShortName(key);
@@ -1010,8 +994,7 @@ public class Configuration {
         throw new IllegalArgumentException(name + " does not contain value for " + key);
       }
       if (value instanceof Ambiguity) {
-        throw new IllegalArgumentException(((Ambiguity) value).getSubject() + " is ambiguous in " + name
-            + " (try using the full name including the namespace, or rename one of the entries)");
+        throw new IllegalArgumentException(((Ambiguity) value).getSubject() + " is ambiguous in " + name  + " (try using the full name including the namespace, or rename one of the entries)");
       }
       return value;
     }

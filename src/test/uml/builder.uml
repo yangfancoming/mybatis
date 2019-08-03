@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
+  <nodes>
+    <node x="701.0" y="80.0">org.apache.ibatis.builder.xml.XMLMapperBuilder</node>
+    <node x="0.0" y="155.0">org.apache.ibatis.session.SqlSessionFactoryBuilder</node>
+    <node x="0.0" y="80.0">org.apache.ibatis.scripting.xmltags.XMLScriptBuilder</node>
+    <node x="361.0" y="80.0">org.apache.ibatis.builder.xml.XMLConfigBuilder</node>
+    <node x="379.0" y="0.0">org.apache.ibatis.builder.BaseBuilder</node>
+    <node x="534.0" y="80.0">org.apache.ibatis.builder.SqlSourceBuilder</node>
+    <node x="168.0" y="80.0">org.apache.ibatis.builder.xml.XMLStatementBuilder</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.BaseBuilder">
+      <point x="0.0" y="-15.0" />
+      <point x="782.0" y="50.0" />
+      <point x="484.3" y="50.0" />
+      <point x="46.80000000000001" y="15.0" />
+    </edge>
+    <edge source="org.apache.ibatis.scripting.xmltags.XMLScriptBuilder" target="org.apache.ibatis.builder.BaseBuilder">
+      <point x="0.0" y="-15.0" />
+      <point x="74.0" y="50.0" />
+      <point x="390.7" y="50.0" />
+      <point x="-46.80000000000001" y="15.0" />
+    </edge>
+    <edge source="org.apache.ibatis.builder.SqlSourceBuilder" target="org.apache.ibatis.builder.BaseBuilder">
+      <point x="0.0" y="-15.0" />
+      <point x="607.5" y="60.0" />
+      <point x="460.9" y="60.0" />
+      <point x="23.399999999999977" y="15.0" />
+    </edge>
+    <edge source="org.apache.ibatis.builder.xml.XMLStatementBuilder" target="org.apache.ibatis.builder.BaseBuilder">
+      <point x="0.0" y="-15.0" />
+      <point x="254.5" y="60.0" />
+      <point x="414.1" y="60.0" />
+      <point x="-23.399999999999977" y="15.0" />
+    </edge>
+    <edge source="org.apache.ibatis.builder.xml.XMLConfigBuilder" target="org.apache.ibatis.builder.BaseBuilder">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="431.5" y="92.5" />
+  <SelectedNodes>
+    <node>org.apache.ibatis.builder.BaseBuilder</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
