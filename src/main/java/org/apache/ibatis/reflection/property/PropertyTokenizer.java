@@ -12,6 +12,8 @@ import java.util.Iterator;
 
  orders[0].items[0].name 这样的表达式是由 PropertyTokenizer 解析的，
  其构造方法能够对表达式进行解析；同时还实现了 Iterator 接口，能够迭代解析表达式
+
+ 该类会被reflection包中其他的类频繁的引用到。这个类实现了Iterator接口，在使用时经常被用到的是Iterator接口中的hasNext这个函数
 */
 
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
@@ -20,6 +22,7 @@ public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
   private String index;
   private final String children;
 
+  // 可以看到，这个类传入一个字符串到构造函数，然后提供了iterator方法对解析后的子串进行遍历，是一个很常用的方法类。
   public PropertyTokenizer(String fullname) {
     // 检测传入的参数中是否包含字符 '.'
     int delim = fullname.indexOf('.');

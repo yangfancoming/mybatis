@@ -7,6 +7,7 @@ import org.apache.ibatis.logging.LogFactory;
 
 /**
  LoggingCache 在 Cache 的基础上提供了日志功能
+ 输出缓存命中的日志信息
 */
 public class LoggingCache implements Cache {
 

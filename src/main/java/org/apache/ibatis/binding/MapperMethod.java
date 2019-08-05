@@ -33,9 +33,9 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class MapperMethod {
 
-  //一个内部类 封装了SQL标签的类型和id  insert update delete select
+  //一个内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
   private final SqlCommand command;
-  //一个内部类 封装了方法的参数信息 返回类型信息等
+  //一个内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {

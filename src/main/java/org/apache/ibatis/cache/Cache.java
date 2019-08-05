@@ -16,8 +16,11 @@ import java.util.concurrent.locks.ReadWriteLock;
  *  this.id = id;
  *  initialize();
  * }
+ *
+ * 装饰器模式
+ * Cache对象之间的引用顺序为：
+ * SynchronizedCache–>LoggingCache–>SerializedCache–>ScheduledCache–>LruCache–>PerpetualCache
  */
-// 装饰器模式
 public interface Cache {
 
   /**

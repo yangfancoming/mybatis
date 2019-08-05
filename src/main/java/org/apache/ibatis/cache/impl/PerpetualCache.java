@@ -9,8 +9,10 @@ import org.apache.ibatis.cache.CacheException;
 
 /**
  Mybatis 为 Cache 接口提供的唯一一个实现类就是 PerpetualCache，
+ 因为 PerpetualCache 类中并没有   private final Cache delegate;  成员变量
  这个唯一并不是说 Cache 只有一个实现类，只是缓存的处理逻辑，
  Cache 还有其他的实现类，但是只是作为装饰器存在，只是对 Cache 进行包装而已。
+
 */
 public class PerpetualCache implements Cache {
 

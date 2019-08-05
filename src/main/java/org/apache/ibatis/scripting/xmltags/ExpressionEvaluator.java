@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.ibatis.builder.BuilderException;
 
-
+/**  表达式计算器 */
 public class ExpressionEvaluator {
 
   public boolean evaluateBoolean(String expression, Object parameterObject) {
