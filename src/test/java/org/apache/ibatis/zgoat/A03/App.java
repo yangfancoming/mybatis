@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.zgoat.common.Bar;
 import org.apache.ibatis.zgoat.common.Foo;
+import org.apache.ibatis.zgoat.common.Zoo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ class App {
   private static SqlSession sqlSession;
   private static FooMapper fooMapper;
   private static BarMapper barMapper;
+  private static ZooMapper zooMapper;
 
   @BeforeEach
   void setUp() throws Exception {
@@ -31,6 +33,7 @@ class App {
       sqlSession = sqlSessionFactory.openSession(false);
       fooMapper= sqlSession.getMapper(FooMapper.class);
       barMapper= sqlSession.getMapper(BarMapper.class);
+      zooMapper= sqlSession.getMapper(ZooMapper.class);
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/ibatis/zgoat/common/CreateDB.sql");
   }
@@ -69,5 +72,12 @@ class App {
   void test3() {
     Bar bar = barMapper.selectById(1);
     System.out.println(bar);
+  }
+
+  @Test
+  void test5() {
+//    Bar bar = zooMapper.selectById(1,"11");
+    Zoo zoo = zooMapper.selectById(1);
+    System.out.println(zoo);
   }
 }

@@ -137,9 +137,9 @@ public abstract class BaseExecutor implements Executor {
   //SqlSession.selectList会调用此方法
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
-    // 获取查询SQL
+    // 1.根据具体传入的参数，动态地生成需要执行的SQL语句，用BoundSql对象表示
     BoundSql boundSql = ms.getBoundSql(parameter);
-    // 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
+    // 2.为当前的查询创建一个缓存Key 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
     CacheKey key = createCacheKey(ms, parameter, rowBounds, boundSql);
     return query(ms, parameter, rowBounds, resultHandler, key, boundSql);// 执行查询
   }

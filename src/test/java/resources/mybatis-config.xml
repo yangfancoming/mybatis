@@ -95,5 +95,6 @@
 	<mappers>
 		<mapper resource="org/apache/ibatis/zgoat/A03/Foo.xml"/>
 		<mapper resource="org/apache/ibatis/zgoat/A03/Bar.xml"/>
+		<mapper resource="org/apache/ibatis/zgoat/A03/Zoo.xml"/>
 	</mappers>
 </configuration>
