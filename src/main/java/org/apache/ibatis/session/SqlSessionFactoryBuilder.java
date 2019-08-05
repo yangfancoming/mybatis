@@ -39,8 +39,8 @@ public class SqlSessionFactoryBuilder {
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);// reader , null , null
-      Configuration parse = parser.parse();
-      SqlSessionFactory build = build(parse);
+      Configuration configuration = parser.parse();
+      SqlSessionFactory build = build(configuration);
       return build;
     } catch (Exception e) {
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);

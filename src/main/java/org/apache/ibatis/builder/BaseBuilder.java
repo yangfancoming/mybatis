@@ -25,6 +25,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * XMLStatementBuilder
 */
 public abstract class BaseBuilder {
+
   protected final Configuration configuration;
   protected final TypeAliasRegistry typeAliasRegistry;
   protected final TypeHandlerRegistry typeHandlerRegistry;

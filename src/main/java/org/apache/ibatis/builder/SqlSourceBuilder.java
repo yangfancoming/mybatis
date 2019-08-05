@@ -51,7 +51,7 @@ public class SqlSourceBuilder extends BaseBuilder {
 
     @Override
     public String handleToken(String content) {
-      parameterMappings.add(buildParameterMapping(content));
+      parameterMappings.add(buildParameterMapping(content)); // $和#  星井组合
       // 此处的作用就是对#{}节点中的key值保存映射，比如javaType/jdbcType/mode等信息，限于篇幅过长，读者可自行分析  parameterMappings.add(buildParameterMapping(content));
       // 将#{}替换为?，即一般包装成`select * form test where name=? and age=?`预表达式语句
       return "?";

@@ -212,6 +212,7 @@ public class XPathParser {
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor  公共构造函数 commonConstructor()
     try {
+      // 调用 DocumentBuilderFactory.newInstance() 方法得到创建 DOM 解析器的工厂
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setValidating(validation);
       factory.setNamespaceAware(false);
@@ -219,7 +220,7 @@ public class XPathParser {
       factory.setIgnoringElementContentWhitespace(false);
       factory.setCoalescing(false);
       factory.setExpandEntityReferences(true);
-
+      // 调用工厂对象的 newDocumentBuilder 方法得到 DOM 解析器对象。
       DocumentBuilder builder = factory.newDocumentBuilder();
       builder.setEntityResolver(entityResolver);
       builder.setErrorHandler(new ErrorHandler() {

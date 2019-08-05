@@ -22,6 +22,7 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 
 
 public class CacheBuilder {
+
   private final String id;
   private Class<? extends Cache> implementation;
   private final List<Class<? extends Cache>> decorators;
