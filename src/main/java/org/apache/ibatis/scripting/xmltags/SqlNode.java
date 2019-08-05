@@ -2,6 +2,9 @@
 package org.apache.ibatis.scripting.xmltags;
 
 
+/**
+ * Sql 源接口，代表从xml文件或注解映射的sql内容，主要就是用于创建BoundSql，有实现类DynamicSqlSource(动态Sql源)，StaticSqlSource(静态Sql源)等：
+*/
 public interface SqlNode {
   /**
     apply() 是 SqlNode 接口中定义的唯一方法，该方法会根据用户传入的实参，参数解析该 SqlNode 所

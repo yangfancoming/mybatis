@@ -88,6 +88,12 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  *
  * Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
  * Configuration类主要是用来存储对Mybatis的配置文件及mapper文件解析后的数据，Configuration对象会贯穿整个Mybatis的执行流程，为Mybatis的执行过程提供必要的配置信息。
+ *
+ *
+ * 外观模式
+ * 在Configuration中一组newExecutor、newMetaObject、newStatementHandler、newResultSetHandler、newParameterHandler方法，其他类需要这些对象时都使用这些方法创建
+ * 再来看看其中的newMetaObject方法都有哪些调用者
+ * 这样做的一个好处就是需要扩展MetaObject类时，只需要修改newMetaObject方法即可，不用修改如此多的调用者代码。
 */
 public class Configuration {
 
