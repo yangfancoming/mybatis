@@ -48,8 +48,16 @@ public class MapperRegistry {
       }
       boolean loadCompleted = false;
       try {
-        //将mapper接口包装成mapper代理
-        knownMappers.put(type, new MapperProxyFactory<>(type));
+        //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper
+        MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
+        knownMappers.put(type, tMapperProxyFactory);
+        /**  验证 两个对象相同
+         Class<T> mapperInterface = tMapperProxyFactory.getMapperInterface();
+         System.out.println(type == mapperInterface); // true
+         System.out.println(type.equals(mapperInterface) ); // true
+         */
+
+
         /**
          It's important that the type is added before the parser is run
          otherwise the binding may automatically be attempted by the

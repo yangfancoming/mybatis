@@ -90,16 +90,29 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionIsolationLevel level, boolean autoCommit) {
     Transaction tx = null;
     try {
-      //通过Confuguration对象去获取Mybatis相关配置信息, Environment对象包含了数据源和事务的配置(从上面的配置可以看出)
+      /**
+       通过Confuguration对象去获取Mybatis相关配置信息, Environment对象包含了数据源和事务的配置(从上面的配置可以看出)
+       1.该方法先从configuration读取对应的环境配置
+      */
       final Environment environment = configuration.getEnvironment();
-      //通过环境配置获取事务工厂，如果没有配置默认是   new ManagedTransactionFactory();
+      /**
+       通过环境配置获取事务工厂，如果没有配置默认是   new ManagedTransactionFactory();
+       2.初始化TransactionFactory
+      */
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
-      //1.从数据源DataSource获取tx，这是和方式二最大的区别，其他的都差不多
+      // 3.获得一个Transaction对象 (从数据源DataSource获取tx，这是和方式二最大的区别，其他的都差不多)
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
-      //通过配置创建一个Executor，Executor是对jdbc中Statement的封装
+      /**
+       通过配置创建一个Executor，Executor是对jdbc中Statement的封装
+       4.通过Transaction获取一个Executor对象
+      */
       final Executor executor = configuration.newExecutor(tx, execType);
-      //此处也是写死的，创建一个DefaultSqlSession对象
-      //从此处可以看出 DefaultSqlSession是SqlSession的实例。
+      /**
+       此处也是写死的，创建一个DefaultSqlSession对象
+       从此处可以看出 DefaultSqlSession是SqlSession的实例。
+       5.最后通过configuration、Executor、是否autoCommit三个参数构建了SqlSession
+       在这里其实也可以看到端倪，SqlSession的执行，其实是委托给对应的Executor来进行的
+      */
       return new DefaultSqlSession(configuration, executor, autoCommit);
     } catch (Exception e) {
       closeTransaction(tx); // may have fetched a connection so lets call close()  //可能已经获取了一个连接，所以此处调用close事务

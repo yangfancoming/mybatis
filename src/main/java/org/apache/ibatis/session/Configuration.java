@@ -987,6 +987,7 @@ public class Configuration {
       return super.put(key, value);
     }
 
+    // 通过代码可以看出，重写put方法重要是为了，当key值有重复时，抛出异常。
     @Override
     public V get(Object key) {
       V value = super.get(key);

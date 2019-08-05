@@ -19,6 +19,7 @@ public final class LogFactory {
   /**
    第三方日志组件构造器，默认为空
    存放绑定的日志框架的构造方法；(绑定哪个日志框架，就把这个日志框架所对应logger的构造函数放进来)
+   这里有个特别的地方，是Log变量的的类型是Constructor<? extends Log>，也就是说该工厂生产的不只是一个产品，而是具有Log公共接口的一系列产品，比如Log4jImpl、Slf4jImpl等很多具体的Log。
   */
   private static Constructor<? extends Log> logConstructor;
 

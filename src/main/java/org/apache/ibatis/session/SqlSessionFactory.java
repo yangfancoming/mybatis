@@ -5,6 +5,9 @@ import java.sql.Connection;
 
 /**
  * Creates an {@link SqlSession} out of a connection or a DataSource
+ * 简单工厂模式(Simple Factory Pattern)：又称为静态工厂方法(Static Factory Method)模式
+ *
+ * 可以看到，该Factory的openSession方法重载了很多个，分别支持autoCommit、Executor、Transaction等参数的输入，来构建核心的SqlSession对象
  */
 public interface SqlSessionFactory {
 
