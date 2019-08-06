@@ -333,7 +333,7 @@ public class XNode {
     Properties properties = new Properties();
     // 获取并遍历子节点
     for (XNode child : getChildren()) {
-      // 获取 property 节点的 name 和 value 属性
+      // 获取 <property> 节点的 name 和 value 属性
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");
       if (name != null && value != null) {

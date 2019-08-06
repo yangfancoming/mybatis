@@ -93,7 +93,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
     parsed = true;
-    /**  解析 xml 配置文件
+    /**  解析 xml 全局配置文件
      注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 配置文件的 <configuration> 节点
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
@@ -107,6 +107,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   /**
    * 解析核心配置文件的关键方法，
    * 读取节点的信息，并通过对应的方法去解析配置，解析到的配置全部会放在configuration里面
+   * <!ELEMENT configuration (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?)>
    * */
   private void parseConfiguration(XNode root) {
     try {
@@ -297,12 +298,13 @@ public class XMLConfigBuilder extends BaseBuilder {
       String resource = context.getStringAttribute("resource");
       // 获取<properties>节点上的url属性
       String url = context.getStringAttribute("url");
-      // resource和url不能同时存在
+      // resource 和 url 两个属性不能同时存在
       if (resource != null && url != null) {
         throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
       }
       if (resource != null) {
         // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中
+        // 从文件系统中加载并解析属性文件
         defaults.putAll(Resources.getResourceAsProperties(resource));
       } else if (url != null) {
         // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中

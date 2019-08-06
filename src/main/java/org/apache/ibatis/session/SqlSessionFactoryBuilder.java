@@ -38,7 +38,9 @@ public class SqlSessionFactoryBuilder {
 
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
+      // 创建全局配置文件解析器
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);// reader , null , null
+      // 调用 parse 方法解析配置文件，生成 Configuration 对象
       Configuration configuration = parser.parse();
       SqlSessionFactory build = build(configuration);
       return build;
