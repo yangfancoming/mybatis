@@ -23,9 +23,17 @@
   </properties>
 
 
-	<settings>
+
+  <settings>
     <setting name="cacheEnabled" value="false"/>
-	</settings>
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="multipleResultSetsEnabled" value="true"/>
+    <setting name="useColumnLabel" value="true"/>
+    <setting name="useGeneratedKeys" value="false"/>
+    <setting name="defaultExecutorType" value="BATCH"/>
+    <setting name="defaultStatementTimeout" value="25"/>
+  </settings>
+
 
 	<typeAliases>
 		<typeAlias type="org.apache.ibatis.zgoat.common.Foo" alias="Foo" />

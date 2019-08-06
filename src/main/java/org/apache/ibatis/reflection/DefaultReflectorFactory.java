@@ -5,7 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 
-
+/**
+ * DefaultReflectorFactory 用于创建 Reflector，同时兼有缓存的功能
+*/
 public class DefaultReflectorFactory implements ReflectorFactory {
 
   /*** 默认开启对Reflector对象的缓存 */

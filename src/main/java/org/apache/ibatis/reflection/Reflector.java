@@ -64,6 +64,9 @@ public class Reflector {
   // 记录所有属性名称的集合
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
+  /**
+   * 构造函数，对上述字段初始化
+   */
   public Reflector(Class<?> clazz) {
     type = clazz;
     addDefaultConstructor(clazz); // 解析目标类的默认构造方法，并赋值给 defaultConstructor 变量
@@ -96,7 +99,7 @@ public class Reflector {
       }
     }
   }
-  /**
+  /**   负责解析类中定义的getter方法
    1. 获取当前类，接口，以及父类中的方法
    2. 遍历上一步获取的方法数组，并过滤出以 get 和 is 开头的方法
    3. 将方法名转换成相应的属性名
