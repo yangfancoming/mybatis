@@ -3,12 +3,19 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
+    <node x="20.5" y="155.0">org.apache.ibatis.reflection.factory.ObjectFactory</node>
     <node x="20.5" y="0.0">org.apache.ibatis.reflection.ReflectorFactory</node>
-    <node x="0.0" y="155.0">org.apache.ibatis.reflection.Reflector</node>
+    <node x="214.0" y="155.0">org.apache.ibatis.reflection.Reflector</node>
+    <node x="0.0" y="310.0">org.apache.ibatis.reflection.invoker.Invoker</node>
+    <node x="0.0" y="235.0">org.apache.ibatis.reflection.factory.DefaultObjectFactory</node>
     <node x="0.0" y="80.0">org.apache.ibatis.reflection.DefaultReflectorFactory</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="org.apache.ibatis.reflection.factory.DefaultObjectFactory" target="org.apache.ibatis.reflection.factory.ObjectFactory">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
     <edge source="org.apache.ibatis.reflection.DefaultReflectorFactory" target="org.apache.ibatis.reflection.ReflectorFactory">
       <point x="0.0" y="-15.0" />
       <point x="0.0" y="15.0" />
@@ -16,7 +23,7 @@
   </edges>
   <settings layout="Hierarchic Group" zoom="1.0" x="667.0" y="98.0" />
   <SelectedNodes>
-    <node>org.apache.ibatis.reflection.DefaultReflectorFactory</node>
+    <node>org.apache.ibatis.reflection.invoker.Invoker</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

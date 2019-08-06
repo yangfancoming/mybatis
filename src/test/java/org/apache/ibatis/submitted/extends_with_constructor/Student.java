@@ -2,6 +2,7 @@
 package org.apache.ibatis.submitted.extends_with_constructor;
 
 public class Student {
+
   private int id;
   private int name;
   private Teacher teacher;

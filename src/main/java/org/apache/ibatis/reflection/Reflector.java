@@ -88,12 +88,13 @@ public class Reflector {
   }
 
   /**
-   * 获取指定Class对象的默认构造方法（包括无参构造方法）
+   * 获取指定Class对象的 所有的构造函数(public，protected，default(package)access和private)
    */
   private void addDefaultConstructor(Class<?> clazz) {
+    // 取出所有构造函数 (public，protected，default(package)access和private)
     Constructor<?>[] consts = clazz.getDeclaredConstructors();
     for (Constructor<?> constructor : consts) {
-      //默认构造方法没有参数
+      // 将无参构造函数保存起来 (只有默认构造函数没有参数)
       if (constructor.getParameterTypes().length == 0) {
         this.defaultConstructor = constructor;
       }
