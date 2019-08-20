@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.zgoat.common;
+package org.apache.goat.chapter200.common;
 
 import org.apache.ibatis.type.Alias;
 

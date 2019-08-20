@@ -1,10 +1,10 @@
 
-package org.apache.ibatis.zgoat.A03;
+package org.apache.goat.chapter200.A03;
 
 
+import org.apache.goat.chapter200.common.Zoo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.zgoat.common.Zoo;
 
 
 /**

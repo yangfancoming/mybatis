@@ -1,12 +1,12 @@
 
-package org.apache.ibatis.zgoat.A01;
+package org.apache.goat.chapter200.A01;
 
+import org.apache.goat.chapter200.common.Foo;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.zgoat.common.Foo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,14 +35,14 @@ class App {
 
   @BeforeEach
   void setUp() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/zgoat/A01/mybatis-config.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/goat/chapter200/A01/mybatis-config.xml")) {
       // 通过 mybatis 全局配置文件  创建  sqlSessionFactory
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
       // 通过 sqlSessionFactory 创建 sqlSession
       sqlSession = sqlSessionFactory.openSession(false);
     }
     // 创建内存数据库 并添加插入测试数据
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/ibatis/zgoat/common/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/goat/chapter200/common/CreateDB.sql");
   }
 
   @AfterEach

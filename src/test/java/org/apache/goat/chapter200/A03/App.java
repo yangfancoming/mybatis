@@ -1,14 +1,15 @@
 
-package org.apache.ibatis.zgoat.A03;
+package org.apache.goat.chapter200.A03;
 
+import org.apache.goat.chapter200.common.Bar;
+import org.apache.goat.chapter200.common.Foo;
+import org.apache.goat.chapter200.common.Zoo;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.zgoat.common.Bar;
-import org.apache.ibatis.zgoat.common.Foo;
-import org.apache.ibatis.zgoat.common.Zoo;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ class App {
       barMapper= sqlSession.getMapper(BarMapper.class);
       zooMapper= sqlSession.getMapper(ZooMapper.class);
     }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/ibatis/zgoat/common/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/goat/chapter200/common/CreateDB.sql");
   }
 
   @AfterEach

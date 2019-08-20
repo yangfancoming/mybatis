@@ -34,7 +34,7 @@
   -->
 	<typeAliases>
 		<!--<typeAlias type="org.apache.ibatis.zgoat.common.Foo" alias="Foo" />-->
-    <package name="org.apache.ibatis.zgoat.common"/>
+    <package name="org.apache.goat.chapter200.common"/>
 	</typeAliases>
 
 
@@ -93,8 +93,8 @@
 
 
 	<mappers>
-		<mapper resource="org/apache/ibatis/zgoat/A03/Foo.xml"/>
-		<mapper resource="org/apache/ibatis/zgoat/A03/Bar.xml"/>
-		<mapper resource="org/apache/ibatis/zgoat/A03/Zoo.xml"/>
+		<mapper resource="org/apache/goat/chapter200/A03/Foo.xml"/>
+		<mapper resource="org/apache/goat/chapter200/A03/Bar.xml"/>
+		<mapper resource="org/apache/goat/chapter200/A03/Zoo.xml"/>
 	</mappers>
 </configuration>

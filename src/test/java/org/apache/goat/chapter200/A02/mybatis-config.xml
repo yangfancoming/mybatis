@@ -36,7 +36,7 @@
 
 
 	<typeAliases>
-		<typeAlias type="org.apache.ibatis.zgoat.common.Foo" alias="Foo" />
+		<typeAlias type="org.apache.goat.chapter200.common.Foo" alias="Foo" />
 	</typeAliases>
 
 	<environments default="development">
@@ -53,7 +53,7 @@
 	</environments>
 
 	<mappers>
-		<mapper resource="org/apache/ibatis/zgoat/A02/Foo.xml"/>
+		<mapper resource="org/apache/goat/chapter200/A02/Foo.xml"/>
 	</mappers>
 
 

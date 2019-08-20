@@ -31,6 +31,6 @@
 
   <!-- 将我们写好的sql映射文件（EmployeeMapper.xml）一定要注册到全局配置文件（mybatis-config.xml）中 -->
 	<mappers>
-		<mapper resource="org/apache/ibatis/zgoat/A01/Foo.xml"/>
+		<mapper resource="org/apache/goat/chapter200/A01/Foo.xml"/>
 	</mappers>
 </configuration>
