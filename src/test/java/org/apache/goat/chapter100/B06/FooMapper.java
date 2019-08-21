@@ -1,5 +1,5 @@
 
-package org.apache.goat.chapter200.A02;
+package org.apache.goat.chapter100.B06;
 
 
 
