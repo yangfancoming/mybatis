@@ -1,4 +1,4 @@
-package org.apache.goat.chapter100.B04;
+package org.apache.goat.chapter100.B040;
 
 import org.apache.goat.MyBaseDataTest;
 import org.apache.goat.common.Foo;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/B04/mybatis-config.xml";
+  public static final String XMLPATH = "org/apache/goat/chapter100/B040/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
 

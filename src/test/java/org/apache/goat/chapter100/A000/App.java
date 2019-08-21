@@ -1,4 +1,4 @@
-package org.apache.goat.chapter100.A00;
+package org.apache.goat.chapter100.A000;
 
 import org.apache.goat.MyBaseDataTest;
 import org.apache.goat.common.Foo;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/A00/mybatis-config.xml";
+  public static final String XMLPATH = "org/apache/goat/chapter100/A000/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
   /**  1、通过读取字符流（Reader）的方式构件SqlSessionFactory */
