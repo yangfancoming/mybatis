@@ -2,7 +2,7 @@
 package org.apache.goat.chapter200.A03;
 
 
-import org.apache.goat.chapter200.common.Bar;
+import org.apache.goat.common.Bar;
 
 public interface BarMapper {
 

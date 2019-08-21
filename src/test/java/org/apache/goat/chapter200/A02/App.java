@@ -1,6 +1,6 @@
 package org.apache.goat.chapter200.A02;
 
-import org.apache.goat.chapter200.common.Foo;
+import org.apache.goat.common.Foo;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
