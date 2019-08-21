@@ -1,4 +1,3 @@
-
 package org.apache.goat.chapter200.A03;
 
 import org.apache.goat.chapter200.common.Bar;
@@ -32,8 +31,8 @@ class App {
     try (Reader reader = Resources.getResourceAsReader(path)) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
       sqlSession = sqlSessionFactory.openSession(false);
-      fooMapper= sqlSession.getMapper(FooMapper.class);
       barMapper= sqlSession.getMapper(BarMapper.class);
+      fooMapper= sqlSession.getMapper(FooMapper.class);
       zooMapper= sqlSession.getMapper(ZooMapper.class);
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(), "org/apache/goat/chapter200/common/CreateDB.sql");

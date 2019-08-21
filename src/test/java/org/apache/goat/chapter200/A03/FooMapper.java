@@ -2,7 +2,6 @@
 package org.apache.goat.chapter200.A03;
 
 
-
 import org.apache.goat.chapter200.common.Foo;
 
 import java.util.List;

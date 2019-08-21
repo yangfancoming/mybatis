@@ -1,4 +1,3 @@
-
 package org.apache.goat.chapter200.A01;
 
 import org.apache.goat.chapter200.common.Foo;
