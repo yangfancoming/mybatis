@@ -1,7 +1,8 @@
 #
     A000 mybatis  读取 xml 的三种方式 
-    A010 全局xml 配置之 mapUnderscoreToCamelCase
+    A010 全局xml 配置之  <settings> 之  mapUnderscoreToCamelCase
     A020 全局xml 配置之 <properties>
+    A030 全局xml 配置之 <typeAliases>  方式一 
     
     B000 mybatis 的使用方式 
     B040 无   mapper 接口类的方式

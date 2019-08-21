@@ -4,6 +4,12 @@
 
 <configuration>
 
+  <!--全局配置-->
+  <settings>
+    <!-- 驼峰命名法 eg: javabean中的属性 lastName  数据库表中的字段 last_name 则 last_name 会被映射为 lastName -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+
   <environments default="development">
     <environment id="development">
 

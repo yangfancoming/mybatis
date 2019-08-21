@@ -26,7 +26,7 @@ public class App extends MyBaseDataTest {
 
 
   /** 解决方式二： 局部xml中的sql 查询字典使用as映射
-   * 注释掉 全局 setting 配置
+   * 注释掉 全局 setting 配置 则 ( 解决方式一 运行结果 lastName 属性为null )
    * 运行结果仍然 可以看到  Employee{id=1, lastName='tom', email='tom@qq.com', gender='0'}
   */
   @Test
