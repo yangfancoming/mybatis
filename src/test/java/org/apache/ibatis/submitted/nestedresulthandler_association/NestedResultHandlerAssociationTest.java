@@ -30,8 +30,8 @@ class NestedResultHandlerAssociationTest {
     }
 
 
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/nestedresulthandler_association/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/nestedresulthandler_association/CreateDB.sql");
+
   }
 
   @Test

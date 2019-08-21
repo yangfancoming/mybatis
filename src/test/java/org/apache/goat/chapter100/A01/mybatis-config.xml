@@ -4,13 +4,23 @@
 
 <configuration>
 
+  <!--全局配置-->
+  <settings>
+    <!-- 驼峰命名法 eg: javabean中的属性 lastName  数据库表中的字段 last_name 则 last_name 会被映射为 lastName -->
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+  </settings>
+
+  <!--开发环境配置-->
   <environments default="development">
     <environment id="development">
 
+      <!--事务管理器配置-->
       <transactionManager type="JDBC">
         <property name="" value="" />
       </transactionManager>
 
+      <!--数据源配置-->
       <dataSource type="UNPOOLED">
         <property name="driver" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://172.16.163.135:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
@@ -19,9 +29,11 @@
       </dataSource>
 
     </environment>
+
   </environments>
 
+
   <mappers>
-    <mapper resource="org/apache/ibatis/submitted/keygen/CountryMapper.xml" />
+    <mapper resource="org/apache/goat/chapter100/A01/EmployeeMapper.xml" />
   </mappers>
 </configuration>

@@ -4,16 +4,13 @@
 
 <configuration>
 
-
-
-
   <environments default="development">
-
     <environment id="development">
 
       <transactionManager type="JDBC">
         <property name="" value="" />
       </transactionManager>
+
 
       <dataSource type="UNPOOLED">
         <property name="driver" value="org.hsqldb.jdbcDriver" />
@@ -26,6 +23,6 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/A00/Foo.xml"/>
+    <mapper resource="org/apache/goat/chapter100/Z000/EmployeeMapper.xml" />
   </mappers>
 </configuration>

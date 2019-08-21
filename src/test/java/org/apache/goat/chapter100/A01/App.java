@@ -1,26 +1,27 @@
 package org.apache.goat.chapter100.A01;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.goat.MyBaseDataTest;
+import org.apache.goat.common.Employee;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
 
+public class App extends MyBaseDataTest {
 
-public class App {
+  public static final String XMLPATH = "org/apache/goat/chapter100/A01/mybatis-config.xml";
 
+  /**
+   * 运行结果可以看到 Employee{id=1, lastName='tom', email='tom@qq.com', gender='0'}
+   * 即 开启了  <setting name="mapUnderscoreToCamelCase" value="true"/>  全局配置
+   * 导致 javabean中的属性 lastName  数据库表中的字段 last_name 则 last_name 会被映射为 lastName 可以获取到该属性
+  */
   @Test
-  public void tset() throws Exception {
-    String resource = "org/apache/goat/chapter100/A01/mybatis-config.xml";
-    // MyBatis 提供的工具类 Resources 加载配置文件，得到一个输入流
-    try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      //然后再通过 SqlSessionFactoryBuilder 对象的 build 方法 根据配置文件构建 SqlSessionFactory 对象
-      SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-      try (SqlSession session = sqlSessionFactory.openSession()) {
-
-      }
-    }
+  void Reader() throws Exception {
+    setUpByReader(XMLPATH);
+    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById", 1);
+    System.out.println(o.toString());
   }
+
+
+
+
 }
