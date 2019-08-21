@@ -33,6 +33,7 @@
   </environments>
 
 
+  <!--局部xml注册-->
   <mappers>
     <mapper resource="org/apache/goat/chapter100/A01/EmployeeMapper.xml" />
   </mappers>
