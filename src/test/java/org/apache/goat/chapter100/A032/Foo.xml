@@ -16,7 +16,7 @@
     select * from foo where id = #{id}
   </select>
 
-  <select id="selectById3" parameterType="int" resultType="FOO1" >
-    select * from foo where id = #{id}
-  </select>
+  <!--<select id="selectById3" parameterType="int" resultType="FOO1" >-->
+    <!--select * from foo where id = #{id}-->
+  <!--</select>-->
 </mapper>

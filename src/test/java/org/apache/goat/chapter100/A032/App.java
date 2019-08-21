@@ -41,8 +41,8 @@ class App extends MyBaseDataTest {
 
   @Test
   void test4() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);  // FOO1  报错！
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById43",1);
+    setUpByReader(XMLPATH,DBSQL);  // FOO1  报错！ 测试时记得 打开局部xml中的注释 否则 运行其他测试方法时会报错
+    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById4",1);
     System.out.println(foo);
   }
 }
