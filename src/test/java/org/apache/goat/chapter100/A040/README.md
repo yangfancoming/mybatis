@@ -6,6 +6,10 @@
                       并且 接口类和xml文件必须在同一个目录下
                      我这儿接口是UserDao,那么意味着mapper文件为UserDao.xml
                     <mapper class="com.dy.dao.UserDao"/>
+                    
+      				推荐：
+      						比较重要的，复杂的Dao接口我们来写sql映射文件
+      						不重要的，简单的Dao接口为了开发快速可以使用注解；              
        
        第三种方式，（package）批量注册方式：直接指定包，自动扫描，与方法二同理  <package name="com.dy.dao"/>
     

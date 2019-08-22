@@ -13,6 +13,9 @@ class App extends MyBaseDataTest {
 
   /** <mappers>    注册方式一
    * 第一种方式 ：（resourc）通过resource指定   <mapper resource="com/dy/dao/userDao.xml"/>
+   *
+   * mapper:注册一个sql映射 局部配置文件
+   * 				  resource：引用类路径下的sql映射文件
   */
   @Test
   void test1() throws Exception {
