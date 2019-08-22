@@ -11,7 +11,7 @@
     A038 全局xml 配置之 <databaseIdProvider>   多数据库 sql 支持
     A040 全局xml 配置之 <mappers>    注册方式一 resource
     A042 全局xml 配置之 <mappers>    注册方式二 class
-    A044 全局xml 配置之 <mappers>    注册方式三 package
+    A044 全局xml 配置之 <mappers>    注册方式三 package  批量注册 
     A046 全局xml 配置之 <mappers>    注册方式四 url
     
     
