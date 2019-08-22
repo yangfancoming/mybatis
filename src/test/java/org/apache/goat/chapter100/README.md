@@ -5,6 +5,7 @@
     A030 全局xml 配置之 <typeAliases>  方式一   为单个类 起别名
     A032 全局xml 配置之 <typeAliases>  方式二   批量起别名
     A034 全局xml 配置之 <typeAliases>  方式三   使用@Alias注解为某个类型指定新的别名
+    A036 全局xml 配置之 <environments>  
     
     B000 mybatis 的使用方式 
     B040 无   mapper 接口类的方式
