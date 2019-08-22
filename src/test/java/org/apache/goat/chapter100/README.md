@@ -2,6 +2,7 @@
     A000 mybatis  读取 xml 的三种方式 
     A001 mybatis  无mapper接口 入门示例
     A002 mybatis  有mapper接口 入门示例
+# 全局 xml 
     A010 全局xml 配置之 <settings> 之  mapUnderscoreToCamelCase
     A020 全局xml 配置之 <properties>
     A030 全局xml 配置之 <typeAliases>  方式一   为单个类 起别名
@@ -19,7 +20,7 @@
     B040 无   mapper 接口类的方式
     B060 使用 mapper 接口类的方式
     B080 使用 mapper 接口类  无 全局xml 方式 
-    
+# 局部 xml 
     C000 局部xml 之
     C001 局部xml 之  简单CRUD
     C004 局部xml 之  mysql  新增 获取自动增长 主键
@@ -30,3 +31,8 @@
     C010 局部xml 之  参数处理 之  POJO
     C010 局部xml 之  参数处理 之  Map
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
+    
+# 局部xml 之 <select> 标签 高级查询
+    E001  返回 返回 List 
+    E004  返回 返回 Map 
+
