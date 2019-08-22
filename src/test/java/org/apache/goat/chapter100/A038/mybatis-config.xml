@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+  <!--指定 具体环境 -->
+  <!--<environments default="pro_mysql">-->
+    <environments default="dev_hsqldb">
+
+    <environment id="dev_hsqldb">
+      <transactionManager type="JDBC" />
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:mem:cache" />
+        <property name="username" value="sa" />
+      </dataSource>
+    </environment>
+
+    <environment id="pro_mysql">
+      <transactionManager type="JDBC" />
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://172.16.163.135:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
+        <property name="username" value="root" />
+        <property name="password" value="12345" />
+      </dataSource>
+    </environment>
+
+  </environments>
+
+
+  <!-- 5、databaseIdProvider：支持多数据库厂商的  必须配合 <environments> 标签使用
+       type="DB_VENDOR"：VendorDatabaseIdProvider
+           作用就是得到数据库厂商的标识(驱动getDatabaseProductName())，mybatis就能根据数据库厂商标识来执行不同的sql;
+            mysql  数据库标识：MySQL
+            Oracle 数据库标识：Oracle
+            SQL Server 数据库标识：SQL Server
+            hsqldb Engine 数据库标识：HSQL Database Engine
+            可以看到 有的数据库厂商标识很长，  有必要给他起个别名
+    -->
+
+  <databaseIdProvider type="DB_VENDOR">
+    <!-- 为不同的数据库厂商起别名 -->
+    <property name="MySQL" value="mysql"/>
+    <property name="Oracle" value="oracle"/>
+    <property name="SQL Server" value="sqlserver"/>
+    <property name="HSQL Database Engine" value="hsqldb"/>
+  </databaseIdProvider>
+
+
+  <mappers>
+    <mapper resource="org/apache/goat/chapter100/A038/Foo.xml" />
+  </mappers>
+</configuration>
+
+
