@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.C004.EmployeeMapper">
+
+
+  <!-- parameterType：参数类型，可以省略，
+  获取自增主键的值：
+      mysql支持自增主键，自增主键值的获取，mybatis也是利用 JDK中JDBC的 statement.getGenreatedKeys() 方法
+      useGeneratedKeys="true"： 使用自增主键获取主键值策略
+      keyProperty：指定对应的主键属性，也就是mybatis获取到主键值以后，将这个值封装给javaBean的哪个属性
+  -->
+  <insert id="addEmp" parameterType="org.apache.goat.common.Employee" useGeneratedKeys="true" keyProperty="id" >
+    insert into tbl_employee(last_name,email,gender) values (#{lastName},#{email},#{gender})
+  </insert>
+
+
+
+	
+</mapper>

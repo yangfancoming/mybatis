@@ -22,6 +22,7 @@
     
     C000 局部xml 之
     C001 局部xml 之  简单CRUD
+    C004 局部xml 之  新增 获取主键
     C001 局部xml 之 
     C001 局部xml 之 
     C001 局部xml 之 
