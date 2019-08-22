@@ -22,7 +22,9 @@
     
     C000 局部xml 之
     C001 局部xml 之  简单CRUD
-    C004 局部xml 之  新增 获取主键
+    C004 局部xml 之  mysql  新增 获取自动增长 主键
+    C006 局部xml 之  Oracle 新增 获取序列 主键
+    
     C001 局部xml 之 
     C001 局部xml 之 
     C001 局部xml 之 
