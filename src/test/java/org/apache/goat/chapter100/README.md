@@ -14,10 +14,14 @@
     A044 全局xml 配置之 <mappers>    注册方式三 package  批量注册 
     A046 全局xml 配置之 <mappers>    注册方式四 url
     
-    
-           
            
     B000 mybatis 的使用方式 
     B040 无   mapper 接口类的方式
     B060 使用 mapper 接口类的方式
     B080 使用 mapper 接口类  无 全局xml 方式 
+    
+    C000 局部xml 之
+    C001 局部xml 之  简单CRUD
+    C001 局部xml 之 
+    C001 局部xml 之 
+    C001 局部xml 之 
