@@ -32,7 +32,7 @@
     C010 局部xml 之  参数处理 之  Map
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
     
-# 局部xml 之 <select> 标签 高级查询
+# 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回 返回 List 
     E004  返回 返回 Map 
 
