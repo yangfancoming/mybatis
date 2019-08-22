@@ -17,10 +17,12 @@
 
       dataSource         数据源  同上 整合后 都交由Spring来管理
 
-
 -->
+
+
   <!--指定 具体环境 -->
-  <environments default="dev_hsqldb">
+  <environments default="pro_mysql">
+  <!--<environments default="dev_hsqldb">-->
 
     <!--开发环境内存数据库-->
     <environment id="dev_hsqldb">
@@ -49,7 +51,7 @@
 
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/A030/Foo.xml" />
+    <mapper resource="org/apache/goat/chapter100/A036/Foo.xml" />
   </mappers>
 </configuration>
 

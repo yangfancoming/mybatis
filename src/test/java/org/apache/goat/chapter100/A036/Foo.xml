@@ -3,7 +3,7 @@
 
 <mapper namespace="com.goat.test.namespace">
 
-  <select id="selectById" parameterType="int" resultType="Foo" >
+  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
     select * from foo where id = #{id}
   </select>
 

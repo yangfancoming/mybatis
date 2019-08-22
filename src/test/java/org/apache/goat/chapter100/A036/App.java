@@ -12,9 +12,9 @@ class App extends MyBaseDataTest {
 
 
   /**
-   * 别名方式一：  为单个类 起别名
-   * 就是 全局xml 中配置  <typeAlias type="org.apache.goat.common.Foo" alias="Foo"/>  后
-   *      局部xml 中就可以直接写成  resultType="Foo"
+   * 切换   注释一下两个标签  查看运行结果
+   * <environments default="pro_mysql">   连接 myslq  数据库 查询
+   * <environments default="dev_hsqldb">  连接 hsqldb  数据库 查询
   */
   @Test
   void test1() throws Exception {
