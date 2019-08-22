@@ -32,6 +32,7 @@ public enum JdbcType {
   VARBINARY(Types.VARBINARY),
   LONGVARBINARY(Types.LONGVARBINARY),
   NULL(Types.NULL),
+  // mybatis 将所有的null类型 都对应到 该 OTHER 类型
   OTHER(Types.OTHER),
   BLOB(Types.BLOB),
   CLOB(Types.CLOB),

@@ -26,12 +26,13 @@ import java.util.Map;
  * 	resultMap、 typeHandler、 jdbcTypeName、 expression（未来准备支持的功能）
  *
  * 	jdbcType通常需要在某种特定的条件下被设置：
- * 		在我们数据为null的时候，有些数据库可能不能识别mybatis对null的默认处理。比如Oracle（报错）
- * 		JdbcType OTHER：无效的类型；因为mybatis对所有的null都映射的是原生Jdbc的OTHER类型，oracle不能正确处理;
- * 		由于全局配置中：jdbcTypeForNull=OTHER；oracle不支持；两种办法
- * 		1、#{email,jdbcType=OTHER};
- * 		2、jdbcTypeForNull=NULL
- * 			<setting name="jdbcTypeForNull" value="NULL"/>
+ * 		在我们数据为null的时候，有些数据库可能不能识别mybatis对null的默认处理。
+ *    比如	insert into tbl_employee(last_name,email,gender) values ('goat','qq.com',null)	则 Oracle 会报错：JdbcType OTHER：无效的类型；
+ * 		因为mybatis对所有的null都映射的是原生Jdbc的OTHER类型，oracle不能正确处理; {@link org.apache.ibatis.type.JdbcType}
+ * 		由于全局配置中：jdbcTypeForNull 默认为 OTHER；oracle不支持 两种办法
+ * 		1、#{email,jdbcType=OTHER};    即 insert into tbl_employee(last_name,email,gender) values (#{lastName},#{email},#{gender,jdbcType=NULL})
+ * 		2、jdbcTypeForNull=NULL ;      即<setting name="jdbcTypeForNull" value="NULL"/>
+ *
 */
 class App2 extends MyBaseDataTest {
 
