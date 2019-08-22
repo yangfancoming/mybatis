@@ -3,10 +3,7 @@ package org.apache.ibatis.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
@@ -26,8 +23,9 @@ public class ParamNameResolver {
    * <li>aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
    * <li>aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
    * <li>aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
-   *   存放参数的位置和对应的参数名
+   *
    */
+  // 存放参数的位置和对应的参数名 在本类的构造函数中创建
   private final SortedMap<Integer, String> names;
   //是否使用param注解
   private boolean hasParamAnnotation;
@@ -47,16 +45,18 @@ public class ParamNameResolver {
         continue;
       }
       String name = null;
+      // 如果此次查询使用的是注解
       for (Annotation annotation : paramAnnotations[paramIndex]) {
         if (annotation instanceof Param) {
+          // 标记 此次查询方式 是使用的注解
           hasParamAnnotation = true;
           // 获取 @Param 注解内容
           name = ((Param) annotation).value();
           break;
         }
       }
+      // 如果此次查询方式 使用的不是注解 （ @Param was not specified.）
       if (name == null) {
-        // @Param was not specified.
         if (config.isUseActualParamName()) {
           name = getActualParamName(method, paramIndex);
         }
@@ -66,13 +66,22 @@ public class ParamNameResolver {
           name = String.valueOf(map.size());
         }
       }
-      map.put(paramIndex, name);
+      // #存入参数  每次循环解析 都会给map中 添加 索引和
+      map.put(paramIndex, name); // put 进去 0,arg0
     }
-    names = Collections.unmodifiableSortedMap(map);
+    /**
+     * {@link org.apache.goat.chapter100.C010.App3} getEmpByIdAndLastName3    @Param 传参
+     * "0" -> "id"   "1" -> "lastName"
+     * {@link org.apache.goat.chapter100.C010.App5} getEmpByIdAndLastName5    Map 传参
+     * "0" -> "arg0"
+     */
+    names = Collections.unmodifiableSortedMap(map); //
   }
 
   private String getActualParamName(Method method, int paramIndex) {
-    return ParamNameUtil.getParamNames(method).get(paramIndex);
+    List<String> paramNames = ParamNameUtil.getParamNames(method);
+    String s = paramNames.get(paramIndex);
+    return s;
   }
 
   private static boolean isSpecialParameter(Class<?> clazz) {
@@ -88,7 +97,9 @@ public class ParamNameResolver {
 
   /**
    * A single non-special parameter is returned without a name.
+   * 单个非特殊参数没有名称
    * Multiple parameters are named using the naming rule.
+   * 多个参数 使用命名规则命名
    * In addition to the default names, this method also adds the generic names (param1, param2,...).
    *
    *   Author selectAuthForBlog(@Param("id") Integer id,@Param("name") String name );
@@ -97,17 +108,33 @@ public class ParamNameResolver {
    */
   public Object getNamedParams(Object[] args) {
     final int paramCount = names.size();
+    /** 1.如果参数为空 则直接返回 */
     if (args == null || paramCount == 0) {
       return null;
     } else if (!hasParamAnnotation && paramCount == 1) {
+      /**
+       *  2.如果没有@Param注解 并且 只有1个参数  则直接返回SortedMap集合的第一个元素
+       *  即：单个参数 直接返回
+       */
       return args[names.firstKey()];
     } else {
+      /**
+       * 3.有@Param注解 或 多个参数的情况 则封装 map
+       * "0" -> "id"
+       * "1" -> "lastName"
+       */
       final Map<String, Object> param = new ParamMap<>();
       int i = 0;
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
+        // "id" -> "15"
         param.put(entry.getValue(), args[entry.getKey()]);
-        // add generic param names (param1, param2, ...)
-        final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);
+
+        /**
+         *  add generic param names (param1, param2, ...)
+         *  额外的将每一个参数也保存到map中，使用新的key：param1...paramN
+         *  效果：有Param注解可以#{指定的key}，或者#{param1}
+        */
+        final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);// param1
         // ensure not to overwrite parameter named with @Param
         if (!names.containsValue(genericParamName)) {
           param.put(genericParamName, args[entry.getKey()]);

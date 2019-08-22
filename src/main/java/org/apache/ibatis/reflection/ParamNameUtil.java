@@ -19,7 +19,8 @@ public class ParamNameUtil {
   }
 
   private static List<String> getParameterNames(Executable executable) {
-    return Arrays.stream(executable.getParameters()).map(Parameter::getName).collect(Collectors.toList());
+    List<String> collect = Arrays.stream(executable.getParameters()).map(Parameter::getName).collect(Collectors.toList());
+    return collect;
   }
 
   private ParamNameUtil() {
