@@ -46,3 +46,8 @@
     E040  局部xml  <select>  之 <resultMap>  之 discriminator鉴别器
     
 
+# 局部xml 之  动态sql
+#   缓存
+#   插件
+#   Spring 整合 
+#   Springboot 整合 
