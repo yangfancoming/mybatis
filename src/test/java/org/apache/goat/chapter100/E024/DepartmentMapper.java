@@ -1,4 +1,4 @@
-package org.apache.goat.chapter100.E020;
+package org.apache.goat.chapter100.E024;
 
 
 import org.apache.goat.common.Department;
