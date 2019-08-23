@@ -40,6 +40,7 @@
     E018  局部xml  <select>  之 <resultMap>  之 association 定义关联的单个对象的封装规则；
     E020  局部xml  <select>  之 <resultMap>  之 association 分步查询
     E024  局部xml  <select>  之 <resultMap>  之 association 分步查询&延迟加载
+    E030  局部xml  <select>  之 <resultMap>  之 collection 定义关联集合封装规则
     
     
 
