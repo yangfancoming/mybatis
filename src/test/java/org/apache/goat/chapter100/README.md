@@ -38,6 +38,7 @@
     E010  局部xml  <select>  之 <resultMap>  之 自定义JavaBean的封装
     E014  局部xml  <select>  之 <resultMap>  之 级联查询 级联属性封装结果集
     E018  局部xml  <select>  之 <resultMap>  之 association 定义关联的单个对象的封装规则；
+    E020  局部xml  <select>  之 <resultMap>  之 association 分步查询
     
     
 
