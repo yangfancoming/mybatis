@@ -18,7 +18,7 @@
     WHERE d.id= #{id}
   </select>
 
-  <!-- collection：分步查询 -->
+  <!--嵌套结果集的方式，使用collection标签定义关联的集合类型的属性封装规则  -->
   <resultMap type="org.apache.goat.common.Department" id="MyDept">
     <id property="id" column="deptId" />
     <id property="departmentName" column="dept_name" />
@@ -35,7 +35,6 @@
     </collection>
 
   </resultMap>
-
 
 
 </mapper>

@@ -4,6 +4,13 @@
 
 <configuration>
 
+  <settings>
+    <!-- 打开延迟加载 的开关 -->
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <!-- 将积极加载改为消极加载即按需要加载 -->
+    <setting name="aggressiveLazyLoading" value="false"/>
+  </settings>
+
   <!--指定 具体环境 -->
   <environments default="pro_mysql">
     <!--<environments default="dev_hsqldb">-->
@@ -34,6 +41,7 @@
 
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E030/DepartmentMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E034/DepartmentMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E034/EmployeeMapper.xml"/>
   </mappers>
 </configuration>
