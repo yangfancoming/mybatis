@@ -43,6 +43,6 @@
     E030  局部xml  <select>  之 <resultMap>  之 collection 定义关联集合封装规则
     E034  局部xml  <select>  之 <resultMap>  之 collection 分步查询&延迟加载 传递单列值
     E038  局部xml  <select>  之 <resultMap>  之 collection 分步查询&传递多列值&fetchType&延迟加载
-    
+    E040  局部xml  <select>  之 <resultMap>  之 discriminator鉴别器
     
 
