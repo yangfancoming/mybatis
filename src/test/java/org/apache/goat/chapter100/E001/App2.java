@@ -20,7 +20,7 @@ class App2 extends MyBaseDataTest {
   void getEmpById() throws Exception  {
     setUpByReader(XMLPATH);
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-    List<Employee> like = mapper.getEmpsByLastNameLike("%g%");
+    List<Employee> like = mapper.getEmpsByLastNameLike("%g%"); // 模糊查询 字段中 带有 g 字符的
     System.out.println(like);
   }
 

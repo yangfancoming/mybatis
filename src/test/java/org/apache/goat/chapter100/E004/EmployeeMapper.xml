@@ -5,9 +5,14 @@
 <mapper namespace="org.apache.goat.chapter100.E004.EmployeeMapper">
 
 
+  <select id="getEmpByIdReturnMap" resultType="map">
+    select * from tbl_employee where id=#{id}
+  </select>
 
-  <!--public Map<Integer, Employee> getEmpByLastNameLikeReturnMap(String lastName);  -->
+
   <select id="getEmpByLastNameLikeReturnMap" resultType="org.apache.goat.common.Employee">
     select * from tbl_employee where last_name like #{lastName}
   </select>
+
+
 </mapper>
