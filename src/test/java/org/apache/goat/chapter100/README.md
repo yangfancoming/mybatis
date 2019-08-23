@@ -35,8 +35,9 @@
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 
     E004  返回  Map 
-    E010  局部xml  <select>  之 <resultMap>  之 自定义结果映射规则
-    E014  局部xml  <select>  之 <resultMap>  之 级联查询
+    E010  局部xml  <select>  之 <resultMap>  之 自定义JavaBean的封装
+    E014  局部xml  <select>  之 <resultMap>  之 级联查询 级联属性封装结果集
+    E018  局部xml  <select>  之 <resultMap>  之 association 定义关联的单个对象的封装规则；
     
     
 
