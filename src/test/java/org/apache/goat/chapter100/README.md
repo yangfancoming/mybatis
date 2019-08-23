@@ -36,6 +36,7 @@
     E001  返回  List 
     E004  返回  Map 
     E010  局部xml  <select>  之 <resultMap>  之 自定义结果映射规则
+    E014  局部xml  <select>  之 <resultMap>  之 级联查询
     
     
 
