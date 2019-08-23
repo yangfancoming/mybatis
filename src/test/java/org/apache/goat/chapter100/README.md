@@ -33,6 +33,9 @@
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
     
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
-    E001  返回 返回 List 
-    E004  返回 返回 Map 
+    E001  返回  List 
+    E004  返回  Map 
+    E010  局部xml  <select>  之 <resultMap>  之 自定义结果映射规则
+    
+    
 
