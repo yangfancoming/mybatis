@@ -47,6 +47,10 @@
     
 
 # 局部xml 之  动态sql
+     E050  局部xml  动态SQL 之  <if> 标签
+
+
+
 #   缓存
 #   插件
 #   Spring 整合 
