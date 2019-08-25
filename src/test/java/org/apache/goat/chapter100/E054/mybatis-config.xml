@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+  <!--指定 具体环境 -->
+  <environments default="pro_mysql">
+    <!--<environments default="dev_hsqldb">-->
+
+    <!--开发环境内存数据库-->
+    <environment id="dev_hsqldb">
+      <transactionManager type="JDBC" />
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:mem:cache" />
+        <property name="username" value="sa" />
+      </dataSource>
+    </environment>
+
+
+    <!--正式环境环境mysql数据库-->
+    <environment id="pro_mysql">
+      <transactionManager type="JDBC" />
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://172.16.163.135:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
+        <property name="username" value="root" />
+        <property name="password" value="12345" />
+      </dataSource>
+    </environment>
+
+  </environments>
+
+
+  <mappers>
+    <mapper resource="org/apache/goat/chapter100/E054/EmployeeMapper.xml"/>
+  </mappers>
+</configuration>
