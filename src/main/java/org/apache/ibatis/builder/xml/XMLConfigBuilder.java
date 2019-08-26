@@ -80,7 +80,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    * 因为当前构造函数可能用到那些成员，所以那些成员得要先初始化。
   */
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
-//    System.out.println(111);
+//    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 

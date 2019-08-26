@@ -210,7 +210,7 @@ public class XPathParser {
   }
 
   private Document createDocument(InputSource inputSource) {
-    // important: this must only be called AFTER common constructor  公共构造函数 commonConstructor()
+    // important: this must only be called AFTER common constructor  注意：此处代码的执行，必须要在调用公共构造函数 以后
     try {
       // 调用 DocumentBuilderFactory.newInstance() 方法得到创建 DOM 解析器的工厂
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

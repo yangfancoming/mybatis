@@ -5,12 +5,7 @@
 <configuration>
 
   <!--
-  propertiesElement 方法是先解析<properties>节点的子节点内容， 然后再
-  从文件系统或者网络读取属性配置，并将所有的属性及属性值都放入到 defaults 属性对象中。
-  这会导致同名属性覆盖的问题，也就是从文件系统，或者网络上读取到的属性和属性值会覆盖掉<properties>子节点中同名的属性和值
 
-  例如： 下面  <property name="jdbc.username" value="what"/> 子节点属性将会被 <properties resource="jdbc.properties">
-  配置文件中的   jdbc.username=root 覆盖掉！ 即：resource 和 url 属性的优先级更高！
 
   -->
 
