@@ -1,16 +1,15 @@
 
 package org.apache.ibatis.parsing;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import org.w3c.dom.CharacterData;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * 这个是mybatis的封装了jdk原有的Node的对象，自己构造出来的，这样子，自己以后的使用中会很方便，不用来回的切换了
@@ -23,6 +22,9 @@ import org.w3c.dom.NodeList;
 */
 
 public class XNode {
+
+  private static final Log log = LogFactory.getLog(XNode.class);
+
   /**
    * 还好都是jdk本身的工具类，只有最后一个解析xml的基础工具类是mybatis的io的
    */
@@ -134,8 +136,9 @@ public class XNode {
     return xpathParser.evalNodes(node, expression);
   }
 
+
   public XNode evalNode(String expression) {
-    System.out.println(xpathParser + "--2--"  + getClass().toString() );
+    log.debug(  "解析的标签名称为：" + expression);
     return xpathParser.evalNode(node, expression);
   }
 
