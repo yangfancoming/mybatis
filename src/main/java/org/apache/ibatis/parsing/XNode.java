@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * 这个是mybatis的封装了jdk原有的Node的对象，自己构造出来的，这样子，自己以后的使用中会很方便，不用来回的切换了
- * 这个是xml文件中一个节点的详细信息（注意：mybatis只会解析xml文件，就是只会读取，不会写入）
+ * 这个是xml文件中一个节点的详细信息（注意：mybatis只会读取xml文件，不会写入）
 */
 
 public class XNode {

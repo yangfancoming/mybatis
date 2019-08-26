@@ -417,11 +417,12 @@ public class XMLConfigBuilder extends BaseBuilder {
     throw new BuilderException("Environment declaration requires a TransactionFactory.");
   }
 
-  // 解析 <dataSource> 标签并获取  DataSource 四大元素
+  // 解析 <dataSource> 标签并获取 DataSource 四大元素
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
     if (context != null) {
       // 解析 <dataSource type="POOLED"> 标签中的type属性
       String type = context.getStringAttribute("type");
+      // 得到 DataSource 四大<property>元素
       Properties props = context.getChildrenAsProperties();
       // 通过 TypeAliasRegistry 中的  Map<String, Class<?>> typeAliases 中的key  获取 org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
       DataSourceFactory factory = (DataSourceFactory) resolveClass(type).newInstance();
