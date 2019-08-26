@@ -15,6 +15,11 @@ import org.w3c.dom.NodeList;
 /**
  * 这个是mybatis的封装了jdk原有的Node的对象，自己构造出来的，这样子，自己以后的使用中会很方便，不用来回的切换了
  * 这个是xml文件中一个节点的详细信息（注意：mybatis只会读取xml文件，不会写入）
+ *
+ * XNode做了一下几件事情：
+ *              第一件：获取父亲，儿子
+ *              第二件：获取一个Node中的属性和对应的值
+ *              第三件：获取指定的name和value的值，这个应该是mybatis自己需要的属性
 */
 
 public class XNode {
@@ -96,6 +101,7 @@ public class XNode {
       String value = current.getStringAttribute("id", current.getStringAttribute("value", current.getStringAttribute("property", null)));
       if (value != null) {
         value = value.replace('.', '_');
+        // 注意StringBuilder使用的插入模式，好像这个是的动态的字符串，，可以随便的插入和删除操作，很方便
         builder.insert(0, "]");
         builder.insert(0,  value);
         builder.insert(0, "[");
@@ -129,6 +135,7 @@ public class XNode {
   }
 
   public XNode evalNode(String expression) {
+    System.out.println(xpathParser + "--2--"  + getClass().toString() );
     return xpathParser.evalNode(node, expression);
   }
 

@@ -37,6 +37,7 @@
 
         <!--<property name="driver" value="" />-->
         <!--<property name="url" value="" />-->
+
         <!-- username 和 password 将会由 properties 元素中设置的相应值来替换-->
         <property name="username" value="root" />
         <property name="password" value="12345" />

@@ -122,7 +122,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
     */
     XNode xNode = parser.evalNode("/configuration");
-    //2.读取主配置文件的configuration节点下面的配置信息，parseConfiguration方法完成解析的流程
+    //2.完成全局xml文件下的configuration节点下的所有标签信息
     parseConfiguration(xNode);
     return configuration;
   }
@@ -323,14 +323,14 @@ public class XMLConfigBuilder extends BaseBuilder {
       String url = context.getStringAttribute("url");
       // resource 和 url 两个属性不能同时存在
       if (resource != null && url != null) {
-        throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
+        throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
       }
       if (resource != null) {
-        // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中
+        // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中 会产生覆盖操作
         // 从文件系统中加载并解析属性文件
         defaults.putAll(Resources.getResourceAsProperties(resource));
       } else if (url != null) {
-        // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中
+        // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
         defaults.putAll(Resources.getUrlAsProperties(url));
       }
       // 获取configuration中原本的属性，并添加至defaults容器中
@@ -490,8 +490,11 @@ public class XMLConfigBuilder extends BaseBuilder {
      <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
 
-   * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，具体的解
-   * 析细节是依赖于XMLMapperBuilder来实现的，XMLMapperBuilder通过parse方法屏蔽了细节，内部完成解析过程
+   * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，
+   * 具体的解
+   * 析细节是依赖于 XMLMapperBuilder 来实现的，XMLMapperBuilder通过 mapperParser.parse() 方法屏蔽了细节，内部完成解析过程
+   * 也正是由于 <mappers> 标签的解析 创建了 XMLMapperBuilder 来解析的  再其构造函数中 又 new 了一个 XPathParser
+   * 所以 解析<mappers>标签的XPathParser解析器 与 其他标签的解析器不同！  其他标签的解析器 都是同一个 ！
    */
   private void mapperElement(XNode parent) throws Exception {
     if (parent != null) {
@@ -504,7 +507,7 @@ public class XMLConfigBuilder extends BaseBuilder {
           //1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，name就是包名， // 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
           configuration.addMappers(mapperPackage);
         } else {
-          /** 如果当前节点为<mapper> 依次获取resource、url、class属性
+          /** 处理 <mapper> 标签 依次获取resource、url、class属性
            * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
           */
           String resource = child.getStringAttribute("resource");

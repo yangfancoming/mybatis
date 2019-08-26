@@ -176,6 +176,9 @@ public class XPathParser {
     return (Double) evaluate(expression, root, XPathConstants.NUMBER);
   }
 
+
+
+  /* 返回多个节点  目前没有使用  只在测试类中  有引用*/
   public List<XNode> evalNodes(String expression) {
     return evalNodes(document, expression);
   }
@@ -189,10 +192,14 @@ public class XPathParser {
     return xnodes;
   }
 
+
+  /* mybatis中都是使用  返回单个节点*/
   public XNode evalNode(String expression) {
+    System.out.println(this + "--1--"  + getClass().toString() );
     return evalNode(document, expression);
   }
 
+  /* 返回单个节点*/
   public XNode evalNode(Object root, String expression) {
     Node node = (Node) evaluate(expression, root, XPathConstants.NODE);
     if (node == null) {
@@ -201,6 +208,11 @@ public class XPathParser {
     return new XNode(this, node, variables);
   }
 
+  /**
+   * XPathConstants.NODE 它主要适用于当XPath表达式的结果有且只有一个节点。
+   * 如果XPath表达式返回了多个节点，却指定类型为XPathConstants.NODE，则evaluate()方法将按照文档顺序返回第一个节点。
+   * 如果XPath表达式的结果为一个空集，却指定类型为XPathConstants.NODE，则evaluate( )方法将返回null
+  */
   private Object evaluate(String expression, Object root, QName returnType) {
     try {
       return xpath.evaluate(expression, root, returnType);
