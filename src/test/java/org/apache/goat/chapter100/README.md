@@ -4,7 +4,8 @@
     A002 mybatis  有mapper接口 入门示例
 # 全局 xml 
     A010 全局xml 配置之 <settings> 之  mapUnderscoreToCamelCase
-    A020 全局xml 配置之 <properties>
+    A020 全局xml 配置之 <properties>  <properties> 标签从外部配置文件读取属性值 
+    A022 全局xml 配置之 <properties>  <properties> 标签从外部配置文件和内部标签 同时读取属性值 
     A030 全局xml 配置之 <typeAliases>  方式一   为单个类 起别名
     A032 全局xml 配置之 <typeAliases>  方式二   批量起别名
     A034 全局xml 配置之 <typeAliases>  方式三   使用@Alias注解为某个类型指定新的别名
@@ -14,6 +15,7 @@
     A042 全局xml 配置之 <mappers>    注册方式二 class
     A044 全局xml 配置之 <mappers>    注册方式三 package  批量注册 
     A046 全局xml 配置之 <mappers>    注册方式四 url
+    A080 全局xml 配置之 综合所有配置 
     
            
     B000 mybatis 的使用方式 
