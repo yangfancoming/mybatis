@@ -93,14 +93,11 @@ public class XNode {
       if (current != this) {
         builder.insert(0, "_");
       }
-      String value = current.getStringAttribute("id",
-          current.getStringAttribute("value",
-              current.getStringAttribute("property", null)));
+      String value = current.getStringAttribute("id", current.getStringAttribute("value", current.getStringAttribute("property", null)));
       if (value != null) {
         value = value.replace('.', '_');
         builder.insert(0, "]");
-        builder.insert(0,
-            value);
+        builder.insert(0,  value);
         builder.insert(0, "[");
       }
       builder.insert(0, current.getName());
@@ -327,7 +324,7 @@ public class XNode {
   }
 
   /**
-   * 获取孩子的属性当做属性配置
+   * 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
    */
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
@@ -345,7 +342,6 @@ public class XNode {
 
   /**
    * 给了一个toString方法，这样子在显示的时候更加友好
-   * @return 字符串
    */
   @Override
   public String toString() {

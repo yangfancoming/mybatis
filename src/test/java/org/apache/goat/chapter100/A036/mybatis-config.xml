@@ -4,21 +4,24 @@
 
 <configuration>
 
-<!--
- <environments> 标签： mybatis 可以配置多个 数据源
- 其下 必须要有两个子标签
-      transactionManager  事务管理器  对应 Configuration 配置类中的两个别名
-                          typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
-                          typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
-                          以此可以 实现自定义事务管理器 ：
-                             1.<transactionManager type="JDBC" /> 指定全限定类路径名
-                             2.自己实现 TransactionFactory 接口   (一般整合后都交由Spring管理 不自己定义)
-                          public class DIY implements TransactionFactory
 
-      dataSource         数据源  同上 整合后 都交由Spring来管理
+  <properties resource="A022.properties"></properties>
 
--->
 
+  <!--
+   <environments> 标签： mybatis 可以配置多个 数据源
+   其下 必须要有两个子标签
+        transactionManager  事务管理器  对应 Configuration 配置类中的两个别名
+                            typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+                            typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
+                            以此可以 实现自定义事务管理器 ：
+                               1.<transactionManager type="JDBC" /> 指定全限定类路径名
+                               2.自己实现 TransactionFactory 接口   (一般整合后都交由Spring管理 不自己定义)
+                            public class DIY implements TransactionFactory
+
+        dataSource         数据源  同上 整合后 都交由Spring来管理
+
+  -->
 
   <!--指定 具体环境 -->
   <environments default="pro_mysql">
@@ -46,6 +49,19 @@
       </dataSource>
     </environment>
 
+
+
+    <environment id="test_mysql">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <!-- driver 和 url 属性将会由 A022.properties 文件中对应的值来替换-->
+        <property name="driver" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <!-- username 和 password 将会由 properties 元素中设置的相应值来替换-->
+        <property name="username" value="root" />
+        <property name="password" value="12345" />
+      </dataSource>
+    </environment>
   </environments>
 
 

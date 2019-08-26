@@ -57,7 +57,30 @@ public class XMLConfigBuilder extends BaseBuilder {
     this(reader, environment, null);
   }
 
+  /** sos 构造函数报错
+   *  报错：  Constructor call must be the first statement in a constructor
+   *  这个问题其实就是  在构造函数写其他构造函数的时候 只能写在代码块的第一行  不能写在第二行及其以后的行
+   *  原因：
+   *  （1）： super()在第一行的原因就是: 子类有可能访问了父类对象, 比如在构造函数中使用父类对象的成员函数和变量,
+   *        在成员初始化使用了父类, 在代码块中使用了父类等,所以为保证在子类可以访问父类对象之前要完成对父类对象的初始化
+   *
+   * （2）this()在第一行的原因就是: 为保证父类对象初始化的唯一性.
+   *  我们假设一种情况, 类B是类A的子类,如果this()可以在构造函数的任意行使用, 那么会出现什么情况呢?
+   *  首先程序运行到构造函数B()的第一行,发现没有调用this()和super(), 就自动在第一行补齐了super() ,
+   *  完成了对父类对象的初始化,然后返回子类的构造函数继续执行, 当运行到构造函数B()的"this(2) ;"时,
+   *  调用B类对象的B(int) 构造函数,在B(int)中, 还会对父类对象再次初始化!
+   *  这就造成了对资源的浪费, 当然也有可能造成某些意想不到的结果, 不管怎样,总之是不合理的, 所以this() 不能出现在除第一行以外的其他行!
+   *
+   * （3）
+   * 不能同时出现，是因为this和super都要定义在第一行，所以只能有一个；
+   * 那么为什么要定义在第一行呢？先说super，因为子类继承了父类的属性和方法，
+   * 所以在先初始化父类的属性和方法，这样子类才可以初始化自己特有的
+   * 因为，或者自定义了带参的super，这样就初始化了父类的成员了，所以写了this的构造函数不能再写super了
+   * 因为实例化一个对象运行两次super是不安全的。this放在第一行，也是因为要先初始化父类和this代表的构造函数先
+   * 因为当前构造函数可能用到那些成员，所以那些成员得要先初始化。
+  */
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
+//    System.out.println(111);
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
@@ -94,7 +117,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
     parsed = true;
     /**  解析 xml 全局配置文件
-     注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 配置文件的 <configuration> 节点
+     注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 全局xml文件的 <configuration> 节点
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
     */

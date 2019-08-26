@@ -62,8 +62,6 @@ public abstract class MyBaseDataTest {
   }
 
 
-
-
   @AfterEach
   public void after(){
     sqlSession.close();
