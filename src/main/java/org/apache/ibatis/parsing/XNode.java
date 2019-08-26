@@ -37,9 +37,9 @@ public class XNode {
 
   /**
    * 使用解析器构造XNode对象，感觉这个对象是一个dom对象，只有一个对象，因为一个xml最好还是个一个dom树最好
-   * @param xpathParser xml解析
+   * @param xpathParser xml解析器
    * @param node        节点
-   * @param variables   属性节点
+   * @param variables   节点的属性
    */
   public XNode(XPathParser xpathParser, Node node, Properties variables) {
     this.xpathParser = xpathParser;
@@ -135,7 +135,6 @@ public class XNode {
   public List<XNode> evalNodes(String expression) {
     return xpathParser.evalNodes(node, expression);
   }
-
 
   public XNode evalNode(String expression) {
     log.debug(  "解析的标签名称为：" + expression);
@@ -315,7 +314,6 @@ public class XNode {
 
   /**
    * 获取孩子节点的List集合
-   * @return list的node集合
    */
   public List<XNode> getChildren() {
     List<XNode> children = new ArrayList<>();

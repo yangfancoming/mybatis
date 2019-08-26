@@ -214,7 +214,8 @@ public class XPathParser {
   */
   private Object evaluate(String expression, Object root, QName returnType) {
     try {
-      return xpath.evaluate(expression, root, returnType);
+      Object evaluate = xpath.evaluate(expression, root, returnType);
+      return evaluate;
     } catch (Exception e) {
       throw new BuilderException("Error evaluating XPath.  Cause: " + e, e);
     }

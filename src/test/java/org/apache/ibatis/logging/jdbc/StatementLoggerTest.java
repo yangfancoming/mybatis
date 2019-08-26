@@ -38,7 +38,6 @@ public class StatementLoggerTest {
   void shouldPrintLog() throws SQLException {
     when(log.isDebugEnabled()).thenReturn(true);
     st.executeQuery("select 1");
-
     verify(log).debug(contains("Executing: select 1"));
   }
 
