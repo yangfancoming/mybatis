@@ -14,7 +14,7 @@ import java.sql.*;
  */
 public class Base {
 
-  String url = "jdbc:mysql://172.16.163.135:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false";
+  String url = "jdbc:mysql://192.168.136.128:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false";
   Connection connection = null;
   ResultSet resultSet = null;
   Statement statement = null;

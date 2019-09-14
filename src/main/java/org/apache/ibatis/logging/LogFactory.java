@@ -4,7 +4,8 @@ package org.apache.ibatis.logging;
 import java.lang.reflect.Constructor;
 
 /**
- 在LogFactory 类加载时会执行其静态代码块，其逻辑是按序加载并实例化对应日志组件的适配器，然后使用LogFactory.logConstructor 这个静态字段，记录当前使用的第三方日志组件的适配器，
+ 在LogFactory 类加载时会执行其静态代码块，其逻辑是按序加载并实例化对应日志组件的适配器，
+ 然后使用LogFactory.logConstructor 这个静态字段，记录当前使用的第三方日志组件的适配器，
  自动扫描日志实现，并且第三方日志插件加载优先级如下
  slf4J → commonsLoging → Log4J2 → Log4J → JdkLog
 */
