@@ -6,6 +6,7 @@ public class GenericTokenParser {
 
   /**
    解析以上配置中的 ${driver}， 那么这几个成员变量
+
    openToken="${";
    closeToken="}";
   */

@@ -12,6 +12,7 @@ public interface EmployeeMapper {
   public Employee getEmpByIdAndLastName3(@Param("id") Integer id, @Param("lastName") String lastName);
 
   public Employee getEmpByIdAndLastName4(Map<String, Object> map);
+
   public Employee getEmpByIdAndLastName5(Map<String, Object> map);
 
 }
