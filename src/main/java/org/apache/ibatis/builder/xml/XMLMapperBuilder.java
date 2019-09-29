@@ -35,12 +35,14 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- XMLMapperBuilder用来解析MyBatis中的映射文件（如上文提到的ProductMapper.xml）
+ XMLMapperBuilder用来解析MyBatis中的映射文件（如上文提到的ProductMapper.xml）  局部xml配置文件
  */
 public class XMLMapperBuilder extends BaseBuilder {
-
+  //用来解析XML
   private final XPathParser parser;
+  //再解析完成后，用解析所得的属性来帮助创建各个对象
   private final MapperBuilderAssistant builderAssistant;
+  //保存SQL节点
   private final Map<String, XNode> sqlFragments;
   private final String resource;
 
@@ -76,15 +78,17 @@ public class XMLMapperBuilder extends BaseBuilder {
     this.resource = resource;
   }
 
-  // 若当前的Mapper.xml尚未被解析，则开始解析
+  // 若当前的Mapper.xml尚未被解析，则开始解析  解析局部xml配置文件
   public void parse() {
-    // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了
+    // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了 //判断是否已经加载过资源
     if (!configuration.isResourceLoaded(resource)) {
-      // 解析<mapper>节点
+      //从mapper根节点开始解析 // 解析<mapper>节点
       configurationElement(parser.evalNode("/mapper"));
       // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
+      //将该资源添加到为已经加载过的缓存中
       configuration.addLoadedResource(resource);
       // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中 。 通过命名空间绑定 Mapper 接口
+      //将解析的SQL和接口中的方法绑定
       bindMapperForNamespace();
     }
     //将resultMap映射信息转换成ResultMap对象
@@ -99,7 +103,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
-/** 解析xml    参数 XNode context
+/** 解析局部xml    参数 XNode context
  <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
    <cache/>
    <select id="selectAllPosts" resultType="hashmap">
@@ -143,10 +147,12 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private void buildStatementFromContext(List<XNode> list, String requiredDatabaseId) {
     for (XNode context : list) {
+      //遍历XNode节点 为每个节点创建XMLStatementBuilder对象，
       final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);
       try {
-        statementParser.parseStatementNode();
+        statementParser.parseStatementNode();//解析Node
       } catch (IncompleteElementException e) {
+        //对不能完全解析的节点添加到incompleteStatement，在parsePendingStatements方法中再解析
         configuration.addIncompleteStatement(statementParser);
       }
     }

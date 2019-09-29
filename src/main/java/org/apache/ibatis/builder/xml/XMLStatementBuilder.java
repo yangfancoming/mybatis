@@ -50,7 +50,6 @@ public class XMLStatementBuilder extends BaseBuilder {
     if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId)) {
       return;
     }
-
     /** context 的值
      <select id="findAll" resultType="Foo">
        select * from foo
