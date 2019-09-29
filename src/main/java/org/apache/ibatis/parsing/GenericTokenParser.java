@@ -6,13 +6,13 @@ public class GenericTokenParser {
 
   /**
    解析以上配置中的 ${driver}， 那么这几个成员变量
-
    openToken="${";
    closeToken="}";
   */
-  private final String openToken;
-  private final String closeToken;
-  private final TokenHandler handler;
+
+  private final String openToken; //参数开始标志
+  private final String closeToken; //参数解析标志
+  private final TokenHandler handler; //ParameterMappingTokenHandler,参数hanler
 
   public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {
     // 开始标记
@@ -22,7 +22,7 @@ public class GenericTokenParser {
     // 表处理器
     this.handler = handler;
   }
-
+  //解析statement中的sql语句
   public String parse(String text) {
     if (text == null || text.isEmpty()) {
       return "";

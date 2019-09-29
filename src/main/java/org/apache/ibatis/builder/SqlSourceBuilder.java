@@ -26,10 +26,11 @@ public class SqlSourceBuilder extends BaseBuilder {
   public SqlSource parse(String originalSql, Class<?> parameterType, Map<String, Object> additionalParameters) {
     // 对#{}这样的字符串内容的解析处理类
     ParameterMappingTokenHandler handler = new ParameterMappingTokenHandler(configuration, parameterType, additionalParameters);
+    //创建sql语句解析器
     GenericTokenParser parser = new GenericTokenParser("#{", "}", handler);
-    // 获取真实的可执行性的sql语句
+    // 获取真实的可执行性的sql语句 //解析sql
     String sql = parser.parse(originalSql);
-    // 包装成StaticSqlSource返回
+    // 包装成StaticSqlSource返回 //返回StaticSqlSource
     return new StaticSqlSource(configuration, sql, handler.getParameterMappings());
   }
 

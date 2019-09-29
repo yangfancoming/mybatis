@@ -43,7 +43,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  *     <setting name="defaultExecutorType" value="REUSE"/>   SIMPLE、REUSE、BATCH
  * </settings>
  * 配置之后在 Configuration 类中的 newExecutor()   函数会选择具体使用的子类。
-*/
+ */
 public abstract class BaseExecutor implements Executor {
 
   private static final Log log = LogFactory.getLog(BaseExecutor.class);
@@ -392,7 +392,7 @@ public abstract class BaseExecutor implements Executor {
     public void load() {
       @SuppressWarnings("unchecked")
       // we suppose we get back a List
-      List<Object> list = (List<Object>) localCache.getObject(key);
+        List<Object> list = (List<Object>) localCache.getObject(key);
       Object value = resultExtractor.extractObjectFromList(list, targetType);
       resultObject.setValue(property, value);
     }

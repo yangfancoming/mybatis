@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Wraps a database connection.
  * Handles the connection lifecycle that comprises: its creation, preparation, commit/rollback and close.
  *
- * @author Clinton Begin
+ *
  */
 public interface Transaction {
 

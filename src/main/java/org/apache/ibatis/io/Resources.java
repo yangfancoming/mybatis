@@ -13,8 +13,6 @@ import java.util.Properties;
 
 /**
  * A class to simplify access to resources through the classloader.
- *
- * @author Clinton Begin
  */
 public class Resources {
 
@@ -31,7 +29,6 @@ public class Resources {
 
   /**
    * Returns the default classloader (may be null).
-   *
    * @return The default classloader
    */
   public static ClassLoader getDefaultClassLoader() {
@@ -40,7 +37,6 @@ public class Resources {
 
   /**
    * Sets the default classloader
-   *
    * @param defaultClassLoader - the new default ClassLoader
    */
   public static void setDefaultClassLoader(ClassLoader defaultClassLoader) {
@@ -49,7 +45,6 @@ public class Resources {
 
   /**
    * Returns the URL of the resource on the classpath
-   *
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -61,7 +56,6 @@ public class Resources {
 
   /**
    * Returns the URL of the resource on the classpath
-   *
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
@@ -102,7 +96,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Properties object
-   *
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -117,7 +110,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Properties object
-   *
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
@@ -133,7 +125,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Reader object
-   *
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -150,7 +141,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Reader object
-   *
    * @param loader   The classloader used to fetch the resource
    * @param resource The resource to find
    * @return The resource
@@ -168,7 +158,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a File object
-   *
    * @param resource The resource to find
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
@@ -179,7 +168,6 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a File object
-   *
    * @param loader   - the classloader used to fetch the resource
    * @param resource - the resource to find
    * @return The resource
@@ -191,7 +179,6 @@ public class Resources {
 
   /**
    * Gets a URL as an input stream
-   *
    * @param urlString - the URL to get
    * @return An input stream with the data from the URL
    * @throws java.io.IOException If the resource cannot be found or read
@@ -204,7 +191,6 @@ public class Resources {
 
   /**
    * Gets a URL as a Reader
-   *
    * @param urlString - the URL to get
    * @return A Reader with the data from the URL
    * @throws java.io.IOException If the resource cannot be found or read
@@ -221,7 +207,6 @@ public class Resources {
 
   /**
    * Gets a URL as a Properties object
-   *
    * @param urlString - the URL to get
    * @return A Properties object with the data from the URL
    * @throws java.io.IOException If the resource cannot be found or read
@@ -236,7 +221,6 @@ public class Resources {
 
   /**
    * Loads a class
-   *
    * @param className - the class to fetch
    * @return The loaded class
    * @throws ClassNotFoundException If the class cannot be found (duh!)

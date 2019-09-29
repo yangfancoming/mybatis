@@ -53,6 +53,7 @@ public class DefaultParameterHandler implements ParameterHandler {
 
   /**
    * 将占位符替换为参数值
+   * 设置SQL参数值，从ParameterMapping中读取参数值和类型，然后设置到SQL语句中
    * */
   @Override
   public void setParameters(PreparedStatement ps) {

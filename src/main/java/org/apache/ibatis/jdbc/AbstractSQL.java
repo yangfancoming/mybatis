@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Clinton Begin
+ *
  * @author Jeff Butler
  * @author Adam Gent
  * @author Kazuki Shimizu

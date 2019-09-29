@@ -14,6 +14,7 @@ import org.apache.ibatis.session.Configuration;
 /**
  * Static SqlSource. It is faster than {@link DynamicSqlSource} because mappings are
  * calculated during startup.  静态SQL
+ * 常用的mybatis解析sql帮助类
  * @since 3.2.0
  */
 public class RawSqlSource implements SqlSource {
@@ -25,7 +26,7 @@ public class RawSqlSource implements SqlSource {
   }
 
   public RawSqlSource(Configuration configuration, String sql, Class<?> parameterType) {
-    //创建sqlSourceBuilder
+    //创建sqlSourceBuilder  // 通过SqlSourceBuilder来创建sqlSource
     SqlSourceBuilder sqlSourceParser = new SqlSourceBuilder(configuration);
     Class<?> clazz = parameterType == null ? Object.class : parameterType;
     //解析sql，创建StaticSqlSource对象
@@ -41,6 +42,7 @@ public class RawSqlSource implements SqlSource {
 
   @Override
   public BoundSql getBoundSql(Object parameterObject) {
+    //此处的sqlSource为RawSqlSource的内部属性
     return sqlSource.getBoundSql(parameterObject);
   }
 

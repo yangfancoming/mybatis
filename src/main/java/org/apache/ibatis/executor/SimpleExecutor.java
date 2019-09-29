@@ -51,7 +51,7 @@ public class SimpleExecutor extends BaseExecutor {
   }
 
   /**
-   * 查询的实现
+   * 查询的实现  真正的doQuery操作是由SimplyExecutor代理来完成的，该方法中有2个子流程，一个是SQL参数的设置，另一个是SQL查询操作和结果集的封装
    * */
   @Override
   public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
@@ -61,8 +61,10 @@ public class SimpleExecutor extends BaseExecutor {
       //1.创建StatementHandler  根据既有的参数，创建StatementHandler对象来执行查询操作
       StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);
       //2.用StatementHandler对象创建stmt,并使用StatementHandler对占位符进行处理  创建java.Sql.Statement对象，传递给StatementHandler对象
+      /* 子流程1: SQL查询参数的设置 */
       stmt = prepareStatement(handler, ms.getStatementLog());
       //3.通过statementHandler对象调用ResultSetHandler将结果集转化为指定对象返回
+      /* 子流程2: SQL查询操作和结果集封装 */
       return handler.query(stmt, resultHandler);
     } finally {
       closeStatement(stmt);
@@ -85,14 +87,16 @@ public class SimpleExecutor extends BaseExecutor {
 
   /**
    * 创建Statement
+   * 首先获取数据库connection连接，
+   * 然后准备statement，然后就设置SQL查询中的参数值。
+   * 打开一个connection连接，在使用完后不会close，而是存储下来，当下次需要打开连接时就直接返回。
    * */
   private Statement prepareStatement(StatementHandler handler, Log statementLog) throws SQLException {
-    Statement stmt;
-    //1.获取connection对象的动态代理，添加日志能力；(这里参考日志模块的代理模式) // 使用底层的 jdbc 的代码 获取数据库连接  //NOTE: 获取数据库连接
+    /* 获取Connection连接 *///1.获取connection对象的动态代理，添加日志能力；(这里参考日志模块的代理模式) // 使用底层的 jdbc 的代码 获取数据库连接  //NOTE: 获取数据库连接
     Connection connection = getConnection(statementLog);
-    //2.使用StatementHandler，利用connection创建（prepare）Statement //NOTE: 创建Statement
-    stmt = handler.prepare(connection, transaction.getTimeout());
-    //3.使用StatementHandler处理占位符  //NOTE: 参数设置
+    /* 准备Statement */  //2.使用StatementHandler，利用connection创建（prepare）Statement //NOTE: 创建Statement
+    Statement stmt = handler.prepare(connection, transaction.getTimeout());
+    /* 准备Statement */  //3.使用StatementHandler处理占位符  //NOTE: 参数设置
     handler.parameterize(stmt);
     return stmt;
   }

@@ -122,7 +122,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
     */
     XNode xNode = parser.evalNode("/configuration");
-    //2.完成全局xml文件下的configuration节点下的所有标签信息
+    //2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
     return configuration;
   }

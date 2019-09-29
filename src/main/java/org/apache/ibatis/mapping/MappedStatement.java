@@ -29,24 +29,25 @@ public final class MappedStatement {
   private Integer fetchSize;
   //SQL超时时间
   private Integer timeout;
-  //Statement的类型，STATEMENT/PREPARE/CALLABLE
+  //Statement的类型，STATEMENT/PREPARE/CALLABLE //默认为Prepare，call - 》CallStatement
   private StatementType statementType;
   //结果集类型，FORWARD_ONLY/SCROLL_SENSITIVE/SCROLL_INSENSITIVE
   private ResultSetType resultSetType;
-  //表示解析出来的SQL
+  //表示解析出来的SQL //sql语句产生器
   private SqlSource sqlSource;
-  //缓存
+  //缓存 //缓存类型
   private Cache cache;
   //已废弃
   private ParameterMap parameterMap;
   //对应的ResultMap
   private List<ResultMap> resultMaps;
   private boolean flushCacheRequired;
+  //是否用缓存
   private boolean useCache;
   private boolean resultOrdered;
   // SQL类型，INSERT/SELECT/DELETE
   private SqlCommandType sqlCommandType;
-  //和SELECTKEY标签有关
+  //和SELECTKEY标签有关 //主键生成器
   private KeyGenerator keyGenerator;
   private String[] keyProperties;
   private String[] keyColumns;
@@ -54,6 +55,7 @@ public final class MappedStatement {
   //数据库ID，用来区分不同环境
   private String databaseId;
   private Log statementLog;
+  //statement节点解析Drive，默认为XMLLanguageDriver
   private LanguageDriver lang;
   //多结果集时
   private String[] resultSets;
@@ -295,7 +297,9 @@ public final class MappedStatement {
   }
 
   public BoundSql getBoundSql(Object parameterObject) {
+    // 通过SqlSource获取BoundSql对象
     BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
+    // 校验当前的sql语句有无绑定parameterMapping属性
     List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
     if (parameterMappings == null || parameterMappings.isEmpty()) {
       boundSql = new BoundSql(configuration, boundSql.getSql(), parameterMap.getParameterMappings(), parameterObject);
