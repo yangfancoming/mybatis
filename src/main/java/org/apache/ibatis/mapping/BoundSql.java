@@ -21,11 +21,15 @@ public class BoundSql {
 
   // 进行 #{ } 和 ${ } 替换完毕之后的结果sql, 注意每个 #{ }替换完之后就是一个 ?
   private final String sql; // select * from foo where id = ?
+
   // 这里的parameterMappings列表参数里的item个数, 以及每个item的属性名称等等, 都是和上面的sql中的 ? 完全一一对应的.
   private final List<ParameterMapping> parameterMappings; // ParameterMapping{property='id', mode=IN, javaType=class java.lang.Integer, jdbcType=null, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}
+
   // 用户传入的数据
   private final Object parameterObject; // 2
+
   private final Map<String, Object> additionalParameters;
+
   private final MetaObject metaParameters;
 
   public BoundSql(Configuration configuration, String sql, List<ParameterMapping> parameterMappings, Object parameterObject) {
