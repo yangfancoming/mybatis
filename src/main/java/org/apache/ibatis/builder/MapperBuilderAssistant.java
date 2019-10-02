@@ -188,13 +188,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
     return resultMap;
   }
 
-  public Discriminator buildDiscriminator(
-      Class<?> resultType,
-      String column,
-      Class<?> javaType,
-      JdbcType jdbcType,
-      Class<? extends TypeHandler<?>> typeHandler,
-      Map<String, String> discriminatorMap) {
+  public Discriminator buildDiscriminator(Class<?> resultType, String column, Class<?> javaType, JdbcType jdbcType,
+      Class<? extends TypeHandler<?>> typeHandler, Map<String, String> discriminatorMap) {
+
     ResultMapping resultMapping = buildResultMapping(
         resultType,null, column,javaType,jdbcType,
       null,null,null,null,

@@ -229,7 +229,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 */
   private void typeAliasesElement(XNode parent) {
     if (parent != null) {
-      // //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
+       //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
       for (XNode child : parent.getChildren()) {
         //2.处理package类型配置 // 若当前结点为<package>
         if ("package".equals(child.getName())) {
@@ -328,7 +328,8 @@ public class XMLConfigBuilder extends BaseBuilder {
       if (resource != null) {
         // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中 会产生覆盖操作
         // 从文件系统中加载并解析属性文件
-        defaults.putAll(Resources.getResourceAsProperties(resource));
+        Properties properties = Resources.getResourceAsProperties(resource);
+        defaults.putAll(properties);
       } else if (url != null) {
         // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
         defaults.putAll(Resources.getUrlAsProperties(url));

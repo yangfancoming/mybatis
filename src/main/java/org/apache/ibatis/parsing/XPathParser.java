@@ -194,7 +194,7 @@ public class XPathParser {
 
   /* mybatis中都是使用  返回单个节点*/
   public XNode evalNode(String expression) {
-    log.debug(  "解析的标签名称为：" + expression);
+    log.debug(  "XPathParser 解析的标签名称为：" + expression);
     return evalNode(document, expression);
   }
 

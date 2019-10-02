@@ -137,7 +137,7 @@ public class XNode {
   }
 
   public XNode evalNode(String expression) {
-    log.debug(  "解析的标签名称为：" + expression);
+    log.debug(  "XNode 解析的标签名称为：" + expression);
     return xpathParser.evalNode(node, expression);
   }
 

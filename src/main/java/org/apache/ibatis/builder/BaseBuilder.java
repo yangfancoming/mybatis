@@ -40,23 +40,28 @@ public abstract class BaseBuilder {
     return configuration;
   }
 
+  // 获取正则表达式对象,如果regex表达式为null,则使用默认值defaultValue作为表达式
   protected Pattern parseExpression(String regex, String defaultValue) {
     return Pattern.compile(regex == null ? defaultValue : regex);
   }
 
+  // 获取value的boolean值,如果为null,则使用默认值defaultValue
   protected Boolean booleanValueOf(String value, Boolean defaultValue) {
     return value == null ? defaultValue : Boolean.valueOf(value);
   }
 
+  // 获取整形value值,如果为null,则使用默认值defaultValue
   protected Integer integerValueOf(String value, Integer defaultValue) {
     return value == null ? defaultValue : Integer.valueOf(value);
   }
 
+  // 获取value的值,按照‘,’分割为数组并转为hashset,如果value为null,则使用默认值defaultValue
   protected Set<String> stringSetValueOf(String value, String defaultValue) {
     value = value == null ? defaultValue : value;
     return new HashSet<>(Arrays.asList(value.split(",")));
   }
 
+  // 根据别名查询对应的JDBC数据类型,JdbcType是mybatis对java.sql.Types的一次包装,并且是个枚举类,详细的信息可以查看org.apache.ibatis.type.JdbcType
   protected JdbcType resolveJdbcType(String alias) {
     if (alias == null) {
       return null;
@@ -68,6 +73,12 @@ public abstract class BaseBuilder {
     }
   }
 
+  /**
+   根据别名获取对应的结果集,详细信息参照org.apache.ibatis.mapping.ResultSetType。该类是对java.sql.ResultSet的包装,java.sql.ResultSet提供了三个值。
+   ResultSet.TYPE_FORWORD_ONLY 结果集的游标只能向下滚动。
+   ResultSet.TYPE_SCROLL_INSENSITIVE 结果集的游标可以上下移动，当数据库变化时，当前结果集不变。
+   ResultSet.TYPE_SCROLL_SENSITIVE 返回可滚动的结果集，当数据库变化时，当前结果集同步改变。
+  */
   protected ResultSetType resolveResultSetType(String alias) {
     if (alias == null) {
       return null;
@@ -79,6 +90,7 @@ public abstract class BaseBuilder {
     }
   }
 
+  // 根据别名获取ParameterMode类型,可选值为IN, OUT, INOUT,详细信息可参照org.apache.ibatis.mapping.ParameterMode类
   protected ParameterMode resolveParameterMode(String alias) {
     if (alias == null) {
       return null;
