@@ -5,7 +5,9 @@ import org.apache.ibatis.cache.Cache;
 
 
 public class CacheRefResolver {
+
   private final MapperBuilderAssistant assistant;
+
   private final String cacheRefNamespace;
 
   public CacheRefResolver(MapperBuilderAssistant assistant, String cacheRefNamespace) {
