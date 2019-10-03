@@ -1,4 +1,4 @@
-package org.apache.ibatis.jdbcgoat;
+package org.apache.goat.chapter900;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,10 @@
-package org.apache.ibatis.jdbcgoat;
+package org.apache.goat.chapter900;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import java.sql.*;
 
@@ -15,6 +18,7 @@ import java.sql.*;
 public class Base {
 
   String url = "jdbc:mysql://192.168.136.128:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false";
+
   Connection connection = null;
   ResultSet resultSet = null;
   Statement statement = null;
@@ -27,7 +31,6 @@ public class Base {
     System.out.println(connection); // com.mysql.jdbc.JDBC4Connection@387a8303
 
   }
-
 
 
   @AfterEach

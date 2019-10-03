@@ -1,10 +1,11 @@
 
-package org.apache.ibatis.jdbcgoat;
+package org.apache.goat.chapter900;
 
 
 import org.junit.jupiter.api.Test;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 class CurdApp extends Base {
