@@ -202,7 +202,6 @@ public class PooledDataSource implements DataSource {
 
   /**
    * The query to be used to check a connection.
-   *
    * @param poolPingQuery The query
    */
   public void setPoolPingQuery(String poolPingQuery) {

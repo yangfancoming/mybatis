@@ -396,12 +396,14 @@ public class XMLConfigBuilder extends BaseBuilder {
         environment = context.getStringAttribute("default");
       }
       for (XNode child : context.getChildren()) {
+        //  <environment id="development">
         String id = child.getStringAttribute("id");
         if (isSpecifiedEnvironment(id)) {
           // 解析 <transactionManager type="JDBC"/>  标签
           TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
           // 解析 <dataSource>  标签
-          DataSourceFactory dsFactory = dataSourceElement(child.evalNode("dataSource"));
+          XNode dsNode = child.evalNode("dataSource");
+          DataSourceFactory dsFactory = dataSourceElement(dsNode);
           DataSource dataSource = dsFactory.getDataSource();
           // 建造者模式
           Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
@@ -441,7 +443,16 @@ public class XMLConfigBuilder extends BaseBuilder {
     throw new BuilderException("Environment declaration requires a TransactionFactory.");
   }
 
-  // 解析 <dataSource> 标签并获取 DataSource 四大元素
+  /**
+   *  解析 <dataSource> 标签并获取 DataSource 四大元素
+   *
+   *          <dataSource type="POOLED">
+   *              <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+   *              <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
+   *              <property name="username" value="SA"/>
+   *              <property name="password" value=""/>
+   *          </dataSource>
+  */
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
     if (context != null) {
       // 解析 <dataSource type="POOLED"> 标签中的type属性
