@@ -3,6 +3,7 @@ package org.apache.goat.chapter900.A010;
 
 import org.junit.Test;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -48,42 +49,60 @@ public class App {
   // 方式三：使用DriverManager替换Driver
   @Test
   public void testConnection3() throws Exception {
-    // 1.获取Driver实现类的对象
     Class clazz = Class.forName("com.mysql.jdbc.Driver");
     Driver driver = (Driver) clazz.newInstance();
     // 注册驱动
     DriverManager.registerDriver(driver);
-
-    // 2.提供另外三个连接的基本信息：
     Connection conn = DriverManager.getConnection(url, user, password);
     System.out.println(conn);
   }
 
   /**
    * 方式四：可以只是加载驱动，不用显示的注册驱动过了。
+   *     相较于方式三，可以省略如下的操作：
+   *     		Driver driver = (Driver) clazz.newInstance();
+   *     		DriverManager.registerDriver(driver);
+   * 	  在mysql的Driver实现类中的static静态代码块！
+   * 		  static {
+   * 				try {
+   * 					java.sql.DriverManager.registerDriver(new Driver());
+   *                } catch (SQLException E) {
+   * 					throw new RuntimeException("Can't register driver!");
+   *        }
+   *       }
+   *
+   *   其实 Class.forName("com.mysql.jdbc.Driver");  此句代码也可以注释
+   *   原理见 DriverManager 静态代码块loadInitialDrivers #ServiceLoader<Driver> loadedDrivers = ServiceLoader.load(Driver.class);
   */
   @Test
   public void testConnection4() throws Exception {
-    // 2.加载Driver
+    // 2.加载Driver 会加载 com.mysql.jdbc.Driver 类
     Class.forName("com.mysql.jdbc.Driver");
-    //相较于方式三，可以省略如下的操作：
-    //		Driver driver = (Driver) clazz.newInstance();
-    //		// 注册驱动
-    //		DriverManager.registerDriver(driver);
-    //为什么可以省略上述操作呢？
-		/*
-		 * 在mysql的Driver实现类中，声明了如下的操作：
-		 * static {
-				try {
-					java.sql.DriverManager.registerDriver(new Driver());
-				} catch (SQLException E) {
-					throw new RuntimeException("Can't register driver!");
-				}
-			}
-		 */
     Connection conn = DriverManager.getConnection(url, user, password);
     System.out.println(conn);
   }
+
+  /**
+   * 方式五(final版)：将数据库连接需要的4个基本信息声明在配置文件中，通过读取配置文件的方式，获取连接
+   * 此种方式的好处？
+   * 1.实现了数据与代码的分离。实现了解耦
+   * 2.如果需要修改配置文件信息，可以避免程序重新打包。
+  */
+  @Test
+  public void getConnection5() throws Exception{
+    //1.读取配置文件中的4个基本信息
+    InputStream is = App.class.getClassLoader().getResourceAsStream("goatjdbc.properties");
+    Properties pros = new Properties();
+    pros.load(is);
+    String user = pros.getProperty("jdbc.username");
+    String password = pros.getProperty("jdbc.password");
+    String url = pros.getProperty("jdbc.url");
+    String driverClass = pros.getProperty("jdbc.driver");
+    Class.forName(driverClass);
+    Connection conn = DriverManager.getConnection(url, user, password);
+    System.out.println(conn);
+  }
+
 
 
   public void common(Driver driver) throws SQLException {
