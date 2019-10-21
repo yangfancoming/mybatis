@@ -13,6 +13,7 @@
                 alias:指定新的别名
      -->
      <typeAlias type="org.apache.goat.common.Foo" alias="Foo"/>
+     <typeAlias type="org.apache.goat.common.Bar" alias="Bar"/>
 
 
   </typeAliases>

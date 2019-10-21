@@ -16,12 +16,8 @@ class CglibSerialStateHolder extends AbstractSerialStateHolder {
   public CglibSerialStateHolder() {
   }
 
-  public CglibSerialStateHolder(
-          final Object userBean,
-          final Map<String, ResultLoaderMap.LoadPair> unloadedProperties,
-          final ObjectFactory objectFactory,
-          List<Class<?>> constructorArgTypes,
-          List<Object> constructorArgs) {
+  public CglibSerialStateHolder(final Object userBean,final Map<String, ResultLoaderMap.LoadPair> unloadedProperties,
+          final ObjectFactory objectFactory,List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     super(userBean, unloadedProperties, objectFactory, constructorArgTypes, constructorArgs);
   }
 

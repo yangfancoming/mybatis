@@ -247,7 +247,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the limit variable string(e.g. {@code "#{limit}"}).
-   *
    * @param variable a limit variable string
    * @return a self instance
    * @see #OFFSET(String)
@@ -261,7 +260,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the limit value.
-   *
    * @param value an offset value
    * @return a self instance
    * @see #OFFSET(long)
@@ -273,7 +271,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the offset variable string(e.g. {@code "#{offset}"}).
-   *
    * @param variable a offset variable string
    * @return a self instance
    * @see #LIMIT(String)
@@ -325,7 +322,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the offset rows variable string(e.g. {@code "#{offset}"}).
-   *
    * @param variable a offset rows variable string
    * @return a self instance
    * @see #FETCH_FIRST_ROWS_ONLY(String)

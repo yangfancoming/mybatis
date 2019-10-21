@@ -179,10 +179,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (context == null) {
       return new Properties();
     }
-    // 获取 settings 子节点中的内容
+    //解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
     Properties props = context.getChildrenAsProperties();
     // Check that all settings are known to the configuration class 检查配置类是否知道所有设置
     // 创建 Configuration 类的“元信息”对象
+    //创建Configuration对应的MetaClass对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     for (Object key : props.keySet()) {
       // 检测 Configuration 中是否存在相关属性，不存在则抛出异常

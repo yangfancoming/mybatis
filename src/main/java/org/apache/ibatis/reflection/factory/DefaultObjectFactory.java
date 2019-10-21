@@ -69,10 +69,8 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
         }
       }
     } catch (Exception e) {
-      String argTypes = Optional.ofNullable(constructorArgTypes).orElseGet(Collections::emptyList)
-          .stream().map(Class::getSimpleName).collect(Collectors.joining(","));
-      String argValues = Optional.ofNullable(constructorArgs).orElseGet(Collections::emptyList)
-          .stream().map(String::valueOf).collect(Collectors.joining(","));
+      String argTypes = Optional.ofNullable(constructorArgTypes).orElseGet(Collections::emptyList).stream().map(Class::getSimpleName).collect(Collectors.joining(","));
+      String argValues = Optional.ofNullable(constructorArgs).orElseGet(Collections::emptyList).stream().map(String::valueOf).collect(Collectors.joining(","));
       throw new ReflectionException("Error instantiating " + type + " with invalid types (" + argTypes + ") or values (" + argValues + "). Cause: " + e, e);
     }
   }

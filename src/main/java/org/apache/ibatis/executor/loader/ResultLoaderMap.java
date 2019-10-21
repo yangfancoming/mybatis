@@ -27,10 +27,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
-/**
- *
- * @author Franta Mejta
- */
+
 public class ResultLoaderMap {
 
   private final Map<String, LoadPair> loaderMap = new HashMap<>();
@@ -173,9 +170,7 @@ public class ResultLoaderMap {
     public void load(final Object userObject) throws SQLException {
       if (this.metaResultObject == null || this.resultLoader == null) {
         if (this.mappedParameter == null) {
-          throw new ExecutorException("Property [" + this.property + "] cannot be loaded because "
-                  + "required parameter of mapped statement ["
-                  + this.mappedStatement + "] is not serializable.");
+          throw new ExecutorException("Property [" + this.property + "] cannot be loaded because " + "required parameter of mapped statement [" + this.mappedStatement + "] is not serializable.");
         }
 
         final Configuration config = this.getConfiguration();

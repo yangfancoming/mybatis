@@ -21,10 +21,7 @@ import java.util.Map;
 
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 
-/**
- * @author Eduardo Macarron
- * @author Franta Mejta
- */
+
 public abstract class AbstractSerialStateHolder implements Externalizable {
 
   private static final long serialVersionUID = 8940388717901644661L;

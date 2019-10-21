@@ -8,9 +8,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.session.Configuration;
 
-/**
- * @author Andrew Gustafson
- */
+
 public class ResultExtractor {
   private final Configuration configuration;
   private final ObjectFactory objectFactory;

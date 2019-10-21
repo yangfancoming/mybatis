@@ -9,8 +9,6 @@ import java.util.List;
  * during the execution of any nested batch.  The exception contains the
  * java.sql.BatchUpdateException that is the root cause, as well as
  * the results from any prior nested batch that executed successfully.
- *
- *
  */
 public class BatchExecutorException extends ExecutorException {
 
@@ -19,10 +17,7 @@ public class BatchExecutorException extends ExecutorException {
   private final BatchUpdateException batchUpdateException;
   private final BatchResult batchResult;
 
-  public BatchExecutorException(String message,
-                                BatchUpdateException cause,
-                                List<BatchResult> successfulBatchResults,
-                                BatchResult batchResult) {
+  public BatchExecutorException(String message,BatchUpdateException cause,List<BatchResult> successfulBatchResults, BatchResult batchResult) {
     super(message + " Cause: " + cause, cause);
     this.batchUpdateException = cause;
     this.successfulBatchResults = successfulBatchResults;
@@ -34,7 +29,6 @@ public class BatchExecutorException extends ExecutorException {
    * to fail.  That exception contains an array of row counts
    * that can be used to determine exactly which statement of the
    * executor caused the failure (or failures).
-   *
    * @return the root BatchUpdateException
    */
   public BatchUpdateException getBatchUpdateException() {
@@ -43,20 +37,15 @@ public class BatchExecutorException extends ExecutorException {
 
   /**
    * Returns a list of BatchResult objects.  There will be one entry
-   * in the list for each successful sub-executor executed before the failing
-   * executor.
-   *
-   * @return the previously successful executor results (may be an empty list
-   *         if no executor has executed successfully)
+   * in the list for each successful sub-executor executed before the failing executor.
+   * @return the previously successful executor results (may be an empty list if no executor has executed successfully)
    */
   public List<BatchResult> getSuccessfulBatchResults() {
     return successfulBatchResults;
   }
 
   /**
-   * Returns the SQL statement that caused the failure
-   * (not the parameterArray).
-   *
+   * Returns the SQL statement that caused the failure (not the parameterArray).
    * @return the failing SQL string
    */
   public String getFailingSqlStatement() {
@@ -65,7 +54,6 @@ public class BatchExecutorException extends ExecutorException {
 
   /**
    * Returns the statement id of the statement that caused the failure.
-   *
    * @return the statement id
    */
   public String getFailingStatementId() {
