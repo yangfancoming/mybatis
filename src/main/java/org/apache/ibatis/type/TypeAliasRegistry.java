@@ -127,6 +127,7 @@ public class TypeAliasRegistry {
     }
   }
 
+  //    <package name="org.apache.goat.common"/> 标签中的 org.apache.goat.common
   public void registerAliases(String packageName) {
     registerAliases(packageName, Object.class);
   }
@@ -147,6 +148,7 @@ public class TypeAliasRegistry {
 
   public void registerAlias(Class<?> type) {
     String alias = type.getSimpleName();
+    // 判断 @Alias("what")
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
     if (aliasAnnotation != null) {
       alias = aliasAnnotation.value();

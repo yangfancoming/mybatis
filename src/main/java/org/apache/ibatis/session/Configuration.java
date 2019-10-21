@@ -128,6 +128,7 @@ public class Configuration {
   protected String logPrefix;
   //指定 MyBatis 所用日志的具体实现，未指定时将自动查找
   protected Class<? extends Log> logImpl;
+  // 指定VFS的实现, VFS是mybatis提供的用于访问AS内资源的一个简便接口
   protected Class<? extends VFS> vfsImpl;
   /*MyBatis 利用本地缓存机制（Local Cache）防止循环引用（circular references）和加速重复嵌套查询。
    默认值为 SESSION，这种情况下会缓存一个会话中执行的所有查询。

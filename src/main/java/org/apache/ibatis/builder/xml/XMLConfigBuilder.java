@@ -202,6 +202,7 @@ public class XMLConfigBuilder extends BaseBuilder {
         if (!clazz.isEmpty()) {
           @SuppressWarnings("unchecked")
           Class<? extends VFS> vfsImpl = (Class<? extends VFS>)Resources.classForName(clazz);
+          // 加载自定义的vfs
           configuration.setVfsImpl(vfsImpl);
         }
       }
@@ -238,7 +239,7 @@ public class XMLConfigBuilder extends BaseBuilder {
           String typeAliasPackage = child.getStringAttribute("name");
           // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
           //2.2注册包名，将包名放到typeAliasRegistry里面，里面拿到包名之后还会进一步处理 最后会放到TypeAliasRegistry.TYPE_ALIASES这个Map里面去
-          configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage);
+          configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage); // org.apache.goat.common
         } else {
           //3.处理typeAlias类型配置  // 如果当前结点为< typeAlias >
           //3.1获取别名 // 获取alias和type属性

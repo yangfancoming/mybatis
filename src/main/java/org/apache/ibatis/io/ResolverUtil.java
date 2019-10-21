@@ -32,15 +32,17 @@ import org.apache.ibatis.logging.LogFactory;
  *
  * <p>The standard usage pattern for the ResolverUtil class is as follows:</p>
  *
- * <pre>
  * ResolverUtil&lt;ActionBean&gt; resolver = new ResolverUtil&lt;ActionBean&gt;();
  * resolver.findImplementation(ActionBean.class, pkg1, pkg2);
  * resolver.find(new CustomTest(), pkg1);
  * resolver.find(new CustomTest(), pkg2);
  * Collection&lt;ActionBean&gt; beans = resolver.getClasses();
- * </pre>
- *
- * @author Tim Fennell
+
+ 其中有一个接口、两个内部类，Class对象和Annotation对象被封装成了Test对象
+ 其核心功能是匹配Class类型
+ 核心方法：
+ public ResolverUtil<T> find(Test test, String packageName)
+ public Set<Class<? extends T>> getClasses()
  */
 public class ResolverUtil<T> {
   /*
@@ -85,10 +87,10 @@ public class ResolverUtil<T> {
   }
 
   /**
-   * A Test that checks to see if each class is annotated with a specific annotation. If it
-   * is, then the test returns true, otherwise false.
+   * A Test that checks to see if each class is annotated with a specific annotation. If it is, then the test returns true, otherwise false.
    */
   public static class AnnotatedWith implements Test {
+
     private Class<? extends Annotation> annotation;
 
     /** Constructs an AnnotatedWith test for the specified annotation type. */
@@ -118,9 +120,7 @@ public class ResolverUtil<T> {
   private ClassLoader classloader;
 
   /**
-   * Provides access to the classes discovered so far. If no calls have been made to
-   * any of the {@code find()} methods, this set will be empty.
-   *
+   * Provides access to the classes discovered so far. If no calls have been made to any of the {@code find()} methods, this set will be empty.
    * @return the set of classes that have been discovered.
    */
   public Set<Class<? extends T>> getClasses() {
@@ -130,7 +130,6 @@ public class ResolverUtil<T> {
   /**
    * Returns the classloader that will be used for scanning for classes. If no explicit
    * ClassLoader has been set by the calling, the context class loader will be used.
-   *
    * @return the ClassLoader that will be used to scan for classes
    */
   public ClassLoader getClassLoader() {
@@ -140,7 +139,6 @@ public class ResolverUtil<T> {
   /**
    * Sets an explicit ClassLoader that should be used when scanning for classes. If none
    * is set then the context classloader will be used.
-   *
    * @param classloader a ClassLoader to use when scanning for classes
    */
   public void setClassLoader(ClassLoader classloader) {
@@ -152,7 +150,6 @@ public class ResolverUtil<T> {
    * that an interface is provided this method will collect implementations. In the case
    * of a non-interface class, subclasses will be collected.  Accumulated classes can be
    * accessed by calling {@link #getClasses()}.
-   *
    * @param parent the class of interface to find subclasses or implementations of
    * @param packageNames one or more package names to scan (including subpackages) for classes
    */
@@ -172,7 +169,6 @@ public class ResolverUtil<T> {
   /**
    * Attempts to discover classes that are annotated with the annotation. Accumulated
    * classes can be accessed by calling {@link #getClasses()}.
-   *
    * @param annotation the annotation that should be present on matching classes
    * @param packageNames one or more package names to scan (including subpackages) for classes
    */
@@ -180,29 +176,33 @@ public class ResolverUtil<T> {
     if (packageNames == null) {
       return this;
     }
-
     Test test = new AnnotatedWith(annotation);
     for (String pkg : packageNames) {
       find(test, pkg);
     }
-
     return this;
   }
 
   /**
    * Scans for classes starting at the package provided and descending into subpackages.
-   * Each class is offered up to the Test as it is discovered, and if the Test returns
-   * true the class is retained.  Accumulated classes can be fetched by calling
-   * {@link #getClasses()}.
-   *
+   * 扫描从提供的包开始到子包的类
+   * Each class is offered up to the Test as it is discovered, and if the Test returns true the class is retained.
+   * 每个类在被发现时提供给测试，如果测试返回true，则保留该类。
+   * Accumulated classes can be fetched by calling {@link #getClasses()}.
+   * 可以通过调用getClasses() 获取累积类
    * @param test an instance of {@link Test} that will be used to filter classes
-   * @param packageName the name of the package from which to start scanning for
-   *        classes, e.g. {@code net.sourceforge.stripes}
+   * @param packageName the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}
    */
   public ResolverUtil<T> find(Test test, String packageName) {
+    // 将 org.apache.goat.common 转换为 org/apache/goat/common
     String path = getPackagePath(packageName);
-
     try {
+      /**
+       * org/apache/goat/common/Bar.class
+       * org/apache/goat/common/Foo.class
+       * org/apache/goat/common/Zoo.class
+       * org/apache/goat/common/CreateDB.sql
+      */
       List<String> children = VFS.getInstance().list(path);
       for (String child : children) {
         if (child.endsWith(".class")) {
@@ -212,14 +212,11 @@ public class ResolverUtil<T> {
     } catch (IOException ioe) {
       log.error("Could not read package: " + packageName, ioe);
     }
-
     return this;
   }
 
   /**
-   * Converts a Java package name to a path that can be looked up with a call to
-   * {@link ClassLoader#getResources(String)}.
-   *
+   * Converts a Java package name to a path that can be looked up with a call to {@link ClassLoader#getResources(String)}.
    * @param packageName The Java package name to convert to a path
    */
   protected String getPackagePath(String packageName) {
@@ -229,7 +226,6 @@ public class ResolverUtil<T> {
   /**
    * Add the class designated by the fully qualified class name provided to the set of
    * resolved classes if and only if it is approved by the Test supplied.
-   *
    * @param test the test used to determine if the class matches
    * @param fqn the fully qualified name of a class
    */
@@ -241,14 +237,12 @@ public class ResolverUtil<T> {
       if (log.isDebugEnabled()) {
         log.debug("Checking to see if class " + externalName + " matches criteria [" + test + "]");
       }
-
       Class<?> type = loader.loadClass(externalName);
       if (test.matches(type)) {
         matches.add((Class<T>) type);
       }
     } catch (Throwable t) {
-      log.warn("Could not examine class '" + fqn + "'" + " due to a " +
-          t.getClass().getName() + " with message: " + t.getMessage());
+      log.warn("Could not examine class '" + fqn + "'" + " due to a " + t.getClass().getName() + " with message: " + t.getMessage());
     }
   }
 }

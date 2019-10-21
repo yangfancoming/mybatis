@@ -22,8 +22,6 @@ import org.apache.ibatis.logging.LogFactory;
 
 /**
  * A default implementation of {@link VFS} that works for most application servers.
- *
- * @author Ben Gunter
  */
 public class DefaultVFS extends VFS {
   private static final Log log = LogFactory.getLog(DefaultVFS.class);
@@ -139,7 +137,6 @@ public class DefaultVFS extends VFS {
           resources.addAll(list(childUrl, resourcePath));
         }
       }
-
       return resources;
     } finally {
       if (is != null) {
@@ -160,6 +157,7 @@ public class DefaultVFS extends VFS {
    * @param path The leading path to match
    * @return The names of all the matching entries
    * @throws IOException If I/O errors occur
+   * 列出所有的  JarInputStream
    */
   protected List<String> listResources(JarInputStream jar, String path) throws IOException {
     // Include the leading and trailing slash when matching names
@@ -196,12 +194,12 @@ public class DefaultVFS extends VFS {
   /**
    * Attempts to deconstruct the given URL to find a JAR file containing the resource referenced
    * by the URL. That is, assuming the URL references a JAR entry, this method will return a URL
-   * that references the JAR file containing the entry. If the JAR cannot be located, then this
-   * method returns null.
-   *
+   * that references the JAR file containing the entry. If the JAR cannot be located, then this method returns null.
    * @param url The URL of the JAR entry.
    * @return The URL of the JAR file, if one is found. Null if not.
    * @throws MalformedURLException
+   * 通过给定url找到jar文件中包含的资源
+   * file:/E:/Code/Mybatis/GitHub/mybatis-3-master/target/test-classes/org/apache/goat/common/CreateDB.sql
    */
   protected URL findJarForResource(URL url) throws MalformedURLException {
     if (log.isDebugEnabled()) {
@@ -282,8 +280,8 @@ public class DefaultVFS extends VFS {
   /**
    * Converts a Java package name to a path that can be looked up with a call to
    * {@link ClassLoader#getResources(String)}.
-   *
    * @param packageName The Java package name to convert to a path
+   *                    Java包名转换成path
    */
   protected String getPackagePath(String packageName) {
     return packageName == null ? null : packageName.replace('.', '/');
@@ -291,7 +289,6 @@ public class DefaultVFS extends VFS {
 
   /**
    * Returns true if the resource located at the given URL is a JAR file.
-   *
    * @param url The URL of the resource to test.
    */
   protected boolean isJar(URL url) {
@@ -300,7 +297,6 @@ public class DefaultVFS extends VFS {
 
   /**
    * Returns true if the resource located at the given URL is a JAR file.
-   *
    * @param url The URL of the resource to test.
    * @param buffer A buffer into which the first few bytes of the resource are read. The buffer
    *            must be at least the size of {@link #JAR_MAGIC}. (The same buffer may be reused
@@ -328,7 +324,6 @@ public class DefaultVFS extends VFS {
         }
       }
     }
-
     return false;
   }
 }
