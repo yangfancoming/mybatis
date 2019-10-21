@@ -6,12 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- * @author Jeff Butler
- * @author Adam Gent
- * @author Kazuki Shimizu
- */
 public abstract class AbstractSQL<T> {
 
   private static final String AND = ") \nAND (";

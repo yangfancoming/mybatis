@@ -3,8 +3,6 @@ package org.apache.ibatis.jdbc;
 
 /**
  * @deprecated Use the {@link SQL} Class
- *
- * @author Jeff Butler
  */
 public class SqlBuilder {
 

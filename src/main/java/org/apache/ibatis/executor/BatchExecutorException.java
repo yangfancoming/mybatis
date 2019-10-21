@@ -10,7 +10,7 @@ import java.util.List;
  * java.sql.BatchUpdateException that is the root cause, as well as
  * the results from any prior nested batch that executed successfully.
  *
- * @author Jeff Butler
+ *
  */
 public class BatchExecutorException extends ExecutorException {
 
