@@ -38,7 +38,6 @@ public class SqlRunner {
 
   /**
    * Executes a SELECT statement that returns one row.
-   *
    * @param sql  The SQL
    * @param args The arguments to be set on the statement.
    * @return The row expected.
@@ -54,7 +53,6 @@ public class SqlRunner {
 
   /**
    * Executes a SELECT statement that returns multiple rows.
-   *
    * @param sql  The SQL
    * @param args The arguments to be set on the statement.
    * @return The list of rows expected.
@@ -77,7 +75,6 @@ public class SqlRunner {
 
   /**
    * Executes an INSERT statement.
-   *
    * @param sql  The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.

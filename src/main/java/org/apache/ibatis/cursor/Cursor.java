@@ -6,9 +6,7 @@ import java.io.Closeable;
 /**
  * Cursor contract to handle fetching items lazily using an Iterator.
  * Cursors are a perfect fit to handle millions of items queries that would not normally fits in memory.
- * If you use collections in resultMaps then cursor SQL queries must be ordered (resultOrdered="true")
- * using the id columns of the resultMap.
- *
+ * If you use collections in resultMaps then cursor SQL queries must be ordered (resultOrdered="true") using the id columns of the resultMap.
  * @author Guillaume Darmont / guillaume@dropinocean.com
  */
 public interface Cursor<T> extends Closeable, Iterable<T> {
@@ -19,7 +17,6 @@ public interface Cursor<T> extends Closeable, Iterable<T> {
   boolean isOpen();
 
   /**
-   *
    * @return true if the cursor is fully consumed and has returned all elements matching the query.
    */
   boolean isConsumed();

@@ -19,7 +19,7 @@ import java.util.Properties;
  *              第一件：获取父亲，儿子
  *              第二件：获取一个Node中的属性和对应的值
  *              第三件：获取指定的name和value的值，这个应该是mybatis自己需要的属性
-*/
+ */
 
 public class XNode {
 
@@ -427,8 +427,7 @@ public class XNode {
   }
 
   private String getBodyData(Node child) {
-    if (child.getNodeType() == Node.CDATA_SECTION_NODE
-        || child.getNodeType() == Node.TEXT_NODE) {
+    if (child.getNodeType() == Node.CDATA_SECTION_NODE || child.getNodeType() == Node.TEXT_NODE) {
       String data = ((CharacterData) child).getData();
       data = PropertyParser.parse(data, variables);
       return data;

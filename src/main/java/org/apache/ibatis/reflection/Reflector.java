@@ -438,7 +438,6 @@ public class Reflector {
 
   /**
    * Gets the name of the class the instance provides information for.
-   *
    * @return The class name
    */
   public Class<?> getType() {
@@ -512,7 +511,6 @@ public class Reflector {
 
   /**
    * Gets an array of the writable properties for an object.
-   *
    * @return The array
    */
   public String[] getSetablePropertyNames() {
@@ -521,7 +519,6 @@ public class Reflector {
 
   /**
    * Check to see if a class has a writable property by name.
-   *
    * @param propertyName - the name of the property to check
    * @return True if the object has a writable property by the name
    */

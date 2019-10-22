@@ -23,4 +23,5 @@ public enum ResultSetType {
   public int getValue() {
     return value;
   }
+
 }

@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 /**
  * The annotation that inject a property value.
- *
  * @since 3.4.2
  * @author Kazuki Shimizu
  * @see CacheNamespace

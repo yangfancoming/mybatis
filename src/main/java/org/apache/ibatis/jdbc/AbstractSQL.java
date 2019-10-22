@@ -548,23 +548,18 @@ public abstract class AbstractSQL<T> {
         case DELETE:
           answer = deleteSQL(builder);
           break;
-
         case INSERT:
           answer = insertSQL(builder);
           break;
-
         case SELECT:
           answer = selectSQL(builder);
           break;
-
         case UPDATE:
           answer = updateSQL(builder);
           break;
-
         default:
           answer = null;
       }
-
       return answer;
     }
   }

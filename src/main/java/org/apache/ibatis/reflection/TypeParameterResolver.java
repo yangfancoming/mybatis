@@ -273,6 +273,7 @@ public class TypeParameterResolver {
   }
 
   static class WildcardTypeImpl implements WildcardType {
+
     private Type[] lowerBounds;
 
     private Type[] upperBounds;

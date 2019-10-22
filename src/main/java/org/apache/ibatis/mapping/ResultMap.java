@@ -19,6 +19,7 @@ import org.apache.ibatis.session.Configuration;
 
 
 public class ResultMap {
+
   private Configuration configuration;
 
   private String id;
@@ -109,10 +110,8 @@ public class ResultMap {
       if (!constructorArgNames.isEmpty()) {
         final List<String> actualArgNames = argNamesOfMatchingConstructor(constructorArgNames);
         if (actualArgNames == null) {
-          throw new BuilderException("Error in result map '" + resultMap.id
-              + "'. Failed to find a constructor in '"
-              + resultMap.getType().getName() + "' by arg names " + constructorArgNames
-              + ". There might be more info in debug log.");
+          throw new BuilderException("Error in result map '" + resultMap.id + "'. Failed to find a constructor in '"
+              + resultMap.getType().getName() + "' by arg names " + constructorArgNames + ". There might be more info in debug log.");
         }
         resultMap.constructorResultMappings.sort((o1, o2) -> {
           int paramIdx1 = actualArgNames.indexOf(o1.getProperty());
@@ -135,8 +134,7 @@ public class ResultMap {
         Class<?>[] paramTypes = constructor.getParameterTypes();
         if (constructorArgNames.size() == paramTypes.length) {
           List<String> paramNames = getArgNames(constructor);
-          if (constructorArgNames.containsAll(paramNames)
-              && argTypesMatch(constructorArgNames, paramTypes, paramNames)) {
+          if (constructorArgNames.containsAll(paramNames) && argTypesMatch(constructorArgNames, paramTypes, paramNames)) {
             return paramNames;
           }
         }
@@ -144,18 +142,15 @@ public class ResultMap {
       return null;
     }
 
-    private boolean argTypesMatch(final List<String> constructorArgNames,
-        Class<?>[] paramTypes, List<String> paramNames) {
+    private boolean argTypesMatch(final List<String> constructorArgNames, Class<?>[] paramTypes, List<String> paramNames) {
       for (int i = 0; i < constructorArgNames.size(); i++) {
         Class<?> actualType = paramTypes[paramNames.indexOf(constructorArgNames.get(i))];
         Class<?> specifiedType = resultMap.constructorResultMappings.get(i).getJavaType();
         if (!actualType.equals(specifiedType)) {
           if (log.isDebugEnabled()) {
             log.debug("While building result map '" + resultMap.id
-                + "', found a constructor with arg names " + constructorArgNames
-                + ", but the type of '" + constructorArgNames.get(i)
-                + "' did not match. Specified: [" + specifiedType.getName() + "] Declared: ["
-                + actualType.getName() + "]");
+                + "', found a constructor with arg names " + constructorArgNames + ", but the type of '" + constructorArgNames.get(i)
+                + "' did not match. Specified: [" + specifiedType.getName() + "] Declared: [" + actualType.getName() + "]");
           }
           return false;
         }
