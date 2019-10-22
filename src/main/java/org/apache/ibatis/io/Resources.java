@@ -19,8 +19,7 @@ public class Resources {
   private static ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
 
   /**
-   * Charset to use when calling getResourceAsReader.
-   * null means use the system default.
+   * Charset to use when calling getResourceAsReader. null means use the system default.
    */
   private static Charset charset;
 
