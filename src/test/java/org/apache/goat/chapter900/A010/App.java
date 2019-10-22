@@ -91,7 +91,8 @@ public class App {
   @Test
   public void getConnection5() throws Exception{
     //1.读取配置文件中的4个基本信息
-    InputStream is = App.class.getClassLoader().getResourceAsStream("goatjdbc.properties");
+//    InputStream is = App.class.getClassLoader().getResourceAsStream("goatjdbc.properties");
+    InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("goatjdbc.properties");
     Properties pros = new Properties();
     pros.load(is);
     String user = pros.getProperty("jdbc.username");
