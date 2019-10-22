@@ -8,13 +8,16 @@ import org.apache.ibatis.logging.Log;
 
 
 /**
- jdk14包下的Jdk14LoggingImpl 使用
+ jdk14包下的 Jdk14LoggingImpl 使用
  java.util.logging.Logger
  java.util.logging.Level
  2个类  实现了Log接口。
+ jdkLog的适配器，实现的是Log接口（Mybatie自己规定的日志需要有的能力）
 */
 public class Jdk14LoggingImpl implements Log {
+
   //真正提供日志能力的jdk的日志类
+  // 真正提供日志能力的jdk的日志类（这就是引入的外部实现类）
   private final Logger log;
 
   public Jdk14LoggingImpl(String clazz) {

@@ -20,6 +20,7 @@ import org.apache.ibatis.reflection.ArrayUtil;
 
 /**
  * Base class for proxies to do logging.
+ * 所有日志增强的抽象基类，所有日志增强的父类
  */
 public abstract class BaseJdbcLogger {
 

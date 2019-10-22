@@ -14,9 +14,11 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 /**
  * Connection proxy to add logging.
  * Connection 的代理类，增加了日志功能
+ * 负责打印连接信息，和sql语句，并创建PreparedStatementLogger
  */
 public final class ConnectionLogger extends BaseJdbcLogger implements InvocationHandler {
 
+  //真正的连接对象
   private final Connection connection;
 
   private ConnectionLogger(Connection conn, Log statementLog, int queryStack) {
@@ -25,7 +27,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
   }
 
   // ConnectionLogger.invoke() 方法是代理对象的核心方法，它为 prepareStatement()、prepareCall() 、 createStatement() 等方法提供了代理
-
+  //对连接的增强
   @Override
   public Object invoke(Object proxy, Method method, Object[] params) throws Throwable {
     try {

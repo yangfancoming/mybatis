@@ -19,7 +19,7 @@ public final class LogFactory {
 
   /**
    第三方日志组件构造器，默认为空
-   存放绑定的日志框架的构造方法；(绑定哪个日志框架，就把这个日志框架所对应logger的构造函数放进来)
+   存放绑定的日志框架的构造方法；( 绑定哪个日志框架，就把这个日志框架所对应logger的构造函数放进来)
    这里有个特别的地方，是Log变量的的类型是Constructor<? extends Log>，也就是说该工厂生产的不只是一个产品，而是具有Log公共接口的一系列产品，比如Log4jImpl、Slf4jImpl等很多具体的Log。
   */
   private static Constructor<? extends Log> logConstructor;
@@ -34,7 +34,9 @@ public final class LogFactory {
    * 后面再执行common logging的绑定流程时发现logConstructor不为空，说明前面已经成功初始化了，就不会执行了；
    * 反过来假如slf4j绑定失败，比如依赖包没有或者版本之类的报错，那么setImplementation抛出异常，在tryImplementation里面捕获到异常之后会直接
    * 忽略，然后就继续尝试绑定common logging,直到成功。这就是绑定的整体流程。
-   * */
+   *
+   * 自动扫描日志实现，并且第三方日志插件加载优先级如下：slf4J → commonsLoging → Log4J2 → Log4J → JdkLog
+   */
   static {
     tryImplementation(LogFactory::useSlf4jLogging);
     tryImplementation(LogFactory::useCommonsLogging);
@@ -134,6 +136,7 @@ public final class LogFactory {
     /**
      优先级就是在静态代码块中指定的。先加载slf4J，如果成功，则构造器logConstructor不为空，
      那么后续加载的时候发现构造器不为空，后续的第三方组件不再加载。这样就实现了优先级。
+     当构造方法不为空才执行方法
     */
     if (logConstructor == null) {
       try {
@@ -146,6 +149,7 @@ public final class LogFactory {
 
   /**  绑定的细节
    * 根据指定适配器实现类加载相应的日志组件
+   * 通过指定的log类来初始化构造方法
    */
   private static void setImplementation(Class<? extends Log> implClass) {
     try {
