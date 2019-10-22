@@ -11,6 +11,9 @@ import org.slf4j.spi.LocationAwareLogger;
  slf4j包含2个适配者，Slf4jLocationAwareLoggerImpl 和 Slf4jLoggerImpl，
  并且这两个类也实现了目标接口，因此在后面的适配器Slf4jImpl中直接使用Log在内部持有他们
  (看源码注释，有两个类是因为在JDK的不同版本有所不同)
+
+ Slf4jImpl就是Apdater类，Log接口就是Target
+ LoggerFactory.getLogger(clazz)这个操作就是获取  org.slf4j.Logger 他就是Adaptee类
 */
 public class Slf4jImpl implements Log {
 

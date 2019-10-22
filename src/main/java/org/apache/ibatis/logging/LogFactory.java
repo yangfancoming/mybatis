@@ -36,6 +36,14 @@ public final class LogFactory {
    * 忽略，然后就继续尝试绑定common logging,直到成功。这就是绑定的整体流程。
    *
    * 自动扫描日志实现，并且第三方日志插件加载优先级如下：slf4J → commonsLoging → Log4J2 → Log4J → JdkLog
+   *
+   * 依次去尝试设置LogFactory会用哪一种Log实现去做日志。
+   * 第一个成功的会塞入logConstructor，用于后面创建mybatis的通用日志接口Logger
+   * 最优先的是slf4j。从上到下一次排列
+   * 这里有一个问题是为什么每一种useXXX方法都是同步的呢？他们明明就在同一个static块中被依次调用。
+   * 后来仔细一想，是因为这些方法也可以在LogFactory的Class被初始化加载之后，在不用的地方被不同的线程调用。
+   * 从而动态改变Log的具体实现者，如果这些方法不是synchronized的话，不同的线程对logConstructor就会出现可见性问题。
+   * 类似于单例懒加载双重检查锁。
    */
   static {
     tryImplementation(LogFactory::useSlf4jLogging);
@@ -137,6 +145,7 @@ public final class LogFactory {
      优先级就是在静态代码块中指定的。先加载slf4J，如果成功，则构造器logConstructor不为空，
      那么后续加载的时候发现构造器不为空，后续的第三方组件不再加载。这样就实现了优先级。
      当构造方法不为空才执行方法
+     如果为空则调用runnable.run方法，（注意不是start方法）
     */
     if (logConstructor == null) {
       try {
@@ -150,23 +159,32 @@ public final class LogFactory {
   /**  绑定的细节
    * 根据指定适配器实现类加载相应的日志组件
    * 通过指定的log类来初始化构造方法
+   * 这里尝试传入的是实现了ibatis的Log适配器接口的实现类
    */
   private static void setImplementation(Class<? extends Log> implClass) {
     try {
       //1.获取绑定类的构造方法 //获取指定适配器的构造方法  // 获取 Log 实现类的构造方法，它只有一个字符串作为参数
+      //这些实现类都有一个string参数的构造器，用于传入logger的名字，不过这一点并不是从语法上限制死的。而是mybatis对每一个实现都提供了这样的constructor
       Constructor<? extends Log> candidate = implClass.getConstructor(String.class);
       //2.通过构造方法创建一个实例赋值给Log，因为采用了适配器模式，传进来的都是适配者，适配者本身是实现了目标接口的，因此进来的类都是Log接口的子类，这是一个多态的写法
       //实例化适配器  创建一个 Log 对象，打印 debug 日志
+      //用mybatis的LogFactory的名字创建一个mybatis的log接口，具体的实现由被适配的具体实现决定
       Log log = candidate.newInstance(LogFactory.class.getName());
       //3.这里第2步的赋值只是为了在这里打印日志，打印提示初始化适配器的类型
+      //马上就用了，打印的第一句就是，表明用了什么日志适配器实现
       if (log.isDebugEnabled()) {
         log.debug("Logging initialized using '" + implClass + "' adapter.");
       }
       //3.把绑定的日志组件的构造方法放到logConstructor里面，后面就不会再尝试绑定其他的日志组件了
       // 把 candidate 对象设置到 LogFactory 的静态变量 logConstructor，这个静态变量在 getLog() 方法 中被用到
+      //Log适配器的构造器缓存下来，用于后面创建其他日志
       logConstructor = candidate;
+      //所以这个方法的核心作用就是，抽取我们的真正的日志适配器实现的constructor缓存起来，用于后面创建log
     } catch (Throwable t) {
       //4.抛出的异常会在tryImplementation方法中捕获，捕获之后会尝试绑定下一个日志组件
+      //注意这个方法其实会经常抛错的。因为要用底层的实现的前提是引入了这个实现的包。并且能用。
+      // 当不成功的时候，通常就是缺了实现类。比如第一个的Slf4j的logg实现，如果没有slff4j的jar，自然就失败了。
+      // 所以在外面tryImplementation这个方法会抓住我们的初始化异常。并忽略它。设置失败就算咯~尝试其他的。
       throw new LogException("Error setting Log implementation.  Cause: " + t, t);
     }
   }

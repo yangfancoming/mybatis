@@ -17,6 +17,7 @@ class App extends MyBaseDataTest {
    * 显示 很繁琐，因此 方式二 应运而生
    *
    * doit 查看源码 为啥 前三种情况都可以？
+   * 日志打印 ResolverUtil - Reader entry: ����   4 C  原因是 批量起别名导致的！
   */
   @Test
   void test1() throws Exception {
