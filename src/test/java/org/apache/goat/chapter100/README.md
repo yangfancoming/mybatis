@@ -51,6 +51,7 @@
 # 局部xml 之  动态sql
      E050  局部xml  动态SQL 之  <if> 标签
      E054  局部xml  动态SQL 之  <where> 标签
+     E056 局部xml  动态SQL 之  <sql> 标签
 
 
 
