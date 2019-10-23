@@ -9,6 +9,7 @@ import org.apache.ibatis.mapping.ResultMapping;
 
 
 public class ResultMapResolver {
+
   private final MapperBuilderAssistant assistant;
   private final String id;
   private final Class<?> type;

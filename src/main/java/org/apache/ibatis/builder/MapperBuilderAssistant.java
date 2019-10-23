@@ -192,8 +192,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
       Class<? extends TypeHandler<?>> typeHandler, Map<String, String> discriminatorMap) {
 
     ResultMapping resultMapping = buildResultMapping(
-        resultType,null, column,javaType,jdbcType,
-      null,null,null,null,
+        resultType,null, column,javaType,jdbcType,null,null,null,null,
         typeHandler, new ArrayList<>(),null,null,false);
 
     Map<String, String> namespaceDiscriminatorMap = new HashMap<>();

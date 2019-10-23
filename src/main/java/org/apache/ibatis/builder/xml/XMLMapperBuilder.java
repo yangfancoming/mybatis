@@ -35,7 +35,7 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- XMLMapperBuilder用来解析MyBatis中的映射文件（如上文提到的ProductMapper.xml）  局部xml配置文件
+ XMLMapperBuilder用来解析MyBatis中的局部xml配置文件（如上文提到的ProductMapper.xml）
  */
 public class XMLMapperBuilder extends BaseBuilder {
   //用来解析XML

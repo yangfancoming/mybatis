@@ -506,10 +506,8 @@ public class MapperAnnotationBuilder {
 
   private SqlCommandType getSqlCommandType(Method method) {
     Class<? extends Annotation> type = getSqlAnnotationType(method);
-
     if (type == null) {
       type = getSqlProviderAnnotationType(method);
-
       if (type == null) {
         return SqlCommandType.UNKNOWN;
       }
@@ -553,8 +551,8 @@ public class MapperAnnotationBuilder {
         flags.add(ResultFlag.ID);
       }
       @SuppressWarnings("unchecked")
-      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>)
-              ((result.typeHandler() == UnknownTypeHandler.class) ? null : result.typeHandler());
+      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>) ((result.typeHandler() == UnknownTypeHandler.class) ? null : result.typeHandler());
+
       ResultMapping resultMapping = assistant.buildResultMapping(
           resultType,
           nullOrEmpty(result.property()),
@@ -562,13 +560,10 @@ public class MapperAnnotationBuilder {
           result.javaType() == void.class ? null : result.javaType(),
           result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
           hasNestedSelect(result) ? nestedSelectId(result) : null,
-          null,
-          null,
-          null,
+          null,null,null,
           typeHandler,
           flags,
-          null,
-          null,
+          null,null,
           isLazy(result));
       resultMappings.add(resultMapping);
     }
@@ -610,8 +605,7 @@ public class MapperAnnotationBuilder {
         flags.add(ResultFlag.ID);
       }
       @SuppressWarnings("unchecked")
-      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>)
-              (arg.typeHandler() == UnknownTypeHandler.class ? null : arg.typeHandler());
+      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>) (arg.typeHandler() == UnknownTypeHandler.class ? null : arg.typeHandler());
       ResultMapping resultMapping = assistant.buildResultMapping(
           resultType,
           nullOrEmpty(arg.name()),
@@ -624,8 +618,7 @@ public class MapperAnnotationBuilder {
           nullOrEmpty(arg.columnPrefix()),
           typeHandler,
           flags,
-          null,
-          null,
+          null,null,
           false);
       resultMappings.add(resultMapping);
     }
@@ -665,8 +658,7 @@ public class MapperAnnotationBuilder {
     SqlCommandType sqlCommandType = SqlCommandType.SELECT;
 
     assistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType, fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum,
-        flushCache, useCache, false,
-        keyGenerator, keyProperty, keyColumn, null, languageDriver, null);
+        flushCache, useCache, false, keyGenerator, keyProperty, keyColumn, null, languageDriver, null);
 
     id = assistant.applyCurrentNamespace(id, false);
 

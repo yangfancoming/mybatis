@@ -5,17 +5,12 @@ import java.util.HashMap;
 
 /**
  * Inline parameter expression parser. Supported grammar (simplified):
- *
- * <pre>
  * inline-parameter = (propertyName | expression) oldJdbcType attributes
  * propertyName = /expression language's property navigation path/
  * expression = '(' /expression language's expression/ ')'
  * oldJdbcType = ':' /any valid jdbc type/
  * attributes = (',' attribute)*
  * attribute = name '=' value
- * </pre>
- *
- * @author Frank D. Martinez [mnesarco]
  */
 public class ParameterExpression extends HashMap<String, String> {
 

@@ -157,12 +157,10 @@ public class ProviderSqlSource implements SqlSource {
     Class<?> type = (Class<?>) providerAnnotation.getClass().getMethod("type").invoke(providerAnnotation);
     Class<?> value = (Class<?>) providerAnnotation.getClass().getMethod("value").invoke(providerAnnotation);
     if (value == void.class && type == void.class) {
-      throw new BuilderException("Please specify either 'value' or 'type' attribute of @"
-          + ((Annotation) providerAnnotation).annotationType().getSimpleName() + " at the '" + mapperMethod.toString() + "'.");
+      throw new BuilderException("Please specify either 'value' or 'type' attribute of @"+ ((Annotation) providerAnnotation).annotationType().getSimpleName() + " at the '" + mapperMethod.toString() + "'.");
     }
     if (value != void.class && type != void.class && value != type) {
-      throw new BuilderException("Cannot specify different class on 'value' and 'type' attribute of @"
-          + ((Annotation) providerAnnotation).annotationType().getSimpleName() + " at the '" + mapperMethod.toString() + "'.");
+      throw new BuilderException("Cannot specify different class on 'value' and 'type' attribute of @"+ ((Annotation) providerAnnotation).annotationType().getSimpleName() + " at the '" + mapperMethod.toString() + "'.");
     }
     return value == void.class ? type : value;
   }

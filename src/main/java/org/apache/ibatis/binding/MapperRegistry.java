@@ -57,7 +57,6 @@ public class MapperRegistry {
          System.out.println(type.equals(mapperInterface) ); // true
          */
 
-
         /**
          It's important that the type is added before the parser is run
          otherwise the binding may automatically be attempted by the

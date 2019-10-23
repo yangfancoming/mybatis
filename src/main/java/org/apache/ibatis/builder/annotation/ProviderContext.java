@@ -5,8 +5,6 @@ import java.lang.reflect.Method;
 
 /**
  * The context object for sql provider method.
- *
- * @author Kazuki Shimizu
  * @since 3.4.5
  */
 public final class ProviderContext {
@@ -17,7 +15,6 @@ public final class ProviderContext {
 
   /**
    * Constructor.
-   *
    * @param mapperType A mapper interface type that specified provider
    * @param mapperMethod A mapper method that specified provider
    * @param databaseId A database id
@@ -30,7 +27,6 @@ public final class ProviderContext {
 
   /**
    * Get a mapper interface type that specified provider.
-   *
    * @return A mapper interface type that specified provider
    */
   public Class<?> getMapperType() {
@@ -39,7 +35,6 @@ public final class ProviderContext {
 
   /**
    * Get a mapper method that specified provider.
-   *
    * @return A mapper method that specified provider
    */
   public Method getMapperMethod() {
@@ -48,7 +43,6 @@ public final class ProviderContext {
 
   /**
    * Get a database id that provided from {@link org.apache.ibatis.mapping.DatabaseIdProvider}.
-   *
    * @return A database id
    * @since 3.5.1
    */

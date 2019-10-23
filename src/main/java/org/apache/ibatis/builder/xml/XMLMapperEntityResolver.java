@@ -26,11 +26,9 @@ public class XMLMapperEntityResolver implements EntityResolver {
 
   /**
    * Converts a public DTD into a local one.
-   *
    * @param publicId The public id that is what comes after "PUBLIC"
    * @param systemId The system id that is what comes after the public id.
    * @return The InputSource for the DTD
-   *
    * @throws org.xml.sax.SAXException If anything goes wrong
    */
   @Override
