@@ -30,51 +30,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     this.configuration = configuration;
   }
 
-  @Override
-  public SqlSession openSession() {
-    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
-  }
-
-  @Override
-  public SqlSession openSession(boolean autoCommit) {
-    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, autoCommit);
-  }
-
-  @Override
-  public SqlSession openSession(ExecutorType execType) {
-    return openSessionFromDataSource(execType, null, false);
-  }
-
-  @Override
-  public SqlSession openSession(TransactionIsolationLevel level) {
-    return openSessionFromDataSource(configuration.getDefaultExecutorType(), level, false);
-  }
-
-  @Override
-  public SqlSession openSession(ExecutorType execType, TransactionIsolationLevel level) {
-    return openSessionFromDataSource(execType, level, false);
-  }
-
-  @Override
-  public SqlSession openSession(ExecutorType execType, boolean autoCommit) {
-    return openSessionFromDataSource(execType, null, autoCommit);
-  }
-
-  @Override
-  public SqlSession openSession(Connection connection) {
-    return openSessionFromConnection(configuration.getDefaultExecutorType(), connection);
-  }
-
-  @Override
-  public SqlSession openSession(ExecutorType execType, Connection connection) {
-    return openSessionFromConnection(execType, connection);
-  }
-
-  @Override
-  public Configuration getConfiguration() {
-    return configuration;
-  }
-
   /**
    SqlSession中的策略模式体现在：创建数据源有3种方式，POOL、UNPOOL和JNDI。
    在创建Sqlsession的时候，是根据环境创建的，在Environment里面会指定数据源的方式，对于Sqlsession的使用代码来说，
@@ -163,6 +118,54 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
         // Intentionally ignore. Prefer previous error.
       }
     }
+  }
+
+
+
+
+  @Override
+  public SqlSession openSession() {
+    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);
+  }
+
+  @Override
+  public SqlSession openSession(boolean autoCommit) {
+    return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, autoCommit);
+  }
+
+  @Override
+  public SqlSession openSession(Connection connection) {
+    return openSessionFromConnection(configuration.getDefaultExecutorType(), connection);
+  }
+
+  @Override
+  public SqlSession openSession(TransactionIsolationLevel level) {
+    return openSessionFromDataSource(configuration.getDefaultExecutorType(), level, false);
+  }
+
+  @Override
+  public SqlSession openSession(ExecutorType execType) {
+    return openSessionFromDataSource(execType, null, false);
+  }
+
+  @Override
+  public SqlSession openSession(ExecutorType execType, boolean autoCommit) {
+    return openSessionFromDataSource(execType, null, autoCommit);
+  }
+
+  @Override
+  public SqlSession openSession(ExecutorType execType, TransactionIsolationLevel level) {
+    return openSessionFromDataSource(execType, level, false);
+  }
+
+  @Override
+  public SqlSession openSession(ExecutorType execType, Connection connection) {
+    return openSessionFromConnection(execType, connection);
+  }
+
+  @Override
+  public Configuration getConfiguration() {
+    return configuration;
   }
 
 }
