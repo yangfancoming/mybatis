@@ -13,6 +13,8 @@ public interface SqlNode {
     当SQL节点下的所有 SqlNode 完成解析后，我们就可以从 DynamicContext 中获取一条动态生成的完整的 SQL 语句
 
    apply方法是所有的动态节点都实现的接口
+
+   将各Sql片段合并到DynamicContext中，拼接称为完整的SQL
   */
   boolean apply(DynamicContext context);
 }

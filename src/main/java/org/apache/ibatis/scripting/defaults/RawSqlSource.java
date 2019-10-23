@@ -32,10 +32,14 @@ public class RawSqlSource implements SqlSource {
     //解析sql，创建StaticSqlSource对象
     sqlSource = sqlSourceParser.parse(sql, clazz, new HashMap<>());
   }
-  //获取sql语句
+
+  /**
+   * 通过遍历所有的SqlNode，获取sql语句
+   */
   private static String getSql(Configuration configuration, SqlNode rootSqlNode) {
     DynamicContext context = new DynamicContext(configuration, null);
     //这里的rootSqlNode就是之前得到的MixedSqlNode，它会遍历内部的SqlNode,逐个调用sqlNode的apply方法。StaticTextSqlNode会直接context.appendSql方法
+    //rootSqlNode为MixedSqlNode
     rootSqlNode.apply(context);
     return context.getSql();
   }

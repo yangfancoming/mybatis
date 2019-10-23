@@ -20,6 +20,15 @@ class App2 extends MyBaseDataTest {
    *
    *    但是由于 <where></where> 标签中的 and 只能写在语句前面 不能放在后面 所以 还是推荐使用第一种解决方式！！！
    */
+
+  /**
+   * [2019-10-23 19:24:29,604]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==>  Preparing: select * from tbl_employee WHERE id=?
+   * [2019-10-23 19:24:29,629]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==> Parameters: 2(Integer)
+   * [2019-10-23 19:24:29,643]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==    Columns: id, last_name, gender, email, d_id
+   * [2019-10-23 19:24:29,644]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==        Row: 2, jane, 1, jane@qq.com, null
+   * [2019-10-23 19:24:29,646]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:<==      Total: 1
+   * [Employee{id=2, lastName='null', email='jane@qq.com', gender='1'}]
+  */
   @Test
   void test1() throws Exception  {
     setUpByReader(XMLPATH);
@@ -30,5 +39,23 @@ class App2 extends MyBaseDataTest {
     System.out.println(list);
   }
 
+  /**
+   * [2019-10-23 19:25:45,443]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==>  Preparing: select * from tbl_employee WHERE id=? and last_name like ?
+   * [2019-10-23 19:25:45,473]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==> Parameters: 2(Integer), jane(String)
+   * [2019-10-23 19:25:45,490]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==    Columns: id, last_name, gender, email, d_id
+   * [2019-10-23 19:25:45,490]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==        Row: 2, jane, 1, jane@qq.com, null
+   * [2019-10-23 19:25:45,494]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:<==      Total: 1
+   * [Employee{id=2, lastName='null', email='jane@qq.com', gender='1'}]
+  */
+  @Test
+  void test2() throws Exception  {
+    setUpByReader(XMLPATH);
+    EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+    Employee2 employee2 = new Employee2();
+    employee2.setId(2);
+    employee2.setLastName("jane");
+    List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
+    System.out.println(list);
+  }
 
 }
