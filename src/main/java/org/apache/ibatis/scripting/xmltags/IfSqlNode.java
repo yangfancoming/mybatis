@@ -6,8 +6,11 @@ package org.apache.ibatis.scripting.xmltags;
  主要是应用OGNL语法进行解析类似name !=null，其会读取上下文中是否有对应的属性值。具体的读者可自行分析
  */
 public class IfSqlNode implements SqlNode {
+
   private final ExpressionEvaluator evaluator;
+
   private final String test;
+
   private final SqlNode contents;
 
   public IfSqlNode(SqlNode contents, String test) {

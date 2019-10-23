@@ -48,9 +48,18 @@ public class XMLScriptBuilder extends BaseBuilder {
   }
 
   public SqlSource parseScriptNode() {
-    //解析SQL语句节点，创建MixedSqlNode对象
-    //获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句可能都有多个SqlNode对象
-    //包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
+    /**
+     *     解析SQL语句节点，创建MixedSqlNode对象
+     *     获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句可能都有多个SqlNode对象
+     *     包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
+     *
+     * 传入的context参数为：
+     * <select resultType="org.apache.goat.common.Customer" id="getTest">
+     * <if test="id!=null">
+     *       and id = #{id}
+     *     </if>
+     * </select>
+    */
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
     SqlSource sqlSource;
     //是否为动态语句  //根据是否是动态的语句，创建DynamicSqlSource或是RawSqlSource对象，并返回
@@ -64,8 +73,8 @@ public class XMLScriptBuilder extends BaseBuilder {
   }
 
   /**
+   * 解析sql语句
    * node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
-   *
   */
   protected MixedSqlNode parseDynamicTags(XNode node) {
     //获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
@@ -74,11 +83,21 @@ public class XMLScriptBuilder extends BaseBuilder {
     NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
     //遍历子节点，解析成对应的sqlNode类型，并添加到contents中
     for (int i = 0; i < children.getLength(); i++) {
+      /**
+       * child 的值：
+       * <#text>
+       *     select * from customers where 1=1
+       * </#text>
+       *
+       * <if test="id!=null">
+       *       and id = #{id}
+       * </if>
+      */
       XNode child = node.newXNode(children.item(i));
       //如果是文本节点，则先解析成TextSqlNode对象
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
         //直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
-        String data = child.getStringBody("");
+        String data = child.getStringBody("");//  select * from customers where 1=1
         TextSqlNode textSqlNode = new TextSqlNode(data);   //创建TextSqlNode对象
         //TextSqlNode对象主要回去检查纯文本语句是否含有'${'和'}'字符串，有则为true  //判断是否是动态Sql，其过程会调用GenericTokenParser判断文本中是否含有"${"字符
         if (textSqlNode.isDynamic()) {

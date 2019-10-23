@@ -256,7 +256,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
       statementBuilder.parameterMap(statementParameterMap);
     }
 
-    // 解析出最终 sql 对应的 MappedStatement 后保存 到全局 Configuration 中
+    // 解析出最终 sql  最终sql 对应的 MappedStatement 后保存 到全局 Configuration 中
     MappedStatement statement = statementBuilder.build();
     configuration.addMappedStatement(statement);
     return statement;

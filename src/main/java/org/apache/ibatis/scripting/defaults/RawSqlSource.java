@@ -12,9 +12,9 @@ import org.apache.ibatis.scripting.xmltags.SqlNode;
 import org.apache.ibatis.session.Configuration;
 
 /**
- * Static SqlSource. It is faster than {@link DynamicSqlSource} because mappings are
- * calculated during startup.  静态SQL
- * 常用的mybatis解析sql帮助类
+ * Static SqlSource. It is faster than {@link DynamicSqlSource} because mappings are calculated during startup.
+ *  静态 sqlsource 它比dynamicsqlsource 快，因为映射是在启动期间计算的。
+ *  常用的mybatis解析sql帮助类
  * @since 3.2.0
  */
 public class RawSqlSource implements SqlSource {

@@ -4,17 +4,15 @@
 
 <mapper namespace="org.apache.goat.chapter100.E056.CustomerMapper">
 
+
+  <!--<select id="getTest" resultType="org.apache.goat.common.Customer">-->
+    <!--select * from customers where 1=1-->
+    <!--<if test="id!=null">and id = #{id}</if>-->
+  <!--</select>-->
+
   <sql id="myTag">id IN (1,2,3)</sql>
 
-  <select id="getTest" resultType="org.apache.goat.common.Customer">
-    select * from customers where 1=1
-    <if test="id!=null">
-      and id = #{id}
-    </if>
-  </select>
-
-
-
+  <!--这个<include refid="myTag" />会自动把上面的代码贴过来-->
   <select id="getTest2" resultType="org.apache.goat.common.Customer">
     SELECT * FROM customers WHERE <include refid="myTag"/>
   </select>

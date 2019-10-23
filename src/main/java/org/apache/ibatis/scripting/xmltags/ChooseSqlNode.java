@@ -5,7 +5,9 @@ import java.util.List;
 
 
 public class ChooseSqlNode implements SqlNode {
+
   private final SqlNode defaultSqlNode;
+
   private final List<SqlNode> ifSqlNodes;
 
   public ChooseSqlNode(List<SqlNode> ifSqlNodes, SqlNode defaultSqlNode) {

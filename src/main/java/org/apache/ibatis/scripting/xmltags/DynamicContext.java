@@ -13,8 +13,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 
 /**
- DynamicContext 主要用于记录解析动态 SQL 语句之后产生的 SQL 语句片段，可以认为它
- 是一个用于记录动态 SQL 语句解析结果的容器
+ DynamicContext 主要用于记录解析动态 SQL 语句之后产生的 SQL 语句片段，可以认为它是一个用于记录动态 SQL 语句解析结果的容器
 */
 public class DynamicContext {
 
@@ -62,7 +61,9 @@ public class DynamicContext {
   }
 
   static class ContextMap extends HashMap<String, Object> {
+
     private static final long serialVersionUID = 2977601501966151582L;
+    //将用户传入的参数封装成MetaObject对象（类实例中检查类的属性是否包含getter,setter方法）
     private final MetaObject parameterMetaObject;
     private final boolean fallbackParameterObject;
 
@@ -74,10 +75,11 @@ public class DynamicContext {
     @Override
     public Object get(Object key) {
       String strKey = (String) key;
+      //如果ContextMap中已经包含了该key，则直接返回
       if (super.containsKey(strKey)) {
         return super.get(strKey);
       }
-
+      //如果不包含该key,从parameterMetaObject中查找对应属性
       if (parameterMetaObject == null) {
         return null;
       }
@@ -92,21 +94,17 @@ public class DynamicContext {
   }
 
   static class ContextAccessor implements PropertyAccessor {
-
     @Override
     public Object getProperty(Map context, Object target, Object name) {
       Map map = (Map) target;
-
       Object result = map.get(name);
       if (map.containsKey(name) || result != null) {
         return result;
       }
-
       Object parameterObject = map.get(PARAMETER_OBJECT_KEY);
       if (parameterObject instanceof Map) {
         return ((Map)parameterObject).get(name);
       }
-
       return null;
     }
 

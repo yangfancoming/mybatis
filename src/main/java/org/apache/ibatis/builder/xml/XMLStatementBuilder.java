@@ -62,7 +62,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
     //flushCache；在执行语句时表示是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
-    //是否对该语句进行二级缓存；默认值：对 select 元素为 true。
+    //是否对该语句进行二级缓存；默认值：对 select 元素为 true
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
     //根嵌套结果相关
     boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
@@ -90,20 +90,21 @@ public class XMLStatementBuilder extends BaseBuilder {
       keyGenerator = context.getBooleanAttribute("useGeneratedKeys",configuration.isUseGeneratedKeys()  && SqlCommandType.INSERT.equals(sqlCommandType))  ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
     }
 
+    // 解析动态sql
     SqlSource sqlSource = langDriver.createSqlSource(configuration, context, parameterTypeClass);
-    //STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED。
+    //STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED
     StatementType statementType = StatementType.valueOf(context.getStringAttribute("statementType", StatementType.PREPARED.toString()));
     Integer fetchSize = context.getIntAttribute("fetchSize");
     Integer timeout = context.getIntAttribute("timeout");
     //已废弃
     String parameterMap = context.getStringAttribute("parameterMap");
 
-    //结果类型；表示从这条语句中返回的期望类型的类的完全限定名或别名。注意如果是集合情形，那应该是集合可以包含的类型，而不能是集合本身。不能和resultMap同时使用。
+    //结果类型；表示从这条语句中返回的期望类型的类的完全限定名或别名。注意如果是集合情形，那应该是集合可以包含的类型，而不能是集合本身。不能和resultMap同时使用
     String resultType = context.getStringAttribute("resultType");
     Class<?> resultTypeClass = resolveClass(resultType);
-    //结果类型；外部 resultMap 的命名引用。
+    //结果类型；外部 resultMap 的命名引用
     String resultMap = context.getStringAttribute("resultMap");
-    //结果集类型；FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动）。
+    //结果集类型；FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动）
     String resultSetType = context.getStringAttribute("resultSetType");
     ResultSetType resultSetTypeEnum = resolveResultSetType(resultSetType);
     String keyProperty = context.getStringAttribute("keyProperty");
