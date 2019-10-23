@@ -11,9 +11,7 @@ import org.apache.ibatis.session.Configuration;
  * As of 3.2.4 the default XML language is able to identify static statements
  * and create a {@link RawSqlSource}. So there is no need to use RAW unless you
  * want to make sure that there is not any dynamic tag for any reason.
- *
  * @since 3.2.0
- * @author Eduardo Macarron
  */
 public class RawLanguageDriver extends XMLLanguageDriver {
 

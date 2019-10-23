@@ -247,7 +247,6 @@ public interface SqlSession extends Closeable {
 
   /**
    * Retrieves current configuration.
-   * @return Configuration
    */
   Configuration getConfiguration();
 
@@ -261,7 +260,6 @@ public interface SqlSession extends Closeable {
 
   /**
    * Retrieves inner database connection.
-   * @return Connection
    */
   Connection getConnection();
 }

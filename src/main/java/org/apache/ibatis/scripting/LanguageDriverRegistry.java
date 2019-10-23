@@ -4,9 +4,7 @@ package org.apache.ibatis.scripting;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Frank D. Martinez [mnesarco]
- */
+
 public class LanguageDriverRegistry {
 
   private final Map<Class<? extends LanguageDriver>, LanguageDriver> LANGUAGE_DRIVER_MAP = new HashMap<>();
