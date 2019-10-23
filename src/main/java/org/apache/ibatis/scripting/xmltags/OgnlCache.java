@@ -11,8 +11,7 @@ import org.apache.ibatis.builder.BuilderException;
 
 /**
  * 在 MyBatis 中 ， 使用 OgnlCache 对原生的 OGNL 进行了封装 。 OGNL 表达式的解析过程是
- * 比较耗时的， 为了提高效率，OgnlCache 中使用 expressionCache 属性 ConcurrentHashMap
- *  对解析后的 OGNL 表达式进行缓存
+ * 比较耗时的， 为了提高效率，OgnlCache 中使用 expressionCache 属性 ConcurrentHashMap  对解析后的 OGNL 表达式进行缓存
  * Caches OGNL parsed expressions.
  * @see <a href='http://code.google.com/p/mybatis/issues/detail?id=342'>Issue 342</a>
  */

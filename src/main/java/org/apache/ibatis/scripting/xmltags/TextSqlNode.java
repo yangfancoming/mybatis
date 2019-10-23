@@ -35,7 +35,9 @@ public class TextSqlNode implements SqlNode {
 
   @Override
   public boolean apply(DynamicContext context) {
+    //将动态SQL（带${}占位符的SQL）解析成完成SQL语句的解析器，即将${}占位符替换成实际的变量值
     GenericTokenParser parser = createParser(new BindingTokenParser(context, injectionFilter));
+    //将解析后的SQL片段添加到DynamicContext中
     context.appendSql(parser.parse(text));
     return true;
   }
@@ -44,9 +46,13 @@ public class TextSqlNode implements SqlNode {
     return new GenericTokenParser("${", "}", handler);
   }
 
+  /**
+   * 内部类，继承了TokenHandler接口，它的主要作用是根据DynamicContext.bindings集合中的信息解析SQL语句节点中的${}占位符
+  */
   private static class BindingTokenParser implements TokenHandler {
 
     private DynamicContext context;
+    //需要匹配的正则表达式
     private Pattern injectionFilter;
 
     public BindingTokenParser(DynamicContext context, Pattern injectionFilter) {
@@ -56,14 +62,21 @@ public class TextSqlNode implements SqlNode {
 
     @Override
     public String handleToken(String content) {
+      //获取用户提供的实参
       Object parameter = context.getBindings().get("_parameter");
+      //如果实参为null
       if (parameter == null) {
+        //将参考上下文的value key设为null
         context.getBindings().put("value", null);
+        //如果实参是一个常用数据类型的类（Integer.class,String.class,Byte.class等等）
       } else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) {
+        //将参考上下文的value key设为该实参
         context.getBindings().put("value", parameter);
       }
+      //通过OGNL解析参考上下文的值
       Object value = OgnlCache.getValue(content, context.getBindings());
       String srtValue = value == null ? "" : String.valueOf(value); // issue #274 return "" instead of "null"
+      //检测合法性
       checkInjection(srtValue);
       return srtValue;
     }

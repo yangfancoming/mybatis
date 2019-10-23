@@ -13,8 +13,7 @@ import org.apache.ibatis.reflection.Reflector;
  * The {@link MemberAccess} class that based on <a href=
  * 'https://github.com/jkuhnert/ognl/blob/OGNL_3_2_1/src/java/ognl/DefaultMemberAccess.java'>DefaultMemberAccess</a>.
  * @since 3.5.0
- * @see <a href=
- *      'https://github.com/jkuhnert/ognl/blob/OGNL_3_2_1/src/java/ognl/DefaultMemberAccess.java'>DefaultMemberAccess</a>
+ * @see <a href='https://github.com/jkuhnert/ognl/blob/OGNL_3_2_1/src/java/ognl/DefaultMemberAccess.java'>DefaultMemberAccess</a>
  * @see <a href='https://github.com/jkuhnert/ognl/issues/47'>#47 of ognl</a>
  */
 class OgnlMemberAccess implements MemberAccess {

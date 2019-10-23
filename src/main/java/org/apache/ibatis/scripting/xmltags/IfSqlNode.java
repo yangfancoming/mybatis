@@ -19,6 +19,10 @@ public class IfSqlNode implements SqlNode {
     this.evaluator = new ExpressionEvaluator();
   }
 
+  /**
+   * 组合模式： 这里会链式调用
+   * IfSqlNode  ---> MixedSqlNode  --->  StaticTextSqlNode --->  TrimSqlNode --->  DynamicContext
+  */
   @Override
   public boolean apply(DynamicContext context) {
     //主要作用即是用于条件的判断
