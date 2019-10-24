@@ -10,6 +10,7 @@ import org.apache.ibatis.type.SimpleTypeRegistry;
 
 /**
  扮演了树叶节点的角色
+ TextSqlNode表示的是包含${}占位符的动态SQL节点
 */
 public class TextSqlNode implements SqlNode {
 

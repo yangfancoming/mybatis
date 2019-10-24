@@ -2,6 +2,9 @@
 package org.apache.ibatis.scripting.xmltags;
 
 
+/**
+ * StaticTextSqlNode很简单，就是直接返回SQL语句
+*/
 public class StaticTextSqlNode implements SqlNode {
 
   private final String text;

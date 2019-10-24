@@ -3,18 +3,93 @@
 
 
 <mapper namespace="org.apache.goat.chapter600.item01.CustomerMapper">
-  <!--private Integer id;-->
-  <!--private String name;-->
-  <!--private String email;-->
-  <!--private Date birth;-->
 
-  <select id="testSelect" resultMap="org.apache.goat.common.Customer">
-    SELECT id, name, email FROM author id = 101
+
+  <select id="testSelect" resultType="org.apache.goat.common.Customer">
+    SELECT id, name, email FROM customers
     <where>
-      <if test="username != null">
-        AND username = #{username}
+      <if test="name != null">
+        AND name = #{name}
       </if>
     </where>
   </select>
+
+
+  <select id="findByGameTypeCount" resultType="java.lang.Long">
+    select count(*) from betdetails a inner join UserBetOrder b on a.orderId = b.id
+    <where>
+      <if test="gameType != null and gameType > 0">
+        a.gameType = #{gameType} and
+      </if>
+      <if test="currDrawno != null">
+        b.currentDrawno = #{currDrawno} and
+      </if>
+      <if test="orderId != null and orderId > 0">
+        a.orderId = #{orderId} and
+      </if>
+      <if test="status != null and status >= 0">
+        a.status = #{status} and
+      </if>
+      <if test="userId != null and userId > 0">
+        b.userId = #{userId} and
+      </if>
+      <if test="start != null">
+        a.createTime &gt;= #{start} and
+      </if>
+      <if test="end != null">
+        a.createTime &lt;= #{end} and
+      </if>
+      1 = 1
+    </where>
+  </select>
+
+
+  <insert id="insertBetdetailsByBatch" parameterType="java.util.List">
+    insert into betdetails(id,orderId,actorIndex,createTime,ballIndex,ballValue,betAmount,rate1,rate2,rate3,gameType,status,betResult,awardAmount,ballName) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id},#{item.orderId},#{item.actorIndex},#{item.createTime},#{item.ballIndex},#{item.ballValue},#{item.betAmount},#{item.rate1},
+       #{item.rate2},#{item.rate3},#{item.gameType},#{item.status},#{item.betResult},#{item.awardAmount},#{item.ballName})
+    </foreach>
+  </insert>
+
+
+  <insert id="insertNotNullBetdetails" parameterType="com.cloud.model.game.Betdetails">
+    insert into betdetails
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">id,</if>
+      <if test="orderId != null">orderId,</if>
+      <if test="actorIndex != null">actorIndex,</if>
+      <if test="ballIndex != null">ballIndex,</if>
+      <if test="ballValue != null">ballValue,</if>
+      <if test="betAmount != null">betAmount,</if>
+      <if test="createTime != null">createTime,</if>
+      <if test="rate1 != null">rate1,</if>
+      <if test="rate2 != null">rate2,</if>
+      <if test="rate3 != null">rate3,</if>
+      <if test="gameType != null">gameType,</if>
+      <if test="status != null">status,</if>
+      <if test="betResult != null">betResult,</if>
+      <if test="awardAmount != null">awardAmount,</if>
+      <if test="ballName != null">ballName,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">#{id},</if>
+      <if test="orderId != null">#{orderId},</if>
+      <if test="actorIndex != null">#{actorIndex},</if>
+      <if test="createTime != null">#{createTime},</if>
+      <if test="ballIndex != null">#{ballIndex},</if>
+      <if test="ballValue != null">#{ballValue},</if>
+      <if test="betAmount != null">#{betAmount},</if>
+      <if test="rate1 != null">#{rate1},</if>
+      <if test="rate2 != null">#{rate2},</if>
+      <if test="rate3 != null">#{rate3},</if>
+      <if test="gameType != null">#{gameType},</if>
+      <if test="status != null">#{status},</if>
+      <if test="betResult != null">#{betResult},</if>
+      <if test="awardAmount != null">#{awardAmount},</if>
+      <if test="ballName != null">#{ballName},</if>
+    </trim>
+  </insert>
+
 
 </mapper>

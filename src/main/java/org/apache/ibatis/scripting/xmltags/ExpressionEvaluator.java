@@ -13,10 +13,13 @@ import org.apache.ibatis.builder.BuilderException;
 public class ExpressionEvaluator {
 
   public boolean evaluateBoolean(String expression, Object parameterObject) {
+    //用OGNL解析expression表达式
     Object value = OgnlCache.getValue(expression, parameterObject);
+    //处理Boolean类型
     if (value instanceof Boolean) {
       return (Boolean) value;
     }
+    //处理数字类型
     if (value instanceof Number) {
       return new BigDecimal(String.valueOf(value)).compareTo(BigDecimal.ZERO) != 0;
     }
@@ -24,13 +27,16 @@ public class ExpressionEvaluator {
   }
 
   public Iterable<?> evaluateIterable(String expression, Object parameterObject) {
+    //使用OGNL来解析expression
     Object value = OgnlCache.getValue(expression, parameterObject);
     if (value == null) {
       throw new BuilderException("The expression '" + expression + "' evaluated to a null value.");
     }
+    //处理可迭代集合类型
     if (value instanceof Iterable) {
       return (Iterable<?>) value;
     }
+    //处理数组类型，转化为List,并返回该List
     if (value.getClass().isArray()) {
       // the array may be primitive, so Arrays.asList() may throw
       // a ClassCastException (issue 209).  Do the work manually
@@ -43,6 +49,7 @@ public class ExpressionEvaluator {
       }
       return answer;
     }
+    //处理Map类型，返回Map的entrySet集合（Set）
     if (value instanceof Map) {
       return ((Map) value).entrySet();
     }
