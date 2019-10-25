@@ -32,7 +32,7 @@ import org.apache.ibatis.io.Resources;
  　注意：这并不是全部的MyBatis内置的类型别名，还有一部分类型别名是在创建Configuration实例的时候在其无参构造器中进行注册的，这里暂不介绍。
 */
 public class TypeAliasRegistry {
-
+  //这就是核心所在啊， 原来别名就仅仅通过一个HashMap来实现， key为别名， value就是别名对应的类型（class对象）
   private final Map<String, Class<?>> typeAliases = new HashMap<>();
 
   //构造函数里注册系统内置的类型别名

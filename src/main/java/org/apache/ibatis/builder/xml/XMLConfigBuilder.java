@@ -472,16 +472,24 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void typeHandlerElement(XNode parent) {
     if (parent != null) {
       for (XNode child : parent.getChildren()) {
+        //子节点为package时，获取其name属性的值，然后自动扫描package下的自定义typeHandler
         if ("package".equals(child.getName())) {
           String typeHandlerPackage = child.getStringAttribute("name");
           typeHandlerRegistry.register(typeHandlerPackage);
         } else {
+          //子节点为typeHandler时， 可以指定javaType属性， 也可以指定jdbcType, 也可两者都指定
+          //javaType 是指定java类型
+          //jdbcType 是指定jdbc类型（数据库类型： 如varchar）
           String javaTypeName = child.getStringAttribute("javaType");
           String jdbcTypeName = child.getStringAttribute("jdbcType");
+          //handler就是我们配置的typeHandler
           String handlerTypeName = child.getStringAttribute("handler");
+          //resolveClass方法就是我们上篇文章所讲的TypeAliasRegistry里面处理别名的方法
           Class<?> javaTypeClass = resolveClass(javaTypeName);
+          //JdbcType是一个枚举类型，resolveJdbcType方法是在获取枚举类型的值
           JdbcType jdbcType = resolveJdbcType(jdbcTypeName);
           Class<?> typeHandlerClass = resolveClass(handlerTypeName);
+          //注册typeHandler, typeHandler通过TypeHandlerRegistry这个类管理
           if (javaTypeClass != null) {
             if (jdbcType == null) {
               typeHandlerRegistry.register(javaTypeClass, typeHandlerClass);

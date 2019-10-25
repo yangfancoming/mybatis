@@ -33,9 +33,12 @@ import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
 
-
+/**
+ * typeHandler注册管理类
+ */
 public final class TypeHandlerRegistry {
 
+  //源码一上来，二话不说，几个大大的HashMap就出现，这不又跟上次讲的typeAliases的注册类似么
   private final Map<JdbcType, TypeHandler<?>>  jdbcTypeHandlerMap = new EnumMap<>(JdbcType.class);
   private final Map<Type, Map<JdbcType, TypeHandler<?>>> typeHandlerMap = new ConcurrentHashMap<>();
   private final TypeHandler<Object> unknownTypeHandler = new UnknownTypeHandler(this);
@@ -292,16 +295,14 @@ public final class TypeHandlerRegistry {
     jdbcTypeHandlerMap.put(jdbcType, handler);
   }
 
-  //
   // REGISTER INSTANCE
-  //
-
   // Only handler
-
   @SuppressWarnings("unchecked")
   public <T> void register(TypeHandler<T> typeHandler) { //typeHandler为当前自定义类型处理器
     boolean mappedTypeFound = false;
     //mappedTypes即String
+    //在自定义typeHandler的时候，可以加上注解MappedTypes 去指定关联的javaType
+    //因此，此处需要扫描MappedTypes注解
     MappedTypes mappedTypes = typeHandler.getClass().getAnnotation(MappedTypes.class);
     if (mappedTypes != null) {
       for (Class<?> handledType : mappedTypes.value()) {
@@ -325,13 +326,15 @@ public final class TypeHandlerRegistry {
   }
 
   // java type + handler
-
+  /**
+   * 配置了typeHandlerhe和javaType
+   */
   public <T> void register(Class<T> javaType, TypeHandler<? extends T> typeHandler) {
     register((Type) javaType, typeHandler);
   }
 
   private <T> void register(Type javaType, TypeHandler<? extends T> typeHandler) {
-    //JDBC的类型，即TIMESTAMP
+    //JDBC的类型，即TIMESTAMP  //扫描注解MappedJdbcTypes
     MappedJdbcTypes mappedJdbcTypes = typeHandler.getClass().getAnnotation(MappedJdbcTypes.class);
     if (mappedJdbcTypes != null) {
       for (JdbcType handledJdbcType : mappedJdbcTypes.value()) {
@@ -350,7 +353,6 @@ public final class TypeHandlerRegistry {
   }
 
   // java type + jdbc type + handler
-
   public <T> void register(Class<T> type, JdbcType jdbcType, TypeHandler<? extends T> handler) {
     register((Type) type, jdbcType, handler);
   }
@@ -367,12 +369,8 @@ public final class TypeHandlerRegistry {
     allTypeHandlersMap.put(handler.getClass(), handler);
   }
 
-  //
   // REGISTER CLASS
-  //
-
   // Only handler type
-
   public void register(Class<?> typeHandlerClass) {
     boolean mappedTypeFound = false;
     MappedTypes mappedTypes = typeHandlerClass.getAnnotation(MappedTypes.class);
