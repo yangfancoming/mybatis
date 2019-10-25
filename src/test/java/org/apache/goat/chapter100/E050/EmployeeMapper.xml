@@ -5,6 +5,12 @@
 <mapper namespace="org.apache.goat.chapter100.E050.EmployeeMapper">
 
 
+  <select id="testIf" resultType="org.apache.goat.common.Employee2">
+    select * from tbl_employee where 1=1
+    <if test="id!=null"> and id = #{id} </if>
+  </select>
+
+
   <!-- 查询员工，要求，携带了哪个字段查询条件就带上这个字段的值 -->
   <!--  <if>标签中的test为 OGNL 表达式   -->
   <!--  &quot; 为双引号 “ 的转义字符  -->

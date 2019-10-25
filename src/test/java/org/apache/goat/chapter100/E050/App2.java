@@ -55,4 +55,23 @@ class App2 extends MyBaseDataTest {
     List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
     System.out.println(list);
   }
+
+
+
+  /**
+   * [2019-10-24 19:49:02,653]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==>  Preparing: select * from tbl_employee where 1=1 and id = ?
+   * [2019-10-24 19:49:02,727]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==> Parameters: 1(Integer)
+   * [2019-10-24 19:49:02,773]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==    Columns: id, last_name, gender, email, d_id
+   * [2019-10-24 19:49:02,773]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.trace(BaseJdbcLogger.java:141)TRACE:<==        Row: 1, tom, 0, tom@qq.com, null
+   * [2019-10-24 19:49:02,791]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:<==      Total: 1
+   */
+  @Test
+  void test4() throws Exception  {
+    setUpByReader(XMLPATH);
+    EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+    Employee2 employee2 = new Employee2();
+    employee2.setId(1);
+    List<Employee2> list = mapper.testIf(employee2);
+    System.out.println(list);
+  }
 }
