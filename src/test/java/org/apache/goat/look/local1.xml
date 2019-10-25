@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.sealong.dao.IAccountDao">
+  <!--主表：account-->
+  <resultMap id="AccountUserMap" type="com.sealong.domain.Account">
+    <id column="aid" property="id"></id>
+    <result property="uid" column="uid"></result>
+    <result property="money" column="money"></result>
+    <!--从表：User
+        association 用于数据表一对一的标签
+        property为对象Account中的user属性名
+        column为主表与从表相关联的字段属性：即account表中的uid与user表中的id字段相对应
+        javaType为对象Account中的user属性所对应的对象
+     -->
+    <association property="user" column="uid" javaType="com.sealong.domain.User">
+      <id column="id" property="id"></id>
+      <result column="username" property="username"></result>
+      <result column="birthday" property="birthday"></result>
+      <result column="sex" property="sex"></result>
+      <result column="address" property="address"></result>
+    </association>
+  </resultMap>
+
+  <select id="findAll" resultMap="AccountUserMap">
+    select a.id as aid,a.uid ,a.money,u.*
+    from account a left join user u on a.uid = u.id order by a.uid
+  </select>
+
+  <select id="findAccountByUId" resultType="Account">
+    select * from account where uid = #{uid};
+  </select>
+
+</mapper>

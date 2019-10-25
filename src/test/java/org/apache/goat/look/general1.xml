@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!-- 属性 -->
+    <properties resource="db.properties"></properties>
+
+    <!-- 别名 -->
+    <typeAliases>
+      <typeAlias type="com.example.mybatis.entity.User" value="u"></typeAlias>
+      <package name="com.example.mybatis.enity" />
+    </typeAliases>
+
+    <settings>
+      <setting name="cacheEnabled" value="true" />
+      <setting name="lazyLoadingEnabled" value="true" />
+      <setting name="multipleResultSetsEnabled" value="true" />
+      <setting name="useColumnLabel" value="true" />
+      <setting name="useGeneratedKeys" value="false" />
+      <setting name="autoMappingBehavior" value="PARTIAL" />
+      <setting name="autoMappingUnknownColumnBehavior" value="WARNING" />
+      <setting name="defaultExecutorType" value="SIMPLE" />
+      <setting name="defaultStatementTimeout" value="25" />
+      <setting name="defaultFetchSize" value="100" />
+      <setting name="safeRowBoundsEnabled" value="false" />
+      <setting name="mapUnderscoreToCamelCase" value="false" />
+      <setting name="localCacheScope" value="SESSION" />
+      <setting name="jdbcTypeForNull" value="OTHER" />
+      <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
+    </settings>
+
+
+    <!-- 环境们 -->
+    <environments default="development">
+      <!-- id为环境的唯一标识 -->
+      <environment id="development">
+        <!-- 事物管理 -->
+        <transactionManager type="JDBC" />
+        <!-- 数据源 -->
+        <dataSource type="POOLED">
+          <property name="driver" value="${driver}" />
+          <property name="url" value="${url}" />
+          <property name="username" value="${username}" />
+          <property name="password" value="${password}" />
+        </dataSource>
+      </environment>
+    </environments>
+
+    <!-- 多数据库支持 -->
+    <databaseIdProvider type="DB_VENDOR">
+      <property name="MySQL" value="mysql"></property>
+      <property name="Oracle" value="oracle"></property>
+      <property name="SQL Server" value="sql server"></property>
+    </databaseIdProvider>
+
+    <!-- sql映射文件注册 -->
+    <mappers>
+      <mapper resource="com/example/mybatis/dao/UserMapper.xml"></mapper>
+      <mapper class="com.example.mybatis.dao.UserMapperAnnotaion"></mapper>
+    </mappers>
+
+</configuration>
