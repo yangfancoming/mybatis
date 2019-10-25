@@ -85,7 +85,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       //从mapper根节点开始解析 // 解析<mapper>节点
       configurationElement(parser.evalNode("/mapper"));
       // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
-      //将该资源添加到为已经加载过的缓存中
+      // 将该资源添加到为已经加载过的缓存中
       configuration.addLoadedResource(resource);
       // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中 。 通过命名空间绑定 Mapper 接口
       //将解析的SQL和接口中的方法绑定

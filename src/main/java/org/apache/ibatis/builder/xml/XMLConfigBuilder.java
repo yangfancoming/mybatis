@@ -516,6 +516,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       for (XNode child : parent.getChildren()) {
         // 如果当前节点为<package>
         if ("package".equals(child.getName())) {
+          // 第一部分：根据注解生成对应的mappedStatement
           //1.1 处理package类型的配置 // 获取<package>的name属性（该属性值为mapper class所在的包名）
           String mapperPackage = child.getStringAttribute("name");
           //1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，name就是包名， // 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
@@ -534,6 +535,7 @@ public class XMLConfigBuilder extends BaseBuilder {
             // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
             //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
+            // 第二部分：是解析xml配置，根据xml配置来生成mappedstatement
             mapperParser.parse();
           } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
             //1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件

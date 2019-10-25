@@ -41,6 +41,11 @@ public class MapperRegistry {
     return knownMappers.containsKey(type);
   }
 
+  /**
+   * 这里同样是扫描指定包路径地下的所有类，并且根据filter（new ResolverUtil.IsA(superType)），
+   * 挑选出满足条件的类，这里的条件是Object.class，所以包底下的所有类都会被装进来，
+   * 接下来就是遍历这些类然后解析了：
+  */
   public <T> void addMapper(Class<T> type) {
     if (type.isInterface()) { // 判断该类是否是 接口类 interface
       if (hasMapper(type)) {
@@ -85,6 +90,9 @@ public class MapperRegistry {
 
   /**
    * @since 3.2.2
+   * 根据注解生成mappedstatemnet：
+   * configuration会把工作委托给MapperRegistry去做，MapperRegistry会持有所有被解析的接口（运行时生成动态代理用），
+   * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
    */
   public void addMappers(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();

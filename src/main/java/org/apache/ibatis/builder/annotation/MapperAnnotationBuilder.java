@@ -308,6 +308,10 @@ public class MapperAnnotationBuilder {
       //查看方法头有无@Option注解
       Options options = method.getAnnotation(Options.class);
       //注解方式的mapperStatementId为 ${Class全名}.${方法名}
+      /**
+       * 这里可以看到，Id是类名加上方法名，这里就有一个问题，当类中的方法被重载时，mybatis会认为有问题的，
+       * 可以看到，虽然方法被重载，mappedStatementId依然是同一个，所以mybatis中sql的接口是不能重载的。
+      */
       final String mappedStatementId = type.getName() + "." + method.getName();
       Integer fetchSize = null;
       Integer timeout = null;

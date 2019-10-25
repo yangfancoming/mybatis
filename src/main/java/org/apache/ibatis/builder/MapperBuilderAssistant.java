@@ -129,15 +129,8 @@ public class MapperBuilderAssistant extends BaseBuilder {
     return parameterMap;
   }
 
-  public ParameterMapping buildParameterMapping(
-      Class<?> parameterType,
-      String property,
-      Class<?> javaType,
-      JdbcType jdbcType,
-      String resultMap,
-      ParameterMode parameterMode,
-      Class<? extends TypeHandler<?>> typeHandler,
-      Integer numericScale) {
+  public ParameterMapping buildParameterMapping( Class<?> parameterType, String property, Class<?> javaType, JdbcType jdbcType,
+      String resultMap,ParameterMode parameterMode, Class<? extends TypeHandler<?>> typeHandler,Integer numericScale) {
     resultMap = applyCurrentNamespace(resultMap, true);
 
     // Class parameterType = parameterMapBuilder.type();

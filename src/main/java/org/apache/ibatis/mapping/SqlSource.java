@@ -7,7 +7,6 @@ package org.apache.ibatis.mapping;
  * It creates the SQL that will be passed to the database out of the input parameter received from the user.
  * 它创建将从用户接收的输入参数中传递给数据库的sql
  *
- *
  * SqlNode实现	   对应SQL语句中的类型
  * TextSqlNode	  ${}
  * IfSqlNode	   If节点
