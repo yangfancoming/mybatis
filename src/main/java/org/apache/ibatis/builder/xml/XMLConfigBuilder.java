@@ -103,10 +103,10 @@ public class XMLConfigBuilder extends BaseBuilder {
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
     ErrorContext.instance().resource("SQL Mapper Configuration");
-    this.configuration.setVariables(props);
     this.parsed = false;
-    this.environment = environment;
     this.parser = parser;
+    this.environment = environment;
+    this.configuration.setVariables(props);
   }
 
   //外部调用此方法对mybatis的全局xml文件进行解析

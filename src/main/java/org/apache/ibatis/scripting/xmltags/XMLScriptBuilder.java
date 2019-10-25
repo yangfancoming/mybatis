@@ -15,7 +15,9 @@ import org.apache.ibatis.session.Configuration;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
+/**
+ * 这个XMLScriptBuilder类才是真正负责在背后解析mapper文件中的每个<select/>,<insert/>,<update/>,<delete/>节点内的SQL字符串(其中可能包含动态SQL部分,诸如<if/>,<where/>等) 的功臣.
+*/
 public class XMLScriptBuilder extends BaseBuilder {
 
   private final XNode context;

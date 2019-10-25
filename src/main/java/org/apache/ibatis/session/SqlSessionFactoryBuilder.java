@@ -23,7 +23,7 @@ import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
  */
 public class SqlSessionFactoryBuilder {
 
-  /* Reader 相关处理 */
+  /* Reader 相关处理 =================================================================================================================================*/
   public SqlSessionFactory build(Reader reader) {
     return build(reader, null, null);
   }
@@ -58,7 +58,7 @@ public class SqlSessionFactoryBuilder {
     }
   }
 
-  /* Reader 相关处理 */
+  /* Reader 相关处理 =================================================================================================================================*/
   public SqlSessionFactory build(InputStream inputStream) {
     return build(inputStream, null, null);
   }
@@ -72,6 +72,7 @@ public class SqlSessionFactoryBuilder {
   }
 
 
+  /* 最终通用处理 =================================================================================================================================*/
   /** XMLConfigBuilder#parse 方法是配置解析的主要方法
    我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，
    构造出Configuration，最终返回new DefaultSqlSessionFactory(config)的SqlSessionFactory实例

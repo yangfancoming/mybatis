@@ -11,12 +11,13 @@ import java.sql.Connection;
  */
 public interface SqlSessionFactory {
 
+  // 事务默认自动提交
   SqlSession openSession();
-
+  // 可传入 事务是否自动提交
   SqlSession openSession(boolean autoCommit);
-
+  // 可传入 数据库连接
   SqlSession openSession(Connection connection);
-
+  // 可传入 事务隔离级别
   SqlSession openSession(TransactionIsolationLevel level);
 
   SqlSession openSession(ExecutorType execType);

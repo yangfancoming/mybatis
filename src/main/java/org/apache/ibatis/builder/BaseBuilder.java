@@ -15,6 +15,7 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * BaseBuilder 并没有对子类进行任何’约束’, 只是重复性代码的容器
  * 这个父类维护了一个全局的Configuration对象，MyBatis的配置文件解析后就以Configuration对象的形式存储。
  * MapperBuilderAssistant
  * ParameterMappingTokenHandler

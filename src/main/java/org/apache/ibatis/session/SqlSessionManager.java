@@ -95,6 +95,9 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
     return this.localSqlSession.get() != null;
   }
 
+  /**
+   *  实现 SqlSessionFactory 接口 ========================================================== 开始
+  */
   @Override
   public SqlSession openSession() {
     return sqlSessionFactory.openSession();
@@ -139,7 +142,13 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
   public Configuration getConfiguration() {
     return sqlSessionFactory.getConfiguration();
   }
+  /**
+   *  实现 SqlSessionFactory 接口 ========================================================== 结束
+   */
 
+  /**
+   *  实现 SqlSession 接口 ====== 开始
+   */
   @Override
   public <T> T selectOne(String statement) {
     return sqlSessionProxy.selectOne(statement);
