@@ -398,7 +398,14 @@ public class Reflector {
     }
   }
 
-  // 获取方法签名： 根据函数名称、参数和返回值类型来取得签名， 保证方法的唯一性
+  /**
+   * 获取方法签名： 根据函数名称、参数和返回值类型来取得签名， 保证方法的唯一性
+   * 很显然， 签名的目的是唯一性。 那使用语言本身的特性来保证唯一性是最好的：
+   * 方法名不一致， 则方法就不一致
+   * 返回值不一致或者不是其子类， 则方法不一致
+   * 参数数量， 参数类型顺序不一致方法也会不一样
+   * 因此， 以上的签名方式可以保证方法的唯一性。
+  */
   private String getSignature(Method method) {
     StringBuilder sb = new StringBuilder();
     Class<?> returnType = method.getReturnType();

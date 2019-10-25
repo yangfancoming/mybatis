@@ -6,11 +6,11 @@
 <mapper namespace="com.goat.test.namespace">
 
  	<select id="getEmpById" parameterType="int" resultType="org.apache.goat.common.Employee">
-		select * from TBL_EMPLOYEE where id = #{id}
+		select * from tbl_employee where id = #{id}
 	</select>
 
   <select id="getEmpById2" parameterType="int" resultType="org.apache.goat.common.Employee">
-    select id, last_name as lastName, gender, email from TBL_EMPLOYEE where id = #{id}
+    select id, last_name as lastName, gender, email from tbl_employee where id = #{id}
   </select>
 
 </mapper>

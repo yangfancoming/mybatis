@@ -336,8 +336,13 @@ public class XNode {
    */
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
-    // 获取并遍历子节点
-    for (XNode child : getChildren()) {
+    /**
+     * 获取并遍历子节点  childrens ：
+     * <setting name="mapUnderscoreToCamelCase" value="true"/>
+     * <setting name="cacheEnabled" value="true"/>
+    */
+    List<XNode> childrens = getChildren();
+    for (XNode child : childrens) {
       // 获取 <property> 节点的 name 和 value 属性
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");

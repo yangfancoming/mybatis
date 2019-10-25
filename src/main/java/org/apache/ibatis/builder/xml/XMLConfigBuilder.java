@@ -39,13 +39,10 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   //标识是否已经解析过mybatis-config.xml配置文件
   private boolean parsed;
-
   //用于解析mybatis-config.xml配置文件的XPathParser对象
   private final XPathParser parser;
-
   //标识<enviroment>配置的名称，默认读取<enviroment>标签的default属性
   private String environment;
-
   //反射工厂，用于创建和缓存反射对象
   private final ReflectorFactory localReflectorFactory = new DefaultReflectorFactory();
 
@@ -138,7 +135,8 @@ public class XMLConfigBuilder extends BaseBuilder {
       XNode propertiesNode = root.evalNode("properties");
       propertiesElement(propertiesNode);
       // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似。最终，所有的setting属性都被存储在Configuration对象中。
-      Properties settings = settingsAsProperties(root.evalNode("settings"));
+      XNode temp = root.evalNode("settings");
+      Properties settings = settingsAsProperties(temp);
       // 加载 vfs
       loadCustomVfs(settings);
       // 加载自定义日志  日志加载配置
@@ -179,12 +177,17 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (context == null) {
       return new Properties();
     }
-    //解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
-    Properties props = context.getChildrenAsProperties();
-    // Check that all settings are known to the configuration class 检查配置类是否知道所有设置
-    // 创建 Configuration 类的“元信息”对象
-    //创建Configuration对应的MetaClass对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
+    /**
+     *  Check that all settings are known to the configuration class 检查配置类是否知道所有设置
+     *  创建Configuration对应的MetaClass “元信息” 对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
+    */
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
+    /**
+     * 解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
+     * "mapUnderscoreToCamelCase" -> "true"
+     * "cacheEnabled" -> "true"
+    */
+    Properties props = context.getChildrenAsProperties();
     for (Object key : props.keySet()) {
       // 检测 Configuration 中是否存在相关属性，不存在则抛出异常
       if (!metaConfig.hasSetter(String.valueOf(key))) {

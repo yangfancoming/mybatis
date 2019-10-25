@@ -13,28 +13,43 @@ import org.apache.ibatis.reflection.invoker.MethodInvoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
 /**
- 元信息类 MetaClass 的构造方法为私有类型，所以不能直接创建，必须使用其提供的 forClass 方法进行创建
-
- 1. ReflectorFactory： 顾名思义， Reflector 的工厂类，兼有缓存 Reflector 对象的功能
- 2. Reflector： 反射器，用于解析和存储目标类中的元信息
- 3. PropertyTokenizer： 属性名分词器，用于处理较为复杂的属性名
+ * 白话理解：
+ * 除了使用type()动态创建类以外，要控制类的创建行为，还可以使用metaclass
+ * metaclass，直译为元类，简单的解释就是：
+ * 当我们定义了类以后，就可以根据这个类创建出实例，所以：先定义类，然后创建实例。
+ * 但是如果我们想动态创建出类呢？那就必须根据metaclass动态创建出类，所以：先定义metaclass，然后创建类。
+ * 连接起来就是：先定义metaclass，就可以创建类，最后创建实例。
+ *
+ *
+ *  元信息类 MetaClass 的构造方法为私有类型，所以不能直接创建，必须使用其提供的 forClass 方法进行创建
+ *  1. ReflectorFactory： 顾名思义， Reflector 的工厂类，兼有缓存 Reflector 对象的功能
+ *  2. Reflector： 反射器，用于解析和存储目标类中的元信息
+ *  3. PropertyTokenizer： 属性名分词器，用于处理较为复杂的属性名
 */
 public class MetaClass {
 
   private final ReflectorFactory reflectorFactory;
   private final Reflector reflector;
 
+  /**
+   * 构造函数私有
+   */
   private MetaClass(Class<?> type, ReflectorFactory reflectorFactory) {
     this.reflectorFactory = reflectorFactory;
     // 根据类型创建 Reflector
     this.reflector = reflectorFactory.findForClass(type);
   }
 
+  /**
+   * 调用构造方法创建MetaClass
+   */
   public static MetaClass forClass(Class<?> type, ReflectorFactory reflectorFactory) {
-    // 调用构造方法
     return new MetaClass(type, reflectorFactory);
   }
 
+  /**
+   * 通过属性名称， 获取属性的MetaClass(解决成员变量是类的情况)
+   */
   public MetaClass metaClassForProperty(String name) {
     Class<?> propType = reflector.getGetterType(name);
     return MetaClass.forClass(propType, reflectorFactory);
@@ -166,7 +181,8 @@ public class MetaClass {
     return reflector.getSetInvoker(name);
   }
 
-  /** 验证传入的表达式，是否存在指定的字段
+  /**
+   * 验证传入的表达式，是否存在指定的字段
    * 解析属性表达式 会去寻找reflector中是否有对应的的属性
    */
   private StringBuilder buildProperty(String name, StringBuilder builder) {
