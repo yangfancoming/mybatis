@@ -40,9 +40,13 @@ public class XMLStatementBuilder extends BaseBuilder {
 
   /**
    *解析sql节点的核心方法
+   * context 的值为：
+   * <select resultType="org.apache.goat.common.Employee" parameterType="int" id="testIf">
+   *    <if test="id!=null"> and id = #{id} </if>
+   * </select>
    */
   public void parseStatementNode() {
-    //1.获取sql节点的id
+    //1.获取sql节点的id  testIf
     String id = context.getStringAttribute("id");
     //2.获取databaseId
     String databaseId = context.getStringAttribute("databaseId");
@@ -55,10 +59,11 @@ public class XMLStatementBuilder extends BaseBuilder {
        select * from foo
      </select>
     */
-    //3.获取sql节点的各种属性
-    String nodeName = context.getNode().getNodeName(); //  select
-    //SQLCommand类型
+    //3.获取sql节点的各种属性 select
+    String nodeName = context.getNode().getNodeName();
+    //SQLCommand类型 SELECT
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
+    // true
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
     //flushCache；在执行语句时表示是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
@@ -80,7 +85,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     // Parse selectKey after includes and remove them. 处理selectKey
     processSelectKeyNodes(id, parameterTypeClass, langDriver);
 
-    // Parse the SQL (pre: <selectKey> and <include> were parsed and removed) //设置主键自增的方式
+    // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)
+    // 设置主键自增的方式
     KeyGenerator keyGenerator;
     String keyStatementId = id + SelectKeyGenerator.SELECT_KEY_SUFFIX;
     keyStatementId = builderAssistant.applyCurrentNamespace(keyStatementId, true);

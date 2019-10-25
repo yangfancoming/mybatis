@@ -42,7 +42,9 @@ public class XMLIncludeTransformer {
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
     if (source.getNodeName().equals("include")) {
       Node toInclude = findSqlFragment(getStringAttribute(source, "refid"), variablesContext);
+      //获取<include>标签中的<property>中的值:{tableName=author}
       Properties toIncludeContext = getVariablesContext(source, variablesContext);
+      //递归调用applyIncludes，会进入2中为 Node attr设置table_name,接着会进入4再次递归，这次递归进入3，为tableName设值author
       applyIncludes(toInclude, toIncludeContext, true);
       if (toInclude.getOwnerDocument() != source.getOwnerDocument()) {
         toInclude = source.getOwnerDocument().importNode(toInclude, true);

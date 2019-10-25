@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.goat.test.namespace">
+
+  <!--在使用insert语句的时候往往需要获取生成的主键，对于自增的主键可以使用下面方式，如mysql:-->
+  <insert id ="insert2" useGeneratedKeys ="true" keyProperty ="id"/>
+
+
+  <!--但是有些数据库不支持主键自增，这就需要使用<selectKey/>标签来获取主键,如mysql的案例:-->
+  <insert id="mysql_inser">
+    insert into sysuser(user_name,user_password,user_email,user_info,head_img,create_time)values(#{userName},#{userPassword},#{userEmail},#{userinfo},#{headimg,jdbcType=BLOB},#{createTime,jdbcType= TIMESTAMP})
+    <selectKey keyColumn ="id" resultType ="long" keyProperty ="id" order ="AFTER">
+      SELECT LAST INSERT ID ()
+    </selectKey>
+  </insert>
+
+
+  <!--由于mysql是插入成功后再返回，所以order设置为AFTER ，而oracle则是先查询序列值作为主键，所以要设置为before，同时id要先插入库中才行-->
+  <insert id="oracle_inser">
+    insert into sysuser(id,user_name,user_password,user_email,user _ info,head_img,create_time)
+    values(#{id},#{userName},#{userPassword},#{userEmail},#{userinfo},{headimg,jdbcType=BLOB},#{createTime , jdbcType= TIMESTAMP} )
+    <selectKey keyColumn ="id" resultType ="long" keyProperty ="id" order ="BEFORE">
+      SELECT SEQ ID.nextval from dual
+    </selectKey>
+  </insert>
+
+
+</mapper>

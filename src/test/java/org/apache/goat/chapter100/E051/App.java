@@ -1,4 +1,4 @@
-package org.apache.goat.chapter100.E501;
+package org.apache.goat.chapter100.E051;
 
 import org.apache.goat.MyBaseDataTest;
 import org.apache.goat.common.Employee;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/E501/mybatis-config.xml";
+  public static final String XMLPATH = "org/apache/goat/chapter100/E051/mybatis-config.xml";
 
   /**
    * [2019-10-24 19:53:49,169]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:==>  Preparing: select * from tbl_employee where 1=1 and id = ?
@@ -19,13 +19,16 @@ public class App extends MyBaseDataTest {
    * [2019-10-24 19:53:49,227]org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(BaseJdbcLogger.java:135)DEBUG:<==      Total: 1
   */
   @Test
-  void Reader() throws Exception {
+  void Reader1() throws Exception {
     setUpByReader(XMLPATH);
-    List<Employee> objects1 = sqlSession.selectList("com.goat.test.namespace.testIf");
     List<Employee> objects2 = sqlSession.selectList("com.goat.test.namespace.testIf", 1);
-    System.out.println(objects1);
     System.out.println(objects2);
   }
 
-
+  @Test
+  void Reader2() throws Exception {
+    setUpByReader(XMLPATH);
+    List<Employee> objects1 = sqlSession.selectList("com.goat.test.namespace.testIf");
+    System.out.println(objects1);
+  }
 }
