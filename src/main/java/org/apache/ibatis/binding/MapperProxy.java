@@ -11,7 +11,9 @@ import java.util.Map;
 import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.session.SqlSession;
 
-
+/**
+ * 映射器代理，代理模式
+ */
 public class MapperProxy<T> implements InvocationHandler, Serializable {
 
   private static final long serialVersionUID = -6424540398559729838L;
@@ -35,6 +37,8 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
       // 如果是Object中定义的方法，直接执行。如toString(),hashCode()等
+      //代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
+      //并不是任何一个方法都需要执行调用代理对象进行执行，如果这个方法是Object中通用的方法（toString、hashCode等）无需执行
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
         /*
@@ -60,11 +64,21 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   }
 
   /**
-    private final Map<Method, MapperMethod> methodCache;
-   Mapper接口中的每个方法都会生成一个MapperMethod对象, methodCache维护着他们的对应关系
-    获取方法对象来获取接口方法mapperMethod
+   *    private final Map<Method, MapperMethod> methodCache;
+   *    Mapper接口中的每个方法都会生成一个MapperMethod对象, methodCache维护着他们的对应关系
+   *    获取方法对象来获取接口方法mapperMethod
+   *
+   *    老版本代码
+   *   private MapperMethod cachedMapperMethod(Method method) {
+   *     MapperMethod mapperMethod = methodCache.get(method);
+   *     if (mapperMethod == null) {
+   *       mapperMethod = new MapperMethod(mapperInterface, method, sqlSession.getConfiguration());
+   *       methodCache.put(method, mapperMethod);
+   *     }
+   *     return mapperMethod;
+   *   }
   */
-  private MapperMethod cachedMapperMethod(Method method) { //doit  这里 版本代码有改变
+  private MapperMethod cachedMapperMethod(Method method) {
     return methodCache.computeIfAbsent(method, k -> new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));
   }
 

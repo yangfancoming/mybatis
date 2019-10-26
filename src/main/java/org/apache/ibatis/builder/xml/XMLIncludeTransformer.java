@@ -16,7 +16,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
+/**
+ * XML include转换器
+ */
 public class XMLIncludeTransformer {
 
   private final Configuration configuration;
@@ -40,6 +42,8 @@ public class XMLIncludeTransformer {
    * @param variablesContext Current context for static variables with values
    */
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
+    //走到这里，单独解析<include refid="userColumns"/>
+    //拿到SQL片段
     if (source.getNodeName().equals("include")) {
       Node toInclude = findSqlFragment(getStringAttribute(source, "refid"), variablesContext);
       //获取<include>标签中的<property>中的值:{tableName=author}
@@ -78,7 +82,9 @@ public class XMLIncludeTransformer {
     refid = PropertyParser.parse(refid, variables);
     refid = builderAssistant.applyCurrentNamespace(refid, true);
     try {
+      //去之前存到内存map的SQL片段中寻找
       XNode nodeToInclude = configuration.getSqlFragments().get(refid);
+      //clone一下，以防改写？
       return nodeToInclude.getNode().cloneNode(true);
     } catch (IllegalArgumentException e) {
       throw new IncompleteElementException("Could not find SQL statement to include with refid '" + refid + "'", e);

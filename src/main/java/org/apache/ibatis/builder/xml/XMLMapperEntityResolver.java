@@ -11,8 +11,14 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Offline entity resolver for the MyBatis DTDs.
  * MyBatis DTD 文件的脱机实体解析器
+ * Offline entity resolver for the MyBatis DTDs
+ * 目的是未联网的情况下也能做DTD验证，实现原理就是将DTD搞到本地，然后用org.xml.sax.EntityResolver，最后调用DocumentBuilder.setEntityResolver来达到脱机验证
+ * EntityResolver
+ * public InputSource resolveEntity (String publicId, String systemId)
+ * 应用程序可以使用此接口将系统标识符重定向到本地 URI
+ * 但是用DTD是比较过时的做法，新的都改用xsd了
+ * 这个类的名字并不准确，因为它被两个类都用到了（XMLConfigBuilder,XMLMapperBuilder）
  */
 public class XMLMapperEntityResolver implements EntityResolver {
 
@@ -31,7 +37,7 @@ public class XMLMapperEntityResolver implements EntityResolver {
    * @return The InputSource for the DTD
    * @throws org.xml.sax.SAXException If anything goes wrong
    */
-  @Override
+  @Override   //核心就是覆盖这个方法，达到转public DTD到本地DTD的目的
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
     try {
       if (systemId != null) {
