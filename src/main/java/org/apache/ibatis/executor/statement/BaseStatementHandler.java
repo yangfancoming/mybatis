@@ -51,7 +51,6 @@ public abstract class BaseStatementHandler implements StatementHandler {
       generateKeys(parameterObject);
       boundSql = mappedStatement.getBoundSql(parameterObject);
     }
-
     this.boundSql = boundSql;
     //创建ParameterHandler和ResultSetHandler
     this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
