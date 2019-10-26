@@ -48,6 +48,7 @@ public class MapperMethod {
  //可以看到执行时就是4种情况，insert|update|delete|select，分别调用SqlSession的4大类方法
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
+//    Object param = method.convertArgsToSqlCommandParam(args);
     // CURD操作，对持久层返回的结果集进行处理  获取method方法上的带有@Param的参数，默认返回0,1,2,3...
     switch (command.getType()) {
       case INSERT: {
@@ -83,10 +84,9 @@ public class MapperMethod {
           result = executeForCursor(sqlSession, args);
         } else {
           //否则就是查询单个对象   //否则就是一条记录
-          Object param = method.convertArgsToSqlCommandParam(args);
+          Object param = method.convertArgsToSqlCommandParam(args); // doit  这行代码 四种情况都会用到为啥不拿出来放在本函数的第一行？？？
           result = sqlSession.selectOne(command.getName(), param);
-          if (method.returnsOptional()
-              && (result == null || !method.getReturnType().equals(result.getClass()))) {
+          if (method.returnsOptional() && (result == null || !method.getReturnType().equals(result.getClass()))) {
             result = Optional.ofNullable(result);
           }
         }

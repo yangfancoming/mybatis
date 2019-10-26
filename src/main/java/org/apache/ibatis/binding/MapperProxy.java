@@ -36,16 +36,17 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
-      // 如果是Object中定义的方法，直接执行。如toString(),hashCode()等
-      //代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
-      //并不是任何一个方法都需要执行调用代理对象进行执行，如果这个方法是Object中通用的方法（toString、hashCode等）无需执行
+      /**
+       *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
+       *  并不是任何一个方法都需要执行调用代理对象进行执行，如果这个方法是Object中通用的方法（toString、hashCode等）则直接放行
+       *  org.apache.goat.chapter100.E001.EmployeeMapper
+      */
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
         /*
-         * 下面的代码最早出现在 mybatis-3.4.2 版本中，用于支持 JDK 1.8 中的
-         * 新特性 - 默认方法。这段代码的逻辑就不分析了， 有兴趣的同学可以
-         * 去 Github 上看一下相关的相关的讨论（issue #709），链接如下：
-         * https://github.com/mybatis/mybatis-3/issues/709
+         * 下面的代码最早出现在 mybatis-3.4.2 版本中，用于支持 JDK 1.8 中的新特性 - 默认方法。
+         * 这段代码的逻辑就不分析了， 有兴趣的同学可以
+         * 去 Github 上看一下相关的相关的讨论（issue #709），链接如下：https://github.com/mybatis/mybatis-3/issues/709
          */
       } else if (method.isDefault()) { //如果是默认的method则调用默认的method
         return invokeDefaultMethod(proxy, method, args);

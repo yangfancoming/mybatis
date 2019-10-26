@@ -25,7 +25,6 @@ class App extends MyBaseDataTest {
   }
 
 
-
   @Test
   void test2() throws Exception  {
     setUpByReader(XMLPATH);
