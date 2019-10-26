@@ -19,6 +19,13 @@ public class Customer {
   public Customer() {
   }
 
+  public Customer(Integer id, String name, String email, Date birth) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.birth = birth;
+  }
+
   public Integer getId() {
     return id;
   }
@@ -49,6 +56,11 @@ public class Customer {
 
   public void setBirth(Date birth) {
     this.birth = birth;
+  }
+
+  @Override
+  public String toString() {
+    return "Customer{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + ", birth=" + birth + '}';
   }
 }
 

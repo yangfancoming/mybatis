@@ -25,7 +25,6 @@ public class PreparedStatementTest {
   public void test() throws SQLException, ClassNotFoundException, ParseException {
     Class.forName("com.mysql.jdbc.Driver");
     Connection conn = DriverManager.getConnection(url, user, password);
-
     //4.预编译sql语句，返回PreparedStatement的实例
     String sql = "insert into customers(name,email,birth)values(?,?,?)";//?:占位符
     PreparedStatement ps = conn.prepareStatement(sql);
@@ -37,5 +36,34 @@ public class PreparedStatementTest {
     ps.setDate(3, new Date(date.getTime()));
     //6.执行操作
     ps.execute();
+  }
+
+  @Test
+  public void test2() throws SQLException, ClassNotFoundException {
+    Class.forName("com.mysql.jdbc.Driver");
+    Connection conn = DriverManager.getConnection(url, user, password);
+    String sql = "update customers set name = ? where id = ?";
+    PreparedStatement ps = conn.prepareStatement(sql);
+    ps.setObject(1,"莫扎特");
+    ps.setObject(2, 18);
+    ps.execute();
+  }
+
+
+  //通用的增删改操作
+  public void update(String sql,Object ...args) throws SQLException {//sql中占位符的个数与可变形参的长度相同！
+    Connection conn = DriverManager.getConnection(url, user, password);
+    PreparedStatement  ps = conn.prepareStatement(sql);
+      //3.填充占位符
+      for(int i = 0;i < args.length;i++){
+        ps.setObject(i + 1, args[i]);//小心参数声明错误！！
+      }
+      ps.execute();
+  }
+
+  @Test
+  public void test3() throws SQLException {
+    String sql = "update customers set name = ? where id = ?";
+    update(sql,"goat",19);
   }
 }
