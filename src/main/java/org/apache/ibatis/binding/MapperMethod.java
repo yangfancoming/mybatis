@@ -45,6 +45,7 @@ public class MapperMethod {
     this.method = new MethodSignature(config, mapperInterface, method);
   }
  // 这个方法是对SqlSession的包装，对应insert、delete、update、select四种操作 // 根据解析结果，路由到恰当的SqlSession方法上
+ //可以看到执行时就是4种情况，insert|update|delete|select，分别调用SqlSession的4大类方法
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
     // CURD操作，对持久层返回的结果集进行处理  获取method方法上的带有@Param的参数，默认返回0,1,2,3...
@@ -68,10 +69,12 @@ public class MapperMethod {
       case SELECT:
         //如果返回void 并且参数有resultHandler  ,则调用 void select(String statement, Object parameter, ResultHandler handler);方法
         if (method.returnsVoid() && method.hasResultHandler()) {
+          //如果有结果处理器
           executeWithResultHandler(sqlSession, args);
           result = null;
         } else if (method.returnsMany()) {
           //如果返回多行结果,executeForMany这个方法调用 <E> List<E> selectList(String statement, Object parameter);
+          //如果结果有多条记录
           result = executeForMany(sqlSession, args);
         } else if (method.returnsMap()) {
           //如果返回类型是MAP 则调用executeForMap方法
@@ -79,7 +82,7 @@ public class MapperMethod {
         } else if (method.returnsCursor()) {
           result = executeForCursor(sqlSession, args);
         } else {
-          //否则就是查询单个对象
+          //否则就是查询单个对象   //否则就是一条记录
           Object param = method.convertArgsToSqlCommandParam(args);
           result = sqlSession.selectOne(command.getName(), param);
           if (method.returnsOptional()
@@ -102,22 +105,26 @@ public class MapperMethod {
     return result;
   }
 
+  //这个方法对返回值的类型进行了一些检查，使得更安全
   private Object rowCountResult(int rowCount) {
     final Object result;
     if (method.returnsVoid()) {
       result = null;
     } else if (Integer.class.equals(method.getReturnType()) || Integer.TYPE.equals(method.getReturnType())) {
+      //如果返回值是大int或小int
       result = rowCount;
     } else if (Long.class.equals(method.getReturnType()) || Long.TYPE.equals(method.getReturnType())) {
+      //如果返回值是大long或小long
       result = (long)rowCount;
     } else if (Boolean.class.equals(method.getReturnType()) || Boolean.TYPE.equals(method.getReturnType())) {
+      //如果返回值是大boolean或小boolean
       result = rowCount > 0;
     } else {
       throw new BindingException("Mapper method '" + command.getName() + "' has an unsupported return type: " + method.getReturnType());
     }
     return result;
   }
-
+  //结果处理器
   private void executeWithResultHandler(SqlSession sqlSession, Object[] args) {
     MappedStatement ms = sqlSession.getConfiguration().getMappedStatement(command.getName());
     if (!StatementType.CALLABLE.equals(ms.getStatementType()) && void.class.equals(ms.getResultMaps().get(0).getType())) {
@@ -201,10 +208,9 @@ public class MapperMethod {
     return result;
   }
 
+  //参数map，静态内部类,更严格的get方法，如果没有相应的key，报错
   public static class ParamMap<V> extends HashMap<String, V> {
-
     private static final long serialVersionUID = -2212268410512043556L;
-
     @Override
     public V get(Object key) {
       if (!super.containsKey(key)) {
@@ -214,7 +220,7 @@ public class MapperMethod {
     }
 
   }
-  //封装了具体执行的动作
+  //封装了具体执行的动作   //SQL命令，静态内部类
   public static class SqlCommand {
     //xml标签的id   通过它可以找到MappedStatement
     private final String name;
@@ -227,7 +233,6 @@ public class MapperMethod {
       final Class<?> declaringClass = method.getDeclaringClass();
       // 解析 MappedStatement  //MappedStatement对象,封装一个Mapper接口对应的sql操作
       MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass,configuration);
-
       // 检测当前方法是否有对应的 MappedStatement
       if (ms == null) {
         // 检测当前方法是否有 @Flush 注解
@@ -259,8 +264,8 @@ public class MapperMethod {
       return type;
     }
 
-    private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName,
-        Class<?> declaringClass, Configuration configuration) {
+    private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName, Class<?> declaringClass, Configuration configuration) {
+      //如果不是这个mapper接口的方法，再去查父类
       String statementId = mapperInterface.getName() + "." + methodName;
       if (configuration.hasStatement(statementId)) {
         return configuration.getMappedStatement(statementId);
@@ -269,8 +274,7 @@ public class MapperMethod {
       }
       for (Class<?> superInterface : mapperInterface.getInterfaces()) {
         if (declaringClass.isAssignableFrom(superInterface)) {
-          MappedStatement ms = resolveMappedStatement(superInterface, methodName,
-              declaringClass, configuration);
+          MappedStatement ms = resolveMappedStatement(superInterface, methodName,declaringClass, configuration);
           if (ms != null) {
             return ms;
           }
@@ -295,7 +299,10 @@ public class MapperMethod {
     //返回值类型
     private final Class<?> returnType;
     private final String mapKey;
-    private final Integer resultHandlerIndex;//resultHandler类型参数的位置
+    //记下ResultHandler是第几个参数//resultHandler类型参数的位置
+    private final Integer resultHandlerIndex;
+    //以下重复循环2遍调用getUniqueParamIndex，是不是降低效率了
+    //记下RowBounds是第几个参数
     private final Integer rowBoundsIndex; //rowBound类型参数的位置
     private final ParamNameResolver paramNameResolver; //用来存放参数信息
 
@@ -405,6 +412,7 @@ public class MapperMethod {
     private String getMapKey(Method method) {
       String mapKey = null;
       if (Map.class.isAssignableFrom(method.getReturnType())) {
+        //如果返回类型是map类型的，查看该method是否有MapKey注解。如果有这个注解，将这个注解的值作为map的key
         final MapKey mapKeyAnnotation = method.getAnnotation(MapKey.class);
         if (mapKeyAnnotation != null) {
           mapKey = mapKeyAnnotation.value();

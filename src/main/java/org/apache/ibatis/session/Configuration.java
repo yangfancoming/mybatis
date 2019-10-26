@@ -189,11 +189,8 @@ public class Configuration {
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
   //这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
-
   //对应Mapper.xml里配置的Statement  //mapper文件中增删改查操作的注册中心
-  protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection")
-      .conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
-
+  protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection").conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
   //对应Mapper.xml里配置的cache  //mapper文件中配置cache节点的 二级缓存
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
   //对应Mapper.xml里的ResultMap  //mapper文件中配置的所有resultMap对象  key为命名空间+ID
@@ -648,9 +645,9 @@ public class Configuration {
     }
     //5.如果开启了二级缓存，那么就装饰一下
     if (cacheEnabled) { // mybatis 二级缓存 默认是开启的
-      executor = new CachingExecutor(executor);
+      executor = new CachingExecutor(executor);// 装饰器模式 装饰模式
     }
-    //6.处理插件
+    //6.处理插件  责任链模式 使用每一个拦截器重新包装 executor 并返回
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }
@@ -967,7 +964,9 @@ public class Configuration {
 
     /**
      * Assign a function for producing a conflict error message when contains value with the same key.
+     * 当包含具有相同键的值时，分配用于生成冲突错误消息的函数
      * function arguments are 1st is saved value and 2nd is target value.
+     * 函数参数是第一个是保存值，第二个是目标值
      * @param conflictMessageProducer A function for producing a conflict error message
      * @return a conflict error message
      * @since 3.5.0

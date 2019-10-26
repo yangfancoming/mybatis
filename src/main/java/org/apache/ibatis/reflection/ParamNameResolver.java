@@ -126,7 +126,7 @@ public class ParamNameResolver {
       final Map<String, Object> param = new ParamMap<>();
       int i = 0;
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
-        // "id" -> "15"
+        // "id" -> "15"  //1.先加一个#{0},#{1},#{2}...参数
         param.put(entry.getValue(), args[entry.getKey()]);
 
         /**
@@ -137,6 +137,10 @@ public class ParamNameResolver {
         final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);// param1
         // ensure not to overwrite parameter named with @Param
         if (!names.containsValue(genericParamName)) {
+          //2.再加一个#{param1},#{param2}...参数
+          //你可以传递多个参数给一个映射器方法。如果你这样做了,
+          //默认情况下它们将会以它们在参数列表中的位置来命名,比如:#{param1},#{param2}等。
+          //如果你想改变参数的名称(只在多参数情况下) ,那么你可以在参数上使用@Param(“paramName”)注解。
           param.put(genericParamName, args[entry.getKey()]);
         }
         i++;

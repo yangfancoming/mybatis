@@ -24,9 +24,9 @@ public abstract class MyBaseDataTest {
   /** Reader 使用内存数据库 */
   public void setUpByReader(String xmlPath,String dbSql) throws Exception {
     try (Reader reader = Resources.getResourceAsReader(xmlPath)) {
-      // 通过 mybatis 全局配置文件  创建  sqlSessionFactory
+      // 通过 mybatis 全局配置文件  创建  sqlSessionFactory  主要操作：构建并填充了 configuration
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-      // 通过 sqlSessionFactory 创建 sqlSession
+      // 通过 sqlSessionFactory 创建 sqlSession  主要操作：构建并包装了executor
       sqlSession = sqlSessionFactory.openSession(autoCommit);
     }
     // 创建内存数据库 并添加插入测试数据

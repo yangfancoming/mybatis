@@ -16,12 +16,14 @@ import org.apache.ibatis.session.SqlSession;
 public class MapperRegistry {
 
   private final Configuration config;
+
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
     this.config = config;
   }
 
+  //返回代理类
   @SuppressWarnings("unchecked")
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
     // 从 knownMappers 中获取与 type 对应的 MapperProxyFactory
@@ -47,8 +49,8 @@ public class MapperRegistry {
    * 接下来就是遍历这些类然后解析了：
   */
   public <T> void addMapper(Class<T> type) {
-    if (type.isInterface()) { // 判断该类是否是 接口类 interface
-      if (hasMapper(type)) {
+    if (type.isInterface()) { // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
+      if (hasMapper(type)) {  //如果重复添加了，报错
         throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
       }
       boolean loadCompleted = false;
@@ -74,6 +76,7 @@ public class MapperRegistry {
         parser.parse();
         loadCompleted = true;
       } finally {
+        //如果加载过程中出现异常需要再将这个mapper从mybatis中删除,这种方式比较丑陋吧，难道是不得已而为之？
         if (!loadCompleted) {
           knownMappers.remove(type);
         }
@@ -95,6 +98,7 @@ public class MapperRegistry {
    * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
    */
   public void addMappers(String packageName, Class<?> superType) {
+    //查找包下所有是superType的类
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
     Set<Class<? extends Class<?>>> mapperSet = resolverUtil.getClasses();
@@ -105,6 +109,7 @@ public class MapperRegistry {
 
   /**
    * @since 3.2.2
+   * 查找包下所有类
    */
   public void addMappers(String packageName) {
     addMappers(packageName, Object.class);
