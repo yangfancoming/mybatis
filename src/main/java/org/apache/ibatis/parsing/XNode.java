@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
+ * 该类是对org.w3c.dom.Node类的一个封装，在Node类的基础上添加了一些新功能
+ *
  * 这个是mybatis的封装了jdk原有的Node的对象，自己构造出来的，这样子，自己以后的使用中会很方便，不用来回的切换了
  * 这个是xml文件中一个节点的详细信息（注意：mybatis只会读取xml文件，不会写入）
  *
@@ -46,7 +48,9 @@ public class XNode {
     this.node = node;
     this.name = node.getNodeName();
     this.variables = variables;
+    //获取当前节点的所有属性
     this.attributes = parseAttributes(node);
+    //获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的
     this.body = parseBody(node);
   }
 
@@ -165,7 +169,12 @@ public class XNode {
     return getBooleanBody(null);
   }
 
+  /**
+   * 通过getXXXBody函数获取body属性并将其转换为对应的数据类型
+   * @param def
+   */
   public Boolean getBooleanBody(Boolean def) {
+    //两个函数的不同在于这个函数具有一个默认值，而上面的没有
     if (body == null) {
       return def;
     } else {
@@ -251,7 +260,13 @@ public class XNode {
     return getBooleanAttribute(name, null);
   }
 
+  /**
+   * 通过getXXXAttribute获取value值
+   * @param name
+   * @param def
+   */
   public Boolean getBooleanAttribute(String name, Boolean def) {
+    //从attributes获取key，如果存在则进行类型转换，否则就返回默认值
     String value = attributes.getProperty(name);
     if (value == null) {
       return def;
@@ -317,11 +332,12 @@ public class XNode {
    */
   public List<XNode> getChildren() {
     List<XNode> children = new ArrayList<>();
-    // 获取子节点列表
+    //获取所有子节点
     NodeList nodeList = node.getChildNodes();
     if (nodeList != null) {
       for (int i = 0, n = nodeList.getLength(); i < n; i++) {
         Node node = nodeList.item(i);
+        //如果子节点类型是元素节点，就添加到list中
         if (node.getNodeType() == Node.ELEMENT_NODE) {
           // 将节点对象封装到 XNode 中，并将 XNode 对象放入 children 列表中
           children.add(new XNode(xpathParser, node, variables));
@@ -346,6 +362,7 @@ public class XNode {
       // 获取 <property> 节点的 name 和 value 属性
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");
+      //只有当节点同时具有name和value属性才会添加到properties中
       if (name != null && value != null) {
         properties.setProperty(name, value);// 设置属性到属性对象中
       }
@@ -391,7 +408,7 @@ public class XNode {
   }
 
   /**
-   * 获取这个节点的属性，就是你配置在这个节点中的属性，不是text内容(XNode并没有采用一种继承的策略，而是一种组合的关系，这样子最好了)
+   * 获取当前节点的所有属性，就是你配置在这个节点中的属性，不是text内容(XNode并没有采用一种继承的策略，而是一种组合的关系，这样子最好了)
    * @param n 节点
    * @return 节点的属性内容
    */
@@ -404,6 +421,7 @@ public class XNode {
     if (attributeNodes != null) {
       for (int i = 0; i < attributeNodes.getLength(); i++) {
         Node attribute = attributeNodes.item(i);
+        //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse（）去处理下
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
         attributes.put(attribute.getNodeName(), value);
       }
@@ -413,16 +431,20 @@ public class XNode {
 
   /**
    * 解析身体的东西，不知道干什么用,反正是递归的调用这个东西
+   *  获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的
    * @param node
    * @return
    */
   private String parseBody(Node node) {
     String data = getBodyData(node);
+    //如果该节点不是文本节点或者CDATA节点，取其子节点值
     if (data == null) {
       NodeList children = node.getChildNodes();
+      //尽管这个for循环不是一个好的实现方式，因为 children.getLength()被执行了多次，但在mybatis的源代码经常出现
       for (int i = 0; i < children.getLength(); i++) {
         Node child = children.item(i);
         data = getBodyData(child);
+        //只要一个节点为文本节点或者CDATA节点,就结束循环。因而此时的body值只是node的第一个文本节点的内容
         if (data != null) {
           break;
         }
@@ -431,7 +453,12 @@ public class XNode {
     return data;
   }
 
+  /**
+   * 如果该节点是文本节点或者CDATA节点，获取其节点值
+   * @param child
+   */
   private String getBodyData(Node child) {
+    //如果这个节点是文本节点或者CDATA节点，就取节点的内容，然后用PropertyParser.parse（）处理下
     if (child.getNodeType() == Node.CDATA_SECTION_NODE || child.getNodeType() == Node.TEXT_NODE) {
       String data = ((CharacterData) child).getData();
       data = PropertyParser.parse(data, variables);

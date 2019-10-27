@@ -1,19 +1,25 @@
 
 package org.apache.ibatis.parsing;
 
-
+/**
+ * 这个类是对常用Token进行parser的类
+ */
 public class GenericTokenParser {
-
   /**
    解析以上配置中的 ${driver}， 那么这几个成员变量
    openToken="${";
    closeToken="}";
   */
-
   private final String openToken; //参数开始标志
   private final String closeToken; //参数解析标志
   private final TokenHandler handler; //ParameterMappingTokenHandler,参数hanler
 
+  /**
+   * 利用带参数的构造函数初始化各项属性
+   * @param openToken
+   * @param closeToken
+   * @param handler
+   */
   public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {
     // 开始标记
     this.openToken = openToken;
@@ -23,11 +29,15 @@ public class GenericTokenParser {
     this.handler = handler;
   }
   //解析statement中的sql语句
+  /**
+   * 将openToken和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
+   * @param text
+   */
   public String parse(String text) {
     if (text == null || text.isEmpty()) {
       return "";
     }
-    // search open token  //  查找开始标记的下标
+    // search open token  //  查找开始标记的下标  //判断openToken在text中的位置，注意indexOf函数的返回值-1表示不存在，0表示在在开头的位置
     int start = text.indexOf(openToken);
     if (start == -1) {
       return text;
@@ -39,11 +49,12 @@ public class GenericTokenParser {
     final StringBuilder builder = new StringBuilder();
     StringBuilder expression = null;  // expression 是每一次找到的表达式， 要传入处理器中进行处理
     while (start > -1) {
-      if (start > 0 && src[start - 1] == '\\') {
+      if (start > 0 && src[start - 1] == '\\') {  //如果text中在openToken前存在转义符就将转义符去掉。如果openToken前存在转义符，start的值必然大于0，最小也为1
         // this open token is escaped. remove the backslash and continue.  // 开始标记是转义的， 则去除转义字符'\'
+        //因为此时openToken是不需要进行处理的，所以也不需要处理endToken。接着查找下一个openToken
         builder.append(src, offset, start - offset - 1).append(openToken);
         offset = start + openToken.length();
-      } else {
+      } else { //如果不存在openToken，则直接将offset位置后的字符添加到builder中
         // found open token. let's search close token.  // 此分支是找到了结束标记， 要找到结束标记
         if (expression == null) {
           expression = new StringBuilder();
@@ -52,7 +63,7 @@ public class GenericTokenParser {
         }
         // 将开始标记前的字符串都添加到 builder 中
         builder.append(src, offset, start - offset);
-        // 计算新的 offset
+        // 计算新的 offset //重设offset
         offset = start + openToken.length();
         // 从此处开始查找结束的标记
         int end = text.indexOf(closeToken, offset);
@@ -60,8 +71,9 @@ public class GenericTokenParser {
         while (end > -1) {
           if (end > offset && src[end - 1] == '\\') {
             // this close token is escaped. remove the backslash and continue.  // 此结束标记是转义的
+            ;//添加openToken前offset后位置的字符到bulider中
             expression.append(src, offset, end - offset - 1).append(closeToken);
-            offset = end + closeToken.length();
+            offset = end + closeToken.length();//重设offset
             end = text.indexOf(closeToken, offset);
           } else {
             expression.append(src, offset, end - offset);

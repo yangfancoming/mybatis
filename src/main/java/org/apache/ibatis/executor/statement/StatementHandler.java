@@ -14,11 +14,19 @@ import org.apache.ibatis.session.ResultHandler;
 /**
  * StatementHandler访问数据库，并将查询结果存入缓存中（如果配置了缓存的话）
  *
- 在MyBatis实现了StatementHandler 的有四个类：
- RoutingStatementHandler，这是一个封装类，它不提供具体的实现，只是根据Executor的类型，创建不同的类型StatementHandler。
- SimpleStatementHandler，这个类对应于JDBC的Statement对象，用于没有预编译参数的SQL的运行。
- PreparedStatementHandler 这个用于预编译参数SQL的运行。
- CallableStatementHandler 它将实存储过程的调度。
+ *  在MyBatis实现了StatementHandler 的有四个类：
+ *  RoutingStatementHandler，这是一个封装类，它不提供具体的实现，只是根据Executor的类型，创建不同的类型StatementHandler。
+ *  SimpleStatementHandler，这个类对应于JDBC的Statement对象，用于没有预编译参数的SQL的运行。
+ *  PreparedStatementHandler 这个用于预编译参数SQL的运行。
+ *  CallableStatementHandler 它将实存储过程的调度。
+
+ * 封装了JDBC Statement操作，负责对JDBC statement 的操作，
+ * 如设置参数、将Statement结果集转换成List集合。
+ * 功能：
+ * 1. 对于JDBC的PreparedStatement类型的对象，创建的过程中，我们使用的是SQL语句字符串会包含 若干个? 占位符，
+ *    我们其后再对占位符进行设值。StatementHandler通过parameterize(statement)方法对Statement进行设值；
+ * 2. StatementHandler通过List<E> query(Statement statement, ResultHandler resultHandler)方法
+ *    来完成执行Statement，和将Statement对象返回的resultSet封装成List；
 */
 public interface StatementHandler {
 
