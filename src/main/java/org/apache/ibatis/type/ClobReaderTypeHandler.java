@@ -21,8 +21,7 @@ public class ClobReaderTypeHandler extends BaseTypeHandler<Reader> {
    * @see PreparedStatement#setClob(int, Reader)
    */
   @Override
-  public void setNonNullParameter(PreparedStatement ps, int i, Reader parameter, JdbcType jdbcType)
-      throws SQLException {
+  public void setNonNullParameter(PreparedStatement ps, int i, Reader parameter, JdbcType jdbcType) throws SQLException {
     ps.setClob(i, parameter);
   }
 
@@ -31,8 +30,7 @@ public class ClobReaderTypeHandler extends BaseTypeHandler<Reader> {
    * @see ResultSet#getClob(String)
    */
   @Override
-  public Reader getNullableResult(ResultSet rs, String columnName)
-      throws SQLException {
+  public Reader getNullableResult(ResultSet rs, String columnName) throws SQLException {
     return toReader(rs.getClob(columnName));
   }
 
@@ -41,8 +39,7 @@ public class ClobReaderTypeHandler extends BaseTypeHandler<Reader> {
    * @see ResultSet#getClob(int)
    */
   @Override
-  public Reader getNullableResult(ResultSet rs, int columnIndex)
-      throws SQLException {
+  public Reader getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
     return toReader(rs.getClob(columnIndex));
   }
 
@@ -51,8 +48,7 @@ public class ClobReaderTypeHandler extends BaseTypeHandler<Reader> {
    * @see CallableStatement#getClob(int)
    */
   @Override
-  public Reader getNullableResult(CallableStatement cs, int columnIndex)
-      throws SQLException {
+  public Reader getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
     return toReader(cs.getClob(columnIndex));
   }
 

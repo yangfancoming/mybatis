@@ -10,7 +10,6 @@ import java.time.Month;
 /**
  *
  * @since 3.4.5
- * @author Björn Raupach
  */
 public class MonthTypeHandler extends BaseTypeHandler<Month> {
 

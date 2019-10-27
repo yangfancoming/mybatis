@@ -9,13 +9,11 @@ import java.time.OffsetDateTime;
 
 /**
  * @since 3.4.5
- * @author Tomas Rohovsky
  */
 public class OffsetDateTimeTypeHandler extends BaseTypeHandler<OffsetDateTime> {
 
   @Override
-  public void setNonNullParameter(PreparedStatement ps, int i, OffsetDateTime parameter, JdbcType jdbcType)
-          throws SQLException {
+  public void setNonNullParameter(PreparedStatement ps, int i, OffsetDateTime parameter, JdbcType jdbcType)  throws SQLException {
     ps.setObject(i, parameter);
   }
 

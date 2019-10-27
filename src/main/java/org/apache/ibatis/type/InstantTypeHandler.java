@@ -10,7 +10,6 @@ import java.time.Instant;
 
 /**
  * @since 3.4.5
- * @author Tomas Rohovsky
  */
 public class InstantTypeHandler extends BaseTypeHandler<Instant> {
 

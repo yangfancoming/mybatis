@@ -120,7 +120,6 @@ public class SqlRunner {
 
   /**
    * Executes an UPDATE statement.
-   *
    * @param sql  The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.
@@ -142,7 +141,6 @@ public class SqlRunner {
 
   /**
    * Executes a DELETE statement.
-   *
    * @param sql  The SQL
    * @param args The arguments to be set on the statement.
    * @return The number of rows impacted or BATCHED_RESULTS if the statements are being batched.
@@ -153,9 +151,7 @@ public class SqlRunner {
   }
 
   /**
-   * Executes any string as a JDBC Statement.
-   * Good for DDL
-   *
+   * Executes any string as a JDBC Statement. Good for DDL
    * @param sql The SQL
    * @throws SQLException If statement preparation or execution fails
    */

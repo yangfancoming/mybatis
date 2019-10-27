@@ -53,7 +53,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource from the classpath, starting with a specific class loader
-   *
    * @param resource    - the resource to find
    * @param classLoader - the first class loader to try
    * @return the stream or null
@@ -64,7 +63,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Find a class on the classpath (or die trying)
-   *
    * @param name - the class to look for
    * @return - the class
    * @throws ClassNotFoundException Duh.
@@ -75,7 +73,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Find a class on the classpath, starting with a specific classloader (or die trying)
-   *
    * @param name        - the class to look for
    * @param classLoader - the first classloader to try
    * @return - the class
@@ -143,7 +140,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Attempt to load a class from a group of classloaders
-   *
    * @param name        - the class to load
    * @param classLoader - the group of classloaders to examine
    * @return the class

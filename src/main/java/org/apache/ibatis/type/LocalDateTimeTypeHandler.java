@@ -9,13 +9,11 @@ import java.time.LocalDateTime;
 
 /**
  * @since 3.4.5
- * @author Tomas Rohovsky
  */
 public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {
 
   @Override
-  public void setNonNullParameter(PreparedStatement ps, int i, LocalDateTime parameter, JdbcType jdbcType)
-          throws SQLException {
+  public void setNonNullParameter(PreparedStatement ps, int i, LocalDateTime parameter, JdbcType jdbcType) throws SQLException {
     ps.setObject(i, parameter);
   }
 

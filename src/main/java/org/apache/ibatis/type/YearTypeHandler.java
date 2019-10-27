@@ -9,7 +9,6 @@ import java.time.Year;
 
 /**
  * @since 3.4.5
- * @author Björn Raupach
  */
 public class YearTypeHandler extends BaseTypeHandler<Year> {
 
