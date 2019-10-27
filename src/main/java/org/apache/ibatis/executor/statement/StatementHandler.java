@@ -12,7 +12,7 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.session.ResultHandler;
 
 /**
- * StatementHandler访问数据库，并将查询结果存入缓存中（如果配置了缓存的话）
+ * StatementHandler 访问数据库，并将查询结果存入缓存中（如果配置了缓存的话）
  *
  *  在MyBatis实现了StatementHandler 的有四个类：
  *  RoutingStatementHandler，这是一个封装类，它不提供具体的实现，只是根据Executor的类型，创建不同的类型StatementHandler。

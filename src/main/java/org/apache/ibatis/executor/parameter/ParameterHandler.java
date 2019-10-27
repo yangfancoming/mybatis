@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * A parameter handler sets the parameters of the {@code PreparedStatement}.
  * ParameterHandler 在Mybatis四大对象中负责将sql中的占位符替换为真正的参数，它是一个接口，有且只有一个实现类DefaultParameterHandler
  * getParameterObject是用来获取参数的，setParameters(PreparedStatement ps)是用来设置参数的，sos 相当于对sql中所有的参数都执行ps.setXXX(value);
- * ParameterHandler的默认实现类是DefaultParameterHandler，其实现了接口中定义的两个方法。
+ * ParameterHandler 的默认实现类是DefaultParameterHandler，其实现了接口中定义的两个方法。
  * 其中 setParameters 是处理参数最核心的方法
  */
 public interface ParameterHandler {
