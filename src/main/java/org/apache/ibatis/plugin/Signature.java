@@ -14,9 +14,12 @@ import java.lang.annotation.Target;
 @Target({})
 public @interface Signature {
   //就是定义哪些类，方法，参数需要被拦截
+  // 指定要拦截的四大对象中的哪个对象
   Class<?> type();
 
+  // 指定拦截指定对象后的 哪个方法
   String method();
 
+  // 指定拦截方法的参数列表 （为了再函数重载时也能正确拦截）
   Class<?>[] args();
 }

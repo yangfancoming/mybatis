@@ -26,12 +26,23 @@ public class Plugin implements InvocationHandler {
     this.signatureMap = signatureMap;
   }
 
+
+  /**
+   * @Description: 包装
+   * @author fan.yang
+   * @date 2019年10月27日21:11:26
+   * @param target 要包装的目标对象
+   * @param interceptor 指定要用哪个拦截器进行包装
+   * @return 成功包装后的对象
+   */
   public static Object wrap(Object target, Interceptor interceptor) {
     //从拦截器的注解中获取拦截的类名和方法信息  //取得签名Map
     Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
-    //取得要改变行为的类(ParameterHandler|ResultSetHandler|StatementHandler|Executor)
+    // 取得要改变行为的类(ParameterHandler|ResultSetHandler|StatementHandler|Executor)
+    // 取得要包装的目标对象的类型
     Class<?> type = target.getClass();
-    //解析被拦截对象的所有接口（注意是接口）    //取得接口
+    // 取得要包装的目标对象的类型所要要实现的接口
+    // 解析被拦截对象的所有接口（注意是接口）    //取得接口
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
     //产生代理
     if (interfaces.length > 0) {
