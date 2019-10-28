@@ -11,7 +11,7 @@
       <property name="username" value="goat"/>
       <property name="password" value="123654"/>
     </plugin>
-    <!--<plugin interceptor="com.atguigu.mybatis.dao.MySecondPlugin"></plugin>-->
+    <plugin interceptor="org.apache.goat.chapter200.D10.MySecondPlugin"></plugin>
   </plugins>
 
   <environments default="development">
