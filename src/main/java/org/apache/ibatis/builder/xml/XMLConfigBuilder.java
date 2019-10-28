@@ -362,7 +362,9 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setMultipleResultSetsEnabled(booleanValueOf(props.getProperty("multipleResultSetsEnabled"), true));
     configuration.setUseColumnLabel(booleanValueOf(props.getProperty("useColumnLabel"), true));
     configuration.setUseGeneratedKeys(booleanValueOf(props.getProperty("useGeneratedKeys"), false));
-    configuration.setDefaultExecutorType(ExecutorType.valueOf(props.getProperty("defaultExecutorType", "SIMPLE")));
+    // 若全局配置 <setting name="defaultExecutorType" value="FUCK"/> 这里会抛出异常  No enum constant org.apache.ibatis.session.ExecutorType.FUCK
+    String property = props.getProperty("defaultExecutorType", "SIMPLE");
+    configuration.setDefaultExecutorType(ExecutorType.valueOf(property));
     configuration.setDefaultStatementTimeout(integerValueOf(props.getProperty("defaultStatementTimeout"), null));
     configuration.setDefaultFetchSize(integerValueOf(props.getProperty("defaultFetchSize"), null));
     configuration.setMapUnderscoreToCamelCase(booleanValueOf(props.getProperty("mapUnderscoreToCamelCase"), false));

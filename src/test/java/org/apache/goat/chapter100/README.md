@@ -4,6 +4,7 @@
     A002 mybatis  有mapper接口 入门示例
 # 全局 xml 
     A010 全局xml 配置之 <settings> 之  mapUnderscoreToCamelCase
+    A012 全局xml 配置之 <settings> 之  defaultExecutorType
     A020 全局xml 配置之 <properties>  <properties> 标签从外部配置文件读取属性值 
     A022 全局xml 配置之 <properties>  <properties> 标签从外部配置文件和内部标签 同时读取属性值 
     A030 全局xml 配置之 <typeAliases>  方式一   为单个类 起别名

@@ -626,14 +626,15 @@ public class Configuration {
 
   /**
    *  对Executor 进行拦截
-   * 配置对象创建Executor组件，BatchExecutor/ReuseExecutor/SimpleExecutor三种
+   * Configuration 创建Executor组件，BatchExecutor/ReuseExecutor/SimpleExecutor三种
    * 该方法在SqlSessionFactory的实现类DefaultSqlSessionFactory中会调用，得到的Executor组件会传到SqlSession中，
    * 因为SqlSession对数据库的访问需要使用Executor来实现
    * */
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
     //根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = executorType == null ? defaultExecutorType : executorType;
-    executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // 默认实现类是 ExecutorType.SIMPLE
+    // doit 这行代码我怎么觉得 是没有用的呢？
+    executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
     Executor executor;
     //2.BATCH
     if (ExecutorType.BATCH == executorType) {
@@ -648,6 +649,7 @@ public class Configuration {
       executor = new CachingExecutor(executor);// 装饰器模式 装饰模式
     }
     //6.处理插件  责任链模式 使用每一个拦截器重新包装 executor 并返回
+    // 使用InterceptorChain.pluginAll(executor)进行拆件化处理
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }
