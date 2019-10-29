@@ -39,7 +39,6 @@ public class FlushTest {
     @Test
     public void invokeFlushStatementsViaMapper() {
         try (SqlSession session = sqlSessionFactory.openSession()) {
-
             BoundAuthorMapper mapper = session.getMapper(BoundAuthorMapper.class);
             Author author = new Author(-1, "cbegin", "******", "cbegin@nowhere.com", "N/A", Section.NEWS);
             List<Integer> ids = new ArrayList<>();
@@ -53,7 +52,6 @@ public class FlushTest {
             ids.add(author.getId());
             mapper.insertAuthor(author);
             ids.add(author.getId());
-
             // test
             List<BatchResult> results = mapper.flush();
 

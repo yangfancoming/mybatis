@@ -267,14 +267,29 @@ public class XMLConfigBuilder extends BaseBuilder {
       }
     }
   }
-
+/**
+ *   <plugins>
+ *     <plugin interceptor="org.apache.goat.chapter200.D10.MyMybatisPlugin">
+ *       <property name="username" value="goat"/>
+ *       <property name="password" value="123654"/>
+ *     </plugin>
+ *     <plugin interceptor="org.apache.goat.chapter200.D1public Object pluginAll(Object target) {0.MySecondPlugin"></plugin>
+ *   </plugins>
+*/
   private void pluginElement(XNode parent) throws Exception {
     if (parent != null) {
+      // 遍历<plugins>标签  获取<plugin>
       for (XNode child : parent.getChildren()) {
-        String interceptor = child.getStringAttribute("interceptor");
+        // 获取 单个 <plugin>标签下的所有 <property>
         Properties properties = child.getChildrenAsProperties();
+        // 获取 <plugin>标签中的 interceptor 属性 ：org.apache.goat.chapter200.D10.MyMybatisPlugin
+        String interceptor = child.getStringAttribute("interceptor");
+        // 根据 插件类的全路径名 通过反射生成拦截器实例
         Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
+        // 调用我们自定义的重写的 setProperties() 方法
+        // 再拿<plugin>标签下的所有<property>标签，解析name和value属性成为一个Properties，将Properties设置到拦截器中
         interceptorInstance.setProperties(properties);
+        // 最终添加到 configuration 的拦截器链中
         configuration.addInterceptor(interceptorInstance);
       }
     }
