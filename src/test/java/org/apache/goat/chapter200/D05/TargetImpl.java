@@ -8,6 +8,7 @@ package org.apache.goat.chapter200.D05;
  * @ date 2019/10/29---19:30
  */
 public class TargetImpl implements Target {
+
   @Override
   public String execute(String name) {
     System.out.println("execute() "+ name);

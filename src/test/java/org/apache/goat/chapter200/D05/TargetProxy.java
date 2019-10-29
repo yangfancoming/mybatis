@@ -14,6 +14,10 @@ import java.lang.reflect.Proxy;
 public class TargetProxy implements InvocationHandler {
 
   private Object target;
+
+  public TargetProxy() {
+  }
+
   public TargetProxy(Object target) {
     this.target = target;
   }
@@ -21,13 +25,16 @@ public class TargetProxy implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     System.out.println(" 拦截前。。。");
-    Object result = method.invoke(target, args);
+    Object result = null;
+    if (target != null){
+       result = method.invoke(target, args);
+    }
     System.out.println(" 拦截后。。。");
     return result;
   }
 
   public static Object wrap(Object target) {
-    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),new TargetProxy(target));
-
+    InvocationHandler targetProxy = new TargetProxy(target);
+    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),targetProxy);
   }
 }
