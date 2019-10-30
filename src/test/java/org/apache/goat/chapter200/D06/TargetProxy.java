@@ -29,18 +29,22 @@ public class TargetProxy implements InvocationHandler {
    * @Description: 包装
    * @author fan.yang
    * @date 2019年10月27日21:11:26
-   * @param target 接口实现类
    * @param method public abstract java.lang.String org.apache.goat.chapter200.D05.Target.execute(java.lang.String)
    * @param args "HelloWord"
    * @return 成功包装后的对象
    */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-    // 遍历所有接口的实现类 循环调用实现类重写的 intercept()方法
+    /**
+     *  遍历所有接口的实现类 循环调用实现类重写的 intercept()方法
+     *  这样一来就把所有的要拦截处理的逻辑 都解耦的各个拦截器接口的实现类中去了，没有耦合在invoke方法里面了
+    */
     for (Interceptor interceptor : interceptorList) {
       interceptor.intercept();
     }
+
+    //通过反射来执行某个的对象的目标方法：总是获取先获取Method(对象的目标方法)，然后传入对应的Class实例对象和传入参数 来执行方法！
+    // target 为接口实现类
     return method.invoke(target, args);
   }
 
