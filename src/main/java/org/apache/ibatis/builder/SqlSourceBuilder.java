@@ -84,6 +84,7 @@ public class SqlSourceBuilder extends BaseBuilder {
       for (Map.Entry<String, String> entry : propertiesMap.entrySet()) {
         String name = entry.getKey();
         String value = entry.getValue();
+        // doit 是否可以使用 swith 优化？？？
         if ("javaType".equals(name)) {
           javaType = resolveClass(value);
           builder.javaType(javaType);

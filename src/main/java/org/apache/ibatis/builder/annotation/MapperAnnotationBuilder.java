@@ -155,8 +155,8 @@ public class MapperAnnotationBuilder {
  本函数功能： 优先判断当前类下有无XML配置，有则加载，无则通过MapperAnnotationBuilder#parseStatement()方法解析类上的注解
 */
   private void loadXmlResource() {
-    // Spring may not know the real resource name so we check a flag
-    // to prevent loading again a resource twice
+    // Spring may not know the real resource name so we check a flag to prevent loading again a resource twice
+    // spring可能不知道真正的资源名，所以我们检查一个标志以防止再次加载一个资源两次
     // this flag is set at XMLMapperBuilder#bindMapperForNamespace
     if (!configuration.isResourceLoaded("namespace:" + type.getName())) {
       //这里发现它会去加载跟Class文件同一目录下且同名的xml配置文件

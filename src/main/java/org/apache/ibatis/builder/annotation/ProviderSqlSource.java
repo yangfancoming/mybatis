@@ -100,8 +100,8 @@ public class ProviderSqlSource implements SqlSource {
         sql = invokeProviderMethod();
       } else if (bindParameterCount == 0) {
         sql = invokeProviderMethod(providerContext);
-      } else if (bindParameterCount == 1
-           && (parameterObject == null || providerMethodParameterTypes[providerContextIndex == null || providerContextIndex == 1 ? 0 : 1].isAssignableFrom(parameterObject.getClass()))) {
+      } else if (bindParameterCount == 1 && (parameterObject == null ||
+        providerMethodParameterTypes[providerContextIndex == null || providerContextIndex == 1 ? 0 : 1].isAssignableFrom(parameterObject.getClass()))) {
         sql = invokeProviderMethod(extractProviderMethodArguments(parameterObject));
       } else if (parameterObject instanceof Map) {
         @SuppressWarnings("unchecked")

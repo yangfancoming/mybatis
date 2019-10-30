@@ -468,8 +468,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       MetaClass metaResultType = MetaClass.forClass(enclosingType, configuration.getReflectorFactory());
       String property = context.getStringAttribute("property");
       if (!metaResultType.hasSetter(property)) {
-        throw new BuilderException(
-          "Ambiguous collection type for property '" + property + "'. You must specify 'javaType' or 'resultMap'.");
+        throw new BuilderException( "Ambiguous collection type for property '" + property + "'. You must specify 'javaType' or 'resultMap'.");
       }
     }
   }

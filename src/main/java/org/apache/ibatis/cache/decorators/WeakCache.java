@@ -11,10 +11,9 @@ import org.apache.ibatis.cache.Cache;
 /**
  * Weak Reference cache decorator.
  * Thanks to Dr. Heinz Kabutz for his guidance here.
- *
- *
  */
 public class WeakCache implements Cache {
+
   private final Deque<Object> hardLinksToAvoidGarbageCollection;
   private final ReferenceQueue<Object> queueOfGarbageCollectedEntries;
   private final Cache delegate;

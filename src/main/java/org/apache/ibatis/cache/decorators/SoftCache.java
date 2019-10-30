@@ -13,6 +13,7 @@ import org.apache.ibatis.cache.Cache;
  * Thanks to Dr. Heinz Kabutz for his guidance here.
  */
 public class SoftCache implements Cache {
+
   private final Deque<Object> hardLinksToAvoidGarbageCollection;
   private final ReferenceQueue<Object> queueOfGarbageCollectedEntries;
   private final Cache delegate;
