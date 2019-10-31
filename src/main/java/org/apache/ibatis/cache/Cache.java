@@ -45,14 +45,10 @@ public interface Cache {
 
   /**
    * 删除key对应的缓存
-   * As of 3.3.0 this method is only called during a rollback
-   * for any previous value that was missing in the cache.
-   * This lets any blocking cache to release the lock that
-   * may have previously put on the key.
-   * A blocking cache puts a lock when a value is null
-   * and releases it when the value is back again.
-   * This way other threads will wait for the value to be
-   * available instead of hitting the database.
+   * As of 3.3.0 this method is only called during a rollback for any previous value that was missing in the cache.
+   * This lets any blocking cache to release the lock that may have previously put on the key.
+   * A blocking cache puts a lock when a value is null  and releases it when the value is back again.
+   * This way other threads will wait for the value to be available instead of hitting the database.
    * @param key The key
    * @return Not used
    */
@@ -72,9 +68,7 @@ public interface Cache {
   /**
    * 取得读写锁, 从3.2.6开始没用了
    * Optional. As of 3.2.6 this method is no longer called by the core.
-   * <p>
    * Any locking needed by the cache must be provided internally by the cache provider.
-   *
    * @return A ReadWriteLock
    */
   default ReadWriteLock getReadWriteLock() {

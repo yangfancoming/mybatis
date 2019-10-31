@@ -24,7 +24,6 @@ public class CacheKey implements Cloneable, Serializable {
   private int hashcode;
   // 检验和
   private long checksum;
-
   // updateList 集合的个数
   private int count;
   // 8/21/2017 - Sonarlint flags this as needing to be marked transient.  While true if content is not serializable, this is not always true and thus should not be marked transient.

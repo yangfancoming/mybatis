@@ -10,10 +10,9 @@ import org.junit.Test;
  */
 public class App {
 
-
+  Target target = new TargetImpl();
   @Test
   public void test1(){
-    Target target = new TargetImpl();
     Interceptor transactionInterceptor = new TransactionInterceptor();
     //把事务拦截器插入到目标类中
     target = (Target) transactionInterceptor.plugin(target);
@@ -22,12 +21,14 @@ public class App {
 
   @Test
   public void test2(){
-    Target target = new TargetImpl();
+
     Interceptor transactionInterceptor = new TransactionInterceptor();
     target = (Target) transactionInterceptor.plugin(target);
+    target.execute(" 11111 ");
+
     LogInterceptor logInterceptor = new LogInterceptor();
     target = (Target)logInterceptor.plugin(target);
-    target.execute(" HelloWord ");
+    target.execute(" 222222 ");
   }
 
 }

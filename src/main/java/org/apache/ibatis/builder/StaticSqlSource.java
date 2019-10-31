@@ -27,6 +27,7 @@ public class StaticSqlSource implements SqlSource {
     this.parameterMappings = parameterMappings;
     this.configuration = configuration;
   }
+  
   //构建BoundSql
   @Override
   public BoundSql getBoundSql(Object parameterObject) {
