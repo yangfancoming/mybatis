@@ -42,7 +42,7 @@ public class App {
   }
 
   @Test
-  public void test3(){
+  public void test4(){
     //返回的是代理对象，实现了Target接口，
     //实际调用方法的时候，是调用TargetProxy的invoke()方法
     Target targetProxy = (Target) TargetProxy.wrap(target);
