@@ -24,12 +24,12 @@ public class TargetProxy implements InvocationHandler {
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    System.out.println(" 拦截前。。。");
+    System.out.println(" TargetProxy 前。。。");
     Object result = null;
     if (target != null){
        result = method.invoke(target, args);
     }
-    System.out.println(" 拦截后。。。");
+    System.out.println(" TargetProxy 后。。。");
     return result;
   }
 

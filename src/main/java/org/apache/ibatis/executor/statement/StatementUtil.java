@@ -6,7 +6,6 @@ import java.sql.Statement;
 
 /**
  * Utility for {@link java.sql.Statement}.
- *
  * @since 3.4.0
  * @author Kazuki Shimizu
  */
@@ -18,9 +17,7 @@ public class StatementUtil {
 
   /**
    * Apply a transaction timeout.
-   * <p>
    * Update a query timeout to apply a transaction timeout.
-   * </p>
    * @param statement a target statement
    * @param queryTimeout a query timeout
    * @param transactionTimeout a transaction timeout

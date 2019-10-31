@@ -41,7 +41,6 @@ public final class StatementLogger extends BaseJdbcLogger implements InvocationH
        *     EXECUTE_METHODS.add("executeQuery");
        *     EXECUTE_METHODS.add("addBatch");
        * */
-
       if (EXECUTE_METHODS.contains(method.getName())) {
         if (isDebugEnabled()) {
           debug(" Executing: " + removeBreakingWhitespace((String) params[0]), true);

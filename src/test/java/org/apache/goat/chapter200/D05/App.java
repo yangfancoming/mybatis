@@ -13,6 +13,7 @@ import java.lang.reflect.Proxy;
  */
 public class App {
 
+  Target target = new TargetImpl();
 
   @Test
   public void test1(){
@@ -32,7 +33,6 @@ public class App {
   */
   @Test
   public void test2(){
-    Target target = new TargetImpl();
     // TargetProxy中的invoke 是钩子函数
     InvocationHandler targetProxy = new TargetProxy(target);
     // hook 是被钩对象
@@ -43,7 +43,6 @@ public class App {
 
   @Test
   public void test3(){
-    Target target = new TargetImpl();
     //返回的是代理对象，实现了Target接口，
     //实际调用方法的时候，是调用TargetProxy的invoke()方法
     Target targetProxy = (Target) TargetProxy.wrap(target);

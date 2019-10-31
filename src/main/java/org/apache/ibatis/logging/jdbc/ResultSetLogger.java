@@ -108,7 +108,6 @@ public final class ResultSetLogger extends BaseJdbcLogger implements InvocationH
 
   /**
    * Creates a logging version of a ResultSet.
-   *
    * @param rs - the ResultSet to proxy
    * @return - the ResultSet with logging
    */
@@ -120,7 +119,6 @@ public final class ResultSetLogger extends BaseJdbcLogger implements InvocationH
 
   /**
    * Get the wrapped result set.
-   *
    * @return the resultSet
    */
   public ResultSet getRs() {

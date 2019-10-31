@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * This exception is thrown if a <code>java.sql.BatchUpdateException</code> is caught
- * during the execution of any nested batch.  The exception contains the
- * java.sql.BatchUpdateException that is the root cause, as well as
+ * during the execution of any nested batch.
+ * The exception contains the java.sql.BatchUpdateException that is the root cause, as well as
  * the results from any prior nested batch that executed successfully.
  */
 public class BatchExecutorException extends ExecutorException {
@@ -25,9 +25,8 @@ public class BatchExecutorException extends ExecutorException {
   }
 
   /**
-   * Returns the BatchUpdateException that caused the nested executor
-   * to fail.  That exception contains an array of row counts
-   * that can be used to determine exactly which statement of the
+   * Returns the BatchUpdateException that caused the nested executor to fail.
+   * That exception contains an array of row counts that can be used to determine exactly which statement of the
    * executor caused the failure (or failures).
    * @return the root BatchUpdateException
    */
@@ -36,8 +35,8 @@ public class BatchExecutorException extends ExecutorException {
   }
 
   /**
-   * Returns a list of BatchResult objects.  There will be one entry
-   * in the list for each successful sub-executor executed before the failing executor.
+   * Returns a list of BatchResult objects.
+   * There will be one entry in the list for each successful sub-executor executed before the failing executor.
    * @return the previously successful executor results (may be an empty list if no executor has executed successfully)
    */
   public List<BatchResult> getSuccessfulBatchResults() {
