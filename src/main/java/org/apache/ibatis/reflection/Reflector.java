@@ -362,7 +362,6 @@ public class Reflector {
     while (currentClass != null && currentClass != Object.class) {
       //记录当前类中定义的所有方法
       addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
-
       // we also need to look for interface methods -
       // because the class may be abstract
       Class<?>[] interfaces = currentClass.getInterfaces();
@@ -372,7 +371,6 @@ public class Reflector {
       //当前类的父类  // 获取父类，继续while循环
       currentClass = currentClass.getSuperclass();
     }
-
     Collection<Method> methods = uniqueMethods.values();
     //转换成数组返回
     return methods.toArray(new Method[methods.size()]);
@@ -387,9 +385,8 @@ public class Reflector {
         //得到方法签名
         String signature = getSignature(currentMethod);
         //根据方法签名排重
-        // check to see if the method is already known
-        // if it is known, then an extended class must have
-        // overridden a method
+        // check to see if the method is already known if it is known, then an extended class must have overridden a method
+        // 检查方法是否已知如果已知，则扩展类必须重写方法
         if (!uniqueMethods.containsKey(signature)) {
           //记录签名与方法的对应关系
           uniqueMethods.put(signature, currentMethod);

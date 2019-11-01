@@ -31,7 +31,6 @@ public class Jdk {
    */
   @Deprecated
   public static final boolean dateAndTimeApiExists;
-
   static {
     boolean available = false;
     try {

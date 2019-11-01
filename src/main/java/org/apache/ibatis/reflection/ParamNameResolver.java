@@ -23,7 +23,6 @@ public class ParamNameResolver {
    * <li>aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
    * <li>aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
    * <li>aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
-   *
    */
   // 存放参数的位置和对应的参数名 在本类的构造函数中创建
   private final SortedMap<Integer, String> names;
