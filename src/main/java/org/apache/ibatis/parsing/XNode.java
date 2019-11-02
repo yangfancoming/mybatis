@@ -95,7 +95,6 @@ public class XNode {
 
   /**
    * 不明白是干什么的，反正是觉得应该是mybatis自己应用解析模式吧
-   * @return
    */
   public String getValueBasedIdentifier() {
     StringBuilder builder = new StringBuilder();
