@@ -67,7 +67,6 @@ public class PerpetualCache implements Cache {
     if (!(o instanceof Cache)) {
       return false;
     }
-
     Cache otherCache = (Cache) o;
     return getId().equals(otherCache.getId());
   }
