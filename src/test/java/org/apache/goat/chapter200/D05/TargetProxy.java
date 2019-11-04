@@ -27,7 +27,10 @@ public class TargetProxy implements InvocationHandler {
     System.out.println(" TargetProxy 前。。。");
     Object result = null;
     if (target != null){
-       result = method.invoke(target, args);
+      System.out.println("反射调用被代理对象的业务方法 方法名为："+ method.getName());
+      result = method.invoke(target, args);
+    }else {
+      System.out.println("被代理对象为空，不做反射调用！");
     }
     System.out.println(" TargetProxy 后。。。");
     return result;

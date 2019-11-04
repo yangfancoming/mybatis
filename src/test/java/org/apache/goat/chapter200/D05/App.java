@@ -45,9 +45,9 @@ public class App {
   public void test4(){
     //返回的是代理对象，实现了Target接口，
     //实际调用方法的时候，是调用TargetProxy的invoke()方法
-    Target targetProxy = (Target) TargetProxy.wrap(target);
+    Target hook = (Target) TargetProxy.wrap(target);
     // 调用顺序：TargetProxy#invoke(Object proxy, Method method, Object[] args)  ---> Target#String execute(String name);
-    targetProxy.execute(" HelloWord ");
+    hook.execute(" HelloWord ");
   }
 
 }
