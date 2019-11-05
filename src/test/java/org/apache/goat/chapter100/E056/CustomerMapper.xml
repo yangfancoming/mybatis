@@ -17,4 +17,18 @@
     SELECT * FROM customers WHERE <include refid="myTag"/>
   </select>
 
+
+
+  <sql id="table_name">
+    from ${tableName}
+  </sql>
+
+  <select id="getTest3" parameterType="int" resultType="org.apache.goat.common.Customer">
+    select *
+    <include refid="table_name">
+      <property name="tableName" value="customers" />
+    </include>
+    where id = #{id}
+  </select>
+
 </mapper>

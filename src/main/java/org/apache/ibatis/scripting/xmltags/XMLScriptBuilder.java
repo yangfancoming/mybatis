@@ -58,7 +58,7 @@ public class XMLScriptBuilder extends BaseBuilder {
      * <select resultType="org.apache.goat.common.Customer" id="getTest">
      * <if test="id!=null">
      *       and id = #{id}
-     *     </if>
+     * </if>
      * </select>
     */
     MixedSqlNode rootSqlNode = parseDynamicTags(context);

@@ -11,4 +11,6 @@ public interface CustomerMapper {
   public List<Customer> getTest(Customer employee);
 
   public List<Customer> getTest2(Customer employee);
+
+  public Customer getTest3(Integer id);
 }

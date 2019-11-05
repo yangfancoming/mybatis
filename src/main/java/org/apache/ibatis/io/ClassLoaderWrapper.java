@@ -132,7 +132,6 @@ public class ClassLoaderWrapper {
     }
     // didn't find it anywhere.
     return null;
-
   }
 
   /**
@@ -155,9 +154,7 @@ public class ClassLoaderWrapper {
         }
       }
     }
-
     throw new ClassNotFoundException("Cannot find class: " + name);
-
   }
 
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {

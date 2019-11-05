@@ -35,5 +35,13 @@ class App extends MyBaseDataTest {
     System.out.println(list);
   }
 
+  @Test
+  void test3() throws Exception  {
+    setUpByReader(XMLPATH);
+    CustomerMapper mapper = sqlSession.getMapper(CustomerMapper.class);
+    Customer test3 = mapper.getTest3(1);
+    System.out.println(test3);
+  }
+
 
 }
