@@ -7,7 +7,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
-
+/**
+ * ObjectWrapper 是一个对象包装器,提供了对Bean,Collection,Map 不同的操作方式
+*/
 public interface ObjectWrapper {
 
   Object get(PropertyTokenizer prop);

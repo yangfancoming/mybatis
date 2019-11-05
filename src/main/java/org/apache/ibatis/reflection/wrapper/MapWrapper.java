@@ -10,7 +10,9 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
-
+/**
+ * 提供了 object.getName,object.getAge 以及类似 object.getParent().getName(),object.getParent().getParent().getName() 的取值方式
+*/
 public class MapWrapper extends BaseWrapper {
 
   private final Map<String, Object> map;
@@ -22,20 +24,20 @@ public class MapWrapper extends BaseWrapper {
 
   @Override
   public Object get(PropertyTokenizer prop) {
-    if (prop.getIndex() != null) {
+    if (prop.getIndex() != null) {//accts[0]这种方式
       Object collection = resolveCollection(prop, map);
       return getCollectionValue(prop, collection);
-    } else {
+    } else {//userId这种方式
       return map.get(prop.getName());
     }
   }
 
   @Override
   public void set(PropertyTokenizer prop, Object value) {
-    if (prop.getIndex() != null) {
+    if (prop.getIndex() != null) {//accts[0]这种方式
       Object collection = resolveCollection(prop, map);
       setCollectionValue(prop, collection, value);
-    } else {
+    } else {//userId这种方式
       map.put(prop.getName(), value);
     }
   }

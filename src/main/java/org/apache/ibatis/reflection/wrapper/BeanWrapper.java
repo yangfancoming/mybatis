@@ -12,7 +12,9 @@ import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
-
+/**
+ * 提供了 object.setName,object.setAge 以及类似 object.getParent().setName(),object.getParent().getParent().setName() 的赋值方式
+*/
 public class BeanWrapper extends BaseWrapper {
 
   private final Object object;
@@ -26,22 +28,22 @@ public class BeanWrapper extends BaseWrapper {
 
   @Override
   public Object get(PropertyTokenizer prop) {
-    if (prop.getIndex() != null) {
+    if (prop.getIndex() != null) {//accts[0]方式
       Object collection = resolveCollection(prop, object);
       return getCollectionValue(prop, collection);
-    } else {
+    } else {//userId方式,反射
       return getBeanProperty(prop, object);
     }
   }
 
   @Override
   public void set(PropertyTokenizer prop, Object value) {
-    if (prop.getIndex() != null) {
+    if (prop.getIndex() != null) {//accts[0]方式
       // 当前表达式是集合，如：items[0]，就需要获取items集合对象
       Object collection = resolveCollection(prop, object);
       // 在集合的指定索引上赋值
       setCollectionValue(prop, collection, value);
-    } else {
+    } else {//userId方式,反射
       // 解析完成，通过Invoker接口做赋值操作
       setBeanProperty(prop, object, value);
     }

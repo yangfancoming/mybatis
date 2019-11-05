@@ -19,6 +19,7 @@ import java.util.Arrays;
 public class TypeParameterResolver {
 
   /**
+   * 字段类型
    * resolveFileType
    * 第一步获取字段的声明类型，
    * 第二步 获取字段定义所在的类的Class对象。
@@ -34,6 +35,7 @@ public class TypeParameterResolver {
   }
 
   /**
+   * 返回值类型
    * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>
    *         they will be resolved to the actual runtime {@link Type}s.
    */
@@ -44,6 +46,7 @@ public class TypeParameterResolver {
   }
 
   /**
+   * 参数类型
    * @return The parameter types of the method as an array of {@link Type}s. If they have type parameters in the declaration,<br>
    *         they will be resolved to the actual runtime {@link Type}s.
    */
@@ -59,7 +62,6 @@ public class TypeParameterResolver {
 
   /** 主要是根据字段类型来匹配是属于哪个类型的，然后返回
    * 获取类型信息
-   *
    * @param type 根据是否有泛型信息签名选择传入泛型类型或简单类型
    * @param srcType 引用字段/方法的类（可能是子类，字段和方法在父类声明）
    * @param declaringClass 字段/方法声明的类
