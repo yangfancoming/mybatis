@@ -22,7 +22,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource as a URL using the current class path
-   *
    * @param resource - the resource to locate
    * @return the resource or null
    */
@@ -32,7 +31,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource from the classpath, starting with a specific class loader
-   *
    * @param resource    - the resource to find
    * @param classLoader - the first classloader to try
    * @return the stream or null
@@ -43,7 +41,6 @@ public class ClassLoaderWrapper {
 
   /**
    * Get a resource from the classpath
-   *
    * @param resource - the resource to find
    * @return the stream or null
    */
