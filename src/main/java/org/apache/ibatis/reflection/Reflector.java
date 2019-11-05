@@ -29,8 +29,8 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  * allows for easy mapping between property names and getter/setter methods.
  * 缓存了反射操作需要使用的类的元信息。 允许在属性名和getter/setter方法之间轻松映射
  *
- Reflector 这个类的用途主要是是通过反射获取目标类的 getter 方法及其返回值类型，
- setter 方法及其参数值类型等元信息。并将获取到的元信息缓存到相应的集合中，供后续使用
+ Reflector 这个类的用途主要是是通过反射获取目标类的 getter 方法及其返回值类型，setter 方法及其参数值类型等元信息。
+ 并将获取到的元信息缓存到相应的集合中，供后续使用
  1. Reflector 构造方法及成员变量分析
  2. getter 方法解析过程
  3. setter 方法解析过程
@@ -152,7 +152,6 @@ public class Reflector {
         // 获取返回值类型
         Class<?> winnerType = winner.getReturnType();
         Class<?> candidateType = candidate.getReturnType();
-
         /*
          * 两个方法的返回值类型一致，若两个方法返回值类型均为 boolean，
          * 则选取 isXXX 方法为 winner。否则无法决定哪个方法更为合适，只能抛出异常
@@ -350,7 +349,6 @@ public class Reflector {
    * because we want to look for private methods as well.
    * 此方法返回一个数组，该数组包含该类中声明的所有方法和任何超类
    * 我们使用此方法不是为了代替 Class.getMethods(),因为我们想访问类中的私有方法.
-   *
    * 获取类的所有方法
    * @param cls The class
    * @return An array containing all methods in this class 包含该类中所有方法的数组
@@ -460,6 +458,7 @@ public class Reflector {
     return defaultConstructor != null;
   }
 
+  // 获取所有可读属性的 Invoker
   public Invoker getSetInvoker(String propertyName) {
     Invoker method = setMethods.get(propertyName);
     if (method == null) {
@@ -479,6 +478,7 @@ public class Reflector {
 
   /**
    * Gets the type for a property setter.
+   * // 获取对应属性的类型
    * @param propertyName - the name of the property
    * @return The Class of the property setter
    */
@@ -515,6 +515,7 @@ public class Reflector {
 
   /**
    * Gets an array of the writable properties for an object.
+   *  // 获取所有的可读属性
    * @return The array
    */
   public String[] getSetablePropertyNames() {

@@ -2,10 +2,13 @@ package org.apache.goat.chapter800;
 
 import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.ReflectorFactory;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 import org.apache.ibatis.reflection.wrapper.BeanWrapper;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
+import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,10 +25,14 @@ import java.util.Map;
  */
 public class App {
 
+  ObjectFactory objectFactory =  new DefaultObjectFactory();
+  ObjectWrapperFactory objectWrapperFactory =  new DefaultObjectWrapperFactory();
+  ReflectorFactory reflectorFactory =  new DefaultReflectorFactory();
+
   @Test
   public void testBean(){
     Animal animal = new Animal();
-    MetaObject metaObject = MetaObject.forObject(animal, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(animal, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.setValue("name","bean");
     System.out.println(animal.getName()); // bean
   }
@@ -35,7 +42,7 @@ public class App {
     Animal animal = new Animal();
     animal.setName("collection");
     List<Animal> list = new ArrayList<>();
-    MetaObject metaObject = MetaObject.forObject(list, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(list, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.add(animal);
     System.out.println(list.get(0).getName()); // collection
   }
@@ -45,16 +52,19 @@ public class App {
     Animal animal = new Animal();
     animal.setName("map");
     Map<String,Animal> map = new HashMap<>();
-    MetaObject metaObject = MetaObject.forObject(map, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(map, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.setValue("deer",animal);
     System.out.println(map.get("deer").getName()); // map
   }
+  @Test
+  public void testMap2(){
 
+  }
   @Test
   public void testTokenizer(){
     Animal animal = new Animal();
     animal.setParent(new Animal());
-    MetaObject metaObject = MetaObject.forObject(animal, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(animal, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.setValue("parent.name","tokenizer");
     System.out.println(animal.getParent().getName()); // tokenizer
   }
@@ -69,7 +79,7 @@ public class App {
     Animal animal = new Animal();
     animal.setName("collection");
     List<Animal> list = new ArrayList<>();
-    MetaObject metaObject = MetaObject.forObject(list, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(list, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.add(animal);
     Animal convert = (Animal) metaObject.getValue("[0]");
     System.out.println(convert.getName());
@@ -80,7 +90,7 @@ public class App {
     Animal animal = new Animal();
     animal.setName("customBeanWrapper");
     List<Animal> list = new ArrayList<>();
-    MetaObject metaObject = MetaObject.forObject(list, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+    MetaObject metaObject = MetaObject.forObject(list, objectFactory, objectWrapperFactory, reflectorFactory);
     metaObject.add(animal);
 
     BeanWrapper beanWrapper = new BeanWrapper(metaObject, list);
