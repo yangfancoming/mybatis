@@ -17,6 +17,8 @@
   <settings layout="Hierarchic Group" zoom="1.0" x="667.0" y="98.0" />
   <SelectedNodes>
     <node>org.apache.ibatis.reflection.ReflectorFactory</node>
+    <node>org.apache.ibatis.reflection.Reflector</node>
+    <node>org.apache.ibatis.reflection.DefaultReflectorFactory</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

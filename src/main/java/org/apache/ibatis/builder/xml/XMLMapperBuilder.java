@@ -488,6 +488,7 @@ public class XMLMapperBuilder extends BaseBuilder {
           // to prevent loading again this resource from the mapper interface
           // look at MapperAnnotationBuilder#loadXmlResource
           configuration.addLoadedResource("namespace:" + namespace);
+          // boundType ： org.apache.goat.chapter100.C010.EmployeeMapper
           configuration.addMapper(boundType);
         }
       }

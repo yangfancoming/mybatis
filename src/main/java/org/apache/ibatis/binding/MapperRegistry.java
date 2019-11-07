@@ -15,8 +15,10 @@ import org.apache.ibatis.session.SqlSession;
 /**注册和获取Mapper对象的代理 */
 public class MapperRegistry {
 
+  // Configuration 对象， MyBatis 全局唯一的配置对象，其中包含了所有配置信息
   private final Configuration config;
 
+  // 记录了 Mapper 接口与对应 MapperProxyFactory 之间的关系
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
@@ -43,11 +45,18 @@ public class MapperRegistry {
     return knownMappers.containsKey(type);
   }
 
+
   /**
+   * @Description: 包装
+   * @author fan.yang
+   * @date 2019年10月27日21:11:26
+   * @param type interface org.apache.goat.chapter100.C010.EmployeeMapper
+   * @return
+   *
    * 这里同样是扫描指定包路径地下的所有类，并且根据filter（new ResolverUtil.IsA(superType)），
    * 挑选出满足条件的类，这里的条件是Object.class，所以包底下的所有类都会被装进来，
    * 接下来就是遍历这些类然后解析了：
-  */
+   */
   public <T> void addMapper(Class<T> type) {
     if (type.isInterface()) { // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
       if (hasMapper(type)) {  //如果重复添加了，报错
@@ -57,6 +66,7 @@ public class MapperRegistry {
       try {
         //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper
         MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
+        // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
         knownMappers.put(type, tMapperProxyFactory);
         /**  验证 两个对象相同
          Class<T> mapperInterface = tMapperProxyFactory.getMapperInterface();

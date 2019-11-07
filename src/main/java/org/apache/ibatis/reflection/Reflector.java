@@ -46,10 +46,10 @@ public class Reflector {
   // 可写属性的名称集合  即存在对应的 setter 方法的属性
   private final String[] writablePropertyNames;
 
-  // 记录了属性响应的 setter 方法  key是属性的名称  value 是 Invoker 对象
+  // 记录了属性相应的 setter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> setMethods = new HashMap<>();
 
-  // 记录了属性响应的 getter 方法  key是属性的名称  value 是 Invoker 对象
+  // 记录了属性相应的 getter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> getMethods = new HashMap<>();
 
   // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
@@ -58,7 +58,7 @@ public class Reflector {
   // 记录了 相应的 getter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();
 
-  // 默认构造方法
+  // 记录了 默认构造方法
   private Constructor<?> defaultConstructor;
 
   // 记录所有属性名称的集合
@@ -360,8 +360,7 @@ public class Reflector {
     while (currentClass != null && currentClass != Object.class) {
       //记录当前类中定义的所有方法
       addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
-      // we also need to look for interface methods -
-      // because the class may be abstract
+      // we also need to look for interface methods - because the class may be abstract
       Class<?>[] interfaces = currentClass.getInterfaces();
       for (Class<?> anInterface : interfaces) {
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
