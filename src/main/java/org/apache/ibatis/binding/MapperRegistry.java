@@ -45,7 +45,6 @@ public class MapperRegistry {
     return knownMappers.containsKey(type);
   }
 
-
   /**
    * @Description: 包装
    * @author fan.yang
@@ -55,7 +54,7 @@ public class MapperRegistry {
    *
    * 这里同样是扫描指定包路径地下的所有类，并且根据filter（new ResolverUtil.IsA(superType)），
    * 挑选出满足条件的类，这里的条件是Object.class，所以包底下的所有类都会被装进来，
-   * 接下来就是遍历这些类然后解析了：
+   * 接下来就是遍历这些类然后解析了
    */
   public <T> void addMapper(Class<T> type) {
     if (type.isInterface()) { // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
