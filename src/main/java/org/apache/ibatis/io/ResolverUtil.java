@@ -146,10 +146,9 @@ public class ResolverUtil<T> {
   }
 
   /**
-   * Attempts to discover classes that are assignable to the type provided. In the case
-   * that an interface is provided this method will collect implementations. In the case
-   * of a non-interface class, subclasses will be collected.  Accumulated classes can be
-   * accessed by calling {@link #getClasses()}.
+   * Attempts to discover classes that are assignable to the type provided.
+   * In the case that an interface is provided this method will collect implementations.
+   *  In the case of a non-interface class, subclasses will be collected.  Accumulated classes can be accessed by calling {@link #getClasses()}.
    * @param parent the class of interface to find subclasses or implementations of
    * @param packageNames one or more package names to scan (including subpackages) for classes
    */
