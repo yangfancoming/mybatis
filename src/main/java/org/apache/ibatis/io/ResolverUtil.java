@@ -224,8 +224,7 @@ public class ResolverUtil<T> {
   }
 
   /**
-   * Add the class designated by the fully qualified class name provided to the set of
-   * resolved classes if and only if it is approved by the Test supplied.
+   * Add the class designated by the fully qualified class name provided to the set of resolved classes if and only if it is approved by the Test supplied.
    * @param test the test used to determine if the class matches
    * @param fqn the fully qualified name of a class
    */
