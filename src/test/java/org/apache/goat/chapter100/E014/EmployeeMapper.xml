@@ -5,8 +5,6 @@
 <mapper namespace="org.apache.goat.chapter100.E014.EmployeeMapper">
 
 
-
-
   <!--   联合查询：级联属性封装结果集
     场景一：
         查询Employee的同时查询员工对应的部门
