@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.apache.goat.chapter100.C.C030.UserMapper">
+
+  <!-- 注意： 这里的 #{createTime, jdbcType=DATE} 中的 DATE 必须大写否则报错 -->
+
+	<insert id="insert">
+		insert into sys_user(
+			user_name, user_password, user_email, 
+			user_info, head_img, create_time)
+		values(
+			#{userName}, #{userPassword}, #{userEmail}, 
+			#{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=TIMESTAMP})
+	</insert>
+
+  <insert id="insert2">
+    insert into sys_user(
+      user_name, user_password, user_email,
+      user_info, head_img, create_time)
+    values(
+            #{userName}, #{userPassword}, #{userEmail},
+            #{userInfo}, #{headImg, jdbcType=BLOB}, #{createTime, jdbcType=DATE})
+  </insert>
+</mapper>

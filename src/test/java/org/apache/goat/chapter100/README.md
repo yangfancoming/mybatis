@@ -36,7 +36,7 @@
     C010 局部xml 之  参数处理 之  Map
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
     
-    C030 局部xml 之  <insert><selectKey> Oracle 新增 获取序列 主键 
+    C030 局部xml 之  <insert> 
     
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 

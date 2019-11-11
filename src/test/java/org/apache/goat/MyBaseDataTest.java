@@ -21,7 +21,6 @@ public abstract class MyBaseDataTest {
 
   public static SqlSessionFactory sqlSessionFactory;
 
-
   /** Reader 使用内存数据库 */
   public void setUpByReader(String xmlPath,String dbSql) throws Exception {
     try (Reader reader = Resources.getResourceAsReader(xmlPath)) {
