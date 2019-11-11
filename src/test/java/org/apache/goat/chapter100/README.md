@@ -40,6 +40,8 @@
     C040 局部xml 之  <update> 
     C050 局部xml 之  <delete> 
     
+    
+    
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 
     E004  返回  Map 
@@ -56,6 +58,8 @@
 
 # 局部xml 之  动态sql
      E050  局部xml  动态SQL 之  <if> 标签
+     E051  局部xml  动态SQL 之  <if> 标签
+     E052  局部xml  动态SQL 之  <if> 标签
      E054  局部xml  动态SQL 之  <where> 标签
      E056  局部xml  动态SQL 之  <sql> 和 <include> 标签 
      E060  局部xml  <selectKey> 标签

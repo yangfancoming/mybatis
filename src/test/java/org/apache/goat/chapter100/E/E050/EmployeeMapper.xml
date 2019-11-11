@@ -16,16 +16,13 @@
   <!--  &quot; 为双引号 “ 的转义字符  -->
   <!--  &amp; 为 and/&&  的转义字符  -->
   <select id="getEmpsByConditionIf" resultType="org.apache.goat.common.Employee2">
-
     select * from tbl_employee where 1=1
-
     <if test="id!=null">
       and id = #{id}
     </if>
     <if test="lastName!=null &amp;&amp; lastName!=&quot;&quot;">
       and last_name like #{lastName}
     </if>
-
     <if test="email!=null and email.trim()!=&quot;&quot;">
       and email=#{email}
     </if>
