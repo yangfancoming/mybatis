@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.apache.goat.chapter100.E.E066.UserMapper">
+
+<!--
+  trim 标签有如下属性。
+  prefix ：当 trim 元素内包含内容时，会给内容增加 prefix 指定的前缀。
+  prefixOverrides ：当 trim 元素内包含内容时，会把内容中匹配的前缀字符串去掉。
+  suffix ：当 trim 元素内包含内容时，会给内容增加 suffix 指定的后缀。
+  suffixOverrides ：当 trim 元素内包含内容时，会把内容中匹配的后缀字符串去掉。
+
+-->
+</mapper>
