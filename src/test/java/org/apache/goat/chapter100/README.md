@@ -67,7 +67,8 @@
      E062  局部xml  动态SQL 之   <where> 
      E064  局部xml  动态SQL 之   <set>
      E066  局部xml  动态SQL 之   <trim>
-     E070  局部xml  动态SQL 之   <foreach>
+     E070  局部xml  动态SQL 之   <foreach> 用于 sql in 查询
+     E072  局部xml  动态SQL 之   <foreach> 用于 sql 批量插入
 
 
 #   缓存
