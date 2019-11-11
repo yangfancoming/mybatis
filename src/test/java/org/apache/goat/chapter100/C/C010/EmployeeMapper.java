@@ -13,6 +13,7 @@ public interface EmployeeMapper {
   public Employee getEmpByIdAndLastName(Integer id,String lastName);
 
   public Employee getEmpByIdAndLastName1(Integer id,String lastName);
+
   public Employee getEmpByIdAndLastName2(Integer id,String lastName);
 
   public Employee getEmpByIdAndLastName3(@Param("id") Integer id,@Param("lastName") String lastName);

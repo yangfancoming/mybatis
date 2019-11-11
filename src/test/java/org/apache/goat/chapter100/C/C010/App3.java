@@ -11,7 +11,7 @@ class App3 extends MyBaseDataTest {
   public static final String DBSQL = "org/apache/goat/common/CreateDB2.sql";
 
   /**
-   * 命名参数
+   * 命名参数 @Param("id") 注解
    * 由于 使用 [arg1, arg0, param1, param2] 这种方式 在很多参数的情况下  参数名会觉得非常蛋疼
    * 因此 命名参数方式 应运而生
    *      命名参数：@param("明确指定参数名")
