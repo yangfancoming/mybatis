@@ -82,7 +82,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   public void parse() {
     // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了 //判断是否已经加载过资源
     if (!configuration.isResourceLoaded(resource)) {
-      //从mapper根节点开始解析 // 解析<mapper>节点
+      //从<mapper> 根节点开始解析
       configurationElement(parser.evalNode("/mapper"));
       // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
       // 将该资源添加到为已经加载过的缓存中

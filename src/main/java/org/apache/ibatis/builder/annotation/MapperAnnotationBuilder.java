@@ -159,23 +159,28 @@ public class MapperAnnotationBuilder {
     // spring可能不知道真正的资源名，所以我们检查一个标志以防止再次加载一个资源两次
     // this flag is set at XMLMapperBuilder#bindMapperForNamespace
     if (!configuration.isResourceLoaded("namespace:" + type.getName())) {
-      //这里发现它会去加载跟Class文件同一目录下且同名的xml配置文件
+      /**
+       *  这里发现它会去加载跟Class文件同一目录下且同名的xml配置文件
+       *  xmlResource ： org/apache/goat/chapter100/A044/ZooMapper.xml
+      */
       String xmlResource = type.getName().replace('.', '/') + ".xml";
       // #1347
       InputStream inputStream = type.getResourceAsStream("/" + xmlResource);
       if (inputStream == null) {
-        // Search XML mapper that is not in the module but in the classpath.
+        // Search XML mapper that is not in the module but in the classpath. 搜索不在模块中但在类路径中的XML映射器。
         try {
           inputStream = Resources.getResourceAsStream(type.getClassLoader(), xmlResource);
         } catch (IOException e2) {
-          // ignore, resource is not required
-          //这里发现找不到相应的xml配置文件也没关系，这里其实它认为有其他两种方式实现
-          //1.SqlsessionFactory指定了mapperLocations
-          //2.Class类上有注解形式代替了xml配置
+          /**
+           *  ignore, resource is not required
+           *  这里发现找不到相应的xml配置文件也没关系，这里其实它认为有其他两种方式实现
+           *  1.SqlsessionFactory指定了mapperLocations
+           *  2.Class类上有注解形式代替了xml配置
+          */
         }
       }
       if (inputStream != null) {
-        //解析相应的mapper xml
+        //解析相应的mapper xml // 解析局部配置文件 解析局部xml配置
         XMLMapperBuilder xmlParser = new XMLMapperBuilder(inputStream, assistant.getConfiguration(), xmlResource, configuration.getSqlFragments(), type.getName());
         xmlParser.parse();
       }

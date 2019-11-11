@@ -19,8 +19,10 @@ import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
-// XMLStatementBuilder 用来解析 局部配置文件中的SQL语句
-// 用于缓存、sql参数、查询返回的结果集处理
+/**
+ *  XMLStatementBuilder 用来解析 局部配置文件中的SQL语句
+ *  用于缓存、sql参数、查询返回的结果集处理
+*/
 public class XMLStatementBuilder extends BaseBuilder {
 
   private final MapperBuilderAssistant builderAssistant;

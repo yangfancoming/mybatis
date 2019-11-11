@@ -56,15 +56,15 @@ public class ResolverUtil<T> {
    */
   public interface Test {
     /**
-     * Will be called repeatedly with candidate classes. Must return True if a class
-     * is to be included in the results, false otherwise.
+     * Will be called repeatedly with candidate classes. Must return True if a class is to be included in the results, false otherwise.
+     * 将与候选类一起重复调用。如果要在结果中包含类，则必须返回True，否则返回false。
      */
     boolean matches(Class<?> type);
   }
 
   /**
-   * A Test that checks to see if each class is assignable to the provided class. Note
-   * that this test will match the parent type itself if it is presented for matching.
+   * A Test that checks to see if each class is assignable to the provided class. Note that this test will match the parent type itself if it is presented for matching.
+   * 检查每个类是否可分配给所提供类的测试。请注意，如果父类型是为匹配而呈现的，则此测试将匹配父类型本身。
    */
   public static class IsA implements Test {
     private Class<?> parent;

@@ -50,8 +50,9 @@ public class MapperRegistry {
    * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param type interface org.apache.goat.chapter100.C010.EmployeeMapper
+   * @param type interface org.apache.goat.chapter100.A044.ZooMapper
+   * @param type class org.apache.goat.chapter100.A044.App
    * @return
-   *
    * 这里同样是扫描指定包路径地下的所有类，并且根据filter（new ResolverUtil.IsA(superType)），
    * 挑选出满足条件的类，这里的条件是Object.class，所以包底下的所有类都会被装进来，
    * 接下来就是遍历这些类然后解析了
@@ -74,9 +75,7 @@ public class MapperRegistry {
          */
 
         /**
-         It's important that the type is added before the parser is run
-         otherwise the binding may automatically be attempted by the
-         mapper parser. If the type is already known, it won't try.
+         It's important that the type is added before the parser is run otherwise the binding may automatically be attempted by the mapper parser. If the type is already known, it won't try.
          在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试
          解析接口上的注解或者加载mapper配置文件生成mappedStatement
         */
@@ -102,6 +101,8 @@ public class MapperRegistry {
 
   /**
    * @since 3.2.2
+   * @param packageName org.apache.goat.chapter100.A044
+   * @param superType Object.class
    * 根据注解生成mappedstatemnet：
    * configuration会把工作委托给MapperRegistry去做，MapperRegistry会持有所有被解析的接口（运行时生成动态代理用），
    * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
@@ -109,8 +110,16 @@ public class MapperRegistry {
   public void addMappers(String packageName, Class<?> superType) {
     //查找包下所有是superType的类
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
+    // 给 ResolverUtil类的 matches 赋值
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
+    // 从 ResolverUtil类的 matches 中获取
     Set<Class<? extends Class<?>>> mapperSet = resolverUtil.getClasses();
+    /**
+     * mapperSet 集合：
+     * interface org.apache.goat.chapter100.A044.ZooMapper
+     * class org.apache.goat.chapter100.A044.App
+     * interface org.apache.goat.chapter100.A044.FooMapper
+    */
     for (Class<?> mapperClass : mapperSet) {
       addMapper(mapperClass);
     }
@@ -119,6 +128,7 @@ public class MapperRegistry {
   /**
    * @since 3.2.2
    * 查找包下所有类
+   * @param packageName org.apache.goat.chapter100.A044
    */
   public void addMappers(String packageName) {
     addMappers(packageName, Object.class);
