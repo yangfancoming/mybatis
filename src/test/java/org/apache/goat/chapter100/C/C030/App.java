@@ -9,7 +9,7 @@ import java.util.Date;
 
 class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/C/C004/mybatis-config.xml";
+  public static final String XMLPATH = "org/apache/goat/chapter100/C/C030/mybatis-config.xml";
 
   /**
    * 对应局部xml文件 #{createTime, jdbcType=TIMESTAMP}

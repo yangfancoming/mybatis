@@ -13,6 +13,10 @@
     <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
   </resultMap>
 
+  <select id="selectById" resultMap="userMap">
+    select * from sys_user where id = #{id}
+  </select>
+
   <update id="updateById">
     update sys_user
     set user_name = #{userName},
@@ -24,7 +28,5 @@
     where id = #{id}
   </update>
 
-  <select id="selectById" resultMap="userMap">
-    select * from sys_user where id = #{id}
-  </select>
+
 </mapper>
