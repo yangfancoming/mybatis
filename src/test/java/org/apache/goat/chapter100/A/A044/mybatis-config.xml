@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+
+  <environments default="development">
+
+    <environment id="development">
+
+      <transactionManager type="JDBC">
+        <property name="" value="" />
+      </transactionManager>
+
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:mem:cache" />
+        <property name="username" value="sa" />
+      </dataSource>
+
+    </environment>
+
+  </environments>
+
+  <mappers>
+    <!-- 批量注册： 写的是包名-->
+    <package name="org.apache.goat.chapter100.A.A044"/>
+  </mappers>
+</configuration>
