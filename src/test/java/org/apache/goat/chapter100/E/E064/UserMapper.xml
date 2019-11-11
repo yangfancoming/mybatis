@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.apache.goat.chapter100.E.E064.UserMapper">
+
+  <!--
+  set 标签的作用：如果该标签包含的元素中有返回值，就插入一个 set ：
+                  如果 set 后面的字符串是 以逗号结尾的，就将这个逗号剔除 。
+
+  在 set 标签的用法中 ， SQL 后面的逗号没有问题了，但是如果 set 元素中没有内容，照样会出现 SQL 错误，
+  所以为了避免错误产生，类似 id = #{id｝这样必然存在的赋值仍然有保留的必要。
+  从这一点来看， set 标签并没有解决全部的问题，使用时仍然需要注意。
+  -->
+
+
+  <update id="updateByIdSelective">
+    update sys_user
+    <set>
+      <if test="userName != null and userName != ''">
+        user_name = #{userName},
+      </if>
+      <if test="userPassword != null and userPassword != ''">
+        user_password = #{userPassword},
+      </if>
+      <if test="userEmail != null and userEmail != ''">
+        user_email = #{userEmail},
+      </if>
+      <if test="userInfo != null and userInfo != ''">
+        user_info = #{userInfo},
+      </if>
+      <if test="headImg != null">
+        head_img = #{headImg, jdbcType=BLOB},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime, jdbcType=TIMESTAMP},
+      </if>
+      id = #{id},
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>
