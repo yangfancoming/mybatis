@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.goat.chapter100.E.E010.EmployeeMapper">
+
+  <!--
+   resultMap  标签用于配置 Java 对象的属性和查询结果列的对应关系，通过 resultMap
+   中配置的 column 和 property 可以将查询列的值映射到 type 对象的属性上，因此当我们使
+   用select * 查询所有列的时候， MyBatis 也可以将结果正确地映射到 Employee 对象上
+
+   <resultMap> 标签包含的所有属性如下：
+     id：必填，并且唯一   在 select 标签中， resultMap 指定的值即为此处 id 所设置的值。
+     type ：必填，用于配置查询列所映射到的 Java 对象类型。
+     extends ： 选填，可以配置当前的resultMap继承自其他的resultMap ，属性值为继承 resultMap 的 id 。
+     autoMapping ：选填，可选值为 true 或 false ，用于配置是否启用非映射字段（没有在 resultMap 中配置的字段)的自动映射功能 ， 该配置可以覆盖全局的autoMappingBehavior 配置。
+
+  以上是<resultMap> 标签包含的所有属性， <resultMap> 包含的所有子标签如下：
+    <constructor>  ： 配置使用构造方法注入结果，包含以下两个子标签 。
+      idArg: id 参数，标记结果作为 id （唯一值），可以帮助提高整体性能。
+      arg：注入到构造方法的一个普通结果。
+    <id> ： 一个 id 结果，标记结果作为 id （唯一值），可以帮助提高整体性能
+    <result> ： 注入到 Java 对象属性的普通结果
+    <association>  ： 一个复杂的类型关联，许多结果将包成这种类型
+    <collection>  ： 复杂类型的集合
+    <discriminator>  ：根据结果值来决定使用哪个结果映射
+    case ： 基于某些值的结果映射。
+    -->
+
+   <!-- 自定义某个javaBean的封装规则 type：自定义规则的Java类型 id：唯一id方便引用  -->
+  <resultMap id="MySimpleEmp" type="org.apache.goat.common.Employee" >
+    <!--指定主键列的封装规则   id定义主键会底层有优化 property：指定对应的javaBean属性  column：指定哪一列    -->
+    <id property="id" column="id" />
+    <!-- 定义普通列封装规则 -->
+    <result property="lastName" column="last_name" />
+    <!-- 其他不指定的列会自动封装：我们只要写resultMap就把全部的映射规则都写上。 -->
+    <result property="email" column="email" />
+    <result property="gender" column="gender" />
+  </resultMap>
+
+
+  <!-- resultMap:自定义结果集映射规则；  -->
+  <!-- public Employee getEmpById(Integer id); -->
+  <select id="getEmpById"  resultMap="MySimpleEmp">
+    select * from tbl_employee where id=#{id}
+  </select>
+
+  <select id="getEmpById2" resultType="org.apache.goat.common.Employee">
+    select * from tbl_employee where id = #{id}
+  </select>
+
+
+</mapper>

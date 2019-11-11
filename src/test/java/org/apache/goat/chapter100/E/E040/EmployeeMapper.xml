@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.E.E040.EmployeeMapper">
+
+
+
+  <select id="getEmpById" resultMap="MyEmpDis" >
+    select * from tbl_employee where id = #{id}
+  </select>
+
+  <!-- =======================鉴别器============================ -->
+  <!-- <discriminator javaType=""></discriminator>
+        鉴别器：mybatis可以使用discriminator判断某列的值，然后根据某列的值改变封装行为
+        封装Employee：
+            如果查出的是女生：就把部门信息查询出来，否则不查询；
+            如果是男生，把last_name这一列的值赋值给email;
+     -->
+
+  <resultMap type="org.apache.goat.common.Employee2" id="MyEmpDis">
+    <id column="id" property="id"/>
+    <result column="last_name" property="lastName"/>
+    <result column="email" property="email"/>
+    <result column="gender" property="gender"/>
+
+    <!-- column：指定判定的列名 javaType：列值对应的java类型  -->
+    <discriminator javaType="string" column="gender">
+      <!--女生  resultType:指定封装的结果类型；不能缺少。/resultMap-->
+      <case value="0" resultType="org.apache.goat.common.Employee2">
+        <association property="dept"
+                     select="org.apache.goat.chapter100.E.E040.DepartmentMapper.getDeptById"
+                     column="id">
+        </association>
+      </case>
+      <!--男生 ;如果是男生，把last_name这一列的值赋值给email; -->
+      <case value="1" resultType="org.apache.goat.common.Employee2">
+        <id column="id" property="id"/>
+        <result property="lastName" column="last_name" />
+        <result property="email" column="last_name" />
+        <result property="gender" column="gender" />
+      </case>
+    </discriminator>
+  </resultMap>
+
+
+</mapper>

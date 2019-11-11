@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.E.E024.EmployeeMapper">
+
+  <!-- 使用 association 进行分步查询：
+        1、先按照员工id查询员工信息
+        2、根据查询员工信息中的d_id值去部门表查出部门信息
+        3、将部门设置到员工中；
+     -->
+
+  <resultMap type="org.apache.goat.common.Employee2" id="MyEmpByStep">
+
+    <id property="id" column="id" />
+    <result property="lastName" column="last_name" />
+    <result property="email" column="email" />
+    <result property="gender" column="gender" />
+
+    <!-- association 定义关联对象的封装规则
+        流程：使用select指定的方法（传入column指定的这列参数的值）查出对象，并封装给property指定的属性
+            select:表明当前属性是调用select指定的方法查出的结果
+            column:指定将 步骤一中的返回字段  传给 getDeptById 这个方法
+         -->
+    <association column="d_id" select="org.apache.goat.chapter100.E.E024.DepartmentMapper.getDeptById" property="dept"  />
+
+  </resultMap>
+
+  <select id="getEmpByIdStep" resultMap="MyEmpByStep">
+    select id, last_name, gender, email, d_id from tbl_employee  where id=#{id}
+  </select>
+
+
+
+
+
+
+
+</mapper>

@@ -1,6 +1,7 @@
 
 package org.apache.goat;
 
+
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;

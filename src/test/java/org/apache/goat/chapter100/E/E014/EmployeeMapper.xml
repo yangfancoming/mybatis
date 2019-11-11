@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.E.E014.EmployeeMapper">
+
+
+  <!--   联合查询：级联属性封装结果集
+    场景一：
+        查询Employee的同时查询员工对应的部门
+        1.sql中返回的字段 === column
+           e.id as empId,e.email,e.last_name ,e.gender,
+           d.id as deptId ,d.dept_name
+        2. 对应 javaBean对象中的属性 ===  property
+   -->
+  <resultMap type="org.apache.goat.common.Employee2" id="MyDifEmp">
+    <id property="id" column="empId" />
+    <result property="lastName" column="last_name"/>
+    <result property="email" column="email"/>
+    <result property="gender" column="gender" />
+    <result property="dept.id" column="deptId" />
+    <result property="dept.departmentName" column="dept_name" />
+  </resultMap>
+
+
+  <select id="getEmpAndDept" resultMap="MyDifEmp">
+    select e.id as empId,e.email,e.last_name ,e.gender,
+           d.id as deptId ,d.dept_name
+    from tbl_employee e left join tbl_dept d
+    on e.d_id = d.id
+    where e.id = #{id}
+  </select>
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.E.E034.DepartmentMapper">
+
+  <!-- collection：分段查询 -->
+  <resultMap type="org.apache.goat.common.Department" id="MyDeptStep">
+
+    <id property="id" column="id" />
+    <id property="departmentName" column="dept_name" />
+
+    <!--单列参数传递   column="id"  和  column="{deptId=id}"  两种写法都可以-->
+    <collection
+      column="id"
+      select="org.apache.goat.chapter100.E.E034.EmployeeMapper.getEmpsByDeptId"
+      property="emps">
+    </collection>
+
+  </resultMap>
+
+
+  <select id="getDeptByIdStep" resultMap="MyDeptStep">
+    select id,dept_name from tbl_dept where id=#{id}
+  </select>
+
+</mapper>
