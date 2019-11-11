@@ -23,4 +23,13 @@ class App extends MyBaseDataTest {
     System.out.println(employee);
   }
 
+  @Test
+  void addEmp2() throws Exception  {
+    setUpByReader(XMLPATH);
+    EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+    Employee employee = new Employee("goat","642744551@qq.com","1");
+    mapper.addEmp2(employee);
+    System.out.println(employee);
+  }
+
 }

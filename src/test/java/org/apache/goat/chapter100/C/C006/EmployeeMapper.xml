@@ -27,10 +27,24 @@
 
   <!-- 2.先插入数据库后，再查询出已经插入记录的主键id   注意： 该种情况再多线程情况下容易出现问题  还是推荐使用 BEFORE 方式 -->
   <insert id="addEmp" databaseId="oracle">
+    insert into employees(EMPLOYEE_ID,LAST_NAME,EMAIL)
+    values(EMPLOYEES_SEQ.nextval,#{lastName},#{email})
     <selectKey keyProperty="id" order="AFTER" resultType="Integer">
       select EMPLOYEES_SEQ.currval from dual  <!-- 查询当前最大的序列id -->
     </selectKey>
-    insert into employees(EMPLOYEE_ID,LAST_NAME,EMAIL)
-    values(EMPLOYEES_SEQ.nextval,#{lastName},#{email})
   </insert>
+
 </mapper>
+
+
+<!-- 以下是其他一些支持主键自增的数据库配置 selectKey中回写主键的 SQL
+  • DB2 使用 VALUES IDENTITY VAL LOCAL （） 。
+  • MYSQL 使用 SELECT LAST_INSERT_ID （） 。
+  • SQLSERVER 使用 SELECT SCOPE IDENTITY （）。
+  • CLOUDSCAPE 使用 VALUES IDENTITY VAL LOCAL （） 。
+  • DERBY 使用 VALUES IDENTITY VAL LOCAL （） 。
+  • HSQLDB 使用 CALL IDENTITY （） 。
+  • SYBASE 使用 SELE CT @@IDENTITY 。
+  • DB2 MF 使用 SELECT IDENTITY VAL LOCAL（） FROM SYSIBM. SYSDUMMYl 。
+  • 时FORMIX 使用 select dbinfo ('sqlea. sqlerrdl') from systables where tabid=l 。
+  -->

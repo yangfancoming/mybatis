@@ -6,4 +6,6 @@ public interface EmployeeMapper {
 
 	public Long addEmp(Employee employee);
 
+	public Long addEmp2(Employee employee);
+
 }
