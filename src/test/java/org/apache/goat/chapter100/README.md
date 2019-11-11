@@ -38,6 +38,7 @@
     
     C030 局部xml 之  <insert> 
     C040 局部xml 之  <update> 
+    C050 局部xml 之  <delete> 
     
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 
