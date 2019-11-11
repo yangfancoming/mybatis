@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.apache.goat.chapter100.E.E058.UserMapper">
+
+  <!--
+  上一节的 <if> 标签提供了基本的条件判断，但是它无法实现 if. . . else 、 if ... else ...的逻辑，
+  要想实现这样的逻辑，就需要用到 choose when otherwise 标签。
+  <choose> 标签中包含 <when> 和 <otherwise> 两个标签，一个 choose 中至少有一个 when ，有 0 个或者 l 个otherwise 。
+  在己有的 sys user 表中，除了主键 id 外，我们认为 user_name （用户名）也是唯一的，所有的用户名都不可以重复 。
+  现在进行如下查询：当参数 id 有值的时候优先使用 id 查询，当 id 没有值时就去判断用户名是否有值，
+  如果有值就用用户名查询，如果用户名也没有值，就使SQL查询无结果
+  -->
+  <select id="selectByIdOrUserName" resultType="org.apache.goat.model.SysUser">
+    select id,
+    user_name userName,
+    user_password userPassword,
+    user_email userEmail,
+    user_info userInfo,
+    head_img headImg,
+    create_time createTime
+    from mybatis.sys_user
+    where 1 = 1
+
+    <choose>
+      <when test="id != null">
+        and id = #{id}
+      </when>
+      <when test="userName != null and userName != ''">
+        and user_name = #{userName}
+      </when>
+      <otherwise>
+        limit 0
+      </otherwise>
+    </choose>
+
+  </select>
+
+</mapper>

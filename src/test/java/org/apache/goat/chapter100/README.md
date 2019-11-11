@@ -62,6 +62,7 @@
      E052  局部xml  动态SQL 之  <if> 标签
      E054  局部xml  动态SQL 之  <where> 标签
      E056  局部xml  动态SQL 之  <sql> 和 <include> 标签 
+     E058  局部xml  动态SQL 之   <choose> <when> <otherwise>
      E060  局部xml  <selectKey> 标签
 
 

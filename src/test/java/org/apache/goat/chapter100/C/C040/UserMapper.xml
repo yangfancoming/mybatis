@@ -14,7 +14,7 @@
   </resultMap>
 
   <select id="selectById" resultMap="userMap">
-    select * from sys_user where id = #{id}
+    select * from mybatis.sys_user where id = #{id}
   </select>
 
   <update id="updateById">
