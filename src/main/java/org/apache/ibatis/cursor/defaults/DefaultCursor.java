@@ -33,23 +33,10 @@ public class DefaultCursor<T> implements Cursor<T> {
   private int indexWithRowBound = -1;
 
   private enum CursorStatus {
-
-    /**
-     * A freshly created cursor, database ResultSet consuming has not started.
-     */
-    CREATED,
-    /**
-     * A cursor currently in use, database ResultSet consuming has started.
-     */
-    OPEN,
-    /**
-     * A closed cursor, not fully consumed.
-     */
-    CLOSED,
-    /**
-     * A fully consumed cursor, a consumed cursor is always closed.
-     */
-    CONSUMED
+    CREATED, // A freshly created cursor, database ResultSet consuming has not started.
+    OPEN, // A cursor currently in use, database ResultSet consuming has started.
+    CLOSED, //  A closed cursor, not fully consumed.
+    CONSUMED// A fully consumed cursor, a consumed cursor is always closed.
   }
 
   public DefaultCursor(DefaultResultSetHandler resultSetHandler, ResultMap resultMap, ResultSetWrapper rsw, RowBounds rowBounds) {
@@ -125,7 +112,6 @@ public class DefaultCursor<T> implements Cursor<T> {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-
     T next = objectWrapperResultHandler.result;
     if (next != null) {
       indexWithRowBound++;
@@ -136,7 +122,6 @@ public class DefaultCursor<T> implements Cursor<T> {
       status = CursorStatus.CONSUMED;
     }
     objectWrapperResultHandler.result = null;
-
     return next;
   }
 
@@ -160,7 +145,6 @@ public class DefaultCursor<T> implements Cursor<T> {
   }
 
   private class CursorIterator implements Iterator<T> {
-
     /**
      * Holder for the next object to be returned.
      */
