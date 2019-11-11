@@ -66,7 +66,7 @@
      E060  局部xml  <selectKey> 标签
      E062  局部xml  动态SQL 之   <where> 
      E064  局部xml  动态SQL 之   <set>
-     E066  局部xml  动态SQL 之   <trim>
+     E066  局部xml  动态SQL 之   <trim>  ---- 暂时为空项目
      E070  局部xml  动态SQL 之   <foreach> 用于 sql in 查询
      E072  局部xml  动态SQL 之   <foreach> 用于 sql 批量插入
 
