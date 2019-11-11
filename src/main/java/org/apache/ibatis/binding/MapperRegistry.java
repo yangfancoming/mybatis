@@ -76,7 +76,7 @@ public class MapperRegistry {
 
         /**
          It's important that the type is added before the parser is run otherwise the binding may automatically be attempted by the mapper parser. If the type is already known, it won't try.
-         在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试
+         在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试。
          解析接口上的注解或者加载mapper配置文件生成mappedStatement
         */
         //这里就是关键处理类了，对可能存在注解的MapperInterface接口进行处理

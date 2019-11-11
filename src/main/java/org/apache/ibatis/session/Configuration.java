@@ -978,6 +978,10 @@ public class Configuration {
       return this;
     }
 
+    /**
+     * 通过代码可以看出，重写put方法重要是为了，当key值有重复时，抛出异常。
+     * 而不像原生map那样 直接覆盖掉之前的键值
+    */
     @Override
     @SuppressWarnings("unchecked")
     public V put(String key, V value) {
@@ -995,7 +999,6 @@ public class Configuration {
       return super.put(key, value);
     }
 
-    // 通过代码可以看出，重写put方法重要是为了，当key值有重复时，抛出异常。
     @Override
     public V get(Object key) {
       V value = super.get(key);
