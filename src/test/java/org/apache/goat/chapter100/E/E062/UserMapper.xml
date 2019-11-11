@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.apache.goat.chapter100.E.E062.UserMapper">
+
+  <!--
+    where 标签的作用：如果该标签包含的元素中有返回值，就插入一个 where ；
+                      如果 where后面的字符串是以 AND 和 OR 开头的，就将它们剔除。
+
+当 if 条件都不满足的时候， where 元素中没有内容，所以在 SQL 中不会出现 where
+当 if 条件满足， where 元素的内容就是以 and 开头的条件，where 会自动去掉开头的 and，这也能保证 where 条件正确 。
+这种情况下生成的 SQL 更干净、更贴切，不会在任何情况下都有 where 1 = 1 这样的条件 。
+  -->
+
+  <select id="selectByUser" resultType="org.apache.goat.model.SysUser">
+    select id,
+    user_name userName,
+    user_password userPassword,
+    user_email userEmail,
+    user_info userInfo,
+    head_img headImg,
+    create_time createTime
+    from mybatis.sys_user
+    <where>
+      <if test="userName != '' and userName != null">
+        and user_name like concat('%', #{userName}, '%')
+      </if>
+      <if test="userEmail != '' and userEmail != null">
+        and user_email = #{userEmail}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -64,6 +64,7 @@
      E056  局部xml  动态SQL 之  <sql> 和 <include> 标签 
      E058  局部xml  动态SQL 之   <choose> <when> <otherwise>
      E060  局部xml  <selectKey> 标签
+     E062  局部xml  动态SQL 之   <where> <set> <trim>  
 
 
 #   缓存
