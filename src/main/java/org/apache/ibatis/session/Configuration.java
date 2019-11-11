@@ -1000,6 +1000,8 @@ public class Configuration {
     public V get(Object key) {
       V value = super.get(key);
       if (value == null) {
+        // name： Mapped Statements collection
+        // key ： org.apache.goat.chapter100.A044.FooMapper.selectById
         throw new IllegalArgumentException(name + " does not contain value for " + key);
       }
       if (value instanceof Ambiguity) {
@@ -1009,6 +1011,7 @@ public class Configuration {
     }
 
     protected static class Ambiguity {
+
       final private String subject;
 
       public Ambiguity(String subject) {

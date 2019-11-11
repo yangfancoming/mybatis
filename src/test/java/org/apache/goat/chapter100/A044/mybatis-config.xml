@@ -26,6 +26,6 @@
 
   <mappers>
     <!-- 批量注册： 写的是包名-->
-    <package name="org.apache.goat.chapter100.A044"/>
+    <!--<package name="org.apache.goat.chapter100.A044"/>-->
   </mappers>
 </configuration>

@@ -216,7 +216,7 @@ public class ResolverUtil<T> {
 
   /**
    * Converts a Java package name to a path that can be looked up with a call to {@link ClassLoader#getResources(String)}.
-   * 将Java包名转换为可通过调用 getResources查找的路径
+   * 将Java包名转换为可通过调用ClassLoader类的getResources方法查找的路径
    * @param packageName The Java package name to convert to a path
    */
   protected String getPackagePath(String packageName) {
