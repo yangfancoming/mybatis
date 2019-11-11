@@ -37,6 +37,7 @@
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
     
     C030 局部xml 之  <insert> 
+    C040 局部xml 之  <update> 
     
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 
