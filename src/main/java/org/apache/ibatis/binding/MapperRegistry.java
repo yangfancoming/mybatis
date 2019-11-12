@@ -82,7 +82,6 @@ public class MapperRegistry {
          System.out.println(type == mapperInterface); // true
          System.out.println(type.equals(mapperInterface) ); // true
          */
-
         /**
          It's important that the type is added before the parser is run otherwise the binding may automatically be attempted by the mapper parser. If the type is already known, it won't try.
          在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试。

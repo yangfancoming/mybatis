@@ -28,7 +28,7 @@ import org.apache.ibatis.session.SqlSession;
  * MapperMethod 代理Mapper所有方法
  *
  * MapperMethod 的功能：
- * 1. 解析Mapper接口的方法，并封装成MapperMethod对象。
+ * 1. 解析Mapper接口的方法，并封装成 MapperMethod 对象。
  * 2. 将Sql命令，正确路由到恰当的SqlSession的方法上。
  */
 public class MapperMethod {
@@ -222,7 +222,7 @@ public class MapperMethod {
   }
   //封装了具体执行的动作   //SQL命令，静态内部类
   public static class SqlCommand {
-    //xml标签的id   通过它可以找到MappedStatement
+    //xml标签的id   通过它可以找到 MappedStatement
     private final String name;
     //insert update delete select的具体类型
     private final SqlCommandType type;
