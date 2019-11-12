@@ -7,15 +7,11 @@
   <!-- databaseId="hsqldb"> -->
   <!-- databaseId="oracle"> -->
 
-  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo"
-          databaseId="mysql">
-
+  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" databaseId="mysql">
     select * from foo where id = #{id}
   </select>
 
-  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo"
-          databaseId="hsqldb">
-
+  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" databaseId="hsqldb">
     select id,firstname from foo where id = #{id}
   </select>
 
