@@ -99,7 +99,7 @@ public class ParamNameResolver {
   }
 
   /**
-   * Returns parameter names referenced by SQL providers.
+   * Returns parameter names referenced by SQL providers. GOAT
    */
   public String[] getNames() {
     return names.values().toArray(new String[0]);
