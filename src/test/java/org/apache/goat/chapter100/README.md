@@ -69,6 +69,7 @@
      E066  局部xml  动态SQL 之   <trim>  ---- 暂时为空项目
      E070  局部xml  动态SQL 之   <foreach> 用于 sql in 查询
      E072  局部xml  动态SQL 之   <foreach> 用于 sql 批量插入
+     E074  局部xml  动态SQL 之   <foreach> 用于 动态 UPDATE
 
 
 #   缓存
