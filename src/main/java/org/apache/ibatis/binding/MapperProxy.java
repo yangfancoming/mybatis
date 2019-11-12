@@ -17,8 +17,15 @@ import org.apache.ibatis.session.SqlSession;
 public class MapperProxy<T> implements InvocationHandler, Serializable {
 
   private static final long serialVersionUID = -6424540398559729838L;
+  // 记录了关联的 SqlSession 对象
   private final SqlSession sqlSession;
+  // mapper 接口对应的Class对象
   private final Class<T> mapperInterface;
+  /**
+   * 用于缓存 MapperMethod 对象，其中key是Mapper接口中方法对应的Method对象，value是对应的MapperMethod 对象。
+   * MapperMethod 对象会完成参数转换以及SQL语句的执行功能
+   * 需要注意的是， MapperMethod 中并不记录任何状态相关的信息，所以可以在多个代理对象之间共享
+  */
   private final Map<Method, MapperMethod> methodCache;
 
   public MapperProxy(SqlSession sqlSession, Class<T> mapperInterface, Map<Method, MapperMethod> methodCache) {

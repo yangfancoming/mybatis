@@ -12,13 +12,20 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
-/**注册和获取Mapper对象的代理 */
+/**
+ * MapperRegistry 是 Mapper 接口及其对应的代理对象工厂 的注册中心。
+ * 注册和获取Mapper对象的代理
+ * 这里关注 Configuration.mapperRegistry 字段，它记录当前使用的 MapperRegistry 对象
+ * */
 public class MapperRegistry {
 
   // Configuration 对象， MyBatis 全局唯一的配置对象，其中包含了所有配置信息
   private final Configuration config;
 
-  // 记录了 Mapper 接口与对应 MapperProxyFactory 之间的关系
+  /**
+   * 记录了 Mapper 接口与对应 MapperProxyFactory 之间的关系
+   * 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象，可以为 Mapper 接口创建代理对象
+  */
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
@@ -58,8 +65,9 @@ public class MapperRegistry {
    * 接下来就是遍历这些类然后解析了
    */
   public <T> void addMapper(Class<T> type) {
-    if (type.isInterface()) { // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
-      if (hasMapper(type)) {  //如果重复添加了，报错
+    // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
+    if (type.isInterface()) {
+      if (hasMapper(type)) {  //检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
         throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
       }
       boolean loadCompleted = false;
@@ -67,6 +75,7 @@ public class MapperRegistry {
         //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper
         MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
         // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
+        // 将 Mapper 接口对应的Class对象和 MapperProxyFactory 对象添加到 knownMappers 集合
         knownMappers.put(type, tMapperProxyFactory);
         /**  验证 两个对象相同
          Class<T> mapperInterface = tMapperProxyFactory.getMapperInterface();

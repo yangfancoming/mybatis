@@ -33,8 +33,9 @@ public class ParamNameResolver {
    * - Method(@Param("M") int a, @Param("N") int b)转化为map为{{0, "M"}, {1, "N"}}
    * - Method(int a, int b)转化为map为{{0, "0"}, {1, "1"}}
    * - aMethod(int a, RowBounds rb, int b)转化为map为{{0, "0"}, {2, "1"}}
+   *   public Employee getEmpByIdAndLastName3(@Param("id") Integer id, @Param("lastName") String lastName);  {Integer@2462}0 -> id     {Integer@2486}1 -> lastName
    */
-  // 存放参数的位置和对应的参数名 在本类的构造函数中创建
+  // 存放参数的位置和对应的参数名 在本类的构造函数中被赋值
   private final SortedMap<Integer, String> names;
   //是否使用 @param 注解
   private boolean hasParamAnnotation;
@@ -135,7 +136,6 @@ public class ParamNameResolver {
       for (Map.Entry<Integer, String> entry : names.entrySet()) {
         // "id" -> "15"  //1.先加一个#{0},#{1},#{2}...参数
         param.put(entry.getValue(), args[entry.getKey()]);
-
         /**
          *  add generic param names (param1, param2, ...)
          *  额外的将每一个参数也保存到map中，使用新的key：param1...paramN
