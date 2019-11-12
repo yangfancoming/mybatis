@@ -4,7 +4,19 @@
 <mapper namespace="org.apache.goat.chapter100.E.E074.UserMapper">
 
 <!--
+当参数是 Map 类型的时候， foreach 标签的index 属性值对应的不是索引值，而是 Map中的 key，利用这个 key 可以实现动态 UPDATE
+这里的 key 作为列名 ，对应的值作为该列的值 ， 通过 foreach 将需要更新的字段拼接在SQL 语句中。
 
 
 -->
+
+  <update id="updateByMap">
+    update sys_user
+    set
+    <foreach collection="_parameter" item="val" index="key" separator=",">
+      ${key} = #{val}
+    </foreach>
+    where id = #{id}
+  </update>
+
 </mapper>
