@@ -6,7 +6,16 @@ import java.util.List;
 
 import org.apache.ibatis.session.Configuration;
 
+/**
+ * 一个ParameterMap对应一个SQL语句中所有的参数，就行ParameterMapping的集合
+ *
+ *  <parameterMap id="" type=""  >
+ *         <parameter property="" resultMap="" javaType="" typeHandler="" jdbcType="" mode="" scale=""></parameter>
+ *         <parameter property="" resultMap="" javaType="" typeHandler="" jdbcType="" mode="" scale=""></parameter>
+ *         <parameter property="" resultMap="" javaType="" typeHandler="" jdbcType="" mode="" scale=""></parameter>
+ *     </parameterMap>
 
+*/
 public class ParameterMap {
 
   private String id;

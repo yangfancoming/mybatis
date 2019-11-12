@@ -11,6 +11,11 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+/**
+ * ParamNameResolver 为 sql 语句参数解析器
+ * 主要用来处理接口形式的参数，最后会把参数处放在一个map中
+ * map的key为参数的位置，value为参数的名字
+ */
 public class ParamNameResolver {
 
   private static final String GENERIC_NAME_PREFIX = "param";
@@ -20,31 +25,36 @@ public class ParamNameResolver {
    * The name is obtained from {@link Param} if specified. When {@link Param} is not specified,
    * the parameter index is used. Note that this index could be different from the actual index
    * when the method has special parameters (i.e. {@link RowBounds} or {@link ResultHandler}).
-   * <li>aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
-   * <li>aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
-   * <li>aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
+   * aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
+   * aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
+   * aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
+   *
+   * 对names字段的解释
+   * - Method(@Param("M") int a, @Param("N") int b)转化为map为{{0, "M"}, {1, "N"}}
+   * - Method(int a, int b)转化为map为{{0, "0"}, {1, "1"}}
+   * - aMethod(int a, RowBounds rb, int b)转化为map为{{0, "0"}, {2, "1"}}
    */
   // 存放参数的位置和对应的参数名 在本类的构造函数中创建
   private final SortedMap<Integer, String> names;
-  //是否使用param注解
+  //是否使用 @param 注解
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
-    // 获取参数类型列表
+    // 通过反射得到方法的参数类型
     final Class<?>[] paramTypes = method.getParameterTypes();
-    // 获取参数注解
+    // 获取参数注解  返回的是注解的二维数组，每一个方法的参数包含一个注解数组。
     final Annotation[][] paramAnnotations = method.getParameterAnnotations();
     final SortedMap<Integer, String> map = new TreeMap<>();
     int paramCount = paramAnnotations.length;
     // get names from @Param annotations
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
-      // 检测当前的参数类型是否为 RowBounds 或 ResultHandler
+      // 首先判断这个参数的类型是否是特殊类型,RowBounds ResultHandler，是的话跳过，咱不处理
       if (isSpecialParameter(paramTypes[paramIndex])) {
-        // skip special parameters
         continue;
       }
       String name = null;
       // 如果此次查询使用的是注解
+      // 判断这个参数是否是用了@Param注解，如果使用的话name就是@Param注解的值，并把name放到map中，键为参数在方法中的位置，value为Param的值
       for (Annotation annotation : paramAnnotations[paramIndex]) {
         if (annotation instanceof Param) {
           // 标记 此次查询方式 是使用的注解
@@ -55,6 +65,7 @@ public class ParamNameResolver {
         }
       }
       // 如果此次查询方式 使用的不是注解 （ @Param was not specified.）
+      // 如果没有使用Param注解,判断是否开启了UseActualParamName，如果开启了，则使用java8的反射得到方法的名字，此处容易造成异常
       if (name == null) {
         if (config.isUseActualParamName()) {
           name = getActualParamName(method, paramIndex);
@@ -111,10 +122,7 @@ public class ParamNameResolver {
     if (args == null || paramCount == 0) {
       return null;
     } else if (!hasParamAnnotation && paramCount == 1) {
-      /**
-       *  2.如果没有@Param注解 并且 只有1个参数  则直接返回SortedMap集合的第一个元素
-       *  即：单个参数 直接返回
-       */
+      /** 2.如果没有@Param注解 并且 只有1个参数  则直接返回SortedMap集合的第一个元素。 即：单个参数 直接返回 */
       return args[names.firstKey()];
     } else {
       /**
@@ -132,7 +140,7 @@ public class ParamNameResolver {
          *  add generic param names (param1, param2, ...)
          *  额外的将每一个参数也保存到map中，使用新的key：param1...paramN
          *  效果：有Param注解可以#{指定的key}，或者#{param1}
-        */
+         */
         final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);// param1
         // ensure not to overwrite parameter named with @Param
         if (!names.containsValue(genericParamName)) {

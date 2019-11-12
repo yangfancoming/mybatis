@@ -44,6 +44,7 @@ class App2 extends MyBaseDataTest {
    * Parameters: goat(String)
    * Total: 1
    * 可以看到 参数id=15  直接并没有作为参数传递  而是直接打印在了sql上
+   *     select * from tbl_employee where id = ${id} and last_name = #{lastName}
   */
   @Test
   void getEmpById() throws Exception  {

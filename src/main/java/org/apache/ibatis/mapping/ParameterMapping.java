@@ -12,17 +12,30 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 public class ParameterMapping {
 
   private Configuration configuration;
-
+  /**
+   * 必填
+   */
   private String property;
+  /**
+   * mode 属性允许你指定 IN，OUT 或 INOUT 参数。如果参数为 OUT 或 INOUT，参数对象属性的真实值将会被改变，就像你在获取输出参数时所期望的那样。
+   * 如果 mode 为 OUT（或 INOUT），而且 jdbcType 为 CURSOR(也就是 Oracle 的 REFCURSOR)，你必须指定一个 resultMap 来映射结果集到参数类型
+   */
   private ParameterMode mode;
   private Class<?> javaType = Object.class;
   private JdbcType jdbcType;
+  /**
+   * 小数点后保留的位数
+   */
   private Integer numericScale;
+  /**
+   * 类型处理器
+   */
   private TypeHandler<?> typeHandler;
   private String resultMapId;
   private String jdbcTypeName;
   private String expression;
 
+  // 此处的构造方法私有，通过内部类的build设计模式，来创建和初始化对象
   private ParameterMapping() {
   }
 
