@@ -211,7 +211,6 @@ public class XMLMapperBuilder extends BaseBuilder {
    *         所以cache-ref只需要配置一个namespace属性就可以了。
    *         需要注意的是，如果cache-ref和cache都配置了，以cache为准。
    */
-
   private void cacheRefElement(XNode context) {
     if (context != null) {
       configuration.addCacheRef(builderAssistant.getCurrentNamespace(), context.getStringAttribute("namespace"));
@@ -341,7 +340,6 @@ public class XMLMapperBuilder extends BaseBuilder {
     String extend = resultMapNode.getStringAttribute("extends");
     // 获取autoMapping属性
     Boolean autoMapping = resultMapNode.getBooleanAttribute("autoMapping");
-
     // ResultMapResolver的作用是生成ResultMap对象，并将其加入到Configuration对象的resultMaps容器中（具体过程见下）
     ResultMapResolver resultMapResolver = new ResultMapResolver(builderAssistant, id, typeClass, extend, discriminator, resultMappings, autoMapping);
     try {
@@ -484,8 +482,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       }
       if (boundType != null) {
         if (!configuration.hasMapper(boundType)) {
-          // Spring may not know the real resource name so we set a flag
-          // to prevent loading again this resource from the mapper interface
+          // Spring may not know the real resource name so we set a flag to prevent loading again this resource from the mapper interface
           // look at MapperAnnotationBuilder#loadXmlResource
           configuration.addLoadedResource("namespace:" + namespace);
           // boundType ： org.apache.goat.chapter100.C010.EmployeeMapper

@@ -56,9 +56,9 @@ public class XMLScriptBuilder extends BaseBuilder {
      *
      * 传入的context参数为：
      * <select resultType="org.apache.goat.common.Customer" id="getTest">
-     * <if test="id!=null">
-     *       and id = #{id}
-     * </if>
+     *    <if test="id!=null">
+     *         and id = #{id}
+     *    </if>
      * </select>
     */
     MixedSqlNode rootSqlNode = parseDynamicTags(context);

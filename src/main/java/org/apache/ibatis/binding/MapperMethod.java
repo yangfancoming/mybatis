@@ -330,7 +330,7 @@ public class MapperMethod {
       this.resultHandlerIndex = getUniqueParamIndex(method, ResultHandler.class);
 
       /** 解析参数列表
-        sos 该种方式 只有在 接口 fooMapper.deleteById(2) 调用才走这里   传统 sqlSession.selectOne("selectById",2)  方式不走这里
+       * sos 该种方式 只有在 接口 fooMapper.deleteById(2) 调用才走这里   传统 sqlSession.selectOne("selectById",2)  方式不走这里
       */
       this.paramNameResolver = new ParamNameResolver(configuration, method);
     }
