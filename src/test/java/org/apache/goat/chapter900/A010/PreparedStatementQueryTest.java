@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class PreparedStatementQueryTest {
 
-  String url = "jdbc:mysql://192.168.136.128:3306/jdbc";
+  String url = "jdbc:mysql://192.168.211.128:3306/jdbc";
   String user = "root";
   String password = "12345";
 
