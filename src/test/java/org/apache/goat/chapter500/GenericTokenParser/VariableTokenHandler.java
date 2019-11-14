@@ -1,6 +1,5 @@
 package org.apache.goat.chapter500.GenericTokenParser;
 
-import org.apache.ibatis.parsing.TokenHandler;
 
 import java.util.Map;
 
