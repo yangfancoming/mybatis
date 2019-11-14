@@ -35,6 +35,14 @@ public class PropertyParser {
     // Prevent Instantiation   // 私有构造函数，防止实例化
   }
 
+  /**
+   * @Description: doit
+   * @author fan.yang
+   * @date 2019年11月13日20:13:32
+   * @param string
+   * @param variables
+   * @return
+   */
   public static String parse(String string, Properties variables) {
     //解析默认值
     VariableTokenHandler handler = new VariableTokenHandler(variables);

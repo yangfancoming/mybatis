@@ -16,20 +16,18 @@ public class GenericTokenParser {
 
   /**
    * 利用带参数的构造函数初始化各项属性
-   * @param openToken
-   * @param closeToken
-   * @param handler
+   * @param openToken 开始标记
+   * @param closeToken 结束标记
+   * @param handler 表处理器
    */
   public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {
-    // 开始标记
     this.openToken = openToken;
-    // 结束标记
     this.closeToken = closeToken;
-    // 表处理器
     this.handler = handler;
   }
-  //解析statement中的sql语句
+
   /**
+   * 解析statement中的sql语句
    * 将openToken和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
    * @param text
    */
