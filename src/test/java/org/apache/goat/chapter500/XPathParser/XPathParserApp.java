@@ -15,7 +15,7 @@ import java.io.InputStream;
  */
 public class XPathParserApp {
 
-  private String resource = "org/apache/goat/chapter500/myTest.xml";
+  private String resource = "org/apache/goat/chapter500/XPathParser/myTest.xml";
 
   private XPathParser parser;
 

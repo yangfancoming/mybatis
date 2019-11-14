@@ -30,7 +30,7 @@ public class GenericTokenParser {
 
   /**
    * 解析statement中的sql语句
-   * 将openToken和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
+   * 将openToken 和 endToken 间的字符串(expression)取出来用handler处理下，然后再拼接到一块
    * @param text 待解析的文本  "${first_name} ${initial} ${last_name} reporting."
    */
   public String parse(String text) {
@@ -42,12 +42,14 @@ public class GenericTokenParser {
     if (start == -1) {
       return text;
     }
+    // 将待解析字符串转成字符数组
     char[] src = text.toCharArray();
     // offset用来记录builder变量读取到了哪
     int offset = 0;
     // builder 是最终返回的字符串
     final StringBuilder builder = new StringBuilder();
-    StringBuilder expression = null;  // expression 是每一次找到的表达式， 要传入处理器中进行处理
+    // expression 是每一次找到的表达式， 要传入处理器中进行处理  就是${first_name}中的 first_name
+    StringBuilder expression = null;
     while (start > -1) {
       if (start > 0 && src[start - 1] == '\\') {  //如果text中在openToken前存在转义符就将转义符去掉。如果openToken前存在转义符，start的值必然大于0，最小也为1
         // this open token is escaped. remove the backslash and continue.  // 开始标记是转义的， 则去除转义字符'\'
@@ -86,7 +88,7 @@ public class GenericTokenParser {
           builder.append(src, start, src.length - start);
           offset = src.length;
         } else {
-          // 找到了结束的标记， 则放入处理器进行处理
+          // 找到了结束的标记， 则放入处理器中进行处理
           builder.append(handler.handleToken(expression.toString()));
           offset = end + closeToken.length();
         }
