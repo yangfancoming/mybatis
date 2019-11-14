@@ -16,19 +16,18 @@ public class PropertyParser {
   private static final String KEY_PREFIX = "org.apache.ibatis.parsing.PropertyParser.";
   /**
    * The special property key that indicate whether enable a default value on placeholder.
-   *   The default value is {@code false} (indicate disable a default value on placeholder)
-   *   If you specify the {@code true}, you can specify key and default value on placeholder (e.g. {@code ${db.username:postgres}}).
+   *   The default value is false (indicate disable a default value on placeholder)
+   *   If you specify the true, you can specify key and default value on placeholder (e.g. {@code ${db.username:postgres}}).
    * @since 3.4.2
    *
    * 特殊属性键，指示是否在占位符上启用默认值。
-   * 默认值是false，是禁用的占位符上使用默认值，当启用以后（true）可以在占位符上使用默认值。
+   * 默认值是false，当启用以后（true）可以在占位符上使用默认值。
    * 例如：${db.username:postgres}，表示数据库的用户名默认是postgres
    */
   public static final String KEY_ENABLE_DEFAULT_VALUE = KEY_PREFIX + "enable-default-value";
 
-  /** 为占位符上的键和默认值指定分隔符的特殊属性键。 默认分隔符是“:”
-   * The special property key that specify a separator for key and default value on placeholder.
-   *   The default separator is {@code ":"}.
+  /**
+   * The special property key that specify a separator for key and default value on placeholder. The default separator is { ":" }.
    * @since 3.4.2
    */
   public static final String KEY_DEFAULT_VALUE_SEPARATOR = KEY_PREFIX + "default-value-separator";
@@ -41,12 +40,12 @@ public class PropertyParser {
   }
 
   /**
-   * @Description: doit
+   * @Description: 根据指定的占位符数据字典 解析传入的字符串
    * @author fan.yang
    * @date 2019年11月13日20:13:32
-   * @param string
-   * @param variables
-   * @return
+   * @param string 待解析的字符串  eg: "${key1}"
+   * @param variables Properties 占位符替换字典 里面包含了 要替换成的值 eg:  props.setProperty("key1", "goat");
+   * @return 解析完成后的字符串结果
    */
   public static String parse(String string, Properties variables) {
     //解析默认值

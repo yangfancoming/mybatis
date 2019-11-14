@@ -7,16 +7,33 @@ import java.util.Properties;
 
 public class App {
 
+  Properties props = new Properties();
 
+  /**
+   *
+  */
   @Test
-  public void test() {
-    Properties props = new Properties();
+  public void test1() {
+    props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
     props.setProperty("key", "value");
     String parse = PropertyParser.parse("${key}", props);
-    String parse1 = PropertyParser.parse("${key:aaaa}", props);
     System.out.println(parse);
-    System.out.println(parse1);
 
   }
 
+  @Test
+  public void test2() {
+    props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "false");
+    props.setProperty("key", "value");
+    String parse1 = PropertyParser.parse("${key1:aaaa}", props);
+    System.out.println(parse1);
+  }
+
+  @Test
+  public void test3() {
+    props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
+    props.setProperty("key", "value");
+    String parse1 = PropertyParser.parse("${key1:aaaa}", props);
+    System.out.println(parse1);
+  }
 }

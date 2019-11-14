@@ -7,6 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.util.Properties;
 
 class PropertyParserTest {
+  @Test
+  void test() {
+
+  }
 
   @Test
   void replaceToVariableValue() {
