@@ -23,6 +23,7 @@ public class DynamicContext {
   static {
     OgnlRuntime.setPropertyAccessor(ContextMap.class, new ContextAccessor());
   }
+
   //参考上下文
   private final ContextMap bindings;
   //在SqlNode解析动态SQL时，会将解析后的SQL语句片段添加到该属性中保存，最终拼凑出一条完成的SQL语句
