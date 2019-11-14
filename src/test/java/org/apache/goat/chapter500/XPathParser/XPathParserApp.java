@@ -1,5 +1,6 @@
-package org.apache.goat.chapter500;
+package org.apache.goat.chapter500.XPathParser;
 
+import org.apache.goat.chapter500.Resources;
 import org.apache.ibatis.parsing.XPathParser;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,7 @@ import java.io.InputStream;
  * @ author  山羊来了
  * @ date 2019/11/13---19:52
  */
-public class App {
+public class XPathParserApp {
 
   private String resource = "org/apache/goat/chapter500/myTest.xml";
 
