@@ -1,5 +1,7 @@
 package org.apache.goat.chapter500.GenericTokenParser;
 
+import org.apache.goat.chapter500.common.GenericTokenParser;
+import org.apache.goat.chapter500.common.TokenHandler;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;

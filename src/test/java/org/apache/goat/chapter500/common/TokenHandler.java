@@ -1,5 +1,5 @@
 
-package org.apache.goat.chapter500.GenericTokenParser;
+package org.apache.goat.chapter500.common;
 
 
 public interface TokenHandler {

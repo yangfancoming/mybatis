@@ -13,7 +13,7 @@ import java.io.InputStream;
  * @ author  山羊来了
  * @ date 2019/11/13---19:52
  */
-public class XPathParserApp {
+public class App {
 
   private String resource = "org/apache/goat/chapter500/XPathParser/myTest.xml";
 
