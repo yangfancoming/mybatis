@@ -49,7 +49,7 @@ public class App {
   @Test
   public void test4() throws IOException {
     //创建数据报套接字对象，绑定端口号为6000
-    DatagramSocket ds = new DatagramSocket(5002);
+    DatagramSocket ds = new DatagramSocket(5001);
     //构建数据包接收数据：
     //创建字节数组
     byte[] buf = new byte[100];
