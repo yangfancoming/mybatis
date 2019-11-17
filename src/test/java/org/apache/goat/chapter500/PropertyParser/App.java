@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.util.Properties;
 
 
@@ -63,6 +62,5 @@ public class App {
     System.out.println(new String(buf, 0, dp.getLength()));
     //关闭数据报套接字
     ds.close();
-
   }
 }
