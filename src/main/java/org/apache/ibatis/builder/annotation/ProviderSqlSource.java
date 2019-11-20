@@ -19,6 +19,7 @@ import org.apache.ibatis.session.Configuration;
 public class ProviderSqlSource implements SqlSource {
 
   private final Configuration configuration;
+
   private final Class<?> providerType;
   private final LanguageDriver languageDriver;
   private Method providerMethod;
