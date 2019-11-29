@@ -251,8 +251,7 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
           metaParam.setValue(propertyName, value);
         }
       } catch (SQLException e) {
-        throw new ExecutorException("Error getting generated key or setting result to parameter object. Cause: " + e,
-            e);
+        throw new ExecutorException("Error getting generated key or setting result to parameter object. Cause: " + e, e);
       }
     }
   }

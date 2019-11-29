@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
+  <nodes>
+    <node x="315.0" y="0.0">org.apache.ibatis.executor.Executor</node>
+    <node x="367.5" y="79.0">org.apache.ibatis.executor.CachingExecutor</node>
+    <node x="150.0" y="158.0">org.apache.ibatis.executor.SimpleExecutor</node>
+    <node x="229.5" y="79.0">org.apache.ibatis.executor.BaseExecutor</node>
+    <node x="0.0" y="158.0">org.apache.ibatis.executor.loader.ResultLoaderMap.ClosedExecutor</node>
+    <node x="444.0" y="158.0">org.apache.ibatis.executor.BatchExecutor</node>
+    <node x="300.0" y="158.0">org.apache.ibatis.executor.ReuseExecutor</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.ibatis.executor.ReuseExecutor" target="org.apache.ibatis.executor.BaseExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="362.0" y="138.0" />
+      <point x="303.25" y="138.0" />
+      <point x="14.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.BaseExecutor" target="org.apache.ibatis.executor.Executor">
+      <point x="0.0" y="-14.5" />
+      <point x="288.5" y="54.0" />
+      <point x="338.5" y="54.0" />
+      <point x="-23.5" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.CachingExecutor" target="org.apache.ibatis.executor.Executor">
+      <point x="0.0" y="-14.5" />
+      <point x="435.5" y="54.0" />
+      <point x="385.5" y="54.0" />
+      <point x="23.5" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.SimpleExecutor" target="org.apache.ibatis.executor.BaseExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="215.0" y="138.0" />
+      <point x="273.75" y="138.0" />
+      <point x="-14.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.BatchExecutor" target="org.apache.ibatis.executor.BaseExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="506.0" y="128.0" />
+      <point x="332.75" y="128.0" />
+      <point x="44.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.loader.ResultLoaderMap.ClosedExecutor" target="org.apache.ibatis.executor.BaseExecutor">
+      <point x="0.0" y="-14.5" />
+      <point x="65.0" y="128.0" />
+      <point x="244.25" y="128.0" />
+      <point x="-44.25" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.2000000000000002" x="571.2499999999999" y="336.66666666666663" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

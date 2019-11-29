@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
+  <nodes>
+    <node x="331.5" y="0.0">org.apache.ibatis.executor.statement.StatementHandler</node>
+    <node x="0.0" y="158.0">org.apache.ibatis.executor.statement.PreparedStatementHandler</node>
+    <node x="408.0" y="79.0">org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
+    <node x="210.0" y="158.0">org.apache.ibatis.executor.statement.CallableStatementHandler</node>
+    <node x="222.0" y="79.0">org.apache.ibatis.executor.statement.BaseStatementHandler</node>
+    <node x="420.0" y="158.0">org.apache.ibatis.executor.statement.SimpleStatementHandler</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.ibatis.executor.statement.BaseStatementHandler" target="org.apache.ibatis.executor.statement.StatementHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="305.0" y="54.0" />
+      <point x="367.0" y="54.0" />
+      <point x="-35.5" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.statement.SimpleStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="509.0" y="133.0" />
+      <point x="360.33333333333337" y="133.0" />
+      <point x="55.33333333333337" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.statement.CallableStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.statement.PreparedStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="95.0" y="133.0" />
+      <point x="249.66666666666666" y="133.0" />
+      <point x="-55.33333333333334" y="14.5" />
+    </edge>
+    <edge source="org.apache.ibatis.executor.statement.RoutingStatementHandler" target="org.apache.ibatis.executor.statement.StatementHandler">
+      <point x="0.0" y="-14.5" />
+      <point x="500.0" y="54.0" />
+      <point x="438.0" y="54.0" />
+      <point x="35.5" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.2000000000000002" x="1417.25" y="384.66666666666663" />
+  <SelectedNodes>
+    <node>org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

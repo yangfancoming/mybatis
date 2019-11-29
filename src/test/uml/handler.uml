@@ -3,9 +3,9 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
-    <node x="839.0" y="-47.0">org.apache.ibatis.reflection.ReflectorFactory</node>
-    <node x="818.0" y="106.0">org.apache.ibatis.reflection.Reflector</node>
-    <node x="818.0" y="32.0">org.apache.ibatis.reflection.DefaultReflectorFactory</node>
+    <node x="21.0" y="0.0">org.apache.ibatis.reflection.ReflectorFactory</node>
+    <node x="0.0" y="153.0">org.apache.ibatis.reflection.Reflector</node>
+    <node x="0.0" y="79.0">org.apache.ibatis.reflection.DefaultReflectorFactory</node>
   </nodes>
   <notes />
   <edges>
@@ -14,7 +14,7 @@
       <point x="0.0" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="667.0" y="98.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="709.5" y="428.0" />
   <SelectedNodes>
     <node>org.apache.ibatis.reflection.ReflectorFactory</node>
     <node>org.apache.ibatis.reflection.Reflector</node>

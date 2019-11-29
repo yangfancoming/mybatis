@@ -593,6 +593,7 @@ public class Configuration {
   public MetaObject newMetaObject(Object object) {
     return MetaObject.forObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
   }
+  /**  Mybatis 四大对象 **/
 
   /**对ParameterHandler 进行拦截**/
   public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
