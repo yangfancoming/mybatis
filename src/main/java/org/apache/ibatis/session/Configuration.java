@@ -593,7 +593,14 @@ public class Configuration {
   public MetaObject newMetaObject(Object object) {
     return MetaObject.forObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
   }
-  /**  Mybatis 四大对象 **/
+  /**  Mybatis 四大对象  四大组件
+   * 执行顺序：Executor  StatementHandler  ParameterHandler  ResultSetHandler
+   *
+   *  final Executor executor = configuration.newExecutor(tx, execType);
+   *  newStatementHandler
+   *  newParameterHandler
+   *  newResultSetHandler
+   * **/
 
   /**对ParameterHandler 进行拦截**/
   public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
@@ -603,8 +610,7 @@ public class Configuration {
   }
 
   /**对ResultSetHandler 进行拦截**/
-  public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,
-      ResultHandler resultHandler, BoundSql boundSql) {
+  public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,ResultHandler resultHandler, BoundSql boundSql) {
     ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
     resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
     return resultSetHandler;

@@ -34,7 +34,7 @@ import org.apache.ibatis.type.JdbcType;
 
 /**
  * XMLConfigBuilder 用来解析MyBatis的全局xml文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
-*/
+ */
 public class XMLConfigBuilder extends BaseBuilder {
 
   //标识是否已经解析过mybatis-config.xml配置文件
@@ -75,9 +75,9 @@ public class XMLConfigBuilder extends BaseBuilder {
    * 因为，或者自定义了带参的super，这样就初始化了父类的成员了，所以写了this的构造函数不能再写super了
    * 因为实例化一个对象运行两次super是不安全的。this放在第一行，也是因为要先初始化父类和this代表的构造函数先
    * 因为当前构造函数可能用到那些成员，所以那些成员得要先初始化。
-  */
+   */
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
-//    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
+    //    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
@@ -96,7 +96,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   /**
    *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，
    *  并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的 typeAliasRegistry 容器中
-  */
+   */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
     ErrorContext.instance().resource("SQL Mapper Configuration");
@@ -117,7 +117,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 全局xml文件的 <configuration> 节点
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
-    */
+     */
     XNode xNode = parser.evalNode("/configuration");
     //2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
@@ -172,7 +172,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    2. 为 Configuration 创建元信息对象
    3. 通过 MetaClass 检测 Configuration 中是否存在某个属性的 setter 方法，不存在则抛异常
    4. 若通过 MetaClass 的检测，则返回 Properties 对象，方法逻辑结束
-  */
+   */
   private Properties settingsAsProperties(XNode context) {
     if (context == null) {
       return new Properties();
@@ -180,13 +180,13 @@ public class XMLConfigBuilder extends BaseBuilder {
     /**
      *  Check that all settings are known to the configuration class 检查配置类是否知道所有设置
      *  创建Configuration对应的MetaClass “元信息” 对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
-    */
+     */
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     /**
      * 解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
      * "mapUnderscoreToCamelCase" -> "true"
      * "cacheEnabled" -> "true"
-    */
+     */
     Properties props = context.getChildrenAsProperties();
     for (Object key : props.keySet()) {
       // 检测 Configuration 中是否存在相关属性，不存在则抛出异常
@@ -213,28 +213,28 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-    从 MyBatis 的 TypeAliasRegistry 中查找 logImpl 键所对应值的类对象
-    这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
-    注意 Log 类，这是 MyBatis 内部对日志对象的抽象
+   从 MyBatis 的 TypeAliasRegistry 中查找 logImpl 键所对应值的类对象
+   这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
+   注意 Log 类，这是 MyBatis 内部对日志对象的抽象
 
    <settings>
-     <setting name="logImpl" value="NO_LOGGING"/>
+   <setting name="logImpl" value="NO_LOGGING"/>
    </settings>
-  */
+   */
   private void loadCustomLogImpl(Properties props) {
     Class<? extends Log> logImpl = resolveClass(props.getProperty("logImpl"));
     // 将查找到的 Class 对象设置到 Configuration 对象中
     configuration.setLogImpl(logImpl);
   }
 
-/**
- 如果<typeAliases>节点下定义了<package>节点，那么MyBatis会给该包下的所有类起一个别名（以类名首字母小写作为别名）
- 如果<typeAliases>节点下定义了<typeAlias>节点，那么MyBatis就会给指定的类起指定的别名。
- 这些别名都会被存入configuration的typeAliasRegistry容器中。
-*/
+  /**
+   如果<typeAliases>节点下定义了<package>节点，那么MyBatis会给该包下的所有类起一个别名（以类名首字母小写作为别名）
+   如果<typeAliases>节点下定义了<typeAlias>节点，那么MyBatis就会给指定的类起指定的别名。
+   这些别名都会被存入configuration的typeAliasRegistry容器中。
+   */
   private void typeAliasesElement(XNode parent) {
     if (parent != null) {
-       //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
+      //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
       for (XNode child : parent.getChildren()) {
         //2.处理package类型配置 // 若当前结点为<package>
         if ("package".equals(child.getName())) {
@@ -267,31 +267,30 @@ public class XMLConfigBuilder extends BaseBuilder {
       }
     }
   }
-/**
- *   <plugins>
- *     <plugin interceptor="org.apache.goat.chapter200.D10.MyMybatisPlugin">
- *       <property name="username" value="goat"/>
- *       <property name="password" value="123654"/>
- *     </plugin>
- *     <plugin interceptor="org.apache.goat.chapter200.D1public Object pluginAll(Object target) {0.MySecondPlugin"></plugin>
- *   </plugins>
-*/
+  /**
+   *   <plugins>
+   *     <plugin interceptor="org.apache.goat.chapter200.D10.MyMybatisPlugin">
+   *       <property name="username" value="goat"/>
+   *       <property name="password" value="123654"/>
+   *     </plugin>
+   *     <plugin interceptor="org.apache.goat.chapter200.D1public Object pluginAll(Object target) {0.MySecondPlugin"></plugin>
+   *   </plugins>
+   */
   private void pluginElement(XNode parent) throws Exception {
-    if (parent != null) {
-      // 遍历<plugins>标签  获取<plugin>
-      for (XNode child : parent.getChildren()) {
-        // 获取 单个 <plugin>标签下的所有 <property>
-        Properties properties = child.getChildrenAsProperties();
-        // 获取 <plugin>标签中的 interceptor 属性 ：org.apache.goat.chapter200.D10.MyMybatisPlugin
-        String interceptor = child.getStringAttribute("interceptor");
-        // 根据 插件类的全路径名 通过反射生成拦截器实例
-        Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
-        // 调用我们自定义的重写的 setProperties() 方法
-        // 再拿<plugin>标签下的所有<property>标签，解析name和value属性成为一个Properties，将Properties设置到拦截器中
-        interceptorInstance.setProperties(properties);
-        // 最终添加到 configuration 的拦截器链中
-        configuration.addInterceptor(interceptorInstance);
-      }
+    if (parent == null) return;  // modify-
+    // 遍历<plugins>标签  获取<plugin>
+    for (XNode child : parent.getChildren()) {
+      // 获取 单个 <plugin>标签下的所有 <property>
+      Properties properties = child.getChildrenAsProperties();
+      // 获取 <plugin>标签中的 interceptor 属性 ：org.apache.goat.chapter200.D10.MyMybatisPlugin
+      String interceptor = child.getStringAttribute("interceptor");
+      // 根据 插件类的全路径名 通过反射生成拦截器实例
+      Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
+      // 调用我们自定义的重写的 setProperties() 方法
+      // 再拿<plugin>标签下的所有<property>标签，解析name和value属性成为一个Properties，将Properties设置到拦截器中
+      interceptorInstance.setProperties(properties);
+      // 最终添加到 configuration 的拦截器链中
+      configuration.addInterceptor(interceptorInstance);
     }
   }
 
@@ -332,7 +331,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    二是从文件系统或通过网络读取属性配置，这取决于<properties>节点的 resource 和 url 是否为空。
    最后一步则是将包含属性信息的 Properties 对象设置到
    XPathParser 和 Configuration 中
-  */
+   */
   private void propertiesElement(XNode context) throws Exception {
     if (context != null) {
       // 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
@@ -400,17 +399,17 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    <environments default="development">
-     <environment id="development">
-       <transactionManager type="JDBC"/>
-         <dataSource type="POOLED">
-             <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
-             <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
-             <property name="username" value="SA"/>
-             <property name="password" value=""/>
-         </dataSource>
-     </environment>
+   <environment id="development">
+   <transactionManager type="JDBC"/>
+   <dataSource type="POOLED">
+   <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+   <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
+   <property name="username" value="SA"/>
+   <property name="password" value=""/>
+   </dataSource>
+   </environment>
    </environments>
-  */
+   */
   private void environmentsElement(XNode context) throws Exception {
     if (context != null) {
       if (environment == null) {
@@ -474,7 +473,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    *              <property name="username" value="SA"/>
    *              <property name="password" value=""/>
    *          </dataSource>
-  */
+   */
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
     if (context != null) {
       // 解析 <dataSource type="POOLED"> 标签中的type属性
@@ -526,10 +525,10 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    <mappers>
-     <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
-     <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
-     <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
-     <package name="org.apache.ibatis.builder.mapper"/>
+   <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
+   <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
+   <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
+   <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
 
    * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，
@@ -553,13 +552,13 @@ public class XMLConfigBuilder extends BaseBuilder {
            * mapperPackage ---  org.apache.goat.chapter100.A044
            * 1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，mapperPackage 就是包名
            * 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
-          */
+           */
           String mapperPackage = child.getStringAttribute("name");
           configuration.addMappers(mapperPackage);
         } else {
           /** 处理 <mapper> 标签 依次获取resource、url、class属性
            * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
-          */
+           */
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
@@ -596,7 +595,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    * 判断是否 id 是否为默认的/指定的 环境id
-  */
+   */
   private boolean isSpecifiedEnvironment(String id) {
     if (environment == null) {
       throw new BuilderException("No environment specified.");

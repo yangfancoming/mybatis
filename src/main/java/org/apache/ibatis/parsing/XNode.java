@@ -355,7 +355,7 @@ public class XNode {
      * 获取并遍历子节点  childrens ：
      * <setting name="mapUnderscoreToCamelCase" value="true"/>
      * <setting name="cacheEnabled" value="true"/>
-    */
+     */
     List<XNode> childrens = getChildren();
     for (XNode child : childrens) {
       // 获取 <property> 节点的 name 和 value 属性
