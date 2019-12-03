@@ -187,23 +187,6 @@ public class XPathParser {
     return (Double) evaluate(expression, root, XPathConstants.NUMBER);
   }
 
-
-
-  /* 返回多个节点  目前没有使用  只在测试类中  有引用*/
-  public List<XNode> evalNodes(String expression) {
-    return evalNodes(document, expression);
-  }
-
-  public List<XNode> evalNodes(Object root, String expression) {
-    List<XNode> xnodes = new ArrayList<>();
-    NodeList nodes = (NodeList) evaluate(expression, root, XPathConstants.NODESET);
-    for (int i = 0; i < nodes.getLength(); i++) {
-      xnodes.add(new XNode(this, nodes.item(i), variables));
-    }
-    return xnodes;
-  }
-
-
   /* mybatis中都是使用  返回单个节点*/
   public XNode evalNode(String expression) {
     log.debug(  "XPathParser 解析的标签名称为：" + expression);
@@ -218,6 +201,24 @@ public class XPathParser {
     }
     return new XNode(this, node, variables);
   }
+
+  /* 返回多个节点  目前没有使用  只在测试类中  有引用*/
+  public List<XNode> evalNodes(String expression) {
+    return evalNodes(document, expression);
+  }
+
+  /* 返回多个节点 */
+  public List<XNode> evalNodes(Object root, String expression) {
+    List<XNode> xnodes = new ArrayList<>();
+    NodeList nodes = (NodeList) evaluate(expression, root, XPathConstants.NODESET);
+    for (int i = 0; i < nodes.getLength(); i++) {
+      xnodes.add(new XNode(this, nodes.item(i), variables));
+    }
+    return xnodes;
+  }
+
+
+
 
   /**
    * XPathConstants.NODE 它主要适用于当XPath表达式的结果有且只有一个节点。
@@ -247,7 +248,7 @@ public class XPathParser {
       //1.在系统环境变量中(System.getProperties())中查找 key=javax.xml.parsers.DocumentBuilderFactory
       //2.如果1没有找到，则找java.home/lib/jaxp.properties 文件，如果文件存在，在文件中查找key=javax.xml.parsers.DocumentBuilderFactory
       //3.如果2没有找到,则在classpath中的所有的jar包中查找META-INF/services /javax.xml.parsers.DocumentBuilderFactory 文件
-      //    全都没找到，则返回null
+      //  全都没找到，则返回null
       //如果上面都没有找到，那么就使用JDK自带的实现类：
       //com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
       //在创建DocumentBuilder实例的时候，是根据DocumentBuilderFactoryImpl的不同有不同的实现。
@@ -264,21 +265,7 @@ public class XPathParser {
       DocumentBuilder builder = factory.newDocumentBuilder();
       //为了在网络不可用的情况下，正常解析XML文件，我们可以在使用builder之前，设置EntityResolver
       builder.setEntityResolver(entityResolver);
-      builder.setErrorHandler(new ErrorHandler() {
-        @Override
-        public void error(SAXParseException exception) throws SAXException {
-          throw exception;
-        }
-
-        @Override
-        public void fatalError(SAXParseException exception) throws SAXException {
-          throw exception;
-        }
-
-        @Override
-        public void warning(SAXParseException exception) throws SAXException {
-        }
-      });
+      builder.setErrorHandler(new MyErrorHandler());
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);
@@ -291,8 +278,7 @@ public class XPathParser {
     this.entityResolver = entityResolver;
     this.variables = variables;
     //利用XPathFactory创建一个新的xpath对象
-    XPathFactory factory = XPathFactory.newInstance();
-    this.xpath = factory.newXPath();
+    this.xpath = XPathFactory.newInstance().newXPath();
   }
 
 }

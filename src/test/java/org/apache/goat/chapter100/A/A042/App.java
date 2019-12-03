@@ -28,7 +28,7 @@ class App extends MyBaseDataTest {
   @Test
   void selectById() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
-    Foo foo = sqlSession.selectOne("org.apache.goat.chapter100.A042.FooMapper.selectById",1);
+    Foo foo = sqlSession.selectOne("org.apache.goat.chapter100.A.A042.FooMapper.selectById",1);
     System.out.println(foo);
   }
 

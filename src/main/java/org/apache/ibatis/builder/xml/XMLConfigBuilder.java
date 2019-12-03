@@ -78,6 +78,8 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
     //    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
+    //  1. 通过 reader 创建出 Document
+    //  2. 创建出 Xpath = XPathFactory.newInstance().newXPath()
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
