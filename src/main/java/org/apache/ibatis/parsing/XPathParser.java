@@ -217,9 +217,6 @@ public class XPathParser {
     return xnodes;
   }
 
-
-
-
   /**
    * XPathConstants.NODE 它主要适用于当XPath表达式的结果有且只有一个节点。
    * 如果XPath表达式返回了多个节点，却指定类型为XPathConstants.NODE，则evaluate()方法将按照文档顺序返回第一个节点。
