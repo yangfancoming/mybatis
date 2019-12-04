@@ -335,35 +335,34 @@ public class XMLConfigBuilder extends BaseBuilder {
    XPathParser 和 Configuration 中
    */
   private void propertiesElement(XNode context) throws Exception {
-    if (context != null) {
-      // 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
-      Properties defaults = context.getChildrenAsProperties();
-      // 获取<properties>节点上的resource属性
-      String resource = context.getStringAttribute("resource");
-      // 获取<properties>节点上的url属性
-      String url = context.getStringAttribute("url");
-      // resource 和 url 两个属性不能同时存在
-      if (resource != null && url != null) {
-        throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
-      }
-      if (resource != null) {
-        // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中 会产生覆盖操作
-        // 从文件系统中加载并解析属性文件
-        Properties properties = Resources.getResourceAsProperties(resource);
-        defaults.putAll(properties);
-      } else if (url != null) {
-        // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
-        defaults.putAll(Resources.getUrlAsProperties(url));
-      }
-      // 获取configuration中原本的属性，并添加至defaults容器中
-      Properties vars = configuration.getVariables();
-      if (vars != null) {
-        defaults.putAll(vars);
-      }
-      parser.setVariables(defaults);
-      // 将defaults容器添加至configuration中
-      configuration.setVariables(defaults);
+    if (context == null) return; // modify-
+    // 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
+    Properties defaults = context.getChildrenAsProperties();
+    // 获取<properties>节点上的resource属性
+    String resource = context.getStringAttribute("resource");
+    // 获取<properties>节点上的url属性
+    String url = context.getStringAttribute("url");
+    // resource 和 url 两个属性不能同时存在
+    if (resource != null && url != null) {
+      throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
     }
+    if (resource != null) {
+      // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中 会产生覆盖操作
+      // 从文件系统中加载并解析属性文件
+      Properties properties = Resources.getResourceAsProperties(resource);
+      defaults.putAll(properties);
+    } else if (url != null) {
+      // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
+      defaults.putAll(Resources.getUrlAsProperties(url));
+    }
+    // 获取configuration中原本的属性，并添加至defaults容器中
+    Properties vars = configuration.getVariables();
+    if (vars != null) {
+      defaults.putAll(vars);
+    }
+    parser.setVariables(defaults);
+    // 将defaults容器添加至configuration中
+    configuration.setVariables(defaults);
   }
 
   private void settingsElement(Properties props) {

@@ -40,7 +40,11 @@ public class SqlSessionFactoryBuilder {
   // 通过XMLConfigBuilder解析mybatis配置，然后创建SqlSessionFactory对象
   public SqlSessionFactory build(Reader reader, String environment, Properties properties) {
     try {
-      // 创建全局配置文件解析器
+      /**
+       * 创建全局配置文件解析器 并且填充 XPathParser 类的两个属性
+       *   XPathParser this.xpath = XPathFactory.newInstance().newXPath()
+       *   XPathParser this.document = createDocument(new InputSource(reader));
+      */
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);// reader , null , null
       // 调用 parse 方法解析配置文件，生成 Configuration 对象
       Configuration configuration = parser.parse();
