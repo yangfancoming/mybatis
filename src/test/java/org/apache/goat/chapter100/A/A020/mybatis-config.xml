@@ -12,25 +12,25 @@
   <properties resource="dbconfig.properties"></properties>
 
 
-  <environments default="development">
+<!--  <environments default="development">-->
 
-    <environment id="development">
+<!--    <environment id="development">-->
 
-      <transactionManager type="JDBC"></transactionManager>
-      <dataSource type="POOLED">
-        <property name="driver" value="${jdbc.driver}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-      </dataSource>
+<!--      <transactionManager type="JDBC"></transactionManager>-->
+<!--      <dataSource type="POOLED">-->
+<!--        <property name="driver" value="${jdbc.driver}" />-->
+<!--        <property name="url" value="${jdbc.url}" />-->
+<!--        <property name="username" value="${jdbc.username}" />-->
+<!--        <property name="password" value="${jdbc.password}" />-->
+<!--      </dataSource>-->
 
-    </environment>
+<!--    </environment>-->
 
-  </environments>
+<!--  </environments>-->
 
-  <mappers>
-    <mapper resource="org/apache/goat/chapter100/A/A030/Foo.xml" />
-  </mappers>
+<!--  <mappers>-->
+<!--    <mapper resource="org/apache/goat/chapter100/A/A030/Foo.xml" />-->
+<!--  </mappers>-->
 </configuration>
 
 
