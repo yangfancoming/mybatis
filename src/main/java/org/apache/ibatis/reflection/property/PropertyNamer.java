@@ -14,6 +14,12 @@ public final class PropertyNamer {
     // Prevent Instantiation of Static Class
   }
 
+  /**
+   * 将 getXXX 或 isXXX 等方法名转成相应的属性
+   * @param name 待转换的方法名
+   * 输入示例：  getMappedStatements
+   * 输出结果：  mappedStatements
+   */
   public static String methodToProperty(String name) {
     if (name.startsWith("is")) {
       name = name.substring(2);
@@ -22,7 +28,7 @@ public final class PropertyNamer {
     } else {
       throw new ReflectionException("Error parsing property name '" + name + "'.  Didn't start with 'is', 'get' or 'set'.");
     }
-    //对于这个判断为什么这么写，没有彻底弄明白。也许是对于字符串长度大于1且全为大写的数据不做处理吧
+    //将属性的首字母转成小写 eg:  SafeResultHandlerEnabled ---> safeResultHandlerEnabled
     if (name.length() == 1 || (name.length() > 1 && !Character.isUpperCase(name.charAt(1)))) {
       name = name.substring(0, 1).toLowerCase(Locale.ENGLISH) + name.substring(1);
     }

@@ -115,15 +115,13 @@ public class Reflector {
     // 获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
     Method[] methods = getClassMethods(cls);
     for (Method method : methods) {
-      // getter 方法不应该有参数，若存在参数，则忽略当前方法
+      // 由于全局配置文件中的<settings>标签的所有属性 对应的Configuration类中的 get 和 is 方法都是没有参数的，若存在参数，则不是<settings>标签对应的属性，必须忽略
       if (method.getParameterTypes().length > 0) {
         continue;
       }
       String name = method.getName();
-      // 过滤出以 get 或 is 开头的方法
-      // 判断如果方法明是以get开头并且方法名长度大于3 或者 方法名是以is开头并且长度大于2
+      // 过滤出方法名是以get开头并且方法名长度大于3 或者 方法名是以is开头并且长度大于2
       if ((name.startsWith("get") && name.length() > 3)|| (name.startsWith("is") && name.length() > 2)) {
-        // 将 getXXX 或 isXXX 等方法名转成相应的属性， 比如 getName -> name
         name = PropertyNamer.methodToProperty(name);
         /*
          * 将冲突的方法添加到 conflictingGetters 中。考虑这样一种情况：
@@ -237,6 +235,7 @@ public class Reflector {
   /** 添加属性名和方法对象到冲突集合中 */
   private void addMethodConflict(Map<String, List<Method>> conflictingMethods, String name, Method method) {
     List<Method> list = conflictingMethods.computeIfAbsent(name, k -> new ArrayList<>());
+    // 这里需要注意：add 操作的是已经put到 conflictingMethods Map集合中的list 并不是多余操作
     list.add(method);
   }
   /** 解决冲突
@@ -386,11 +385,13 @@ public class Reflector {
       //addUniqueMethods 为每个方法生成唯一签名，并记录到uniqueMethods集合中
       addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
       // we also need to look for interface methods - because the class may be abstract
+      // 获取当前类对象 实现的所有接口
       Class<?>[] interfaces = currentClass.getInterfaces();
       for (Class<?> anInterface : interfaces) {
+        //addUniqueMethods 为每个接口中的每个方法都生成唯一签名，并记录到uniqueMethods集合中
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
       }
-      //当前类的父类  // 获取父类，继续while循环
+      // 当前类的父类，继续while循环  逐层递增直到遍历到Object对象
       currentClass = currentClass.getSuperclass();
     }
     Collection<Method> methods = uniqueMethods.values();
