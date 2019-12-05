@@ -373,7 +373,6 @@ public class Reflector {
    * because we want to look for private methods as well.
    * 此方法返回一个数组，该数组包含该类中声明的所有方法和任何超类
    * 我们使用此方法不是为了代替 Class.getMethods(),因为我们想访问类中的私有方法.
-   * 获取类的所有方法
    * @param cls The class
    * @return An array containing all methods in this class 包含该类中所有方法的数组
    * //获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
@@ -404,17 +403,12 @@ public class Reflector {
    */
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
-      //判断是不是桥接方法, 桥接方法是 JDK 1.5 引入泛型后，为了使Java的泛型方法生成的字节码和 1.5 版本前的字节码相兼容，由编译器自动生成的方法
       if (!currentMethod.isBridge()) {
         //得到方法签名 格式为：方法返回参数#方法名:参数名 ps：多个参数用,分割 签名样例:String#getName:User
         String signature = getSignature(currentMethod);
-        //根据方法签名排重
-        // check to see if the method is already known if it is known, then an extended class must have overridden a method
-        // 检查方法是否已知如果已知，则扩展类必须重写方法
         //如果签名存在，则不做处理，表示子类已经覆盖了该方法。
         //如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
         if (!uniqueMethods.containsKey(signature)) {
-          //记录签名与方法的对应关系
           uniqueMethods.put(signature, currentMethod);
         }
       }
