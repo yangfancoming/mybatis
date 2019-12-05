@@ -20,8 +20,8 @@ public class App extends MyBaseDataTest {
   @Test
   void Reader() throws Exception {
     setUpByReader(XMLPATH);
-    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById", 1);
-    System.out.println(o.toString());
+//    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById", 1);
+//    System.out.println(o.toString());
   }
 
 
@@ -32,8 +32,8 @@ public class App extends MyBaseDataTest {
   @Test
   void InputStream() throws Exception {
     setUpByInputStream(XMLPATH);
-    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById2", 1);
-    System.out.println(o.toString());
+//    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById2", 1);
+//    System.out.println(o.toString());
   }
 
 }

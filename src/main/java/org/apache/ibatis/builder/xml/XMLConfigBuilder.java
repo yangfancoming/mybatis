@@ -331,8 +331,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    <properties>节点解析过程，不是很复杂。主要包含三个步骤，
    一是解析 <properties>节点的子节点，并将解析结果设置到 Properties 对象中。
    二是从文件系统或通过网络读取属性配置，这取决于<properties>节点的 resource 和 url 是否为空。
-   最后一步则是将包含属性信息的 Properties 对象设置到
-   XPathParser 和 Configuration 中
+   最后一步则是将包含属性信息的 Properties 对象设置到 XPathParser 和 Configuration 中
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-

@@ -89,6 +89,7 @@ public class Reflector {
 
   /**
    * 获取指定Class对象的 所有的构造函数(public，protected，default(package)access和private)
+   *  查找clazz的无参构造方法，通过反射遍历所有构造方法，过滤出构造参数集合长度为0的。
    */
   private void addDefaultConstructor(Class<?> clazz) {
     // 取出所有构造函数 (public，protected，default(package)access和private)
@@ -100,7 +101,8 @@ public class Reflector {
       }
     }
   }
-  /**   负责解析类中定义的getter方法
+  /**   处理clazz 中的getter 方法，填充getMethods 集合和getTypes 集合
+   * 负责解析类中定义的getter方法
    1. 获取当前类，接口，以及父类中的方法
    2. 遍历上一步获取的方法数组，并过滤出以 get 和 is 开头的方法
    3. 将方法名转换成相应的属性名
@@ -110,6 +112,7 @@ public class Reflector {
   private void addGetMethods(Class<?> cls) {
     Map<String, List<Method>> conflictingGetters = new HashMap<>();
     // 获取当前类，接口，以及父类中的方法。该方法逻辑不是很复杂，这里就不展开了
+    // 获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
     Method[] methods = getClassMethods(cls);
     for (Method method : methods) {
       // getter 方法不应该有参数，若存在参数，则忽略当前方法
@@ -118,6 +121,7 @@ public class Reflector {
       }
       String name = method.getName();
       // 过滤出以 get 或 is 开头的方法
+      // 判断如果方法明是以get开头并且方法名长度大于3 或者 方法名是以is开头并且长度大于2
       if ((name.startsWith("get") && name.length() > 3)|| (name.startsWith("is") && name.length() > 2)) {
         // 将 getXXX 或 isXXX 等方法名转成相应的属性， 比如 getName -> name
         name = PropertyNamer.methodToProperty(name);
@@ -343,8 +347,7 @@ public class Reflector {
   }
 
   /**
-   * This method returns an array containing all methods
-   * declared in this class and any superclass.
+   * This method returns an array containing all methods declared in this class and any superclass.
    * We use this method, instead of the simpler <code>Class.getMethods()</code>,
    * because we want to look for private methods as well.
    * 此方法返回一个数组，该数组包含该类中声明的所有方法和任何超类
@@ -352,13 +355,15 @@ public class Reflector {
    * 获取类的所有方法
    * @param cls The class
    * @return An array containing all methods in this class 包含该类中所有方法的数组
+   * //获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
    */
   private Method[] getClassMethods(Class<?> cls) {
     //用于记录指定类中定义的全部方法的唯一签名以及对应的Method对象
     Map<String, Method> uniqueMethods = new HashMap<>();
     Class<?> currentClass = cls;
     while (currentClass != null && currentClass != Object.class) {
-      //记录当前类中定义的所有方法
+      //currentClass.getDeclaredMethods(),获取当前类中定义的所有方法
+      //addUniqueMethods 为每个方法生成唯一签名，并记录到uniqueMethods集合中
       addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
       // we also need to look for interface methods - because the class may be abstract
       Class<?>[] interfaces = currentClass.getInterfaces();
@@ -378,12 +383,15 @@ public class Reflector {
    */
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
+      //判断是不是桥接方法, 桥接方法是 JDK 1.5 引入泛型后，为了使Java的泛型方法生成的字节码和 1.5 版本前的字节码相兼容，由编译器自动生成的方法
       if (!currentMethod.isBridge()) {
-        //得到方法签名
+        //得到方法签名 格式为：方法返回参数#方法名:参数名 ps：多个参数用,分割 签名样例:String#getName:User
         String signature = getSignature(currentMethod);
         //根据方法签名排重
         // check to see if the method is already known if it is known, then an extended class must have overridden a method
         // 检查方法是否已知如果已知，则扩展类必须重写方法
+        //如果签名存在，则不做处理，表示子类已经覆盖了该方法。
+        //如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
         if (!uniqueMethods.containsKey(signature)) {
           //记录签名与方法的对应关系
           uniqueMethods.put(signature, currentMethod);
@@ -393,13 +401,17 @@ public class Reflector {
   }
 
   /**
-   * 获取方法签名： 根据函数名称、参数和返回值类型来取得签名， 保证方法的唯一性
-   * 很显然， 签名的目的是唯一性。 那使用语言本身的特性来保证唯一性是最好的：
-   * 方法名不一致， 则方法就不一致
-   * 返回值不一致或者不是其子类， 则方法不一致
-   * 参数数量， 参数类型顺序不一致方法也会不一样
-   * 因此， 以上的签名方式可以保证方法的唯一性。
-  */
+   *  给指定方法生成唯一签名  生成签名的规则是： 方法返回值#方法名#参数名
+   * @param method  待生成唯一签名的方法
+   * 输入示例：  Method eat = Human.class.getMethod("eat");
+   * 输出结果：  Assert.assertEquals("void#eat", ReflectUtil.getSignature(eat));
+   *
+   * 输入示例：  Method sing = Human.class.getMethod("sing",String.class);
+   * 输出结果：  Assert.assertEquals("void#sing:java.lang.String", ReflectUtil.getSignature(sing));
+   *
+   * 输入示例：  Method study = Human.class.getMethod("study",String.class,Integer.class);
+   * 输出结果：  Assert.assertEquals("java.lang.String#study:java.lang.String,java.lang.Integer", ReflectUtil.getSignature(study));
+   */
   private String getSignature(Method method) {
     StringBuilder sb = new StringBuilder();
     Class<?> returnType = method.getReturnType();
@@ -409,11 +421,7 @@ public class Reflector {
     sb.append(method.getName());
     Class<?>[] parameters = method.getParameterTypes();
     for (int i = 0; i < parameters.length; i++) {
-      if (i == 0) {
-        sb.append(':');
-      } else {
-        sb.append(',');
-      }
+      sb.append((i == 0)? ':':','); // modify-
       sb.append(parameters[i].getName());
     }
     return sb.toString();
