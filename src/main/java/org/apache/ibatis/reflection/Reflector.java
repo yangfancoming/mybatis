@@ -122,6 +122,7 @@ public class Reflector {
       String name = method.getName();
       // 过滤出方法名是以get开头并且方法名长度大于3 或者 方法名是以is开头并且长度大于2
       if ((name.startsWith("get") && name.length() > 3)|| (name.startsWith("is") && name.length() > 2)) {
+        //  将 getXXX 或 isXXX 等方法名转成相应的属性 getMappedStatements ---> mappedStatements
         name = PropertyNamer.methodToProperty(name);
         /*
          * 将冲突的方法添加到 conflictingGetters 中。考虑这样一种情况：
@@ -142,6 +143,11 @@ public class Reflector {
    * 例：
    * super： List<String> getIds();
    * sub: ArrayList<String> getIds();
+   * 输入示例：
+   * key:  title
+   * value:
+   *  0 = {Method@1613} "public void org.apache.goat.chapter100.temp.Student.isTitle()"
+   *  1 = {Method@1614} "public void org.apache.goat.chapter100.temp.Student.getTitle()"
    *
    由于在获取方法时， 通过调用当前类及其除 Object 之外的所有父类的 getDeclaredMethods 方法及 getInterfaces() 方法，
    因此， 其获取到的方法是该类及其父类的所有方法。
