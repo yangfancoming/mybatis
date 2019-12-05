@@ -138,43 +138,64 @@ public class Reflector {
   }
 
   /**
+   *
+   * 解决getter方法冲突，寻找最规范和最合理的getter方法
+   * 冲突原因：因为在java的继承关系中，会存在子类重写父类的方法，但是放大了返回值类型 所有会存在conflicting冲突的方法
+   * 例：
+   * super： List<String> getIds();
+   * sub: ArrayList<String> getIds();
+   *
    由于在获取方法时， 通过调用当前类及其除 Object 之外的所有父类的 getDeclaredMethods 方法及 getInterfaces() 方法，
    因此， 其获取到的方法是该类及其父类的所有方法。
    由此， 产生了一个问题， 如果子类重写了父类中的方法， 如果返回值相同， 则可以通过键重复来去掉。
    但是， 如果方法返回值是父类相同实体方法返回值类型的子类， 则就会导致两个方法是同一个方法， 但是签名不同。
    因此， 需要解决此类冲突。
+
+   内部实现主要是两个for循环，循环比较方法名称相同的情况下，返回值不同的情况下，拿第二个当最终想要的Method。
+   <1> 处，基于返回类型比较。重点在 <1.1> 和 <1.2> 的情况，
+   因为子类可以修改放大返回值，所以在出现这个情况时，选择子类的该方法。
+   例如，父类的一个方法的返回值为 List ，子类对该方法的返回值可以覆写为 ArrayList 。
   */
   private void resolveGetterConflicts(Map<String, List<Method>> conflictingGetters) {
+    // 遍历每个属性，查找其最匹配的方法。因为子类可以覆写父类的方法，所以一个属性，可能对应多个 getting 方法
     for (Entry<String, List<Method>> entry : conflictingGetters.entrySet()) {
+      // 最匹配的方法
       Method winner = null;
       String propName = entry.getKey();
       for (Method candidate : entry.getValue()) {
+        // winner 为空，说明 candidate 为最匹配的方法
         if (winner == null) {
           winner = candidate;
           continue;
         }
-        // 获取返回值类型
+        // <1> 基于返回类型比较
         Class<?> winnerType = winner.getReturnType();
         Class<?> candidateType = candidate.getReturnType();
         /*
          * 两个方法的返回值类型一致，若两个方法返回值类型均为 boolean，
          * 则选取 isXXX 方法为 winner。否则无法决定哪个方法更为合适，只能抛出异常
          */
+        // 类型相同
         if (candidateType.equals(winnerType)) {
+          // 返回值类型相同，应该在 getClassMethods 方法中，已经合并。所以抛出 ReflectionException 异常
           if (!boolean.class.equals(candidateType)) {
             throw new ReflectionException("Illegal overloaded getter method with ambiguous type for property "  + propName + " in class " + winner.getDeclaringClass() + ". This breaks the JavaBeans specification and can cause unpredictable results.");
+            // 选择 boolean 类型的 is 方法
           } else if (candidate.getName().startsWith("is")) { // 如果方法返回值类型为 boolean，且方法名以 "is" 开头，则认为候选方法 candidate 更为合适
             winner = candidate;
           }
+          // 不符合选择子类
         } else if (candidateType.isAssignableFrom(winnerType)) { // winnerType 是 candidateType 的子类，类型上更为具体,则认为当前的 winner 仍是合适的，无需做什么事情
           // OK getter type is descendant
+          // <1.1> 符合选择子类。因为子类可以修改放大返回值。例如，父类的一个方法的返回值为 List ，子类对该方法的返回值可以覆写为 ArrayList
         } else if (winnerType.isAssignableFrom(candidateType)) { // candidateType 是 winnerType 的子类，此时认为 candidate 方法 更为合适， 故将 winner 更新为 candidate
           winner = candidate;
-        } else {
+        } else {// <1.2> 返回类型冲突，抛出 ReflectionException 异常
           throw new ReflectionException("Illegal overloaded getter method with ambiguous type for property " + propName + " in class " + winner.getDeclaringClass() + ". This breaks the JavaBeans specification and can cause unpredictable results.");
         }
       }
       // 将筛选出的方法添加到 getMethods 中，并将方法返回值添加到 getTypes 中
+      // <2> 添加到 getMethods 和 getTypes 中
       addGetMethod(propName, winner);
     }
   }
