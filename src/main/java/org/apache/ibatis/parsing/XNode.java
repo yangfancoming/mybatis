@@ -27,12 +27,13 @@ public class XNode {
 
   private static final Log log = LogFactory.getLog(XNode.class);
 
-  /**
-   * 还好都是jdk本身的工具类，只有最后一个解析xml的基础工具类是mybatis的io的
-   */
+  // 被XNode包装的当前节点
   private final Node node;
+  // 当前节点名称
   private final String name;
+  // 当前节点文本内容
   private final String body;
+  // 当前节点所有属性
   private final Properties attributes;
   private final Properties variables;
   private final XPathParser xpathParser;
