@@ -186,6 +186,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     /**
      * 解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
+     *   <settings>
+     *     <setting name="mapUnderscoreToCamelCase" value="true"/>
+     *     <setting name="cacheEnabled" value="true" />
+     *   </settings>
+     *
      * "mapUnderscoreToCamelCase" -> "true"
      * "cacheEnabled" -> "true"
      */
@@ -215,13 +220,12 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   *    <settings>
+   *        <setting name="logImpl" value="NO_LOGGING"/>
+   *    </settings>
    从 MyBatis 的 TypeAliasRegistry 中查找 logImpl 键所对应值的类对象
    这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
    注意 Log 类，这是 MyBatis 内部对日志对象的抽象
-
-   <settings>
-   <setting name="logImpl" value="NO_LOGGING"/>
-   </settings>
    */
   private void loadCustomLogImpl(Properties props) {
     Class<? extends Log> logImpl = resolveClass(props.getProperty("logImpl"));
@@ -235,36 +239,36 @@ public class XMLConfigBuilder extends BaseBuilder {
    这些别名都会被存入configuration的typeAliasRegistry容器中。
    */
   private void typeAliasesElement(XNode parent) {
-    if (parent != null) {
-      //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
-      for (XNode child : parent.getChildren()) {
-        //2.处理package类型配置 // 若当前结点为<package>
-        if ("package".equals(child.getName())) {
-          //  //2.1获取包名 获取<package>上的name属性（包名）
-          String typeAliasPackage = child.getStringAttribute("name");
-          // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
-          //2.2注册包名，将包名放到typeAliasRegistry里面，里面拿到包名之后还会进一步处理 最后会放到TypeAliasRegistry.TYPE_ALIASES这个Map里面去
-          configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage); // org.apache.goat.common
-        } else {
-          //3.处理typeAlias类型配置  // 如果当前结点为< typeAlias >
-          //3.1获取别名 // 获取alias和type属性
-          String alias = child.getStringAttribute("alias");
-          //3.2获取类名
-          String type = child.getStringAttribute("type");
-          // 注册进configuration的typeAliasRegistry中
-          try {
-            Class<?> clazz = Resources.classForName(type);
-            //3.3下面的注册逻辑其实比前面注册包名要简单，注册包名要依次处理包下的类，也会调用registerAlias方法，
-            //这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
-            if (alias == null) {
-              typeAliasRegistry.registerAlias(clazz);
-            } else {
-              typeAliasRegistry.registerAlias(alias, clazz);
-            }
-          } catch (ClassNotFoundException e) {
-            //4.其他类型直接报错
-            throw new BuilderException("Error registering typeAlias for '" + alias + "'. Cause: " + e, e);
+    if (parent == null)  return; // -modify-
+    //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
+    for (XNode child : parent.getChildren()) {
+      //2.处理package类型配置 // 若当前结点为<package>
+      if ("package".equals(child.getName())) {
+        //  //2.1获取包名 获取<package>上的name属性（包名）
+        String typeAliasPackage = child.getStringAttribute("name");
+        // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
+        //2.2注册包名，将包名放到typeAliasRegistry里面，里面拿到包名之后还会进一步处理 最后会放到TypeAliasRegistry.TYPE_ALIASES这个Map里面去
+        // 这里为啥 不想 下面那样使用  typeAliasRegistry.registerAlias(clazz); 呢？？？doit
+        configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage); // org.apache.goat.common
+      } else {
+        //3.处理typeAlias类型配置  // 如果当前结点为< typeAlias >
+        //3.1获取别名 // 获取alias和type属性
+        String alias = child.getStringAttribute("alias");
+        //3.2获取类名
+        String type = child.getStringAttribute("type");
+        // 注册进configuration的typeAliasRegistry中
+        try {
+          Class<?> clazz = Resources.classForName(type);
+          //3.3下面的注册逻辑其实比前面注册包名要简单，注册包名要依次处理包下的类，也会调用registerAlias方法，
+          //这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
+          if (alias == null) {
+            typeAliasRegistry.registerAlias(clazz);
+          } else {
+            typeAliasRegistry.registerAlias(alias, clazz);
           }
+        } catch (ClassNotFoundException e) {
+          //4.其他类型直接报错
+          throw new BuilderException("Error registering typeAlias for '" + alias + "'. Cause: " + e, e);
         }
       }
     }
@@ -335,9 +339,27 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
-    // 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
+    /**
+     * 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
+     * 情况一：
+     *  <properties resource="dbconfig.properties"></properties>
+     *   defaults =  size为0
+     *
+     * 情况二：
+     *     <properties resource="dbconfig.properties">
+     *         <property name="jdbc.driver" value="1"/>
+     *         <property name="jdbc.url" value="2"/>
+     *         <property name="jdbc.username" value="3"/>
+     *         <property name="jdbc.password" value="4"/>
+     *     </properties>
+     *   defaults =  size 为 4
+     *   "jdbc.url" -> "2"
+     *   "jdbc.username" -> "3"
+     *   "jdbc.driver" -> "1"
+     *   "jdbc.password" -> "4"
+    */
     Properties defaults = context.getChildrenAsProperties();
-    // 获取<properties>节点上的resource属性
+    // 获取<properties>节点上的resource属性  eg: resource="dbconfig.properties"
     String resource = context.getStringAttribute("resource");
     // 获取<properties>节点上的url属性
     String url = context.getStringAttribute("url");
@@ -346,9 +368,9 @@ public class XMLConfigBuilder extends BaseBuilder {
       throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
     }
     if (resource != null) {
-      // 获取resource属性值对应的properties文件中的键值对，并添加至defaults容器中 会产生覆盖操作
-      // 从文件系统中加载并解析属性文件
+      // 从文件系统中加载并解析属性文件  获取resource属性值对应的properties文件中的键值对
       Properties properties = Resources.getResourceAsProperties(resource);
+      // 添加至defaults容器中 会产生覆盖操作 eg: 将文件中的键值对替换掉  xml标签中的对应的value <property name="jdbc.driver" value="1"/>
       defaults.putAll(properties);
     } else if (url != null) {
       // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作

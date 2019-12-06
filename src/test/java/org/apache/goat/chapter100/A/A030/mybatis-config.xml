@@ -12,31 +12,31 @@
                 type:指定要起别名的类型全类名;默认别名就是类名小写；employee
                 alias:指定新的别名
      -->
-     <typeAlias type="org.apache.goat.common.Foo" alias="Foo"/>
-     <typeAlias type="org.apache.goat.common.Bar" alias="Bar"/>
+    <typeAlias type="org.apache.goat.common.Foo" alias="Foo0"/>
+    <typeAlias type="org.apache.goat.common.Bar" alias="Bar0"/>
 
-
+    <package name="org.apache.goat.common"/>
   </typeAliases>
 
-  <environments default="development">
+<!--  <environments default="development">-->
 
-    <environment id="development">
+<!--    <environment id="development">-->
 
-      <transactionManager type="JDBC"></transactionManager>
+<!--      <transactionManager type="JDBC"></transactionManager>-->
 
-      <dataSource type="UNPOOLED">
-        <property name="driver" value="org.hsqldb.jdbcDriver" />
-        <property name="url" value="jdbc:hsqldb:mem:cache" />
-        <property name="username" value="sa" />
-      </dataSource>
+<!--      <dataSource type="UNPOOLED">-->
+<!--        <property name="driver" value="org.hsqldb.jdbcDriver" />-->
+<!--        <property name="url" value="jdbc:hsqldb:mem:cache" />-->
+<!--        <property name="username" value="sa" />-->
+<!--      </dataSource>-->
 
-    </environment>
+<!--    </environment>-->
 
-  </environments>
+<!--  </environments>-->
 
-  <mappers>
-    <mapper resource="org/apache/goat/chapter100/A/A030/Foo.xml" />
-  </mappers>
+<!--  <mappers>-->
+<!--    <mapper resource="org/apache/goat/chapter100/A/A030/Foo.xml" />-->
+<!--  </mappers>-->
 </configuration>
 
 

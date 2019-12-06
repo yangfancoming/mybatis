@@ -276,7 +276,7 @@ public class XNode {
   }
 
   /**
-   * 获取孩子节点的List集合
+   * 获取当前节点的所有孩子节点(List集合)
    */
   public List<XNode> getChildren() {
     List<XNode> children = new ArrayList<>();
@@ -296,15 +296,22 @@ public class XNode {
   }
 
   /**
-   * 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
+   * @Description: 获取 当前节点的所有子节点 并将这些子节点 两个属性和对应的属性值 保存到Properties对象
+   * @param key1 每个子节点的属性名1
+   * @param key2 每个子节点的属性名2
+   *   <settings>
+   *     <setting name="mapUnderscoreToCamelCase" value="true"/>
+   *     <setting name="cacheEnabled" value="true" />
+   *   </settings>
+   * 输入示例：   getChildrenAsProperties("name", "value");
+   * 输出结果：   key：mapUnderscoreToCamelCase  value：true
+   * 输出结果：   key：cacheEnabled              value：false
+   * @author goat
+   * @date 2018/7/11
+   * @return  Properties
    */
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
-    /**
-     * 获取并遍历子节点  childrens ：
-     * <setting name="mapUnderscoreToCamelCase" value="true"/>
-     * <setting name="cacheEnabled" value="true"/>
-     */
     List<XNode> childrens = getChildren();
     for (XNode child : childrens) {
       // 获取 <property> 节点的 name 和 value 属性

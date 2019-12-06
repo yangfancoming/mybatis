@@ -156,12 +156,10 @@ public class ResolverUtil<T> {
     if (packageNames == null) {
       return this;
     }
-
     Test test = new IsA(parent);
     for (String pkg : packageNames) {
       find(test, pkg);
     }
-
     return this;
   }
 
@@ -225,6 +223,7 @@ public class ResolverUtil<T> {
 
   /**
    * Add the class designated by the fully qualified class name provided to the set of resolved classes if and only if it is approved by the Test supplied.
+   * 如果且仅当通过所提供的测试批准时，才将由提供的完全限定类名指定的类添加到解析类集。
    * @param test the test used to determine if the class matches
    * @param fqn the fully qualified name of a class
    */

@@ -17,12 +17,14 @@ public class Student {
         return " Student  study......" +  course + hour;
     }
 
-    public void getTitle(){
+    public boolean getTitle(){
         System.out.println("Student getTitle......");
+        return false;
     }
 
-    public void isTitle(){
+    public boolean isTitle(){
         System.out.println("Student isTitle......");
+      return true;
     }
 
 }

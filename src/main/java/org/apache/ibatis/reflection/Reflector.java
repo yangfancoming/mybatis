@@ -101,6 +101,7 @@ public class Reflector {
       }
     }
   }
+
   /**   处理clazz 中的getter 方法，填充getMethods 集合和getTypes 集合
    * 负责解析类中定义的getter方法
    1. 获取当前类，接口，以及父类中的方法

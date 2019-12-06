@@ -163,6 +163,7 @@ public abstract class VFS {
 
   /**
    * Recursively list the full resource path of all the resources that are children of the resource identified by a URL.
+   * 递归地列出所有资源的完整资源路径，这些资源是由URL标识的资源的子级。
    * @param url The URL that identifies the resource to list.
    * @param forPath The path to the resource that is identified by the URL. Generally, this is the value passed to {@link #getResources(String)} to get the resource URL.
    * @return A list containing the names of the child resources.
@@ -181,8 +182,10 @@ public abstract class VFS {
    */
   public List<String> list(String path) throws IOException {
     List<String> names = new ArrayList<>();
-    for (URL url : getResources(path)) {
-      names.addAll(list(url, path));// file:/E:/Code/Mybatis/GitHub/mybatis-3-master/target/test-classes/org/apache/goat/common
+    List<URL> resources = getResources(path);
+    for (URL url : resources) {
+      List<String> list = list(url, path);
+      names.addAll(list);// file:/E:/Code/Mybatis/GitHub/mybatis-3-master/target/test-classes/org/apache/goat/common
     }
     return names;
   }
