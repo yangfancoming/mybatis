@@ -401,11 +401,10 @@ public class XNode {
   }
 
   /**
-   * 如果该节点是文本节点或者CDATA节点，获取其节点值
+   * 如果这个节点是文本节点或者CDATA节点，获取其节点值，然后再用PropertyParser.parse（）处理下
    * @param child
    */
   private String getBodyData(Node child) {
-    //如果这个节点是文本节点或者CDATA节点，就取节点的内容，然后用PropertyParser.parse（）处理下
     if (child.getNodeType() == Node.CDATA_SECTION_NODE || child.getNodeType() == Node.TEXT_NODE) {
       String data = ((CharacterData) child).getData();
       data = PropertyParser.parse(data, variables);
