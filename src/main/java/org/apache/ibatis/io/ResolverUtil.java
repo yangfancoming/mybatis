@@ -187,11 +187,12 @@ public class ResolverUtil<T> {
    * 每个类在被发现时提供给测试，如果测试返回true，则保留该类。
    * Accumulated classes can be fetched by calling {@link #getClasses()}.
    * 可以通过调用getClasses() 获取累积类
+   * 输入示例：   org.apache.goat.common
+   * 输出结果：   org/apache/goat/common
    * @param test an instance of {@link Test} that will be used to filter classes
    * @param packageName the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}
    */
   public ResolverUtil<T> find(Test test, String packageName) {
-    // 将 org.apache.goat.common 转换为 org/apache/goat/common
     String path = getPackagePath(packageName);
     try {
       /**
@@ -225,11 +226,12 @@ public class ResolverUtil<T> {
    * Add the class designated by the fully qualified class name provided to the set of resolved classes if and only if it is approved by the Test supplied.
    * 如果且仅当通过所提供的测试批准时，才将由提供的完全限定类名指定的类添加到解析类集。
    * @param test the test used to determine if the class matches
-   * @param fqn the fully qualified name of a class
+   * @param fqn the fully qualified name of a class  eg: org/apache/goat/common/Customer.class
    */
   @SuppressWarnings("unchecked")
   protected void addIfMatching(Test test, String fqn) {
     try {
+      // org.apache.goat.common.Customer
       String externalName = fqn.substring(0, fqn.indexOf('.')).replace('/', '.');
       ClassLoader loader = getClassLoader();
       if (log.isDebugEnabled()) {
@@ -238,6 +240,8 @@ public class ResolverUtil<T> {
       Class<?> type = loader.loadClass(externalName);
       if (test.matches(type)) {
         matches.add((Class<T>) type);
+      }else {
+        log.debug(externalName + " match failed！ modify-");
       }
     } catch (Throwable t) {
       log.warn("Could not examine class '" + fqn + "'" + " due to a " + t.getClass().getName() + " with message: " + t.getMessage());

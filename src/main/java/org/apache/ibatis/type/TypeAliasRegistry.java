@@ -138,8 +138,8 @@ public class TypeAliasRegistry {
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
     Set<Class<? extends Class<?>>> typeSet = resolverUtil.getClasses();
     for (Class<?> type : typeSet) {
-      // Ignore inner classes and interfaces (including package-info.java)
-      // Skip also inner classes. See issue #6
+      // Ignore inner classes and interfaces (including package-info.java)  Skip also inner classes. See issue #6
+      // 忽略 匿名类、接口、成员内部类
       if (!type.isAnonymousClass() && !type.isInterface() && !type.isMemberClass()) {
         registerAlias(type);
       }
@@ -151,6 +151,7 @@ public class TypeAliasRegistry {
     // 判断 @Alias("what")
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
     if (aliasAnnotation != null) {
+      // 面试题  mybatis 配置别名的三种方式中 优先级最高的为 @Alias("what") 注解！
       alias = aliasAnnotation.value();
     }
     registerAlias(alias, type);

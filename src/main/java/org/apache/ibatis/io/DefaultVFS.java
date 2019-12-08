@@ -192,9 +192,9 @@ public class DefaultVFS extends VFS {
   }
 
   /**
-   * Attempts to deconstruct the given URL to find a JAR file containing the resource referenced
-   * by the URL. That is, assuming the URL references a JAR entry, this method will return a URL
-   * that references the JAR file containing the entry. If the JAR cannot be located, then this method returns null.
+   * Attempts to deconstruct the given URL to find a JAR file containing the resource referenced by the URL.
+   * That is, assuming the URL references a JAR entry, this method will return a URL that references the JAR file containing the entry.
+   * If the JAR cannot be located, then this method returns null.
    * @param url The URL of the JAR entry.
    * @return The URL of the JAR file, if one is found. Null if not.
    * @throws MalformedURLException

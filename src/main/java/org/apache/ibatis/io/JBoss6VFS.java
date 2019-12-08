@@ -74,7 +74,7 @@ public class JBoss6VFS extends VFS {
       // Assume valid. It will get flipped later if something goes wrong.
       valid = Boolean.TRUE;
 
-      // Look up and verify required classes
+      // Look up and verify required classes // 更改 valid 状态！
       VFS.VFS = checkNotNull(getClass("org.jboss.vfs.VFS"));
       VirtualFile.VirtualFile = checkNotNull(getClass("org.jboss.vfs.VirtualFile"));
 
