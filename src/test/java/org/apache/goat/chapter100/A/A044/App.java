@@ -2,7 +2,6 @@ package org.apache.goat.chapter100.A.A044;
 
 import org.apache.goat.MyBaseDataTest;
 import org.apache.goat.common.Foo;
-import org.apache.goat.common.Zoo;
 import org.junit.jupiter.api.Test;
 
 
@@ -18,7 +17,7 @@ class App extends MyBaseDataTest {
   @Test
   void selectById() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
-    Foo foo = sqlSession.selectOne("org.apache.goat.chapter100.A044.FooMapper.selectById",1);
+    Foo foo = sqlSession.selectOne("org.apache.goat.chapter100.A.A044.FooMapper.selectById",1);
     System.out.println(foo);
   }
 
@@ -36,10 +35,10 @@ class App extends MyBaseDataTest {
   /* 注解方式 正常*/
   @Test
   void test1() throws Exception  {
-    setUpByReader(XMLPATH,DBSQL);
-    ZooMapper zooMapper = sqlSession.getMapper(ZooMapper.class);
-    Zoo zoo = zooMapper.selectById(1);
-    System.out.println(zoo);
+//    setUpByReader(XMLPATH,DBSQL);
+//    ZooMapper zooMapper = sqlSession.getMapper(ZooMapper.class);
+//    Zoo zoo = zooMapper.selectById(1);
+//    System.out.println(zoo);
   }
 
 }

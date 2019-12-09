@@ -48,7 +48,7 @@ public class XMLStatementBuilder extends BaseBuilder {
    * </select>
    */
   public void parseStatementNode() {
-    //1.获取sql节点的id  testIf
+    //1.获取 "select|insert|update|delete" 节点的id  testIf
     String id = context.getStringAttribute("id");
     //2.获取databaseId
     String databaseId = context.getStringAttribute("databaseId");

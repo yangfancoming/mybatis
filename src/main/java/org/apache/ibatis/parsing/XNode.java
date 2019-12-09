@@ -141,7 +141,7 @@ public class XNode {
   }
 
   public XNode evalNode(String expression) {
-    log.debug(  "XNode 解析的标签名称为：" + expression);
+    log.warn(  "XNode 解析的标签名称为：" + expression);
     return xpathParser.evalNode(node, expression);
   }
 
@@ -245,7 +245,12 @@ public class XNode {
 
   public Integer getIntAttribute(String name, Integer def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Integer.parseInt(value); // modify-
+    if (value == null) {
+      return def;
+    } else {
+      return Integer.parseInt(value);
+    }
+//    return (value == null) ? def : Integer.parseInt(value); // modify-
   }
 
   public Long getLongAttribute(String name) {

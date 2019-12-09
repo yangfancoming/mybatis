@@ -4,6 +4,8 @@ package org.apache.goat;
 
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -13,6 +15,8 @@ import java.io.InputStream;
 import java.io.Reader;
 
 public abstract class MyBaseDataTest {
+
+  private static final Log log = LogFactory.getLog(MyBaseDataTest.class);
 
   /** 由于 SqlSession 和 connection 一样都是非现场安全的  因此不能当做成员变量 此处只是用作 学习 测试之用*/
   public static SqlSession sqlSession;
@@ -65,7 +69,8 @@ public abstract class MyBaseDataTest {
   @AfterEach
   public void after(){
     sqlSession.close();
-    System.out.println("此次测试运行结束，关闭 sqlSession ");
+    log.warn(  "此次测试运行结束，关闭 sqlSession ");
+
   }
 
 
