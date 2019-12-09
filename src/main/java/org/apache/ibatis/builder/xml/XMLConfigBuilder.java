@@ -291,7 +291,8 @@ public class XMLConfigBuilder extends BaseBuilder {
       // 获取 <plugin>标签中的 interceptor 属性 ：org.apache.goat.chapter200.D10.MyMybatisPlugin
       String interceptor = child.getStringAttribute("interceptor");
       // 根据 插件类的全路径名 通过反射生成拦截器实例
-      Interceptor interceptorInstance = (Interceptor) resolveClass(interceptor).newInstance();
+      Class<?> aClass = resolveClass(interceptor);
+      Interceptor interceptorInstance = (Interceptor) aClass.newInstance();
       // 调用我们自定义的重写的 setProperties() 方法
       // 再拿<plugin>标签下的所有<property>标签，解析name和value属性成为一个Properties，将Properties设置到拦截器中
       interceptorInstance.setProperties(properties);

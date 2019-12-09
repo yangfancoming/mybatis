@@ -100,8 +100,7 @@ public class TypeAliasRegistry {
 
   //取出 已经注册的类型别名
   @SuppressWarnings("unchecked")
-  // throws class cast exception as well if types cannot be assigned
-  public <T> Class<T> resolveAlias(String string) {
+  public <T> Class<T> resolveAlias(String string) {  // throws class cast exception as well if types cannot be assigned
     try {
       if (string == null) {
         return null;
