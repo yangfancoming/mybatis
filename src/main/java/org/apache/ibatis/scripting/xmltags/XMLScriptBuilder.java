@@ -110,12 +110,13 @@ public class XMLScriptBuilder extends BaseBuilder {
         }
       } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628 //其他类型的节点，由不同的节点处理器来对应处理成本成不同的SqlNode类型
         String nodeName = child.getNode().getNodeName();
-        //获取节点名对应的NodeHandler对象，无非就是TrimNodeHandler/WhereNodeHandler等等
+        // 策略模式： 获取对应 initNodeHandlerMap() 填充的节点处理器策略
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler == null) {
           throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
         }
         //调用同一接口实现解析生成SqlNode对象并统一存入List<SqlNode>集合中
+        // 这里就相当于递归了！！！
         handler.handleNode(child, contents);
         isDynamic = true;
       }
