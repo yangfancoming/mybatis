@@ -81,6 +81,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     String parameterType = context.getStringAttribute("parameterType");
     Class<?> parameterTypeClass = resolveClass(parameterType);
 
+    // doit 这里的 "lang" 属性的 文档里也没有查到啊？？？
     String lang = context.getStringAttribute("lang");
     LanguageDriver langDriver = getLanguageDriver(lang);
 

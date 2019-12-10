@@ -10,7 +10,7 @@
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.5" x="709.5" y="428.0" />
+  <settings layout="Hierarchic Group" zoom="1.5" x="692.0" y="428.0" />
   <SelectedNodes>
     <node>org.apache.ibatis.binding.MapperRegistry</node>
   </SelectedNodes>
