@@ -9,7 +9,6 @@ import java.time.OffsetTime;
 
 /**
  * @since 3.4.5
- * @author Tomas Rohovsky
  */
 public class OffsetTimeTypeHandler extends BaseTypeHandler<OffsetTime> {
 

@@ -36,6 +36,7 @@ public interface LanguageDriver {
    * @param configuration The MyBatis configuration
    * @param script The content of the annotation
    * @param parameterType input parameter type got from a mapper method or specified in the parameterType xml attribute. Can be null.
+   * 用于注解上的读取xml格式的sql语句  @Select ("<script>SELECT firstName <if test=\"includeLastName != null\">, lastName</if> FROM names WHERE lastName LIKE #{name}</script>")
    */
   SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType);
 

@@ -798,6 +798,7 @@ public class Configuration {
     if (validateIncompleteStatements) {
       buildAllStatements();
     }
+    // id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
     return mappedStatements.get(id);
   }
 
