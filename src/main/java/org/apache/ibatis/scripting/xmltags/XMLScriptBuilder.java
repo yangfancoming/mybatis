@@ -23,6 +23,8 @@ public class XMLScriptBuilder extends BaseBuilder {
   private final XNode context;
   private boolean isDynamic;
   private final Class<?> parameterType;
+  // <!ELEMENT select (#PCDATA | include | trim | where | set | foreach | choose | if | bind)*>
+  // key为 子标签  value为 对应的处理器
   private final Map<String, NodeHandler> nodeHandlerMap = new HashMap<>();
 
   public XMLScriptBuilder(Configuration configuration, XNode context) {
