@@ -3,28 +3,28 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
-    <node x="504.0" y="79.0">org.apache.ibatis.builder.xml.XMLMapperBuilder</node>
+    <node x="0.0" y="79.0">org.apache.ibatis.builder.xml.XMLMapperBuilder</node>
     <node x="9.0" y="153.0">org.apache.ibatis.scripting.LanguageDriver</node>
-    <node x="342.0" y="79.0">org.apache.ibatis.scripting.xmltags.XMLScriptBuilder</node>
-    <node x="357.0" y="0.0">org.apache.ibatis.builder.BaseBuilder</node>
-    <node x="666.0" y="79.0">org.apache.ibatis.builder.xml.XMLConfigBuilder</node>
+    <node x="504.0" y="79.0">org.apache.ibatis.scripting.xmltags.XMLScriptBuilder</node>
+    <node x="162.0" y="79.0">org.apache.ibatis.builder.xml.XMLConfigBuilder</node>
     <node x="0.0" y="232.0">org.apache.ibatis.scripting.xmltags.XMLLanguageDriver</node>
-    <node x="180.0" y="79.0">org.apache.ibatis.builder.SqlSourceBuilder</node>
-    <node x="0.0" y="79.0">org.apache.ibatis.builder.xml.XMLStatementBuilder</node>
+    <node x="348.0" y="0.0">org.apache.ibatis.builder.BaseBuilder</node>
+    <node x="666.0" y="79.0">org.apache.ibatis.builder.SqlSourceBuilder</node>
+    <node x="324.0" y="79.0">org.apache.ibatis.builder.xml.XMLStatementBuilder</node>
   </nodes>
   <notes />
   <edges>
     <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.BaseBuilder">
       <point x="0.0" y="-14.5" />
-      <point x="575.0" y="59.0" />
-      <point x="435.4" y="59.0" />
-      <point x="22.399999999999977" y="14.5" />
+      <point x="71.0" y="49.0" />
+      <point x="359.2" y="49.0" />
+      <point x="-44.80000000000001" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.SqlSourceBuilder" target="org.apache.ibatis.builder.BaseBuilder">
       <point x="0.0" y="-14.5" />
-      <point x="251.0" y="59.0" />
-      <point x="390.6" y="59.0" />
-      <point x="-22.399999999999977" y="14.5" />
+      <point x="737.0" y="49.0" />
+      <point x="448.8" y="49.0" />
+      <point x="44.80000000000001" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.scripting.xmltags.XMLLanguageDriver" target="org.apache.ibatis.scripting.LanguageDriver">
       <point x="0.0" y="-14.5" />
@@ -32,22 +32,22 @@
     </edge>
     <edge source="org.apache.ibatis.scripting.xmltags.XMLScriptBuilder" target="org.apache.ibatis.builder.BaseBuilder">
       <point x="0.0" y="-14.5" />
-      <point x="0.0" y="14.5" />
+      <point x="575.0" y="59.0" />
+      <point x="426.4" y="59.0" />
+      <point x="22.399999999999977" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.xml.XMLStatementBuilder" target="org.apache.ibatis.builder.BaseBuilder">
       <point x="0.0" y="-14.5" />
-      <point x="80.0" y="49.0" />
-      <point x="368.2" y="49.0" />
-      <point x="-44.80000000000001" y="14.5" />
+      <point x="0.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.xml.XMLConfigBuilder" target="org.apache.ibatis.builder.BaseBuilder">
       <point x="0.0" y="-14.5" />
-      <point x="737.0" y="49.0" />
-      <point x="457.8" y="49.0" />
-      <point x="44.80000000000001" y="14.5" />
+      <point x="233.0" y="59.0" />
+      <point x="381.6" y="59.0" />
+      <point x="-22.399999999999977" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="672.0" y="408.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="689.5" y="428.0" />
   <SelectedNodes>
     <node>org.apache.ibatis.scripting.xmltags.XMLLanguageDriver</node>
   </SelectedNodes>

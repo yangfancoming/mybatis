@@ -38,6 +38,7 @@ public class XMLScriptBuilder extends BaseBuilder {
     initNodeHandlerMap();
   }
 
+  // doit  这里为什么不用 静态代码块  或是静态的map呢？
   private void initNodeHandlerMap() {
     nodeHandlerMap.put("trim", new TrimHandler());
     nodeHandlerMap.put("where", new WhereHandler());

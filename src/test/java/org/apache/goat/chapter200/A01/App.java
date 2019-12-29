@@ -18,7 +18,7 @@ import java.io.Reader;
  * 	mybatis：	Mapper	====>  xxMapper.xml
  *
  * 2、SqlSession代表和数据库的一次会话；用完必须关闭；
- * 3、SqlSession和connection一样她都是非线程安全。每次使用都应该去获取新的对象。
+ * 3、SqlSession和connection 一样它们都是非线程安全。每次使用都应该去获取新的对象。
  * 4、mapper接口没有实现类，但是mybatis会为这个接口生成一个代理对象。（将接口和xml进行绑定）
  * 		EmployeeMapper empMapper =	sqlSession.getMapper(EmployeeMapper.class);
  * 5、两个重要的配置文件：
