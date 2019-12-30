@@ -35,7 +35,7 @@ class App extends MyBaseDataTest {
     System.out.println(foo1); //
   }
 
+  /**  3、通过Configuration对象构建SqlSessionFactory   建A002*/
 
-  /**  3、通过Configuration对象构建SqlSessionFactory */
 
 }

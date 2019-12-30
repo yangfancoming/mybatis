@@ -24,8 +24,8 @@
   -->
 
   <!--指定 具体环境 -->
-  <environments default="pro_mysql">
-  <!--<environments default="dev_hsqldb">-->
+<!--  <environments default="pro_mysql">-->
+  <environments default="dev_hsqldb">
 
     <!--开发环境内存数据库-->
     <environment id="dev_hsqldb">

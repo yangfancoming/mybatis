@@ -10,7 +10,6 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A036/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-
   /**
    * 切换   注释一下两个标签  查看运行结果
    * <environments default="pro_mysql">   连接 myslq  数据库 查询
