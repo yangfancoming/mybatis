@@ -55,8 +55,9 @@ public class MetaObject {
     }
   }
 
-  // 当参数object为null时,返回 SystemMetaObject.NullObject.class 对象的元数据
+
   public static MetaObject forObject(Object object, ObjectFactory objectFactory, ObjectWrapperFactory objectWrapperFactory, ReflectorFactory reflectorFactory) {
+    // 当参数object为null时,返回 SystemMetaObject.NullObject.class 对象的元数据
     if (object == null) {
       return SystemMetaObject.NULL_META_OBJECT;
     } else {
