@@ -4,7 +4,6 @@ import org.apache.goat.MyBaseDataTest;
 import org.apache.goat.common.Foo;
 import org.junit.jupiter.api.Test;
 
-
 /**
  # mybatis  读取 xml 的三种方式
  * SqlSessionFactoryBuilder 类有很多的构造方法，但主要分为三大类：
