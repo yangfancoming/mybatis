@@ -1,4 +1,4 @@
-package org.apache.goat.chapter900;
+package org.apache.goat.chapter900.A020;
 
 import org.junit.jupiter.api.Test;
 

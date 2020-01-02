@@ -1,5 +1,5 @@
 
-package org.apache.goat.chapter900;
+package org.apache.goat.chapter900.A020;
 
 
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,6 @@ class CurdApp extends Base {
     connection = DriverManager.getConnection(url, properties);
     System.out.println(connection); // com.mysql.jdbc.JDBC4Connection@387a8303
   }
-
-
 
   // 根据列索引 获取数据
   @Test

@@ -1,4 +1,4 @@
-package org.apache.goat.chapter900;
+package org.apache.goat.chapter900.A020;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +18,7 @@ import java.sql.*;
 public class Base {
 
   String url = "jdbc:mysql://192.168.211.128:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false";
+  String url2 = "jdbc:hsqldb:mem:mybatis";
 
   Connection connection = null;
   ResultSet resultSet = null;
@@ -26,10 +27,9 @@ public class Base {
   /** DriverManager 3个参数 构造函数 */
   @BeforeEach
   public void before() throws SQLException {
-    connection = DriverManager.getConnection(url, "root","12345");
+    connection = DriverManager.getConnection(url2, "root","12345");
     statement = connection.createStatement();
     System.out.println(connection); // com.mysql.jdbc.JDBC4Connection@387a8303
-
   }
 
 
