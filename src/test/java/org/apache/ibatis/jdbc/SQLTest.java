@@ -6,6 +6,19 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+/**
+ * MyBatis中提供了一个SQL工具类
+ *
+ *  SQL工具类的来源：
+ *  在使用传统的JDBC API开发过项目过程中， 当我们需要使用Statement对象执行SQL时， SQL语句会嵌入Java代码中。
+ *  当SQL语句比较复杂时， 我们可能会在代码中对SQL语句进行拼接， 查询条件不固定时，
+ *  还需要根据不同条件拼接不同的SQL语句， 拼接语句时不要忘记添加必要的空格，
+ *  还要注意去掉列表最后一个列名的逗号。
+ *  这个过程对于开发人员来说简直就是一场噩梦， 而且代码可维护性级低。
+ *
+ *  为了解决这个问题， SQL工具类应运而生！
+*/
 class SQLTest {
 
   @Test
@@ -27,66 +40,6 @@ class SQLTest {
         "ORDER BY P.ID, P.FULL_NAME", sql);
   }
 
-  @Test
-  void shouldDemonstrateMixedStyle() {
-    //Mixed
-    final String sql = new SQL() {{
-      SELECT("id, name");
-      FROM("PERSON A");
-      WHERE("name like ?").WHERE("id = ?");
-    }}.toString();
-
-    assertEquals("" +
-        "SELECT id, name\n" +
-        "FROM PERSON A\n" +
-        "WHERE (name like ? AND id = ?)", sql);
-  }
-
-  @Test
-  void shouldDemonstrateFluentStyle() {
-    //Fluent Style
-    final String sql = new SQL().SELECT("id, name").FROM("PERSON A") .WHERE("name like ?").WHERE("id = ?").toString();
-    assertEquals("" + "SELECT id, name\n" +"FROM PERSON A\n" +"WHERE (name like ? AND id = ?)", sql);
-  }
-
-  @Test
-  void shouldProduceExpectedSimpleSelectStatement() {
-    final String expected =
-        "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME\n" +
-            "FROM PERSON P\n" +
-            "WHERE (P.ID like #id# AND P.FIRST_NAME like #firstName# AND P.LAST_NAME like #lastName#)\n" +
-            "ORDER BY P.LAST_NAME";
-    assertEquals(expected, example2("a", "b", "c"));
-  }
-
-  @Test
-  void shouldProduceExpectedSimpleSelectStatementMissingFirstParam() {
-    final String expected =
-        "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME\n" +
-            "FROM PERSON P\n" +
-            "WHERE (P.FIRST_NAME like #firstName# AND P.LAST_NAME like #lastName#)\n" +
-            "ORDER BY P.LAST_NAME";
-    assertEquals(expected, example2(null, "b", "c"));
-  }
-
-  @Test
-  void shouldProduceExpectedSimpleSelectStatementMissingFirstTwoParams() {
-    final String expected =
-        "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME\n" +
-            "FROM PERSON P\n" +
-            "WHERE (P.LAST_NAME like #lastName#)\n" +
-            "ORDER BY P.LAST_NAME";
-    assertEquals(expected, example2(null, null, "c"));
-  }
-
-  @Test
-  void shouldProduceExpectedSimpleSelectStatementMissingAllParams() {
-    final String expected =
-        "SELECT P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME\n" +
-            "FROM PERSON P\n" +
-            "ORDER BY P.LAST_NAME";
-    assertEquals(expected, example2(null, null, null));
-  }
 
   @Test
   void shouldProduceExpectedComplexSelectStatement() {
@@ -125,60 +78,7 @@ class SQLTest {
     }};
   }
 
-  private static String example2(final String id, final String firstName, final String lastName) {
-    return new SQL() {{
-      SELECT("P.ID, P.USERNAME, P.PASSWORD, P.FIRST_NAME, P.LAST_NAME");
-      FROM("PERSON P");
-      if (id != null) {
-        WHERE("P.ID like #id#");
-      }
-      if (firstName != null) {
-        WHERE("P.FIRST_NAME like #firstName#");
-      }
-      if (lastName != null) {
-        WHERE("P.LAST_NAME like #lastName#");
-      }
-      ORDER_BY("P.LAST_NAME");
-    }}.toString();
-  }
 
-
-  @Test
-  void variableLengthArgumentOnSelect() {
-    final String sql = new SQL() {{
-      SELECT("P.ID", "P.USERNAME");
-    }}.toString();
-
-    assertEquals("SELECT P.ID, P.USERNAME", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnSelectDistinct() {
-    final String sql = new SQL() {{
-      SELECT_DISTINCT("P.ID", "P.USERNAME");
-    }}.toString();
-
-    assertEquals("SELECT DISTINCT P.ID, P.USERNAME", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnFrom() {
-    final String sql = new SQL() {{
-      SELECT().FROM("TABLE_A a", "TABLE_B b");
-    }}.toString();
-
-    assertEquals("FROM TABLE_A a, TABLE_B b", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnJoin() {
-    final String sql = new SQL() {{
-      SELECT().JOIN("TABLE_A b ON b.id = a.id", "TABLE_C c ON c.id = a.id");
-    }}.toString();
-
-    assertEquals("JOIN TABLE_A b ON b.id = a.id\n" +
-        "JOIN TABLE_C c ON c.id = a.id", sql);
-  }
 
   @Test
   void variableLengthArgumentOnInnerJoin() {
@@ -186,8 +86,8 @@ class SQLTest {
       SELECT().INNER_JOIN("TABLE_A b ON b.id = a.id", "TABLE_C c ON c.id = a.id");
     }}.toString();
 
-    assertEquals("INNER JOIN TABLE_A b ON b.id = a.id\n" +
-        "INNER JOIN TABLE_C c ON c.id = a.id", sql);
+    assertEquals("INNER JOIN TABLE_A b ON b.id = a.id\nINNER JOIN TABLE_C c ON c.id = a.id", sql);
+
   }
 
   @Test
@@ -220,41 +120,7 @@ class SQLTest {
         "RIGHT OUTER JOIN TABLE_C c ON c.id = a.id", sql);
   }
 
-  @Test
-  void variableLengthArgumentOnWhere() {
-    final String sql = new SQL() {{
-      SELECT().WHERE("a = #{a}", "b = #{b}");
-    }}.toString();
 
-    assertEquals("WHERE (a = #{a} AND b = #{b})", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnGroupBy() {
-    final String sql = new SQL() {{
-      SELECT().GROUP_BY("a", "b");
-    }}.toString();
-
-    assertEquals("GROUP BY a, b", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnHaving() {
-    final String sql = new SQL() {{
-      SELECT().HAVING("a = #{a}", "b = #{b}");
-    }}.toString();
-
-    assertEquals("HAVING (a = #{a} AND b = #{b})", sql);
-  }
-
-  @Test
-  void variableLengthArgumentOnOrderBy() {
-    final String sql = new SQL() {{
-      SELECT().ORDER_BY("a", "b");
-    }}.toString();
-
-    assertEquals("ORDER BY a, b", sql);
-  }
 
   @Test
   void variableLengthArgumentOnSet() {
@@ -317,14 +183,6 @@ class SQLTest {
     assertEquals("UPDATE test\nSET status = #{updStatus}\nWHERE (status = #{status}) LIMIT 20", sql);
   }
 
-  @Test
-  void deleteUsingLimit() {
-    final String sql = new SQL() {{
-      DELETE_FROM("test").WHERE("status = #{status}").LIMIT(20);
-    }}.toString();
-
-    assertEquals("DELETE FROM test\nWHERE (status = #{status}) LIMIT 20", sql);
-  }
 
   @Test
   void selectUsingFetchFirstRowsOnlyVariableName() {

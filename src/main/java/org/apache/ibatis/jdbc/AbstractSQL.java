@@ -464,8 +464,7 @@ public abstract class AbstractSQL<T> {
       valuesList.add(new ArrayList<>());
     }
 
-    private void sqlClause(SafeAppendable builder, String keyword, List<String> parts, String open, String close,
-                           String conjunction) {
+    private void sqlClause(SafeAppendable builder, String keyword, List<String> parts, String open, String close,String conjunction) {
       if (!parts.isEmpty()) {
         if (!builder.isEmpty()) {
           builder.append("\n");
