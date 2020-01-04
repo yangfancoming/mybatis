@@ -24,17 +24,27 @@ public class ScriptRunner {
 
   private final Connection connection;
 
+  // SQL 异常是否中断程序执行
   private boolean stopOnError;
+  // 是否抛出 SQLWarning 警告
   private boolean throwWarning;
+  // 是否自动提交
   private boolean autoCommit;
+  // true 批量执行文件中的sql语句 false 逐条执行，默认情况下 SQL语句以分号为分割
   private boolean sendFullScript;
+  // 是否去除 windows 系统换行符中的  \r
   private boolean removeCRs;
+  // 设置 Statement 属性会否支持转义处理
   private boolean escapeProcessing = true;
 
+  // 日志输出位置，默认控制台
   private PrintWriter logWriter = new PrintWriter(System.out);
+  // 错误日志输出位置，默认控制台
   private PrintWriter errorLogWriter = new PrintWriter(System.err);
 
+  // 脚本文件中  SQL语句的分隔符，默认为 ;
   private String delimiter = DEFAULT_DELIMITER;
+  // 是否支持SQL语句分割符，单独占一行
   private boolean fullLineDelimiter;
 
   public ScriptRunner(Connection connection) {
@@ -84,13 +94,17 @@ public class ScriptRunner {
     this.fullLineDelimiter = fullLineDelimiter;
   }
 
+
   public void runScript(Reader reader) {
+    // 设置事务是否自动提交
     setAutoCommit();
 
     try {
       if (sendFullScript) {
+        // 一次性 执行脚本文件中的所有SQL语句
         executeFullScript(reader);
       } else {
+        // 逐条 执行脚本文件中的所有SQL语句
         executeLineByLine(reader);
       }
     } finally {
@@ -143,8 +157,11 @@ public class ScriptRunner {
     }
   }
 
+
+  //设置 自动是否自动提交
   private void setAutoCommit() {
     try {
+      // 自由当我们设置的是否自动提交 与 当前数据库不相同时 才设置，如果是一致的 就不必设置！
       if (autoCommit != connection.getAutoCommit()) {
         connection.setAutoCommit(autoCommit);
       }
@@ -181,24 +198,29 @@ public class ScriptRunner {
 
   private void handleLine(StringBuilder command, String line) throws SQLException {
     String trimmedLine = line.trim();
+    // 1.判断该行是否是SQL注释
     if (lineIsComment(trimmedLine)) {
+
       Matcher matcher = DELIMITER_PATTERN.matcher(trimmedLine);
       if (matcher.find()) {
         delimiter = matcher.group(5);
       }
       println(trimmedLine);
+      // 2.判断该行是否包含分号
     } else if (commandReadyToExecute(trimmedLine)) {
+      // 获取该行中分号之前的内容
       command.append(line, 0, line.lastIndexOf(delimiter));
       command.append(LINE_SEPARATOR);
       println(command);
+      // 执行该条完整的SQL语句
       executeStatement(command.toString());
       command.setLength(0);
+      // 4.该行中不包含分号，说明这条SQL语句为结束，追加本行内容到之前读取的内容中
     } else if (trimmedLine.length() > 0) {
       command.append(line);
       command.append(LINE_SEPARATOR);
     }
   }
-
   private boolean lineIsComment(String trimmedLine) {
     return trimmedLine.startsWith("//") || trimmedLine.startsWith("--");
   }
