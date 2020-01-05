@@ -43,6 +43,8 @@ import org.apache.ibatis.logging.LogFactory;
  核心方法：
  public ResolverUtil<T> find(Test test, String packageName)
  public Set<Class<? extends T>> getClasses()
+
+ ResoulverUtil 主要用于解析给定package目录下满足特定条件的class，从源码中可以看到，实际是调用VFS.getInstance().list(path) 解析
  */
 public class ResolverUtil<T> {
   /*
@@ -182,9 +184,9 @@ public class ResolverUtil<T> {
 
   /**
    * Scans for classes starting at the package provided and descending into subpackages.
-   * 扫描从提供的包开始到子包的类
+   * 从提供的package开始扫描classes，并且递归扫描所有子package。
    * Each class is offered up to the Test as it is discovered, and if the Test returns true the class is retained.
-   * 每个类在被发现时提供给测试，如果测试返回true，则保留该类。
+   * 每一个class被发现时都会提供一个Test(验证器)，如果验证返回true，这个class会被保存起来。通过通过{@link #getClasses()}获取累计的classes。
    * Accumulated classes can be fetched by calling {@link #getClasses()}.
    * 可以通过调用getClasses() 获取累积类
    * 输入示例：   org.apache.goat.common
@@ -201,9 +203,11 @@ public class ResolverUtil<T> {
        * org/apache/goat/common/Zoo.class
        * org/apache/goat/common/CreateDB.sql
       */
+      //获取目录下的所有文件
       List<String> children = VFS.getInstance().list(path);
       for (String child : children) {
         if (child.endsWith(".class")) {
+          //验证是匹配条件的Class
           addIfMatching(test, child);
         }
       }

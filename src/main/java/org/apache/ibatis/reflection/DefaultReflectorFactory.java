@@ -11,10 +11,12 @@ import java.util.concurrent.ConcurrentMap;
 public class DefaultReflectorFactory implements ReflectorFactory {
 
   /*** 默认开启对Reflector对象的缓存 */
+  /** 反射器是否需要缓存，默认需要*/
   private boolean classCacheEnabled = true;
 
   /** 目标类和反射器映射缓存  使用集合ConcurrentHashMap实现对Reflector的缓存*/
   /** 缓存了多个类Class的反射器Reflector。（避免一个类，多次重复反射） */
+  /**类与反射器对象映射*/
   private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 
   public DefaultReflectorFactory() {
@@ -38,6 +40,7 @@ public class DefaultReflectorFactory implements ReflectorFactory {
     // classCacheEnabled 默认为 true  //检查是否开启缓存
     if (classCacheEnabled) {
       // synchronized (type) removed see issue #461 doit  这里的 clazz参数是怎么传入的？？  public Reflector(Class<?> clazz) {
+      //类反射器是否存在，不存在实例化，存在则返回
       return reflectorMap.computeIfAbsent(type, Reflector::new);
     } else {
       //没有开启缓存,直接创建Reflector对象并返回

@@ -20,6 +20,8 @@ import org.apache.ibatis.reflection.ReflectionException;
 import org.apache.ibatis.reflection.Reflector;
 
 /**
+ * 对象创建工厂，根据Class创建真实对象
+ *
  *  默认的对象工厂需要做的仅仅是实例化目标类， 要么通过默认构造方法，
  *  要么在参数映射存在的时候通过参数构造方法来实例化。
  */
@@ -35,8 +37,9 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   @SuppressWarnings("unchecked")
   @Override
   public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+    //解析出Type的具体类型
     Class<?> classToCreate = resolveInterface(type);
-    // we know types are assignable
+    // we know types are assignable  // 实例化class
     return (T) instantiateClass(classToCreate, constructorArgTypes, constructorArgs);
   }
 
@@ -78,6 +81,9 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
     }
   }
 
+  /**
+   * 解析对象类型，模板方法子类可以重写
+   */
   protected Class<?> resolveInterface(Class<?> type) {
     Class<?> classToCreate;
     if (type == List.class || type == Collection.class || type == Iterable.class) {

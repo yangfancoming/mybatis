@@ -21,12 +21,16 @@ class MetaObjectTest {
   RichType rich = new RichType();
   MetaObject meta = SystemMetaObject.forObject(rich);
 
+  // 属性赋值和取值
   @Test
   void shouldGetAndSetField() {
     meta.setValue("richField", "foo");
     assertEquals("foo", meta.getValue("richField"));
   }
 
+  /**
+   * 嵌套属性赋值和取值
+   */
   @Test
   void shouldGetAndSetNestedField() {
     meta.setValue("richType.richField", "bar");
@@ -58,7 +62,7 @@ class MetaObjectTest {
     assertEquals("foo", meta.getValue("richMap[key]"));
   }
 
-  // 处理 嵌套 map 属性
+  // 嵌套对象的Map属性赋值和取值
   @Test
   void shouldGetAndSetNestedMapPair() {
     meta.setValue("richType.richMap.key", "foo");
@@ -71,6 +75,7 @@ class MetaObjectTest {
     assertEquals("foo", meta.getValue("richType.richMap[key]"));
   }
 
+  // 属性集合赋值和取值
   @Test
   void shouldGetAndSetListItem() {
     meta.setValue("richList[0]", "foo");

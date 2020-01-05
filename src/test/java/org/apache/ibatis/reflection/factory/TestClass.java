@@ -4,11 +4,14 @@ package org.apache.ibatis.reflection.factory;
 
 public class TestClass {
 
-  public String myString;
-  public Integer myInteger;
+//  public String myString;
+//  public Integer myInteger;
 
 //  private String myString;
 //  private Integer myInteger;
+
+   String  myString;
+   Integer myInteger;
 
 
   public TestClass(String myString, Integer myInteger) {
@@ -16,7 +19,7 @@ public class TestClass {
     this.myInteger = myInteger;
   }
 
-//  public TestClass(String myString) {
-//    this.myString = myString;
-//  }
+  public TestClass(String myString) {
+    this.myString = myString;
+  }
 }

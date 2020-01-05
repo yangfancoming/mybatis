@@ -13,6 +13,8 @@ import org.apache.ibatis.reflection.invoker.MethodInvoker;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
 
 /**
+ * MetaClass则用于获取类相关的信息
+ * 
  * 白话理解：
  * 除了使用type()动态创建类以外，要控制类的创建行为，还可以使用metaclass
  * metaclass，直译为元类，简单的解释就是：
