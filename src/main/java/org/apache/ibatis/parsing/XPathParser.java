@@ -262,7 +262,7 @@ public class XPathParser {
       DocumentBuilder builder = factory.newDocumentBuilder();
       //为了在网络不可用的情况下，正常解析XML文件，我们可以在使用builder之前，设置EntityResolver
       builder.setEntityResolver(entityResolver);
-      builder.setErrorHandler(new MyErrorHandler());
+      builder.setErrorHandler(new MyErrorHandler());// -modify
       return builder.parse(inputSource);
     } catch (Exception e) {
       throw new BuilderException("Error creating document instance.  Cause: " + e, e);
