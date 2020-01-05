@@ -20,6 +20,7 @@ class MetaObjectTest {
 
   RichType rich = new RichType();
   MetaObject meta = SystemMetaObject.forObject(rich);
+
   @Test
   void shouldGetAndSetField() {
     meta.setValue("richField", "foo");
