@@ -13,7 +13,10 @@ import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * 提供了用于控制执行SQL脚本的一些行为
+ *
+ */
 public class ScriptRunner {
 
   private static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
