@@ -18,6 +18,7 @@ import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.ResultMapResolver;
 import org.apache.ibatis.builder.annotation.MethodResolver;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.decorators.FifoCache;
@@ -96,6 +97,8 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * 这样做的一个好处就是需要扩展MetaObject类时，只需要修改newMetaObject方法即可，不用修改如此多的调用者代码。
 */
 public class Configuration {
+
+  private static final Log log = LogFactory.getLog(Configuration.class);
 
   /**  对应全局 xml 文件中的 <environments default="development"> 标签
    * MyBatis 可以配置成适应多种环境，这种机制有助于将 SQL 映射应用于多种数据库之中,
@@ -225,6 +228,8 @@ public class Configuration {
 
   //通过使用TypeAliasRegistry来注册一些类的别名
   public Configuration() {
+
+    log.warn(  "Configuration 构造函数1738：parser地址：" + this);
     typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
     typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
 

@@ -49,6 +49,7 @@ public class XNode {
     this.node = node;
     this.name = node.getNodeName();
     this.variables = variables;
+    log.warn(  "XNode 构造函数1745：xpathParser 地址：" + this.xpathParser.hashCode() + "---节点名称：" + this.name);
     //获取当前节点的所有属性
     this.attributes = parseAttributes(node);
     //获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的

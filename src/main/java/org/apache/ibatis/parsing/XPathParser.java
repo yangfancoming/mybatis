@@ -101,8 +101,10 @@ public class XPathParser {
   }
 
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
+    log.warn(  "XPathParser 构造函数1737：");
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(reader));
+    log.warn(  "createDocument 创建：XPathParser#Document 对象：" + this.document.hashCode());
   }
 
   public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {

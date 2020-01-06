@@ -46,8 +46,8 @@ public class PropertyParser {
    * @author fan.yang
    * @date 2019年11月13日20:13:32
    * @param string 待解析的字符串
-   * @param variables
-   * @return
+   * @param variables 属性替换集合
+   * @return 解析后的结果字符串
    */
   public static String parse(String string, Properties variables) {
     //解析默认值

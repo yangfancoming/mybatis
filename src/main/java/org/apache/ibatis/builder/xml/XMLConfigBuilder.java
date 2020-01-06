@@ -14,6 +14,7 @@ import org.apache.ibatis.executor.loader.ProxyFactory;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.parsing.XNode;
@@ -36,6 +37,8 @@ import org.apache.ibatis.type.JdbcType;
  * XMLConfigBuilder 用来解析MyBatis的全局xml文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
  */
 public class XMLConfigBuilder extends BaseBuilder {
+
+  private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
 
   //标识是否已经解析过mybatis-config.xml配置文件
   private boolean parsed;
@@ -101,6 +104,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
+    log.warn(  "XMLConfigBuilder 构造函数1736：parser地址：" + parser);
     ErrorContext.instance().resource("SQL Mapper Configuration");
     this.parsed = false;
     this.parser = parser;
@@ -110,6 +114,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   //外部调用此方法对mybatis的全局xml文件进行解析
   public Configuration parse() {
+    log.warn(  "XMLConfigBuilder#parse()：parsed：" + parsed);
     //1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
     if (parsed) {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
