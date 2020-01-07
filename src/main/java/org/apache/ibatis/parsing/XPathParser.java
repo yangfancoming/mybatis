@@ -101,7 +101,7 @@ public class XPathParser {
   }
 
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
-    log.warn(  "XPathParser 构造函数1737：");
+    log.warn(  " 构造函数1737：");
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(reader));
     log.warn(  "createDocument 创建：XPathParser#Document 对象：" + this.document.hashCode());
@@ -191,7 +191,7 @@ public class XPathParser {
 
   /* mybatis中都是使用  返回单个节点*/
   public XNode evalNode(String expression) {
-    log.warn(  "XPathParser 解析的标签名称为：" + expression);
+    log.warn(  " 解析的标签名称为：" + expression);
     return evalNode(document, expression);
   }
 

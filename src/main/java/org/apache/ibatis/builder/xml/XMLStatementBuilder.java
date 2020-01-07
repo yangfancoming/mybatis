@@ -10,6 +10,8 @@ import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.keygen.NoKeyGenerator;
 import org.apache.ibatis.executor.keygen.SelectKeyGenerator;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ResultSetType;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -25,6 +27,8 @@ import org.apache.ibatis.session.Configuration;
 */
 public class XMLStatementBuilder extends BaseBuilder {
 
+  private static final Log log = LogFactory.getLog(XMLStatementBuilder.class);
+
   private final MapperBuilderAssistant builderAssistant;
   private final XNode context;
   private final String requiredDatabaseId;
@@ -38,6 +42,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     this.builderAssistant = builderAssistant;
     this.context = context;
     this.requiredDatabaseId = databaseId;
+    log.warn("构造函数 202001071544：configuration 地址：" + configuration);
+    log.warn("构造函数 202001071544：XNode 地址：" + context.hashCode());
   }
 
   /**
@@ -48,10 +54,10 @@ public class XMLStatementBuilder extends BaseBuilder {
    * </select>
    */
   public void parseStatementNode() {
-    //1.获取 "select|insert|update|delete" 节点的id  testIf
     String id = context.getStringAttribute("id");
-    //2.获取databaseId
+    log.warn("1.获取 <select|insert|update|delete> 标签的id属性：" + id);
     String databaseId = context.getStringAttribute("databaseId");
+    log.warn("2.获取 databaseId 属性 ：" + databaseId);
     //验证databaseId是否匹配   //不符合就返回
     if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId)) {
       return;
@@ -61,11 +67,10 @@ public class XMLStatementBuilder extends BaseBuilder {
        select * from foo
      </select>
     */
-    //3.获取sql节点的各种属性 select
     String nodeName = context.getNode().getNodeName();
-    //SQLCommand类型 SELECT
+    log.warn("3.获取 <select|insert|update|delete> 标签的名称属性：" + nodeName);
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
-    // true
+    log.warn("4.通过标签名称获取对应的标签类型：" + sqlCommandType.name());
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
     //flushCache；在执行语句时表示是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
@@ -83,6 +88,7 @@ public class XMLStatementBuilder extends BaseBuilder {
 
     // doit 这里的 "lang" 属性的 文档里也没有查到啊？？？
     String lang = context.getStringAttribute("lang");
+    log.warn("解析 <select|insert|update|delete> 标签的 lang 属性：" + lang);
     LanguageDriver langDriver = getLanguageDriver(lang);
 
     // Parse selectKey after includes and remove them. 处理selectKey

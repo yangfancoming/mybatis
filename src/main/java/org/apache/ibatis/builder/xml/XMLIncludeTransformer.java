@@ -9,6 +9,8 @@ import java.util.Properties;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.parsing.PropertyParser;
 import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.session.Configuration;
@@ -21,12 +23,16 @@ import org.w3c.dom.NodeList;
  */
 public class XMLIncludeTransformer {
 
+  private static final Log log = LogFactory.getLog(XMLIncludeTransformer.class);
+
   private final Configuration configuration;
   private final MapperBuilderAssistant builderAssistant;
 
   public XMLIncludeTransformer(Configuration configuration, MapperBuilderAssistant builderAssistant) {
     this.configuration = configuration;
     this.builderAssistant = builderAssistant;
+    log.warn("构造函数 202001071554：configuration 地址：" + configuration);
+    log.warn("构造函数 202001071554：builderAssistant 地址：" + builderAssistant);
   }
 
   public void applyIncludes(Node source) {

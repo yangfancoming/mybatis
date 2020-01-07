@@ -50,7 +50,7 @@ public class XNode {
     this.node = node;
     this.name = node.getNodeName();
     this.variables = variables;
-    log.warn(  "XNode 构造函数1745：xpathParser 地址：" + this.xpathParser.hashCode() + "---节点名称：" + this.name);
+    log.warn(  "构造函数1745：xpathParser 地址：" + this.xpathParser.hashCode() + "---节点名称：" + this.name);
     //获取当前节点的所有属性
     this.attributes = parseAttributes(node);
     //获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的
@@ -143,7 +143,7 @@ public class XNode {
   }
 
   public XNode evalNode(String expression) {
-    log.warn(  "XNode 解析的标签名称为：" + expression);
+    log.warn(  " 解析的标签名称为：" + expression);
     return xpathParser.evalNode(node, expression);
   }
 
@@ -383,7 +383,7 @@ public class XNode {
         Node attribute = attributeNodes.item(i);
         //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse（）去处理下
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
-        log.warn(  "XNode parseAttributes()：标签名：<" +  StringUtils.rightPad(n.getNodeName() + ">", 20) + " \t 属性值：" + value);
+        log.warn(  " parseAttributes()：标签名：<" +  StringUtils.rightPad(n.getNodeName() + ">", 20) + " \t 属性值：" + value);
         attributes.put(attribute.getNodeName(), value);
       }
     }

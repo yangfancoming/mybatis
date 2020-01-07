@@ -21,6 +21,8 @@ import org.apache.ibatis.builder.ResultMapResolver;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.Discriminator;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ParameterMode;
@@ -38,6 +40,9 @@ import org.apache.ibatis.type.TypeHandler;
  XMLMapperBuilder用来解析MyBatis中的局部xml配置文件（如上文提到的ProductMapper.xml）
  */
 public class XMLMapperBuilder extends BaseBuilder {
+
+  private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
+
   //用来解析XML
   private final XPathParser parser;
   //再解析完成后，用解析所得的属性来帮助创建各个对象
@@ -75,10 +80,12 @@ public class XMLMapperBuilder extends BaseBuilder {
     this.parser = parser;
     this.sqlFragments = sqlFragments;
     this.resource = resource;
+    log.warn(  "构造函数 202001071500：configuration 地址：" + configuration);
   }
 
   // 若当前的Mapper.xml尚未被解析，则开始解析  解析局部xml配置文件
   public void parse() {
+    log.warn(  "parse() ：configuration 地址：" + configuration);
     // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了 //判断是否已经加载过资源
     if (!configuration.isResourceLoaded(resource)) {
       // 从<mapper> 根节点开始解析
@@ -112,6 +119,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 */
   private void configurationElement(XNode context) {
     try {
+      log.warn("开始解析局部xml配置文件的 <mapper> 标签 ");
       // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前映射文件对应的Mapper Class是谁
       String namespace = context.getStringAttribute("namespace");
       if (namespace == null || namespace.equals("")) {
@@ -129,7 +137,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       resultMapElements(context.evalNodes("/mapper/resultMap"));
       //解析<SQL>节点，SQL节点可以使一些SQL片段被复用
       sqlElement(context.evalNodes("/mapper/sql"));
-      // 解析sql语句 （select|insert|update|delete节点） // 解析statement
+      // 解析sql语句 （select|insert|update|delete节点） // 解析 statement
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing Mapper XML. The XML location is '" + resource + "'. Cause: " + e, e);
@@ -144,6 +152,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private void buildStatementFromContext(List<XNode> list, String requiredDatabaseId) {
+    log.warn("开始解析 <select|insert|update|delete> 标签  标签个数：" + list.size());
     for (XNode context : list) {
       //遍历 "select|insert|update|delete" 节点 为每个节点创建XMLStatementBuilder对象，
       final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);
@@ -211,6 +220,7 @@ public class XMLMapperBuilder extends BaseBuilder {
    *         需要注意的是，如果cache-ref和cache都配置了，以cache为准。
    */
   private void cacheRefElement(XNode context) {
+    log.warn("开始解析<cache-ref> 标签");
     if (context != null) {
       configuration.addCacheRef(builderAssistant.getCurrentNamespace(), context.getStringAttribute("namespace"));
       CacheRefResolver cacheRefResolver = new CacheRefResolver(builderAssistant, context.getStringAttribute("namespace"));
@@ -240,25 +250,25 @@ public class XMLMapperBuilder extends BaseBuilder {
    *    （该缓存以cache的ID属性即namespace为key，这里再次体现了mybatis的namespace的强大用处）。
    */
   private void cacheElement(XNode context) {
-    if (context != null) {
-      // 基础缓存类型
-      String type = context.getStringAttribute("type", "PERPETUAL");
-      Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
-      // 排除算法缓存类型
-      String eviction = context.getStringAttribute("eviction", "LRU");
-      Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
-      // 缓存自动刷新时间
-      Long flushInterval = context.getLongAttribute("flushInterval");
-      // 缓存存储实例引用的大小
-      Integer size = context.getIntAttribute("size");
-      // 是否是只读缓存
-      boolean readWrite = !context.getBooleanAttribute("readOnly", false);
-      boolean blocking = context.getBooleanAttribute("blocking", false);
-      // 获取子节点配置
-      Properties props = context.getChildrenAsProperties();
-      // 初始化缓存实现
-      builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
-    }
+    log.warn("开始解析<cache> 标签");
+    if (context == null) return; // modify
+    // 基础缓存类型
+    String type = context.getStringAttribute("type", "PERPETUAL");
+    Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
+    // 排除算法缓存类型
+    String eviction = context.getStringAttribute("eviction", "LRU");
+    Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
+    // 缓存自动刷新时间
+    Long flushInterval = context.getLongAttribute("flushInterval");
+    // 缓存存储实例引用的大小
+    Integer size = context.getIntAttribute("size");
+    // 是否是只读缓存
+    boolean readWrite = !context.getBooleanAttribute("readOnly", false);
+    boolean blocking = context.getBooleanAttribute("blocking", false);
+    // 获取子节点配置
+    Properties props = context.getChildrenAsProperties();
+    // 初始化缓存实现
+    builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
   }
 
   private void parameterMapElement(List<XNode> list) {

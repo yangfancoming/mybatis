@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.util.Properties;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.datasource.DataSourceFactory;
@@ -104,17 +105,18 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
     super(new Configuration());
-    log.warn(  "XMLConfigBuilder 构造函数1736：parser地址：" + parser);
     ErrorContext.instance().resource("SQL Mapper Configuration");
     this.parsed = false;
     this.parser = parser;
     this.environment = environment;
     this.configuration.setVariables(props);
+    log.warn(" 构造函数1736：XPathParser 地址：" + parser);
+    log.warn(" 构造函数1736：configuration 地址：" + this.configuration);
   }
 
   //外部调用此方法对mybatis的全局xml文件进行解析
   public Configuration parse() {
-    log.warn(  "XMLConfigBuilder#parse()：parsed：" + parsed);
+    log.warn("开始解析全局xml配置文件");
     //1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
     if (parsed) {
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
@@ -245,10 +247,12 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void typeAliasesElement(XNode parent) {
     if (parent == null)  return; // -modify-
+    log.warn("开始解析 <typeAliases> 标签  XNode 地址：" + parent.hashCode());
     //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
     for (XNode child : parent.getChildren()) {
       //2.处理package类型配置 // 若当前结点为<package>
       if ("package".equals(child.getName())) {
+        log.warn("发现 <typeAliases> 节点 使用 package 属性方式");
         //  //2.1获取包名 获取<package>上的name属性（包名）
         String typeAliasPackage = child.getStringAttribute("name");
         // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
@@ -289,6 +293,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void pluginElement(XNode parent) throws Exception {
     if (parent == null) return;  // modify-
+    log.warn("开始解析 <plugins> 标签  XNode 地址：" + parent.hashCode());
     // 遍历<plugins>标签  获取<plugin>
     for (XNode child : parent.getChildren()) {
       // 获取 单个 <plugin>标签下的所有 <property>
@@ -307,13 +312,13 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private void objectFactoryElement(XNode context) throws Exception {
-    if (context != null) {
-      String type = context.getStringAttribute("type");
-      Properties properties = context.getChildrenAsProperties();
-      ObjectFactory factory = (ObjectFactory) resolveClass(type).newInstance();
-      factory.setProperties(properties);
-      configuration.setObjectFactory(factory);
-    }
+    if (context == null) return; // -modify
+    log.warn("开始解析 <objectFactory> 标签  XNode 地址：" + context.hashCode());
+    String type = context.getStringAttribute("type");
+    Properties properties = context.getChildrenAsProperties();
+    ObjectFactory factory = (ObjectFactory) resolveClass(type).newInstance();
+    factory.setProperties(properties);
+    configuration.setObjectFactory(factory);
   }
 
   private void objectWrapperFactoryElement(XNode context) throws Exception {
@@ -345,6 +350,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
+    log.warn("开始解析 <properties> 标签  XNode 地址：" + context.hashCode());
     /**
      * 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
      * 情况一：
@@ -390,6 +396,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     parser.setVariables(defaults);
     // 将defaults容器添加至configuration中
     configuration.setVariables(defaults);
+    log.warn(  " propertiesElement()：解析<properties> 标签完毕 ：" +  defaults);
   }
 
   private void settingsElement(Properties props) {
@@ -427,37 +434,37 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    <environments default="development">
-   <environment id="development">
-   <transactionManager type="JDBC"/>
-   <dataSource type="POOLED">
-   <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
-   <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
-   <property name="username" value="SA"/>
-   <property name="password" value=""/>
-   </dataSource>
-   </environment>
+     <environment id="development">
+       <transactionManager type="JDBC"/>
+           <dataSource type="POOLED">
+               <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+               <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
+               <property name="username" value="SA"/>
+               <property name="password" value=""/>
+           </dataSource>
+     </environment>
    </environments>
    */
   private void environmentsElement(XNode context) throws Exception {
-    if (context != null) {
-      if (environment == null) {
-        // 获取 <environments default="development"> 标签中的 default 属性
-        environment = context.getStringAttribute("default");
-      }
-      for (XNode child : context.getChildren()) {
-        //  <environment id="development">
-        String id = child.getStringAttribute("id");
-        if (isSpecifiedEnvironment(id)) {
-          // 解析 <transactionManager type="JDBC"/>  标签
-          TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
-          // 解析 <dataSource>  标签
-          XNode dsNode = child.evalNode("dataSource");
-          DataSourceFactory dsFactory = dataSourceElement(dsNode);
-          DataSource dataSource = dsFactory.getDataSource();
-          // 建造者模式
-          Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
-          configuration.setEnvironment(environmentBuilder.build());
-        }
+    if (context == null) return; // modify-
+    log.warn("开始解析 <environments> 标签  XNode 地址：" + context.hashCode());
+    if (environment == null) {
+      // 获取 <environments default="development"> 标签中的 default 属性
+      environment = context.getStringAttribute("default");
+    }
+    for (XNode child : context.getChildren()) {
+      //  <environment id="development">
+      String id = child.getStringAttribute("id");
+      if (isSpecifiedEnvironment(id)) {
+        // 解析 <transactionManager type="JDBC"/>  标签
+        TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
+        // 解析 <dataSource>  标签
+        XNode dsNode = child.evalNode("dataSource");
+        DataSourceFactory dsFactory = dataSourceElement(dsNode);
+        DataSource dataSource = dsFactory.getDataSource();
+        // 建造者模式
+        Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
+        configuration.setEnvironment(environmentBuilder.build());
       }
     }
   }
@@ -482,6 +489,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private TransactionFactory transactionManagerElement(XNode context) throws Exception {
+    log.warn("开始解析 <transactionManager> 标签");
     if (context != null) {
       String type = context.getStringAttribute("type");
       Properties props = context.getChildrenAsProperties();
@@ -503,6 +511,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    *          </dataSource>
    */
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
+    log.warn("开始解析 <dataSource> 标签");
     if (context != null) {
       // 解析 <dataSource type="POOLED"> 标签中的type属性
       String type = context.getStringAttribute("type");
@@ -517,35 +526,35 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private void typeHandlerElement(XNode parent) {
-    if (parent != null) {
-      for (XNode child : parent.getChildren()) {
-        //子节点为package时，获取其name属性的值，然后自动扫描package下的自定义typeHandler
-        if ("package".equals(child.getName())) {
-          String typeHandlerPackage = child.getStringAttribute("name");
-          typeHandlerRegistry.register(typeHandlerPackage);
-        } else {
-          //子节点为typeHandler时， 可以指定javaType属性， 也可以指定jdbcType, 也可两者都指定
-          //javaType 是指定java类型
-          //jdbcType 是指定jdbc类型（数据库类型： 如varchar）
-          String javaTypeName = child.getStringAttribute("javaType");
-          String jdbcTypeName = child.getStringAttribute("jdbcType");
-          //handler就是我们配置的typeHandler
-          String handlerTypeName = child.getStringAttribute("handler");
-          //resolveClass方法就是我们上篇文章所讲的TypeAliasRegistry里面处理别名的方法
-          Class<?> javaTypeClass = resolveClass(javaTypeName);
-          //JdbcType是一个枚举类型，resolveJdbcType方法是在获取枚举类型的值
-          JdbcType jdbcType = resolveJdbcType(jdbcTypeName);
-          Class<?> typeHandlerClass = resolveClass(handlerTypeName);
-          //注册typeHandler, typeHandler通过TypeHandlerRegistry这个类管理
-          if (javaTypeClass != null) {
-            if (jdbcType == null) {
-              typeHandlerRegistry.register(javaTypeClass, typeHandlerClass);
-            } else {
-              typeHandlerRegistry.register(javaTypeClass, jdbcType, typeHandlerClass);
-            }
+    if (parent == null) return; // modify-
+    log.warn("开始解析 <typeHandlers> 标签  XNode 地址：" + parent.hashCode());
+    for (XNode child : parent.getChildren()) {
+      //子节点为package时，获取其name属性的值，然后自动扫描package下的自定义typeHandler
+      if ("package".equals(child.getName())) {
+        String typeHandlerPackage = child.getStringAttribute("name");
+        typeHandlerRegistry.register(typeHandlerPackage);
+      } else {
+        //子节点为typeHandler时， 可以指定javaType属性， 也可以指定jdbcType, 也可两者都指定
+        //javaType 是指定java类型
+        //jdbcType 是指定jdbc类型（数据库类型： 如varchar）
+        String javaTypeName = child.getStringAttribute("javaType");
+        String jdbcTypeName = child.getStringAttribute("jdbcType");
+        //handler就是我们配置的typeHandler
+        String handlerTypeName = child.getStringAttribute("handler");
+        //resolveClass方法就是我们上篇文章所讲的TypeAliasRegistry里面处理别名的方法
+        Class<?> javaTypeClass = resolveClass(javaTypeName);
+        //JdbcType是一个枚举类型，resolveJdbcType方法是在获取枚举类型的值
+        JdbcType jdbcType = resolveJdbcType(jdbcTypeName);
+        Class<?> typeHandlerClass = resolveClass(handlerTypeName);
+        //注册typeHandler, typeHandler通过TypeHandlerRegistry这个类管理
+        if (javaTypeClass != null) {
+          if (jdbcType == null) {
+            typeHandlerRegistry.register(javaTypeClass, typeHandlerClass);
           } else {
-            typeHandlerRegistry.register(typeHandlerClass);
+            typeHandlerRegistry.register(javaTypeClass, jdbcType, typeHandlerClass);
           }
+        } else {
+          typeHandlerRegistry.register(typeHandlerClass);
         }
       }
     }
@@ -553,69 +562,71 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    <mappers>
-   <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
-   <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
-   <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
-   <package name="org.apache.ibatis.builder.mapper"/>
+       <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
+       <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
+       <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
+       <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
 
    * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，
-   * 具体的解
-   * 析细节是依赖于 XMLMapperBuilder 来实现的，XMLMapperBuilder通过 mapperParser.parse() 方法屏蔽了细节，内部完成解析过程
+   * 具体的解析细节是依赖于 XMLMapperBuilder 来实现的，
+   * XMLMapperBuilder通过 mapperParser.parse() 方法屏蔽了细节，内部完成解析过程
    * 也正是由于 <mappers> 标签的解析 创建了 XMLMapperBuilder 来解析的  再其构造函数中 又 new 了一个 XPathParser
    * 所以 解析<mappers>标签的XPathParser解析器 与 其他标签的解析器不同！  其他标签的解析器 都是同一个 ！
    */
   private void mapperElement(XNode parent) throws Exception {
-    if (parent != null) {
-      //  遍历<mappers>下所有子节点 <mapper> 或 <package>
-      for (XNode child : parent.getChildren()) {
-        // 如果当前节点为<package>
-        if ("package".equals(child.getName())) {
-          //
-          /**
-           * 第一部分：根据注解生成对应的mappedStatement
-           * 1.1 处理package类型的配置
-           * 获取<package>的name属性（该属性值为mapper class所在的包名）
-           * child ---  <package name="org.apache.goat.chapter100.A044"/>
-           * mapperPackage ---  org.apache.goat.chapter100.A044
-           * 1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，mapperPackage 就是包名
-           * 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
-           */
-          String mapperPackage = child.getStringAttribute("name");
-          configuration.addMappers(mapperPackage);
+    if (parent == null) return; // -modify
+    log.warn("开始解析 <mappers> 标签  XNode 地址：" + parent.hashCode());
+    //  遍历<mappers>下所有子节点 <mapper> 或 <package>
+    for (XNode child : parent.getChildren()) {
+      // 如果当前节点为<package>
+      if ("package".equals(child.getName())) {
+        /**
+         * 第一部分：根据注解生成对应的mappedStatement
+         * 1.1 处理package类型的配置
+         * 获取<package>的name属性（该属性值为mapper class所在的包名）
+         * child ---  <package name="org.apache.goat.chapter100.A044"/>
+         * mapperPackage ---  org.apache.goat.chapter100.A044
+         * 1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，mapperPackage 就是包名
+         * 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
+         */
+        String mapperPackage = child.getStringAttribute("name");
+        configuration.addMappers(mapperPackage);
+      } else {
+        /** 处理 <mapper> 标签 依次获取resource、url、class属性
+         * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
+         */
+        String resource = child.getStringAttribute("resource");
+        String url = child.getStringAttribute("url");
+        String mapperClass = child.getStringAttribute("class");
+        //1.4 按照resource属性实例化XMLMapperBuilder来解析xml配置文件
+        if (resource != null && url == null && mapperClass == null) { // 解析resource属性（Mapper.xml文件的路径）  <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
+          log.warn("发现 <mapper> 节点 使用 resource 属性方式");
+          ErrorContext.instance().resource(resource);
+          InputStream inputStream = Resources.getResourceAsStream(resource); // 将Mapper.xml文件解析成输入流
+          // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
+          XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
+          //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
+          // 第二部分：是解析xml配置，根据xml配置来生成mappedstatement
+          mapperParser.parse();
+        } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
+          log.warn("发现 <mapper> 节点 使用 url 属性方式");
+          //1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件
+          ErrorContext.instance().resource(url);
+          InputStream inputStream = Resources.getUrlAsStream(url);
+          // 通过读取resource或url属性得到xml的访问路径后，交给XMLMapperBuilder对象来解析
+          XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
+          mapperParser.parse();
+        } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
+          log.warn("发现 <mapper> 节点 使用 class 属性方式");
+          //1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
+          // 将Mapper Class的权限定名转化成Class对象
+          Class<?> mapperInterface = Resources.classForName(mapperClass);
+          // 注册进configuration对象的mapperRegistry容器中
+          configuration.addMapper(mapperInterface);
         } else {
-          /** 处理 <mapper> 标签 依次获取resource、url、class属性
-           * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
-           */
-          String resource = child.getStringAttribute("resource");
-          String url = child.getStringAttribute("url");
-          String mapperClass = child.getStringAttribute("class");
-          //1.4 按照resource属性实例化XMLMapperBuilder来解析xml配置文件
-          if (resource != null && url == null && mapperClass == null) { // 解析resource属性（Mapper.xml文件的路径）  <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
-            ErrorContext.instance().resource(resource);
-            InputStream inputStream = Resources.getResourceAsStream(resource); // 将Mapper.xml文件解析成输入流
-            // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
-            XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
-            //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
-            // 第二部分：是解析xml配置，根据xml配置来生成mappedstatement
-            mapperParser.parse();
-          } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
-            //1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件
-            ErrorContext.instance().resource(url);
-            InputStream inputStream = Resources.getUrlAsStream(url);
-            // 通过读取resource或url属性得到xml的访问路径后，交给XMLMapperBuilder对象来解析
-            XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
-            mapperParser.parse();
-          } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
-            //1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
-            // 将Mapper Class的权限定名转化成Class对象
-            Class<?> mapperInterface = Resources.classForName(mapperClass);
-            // 注册进configuration对象的mapperRegistry容器中
-            configuration.addMapper(mapperInterface);
-          } else {
-            //resource、url和class三者是互斥的，配置了多个或者不配置都抛出异常
-            throw new BuilderException("A mapper element may only specify a url, resource or class, but not more than one.");
-          }
+          //resource、url和class三者是互斥的，配置了多个或者不配置都抛出异常
+          throw new BuilderException("A mapper element may only specify a url, resource or class, but not more than one.");
         }
       }
     }
