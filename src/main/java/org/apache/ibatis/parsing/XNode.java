@@ -1,6 +1,7 @@
 
 package org.apache.ibatis.parsing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.w3c.dom.CharacterData;
@@ -303,8 +304,6 @@ public class XNode {
 
   /**
    * @Description: 获取 当前节点的所有子节点 并将这些子节点 两个属性和对应的属性值 保存到Properties对象
-   * @param key1 每个子节点的属性名1
-   * @param key2 每个子节点的属性名2
    *   <settings>
    *     <setting name="mapUnderscoreToCamelCase" value="true"/>
    *     <setting name="cacheEnabled" value="true" />
@@ -384,6 +383,7 @@ public class XNode {
         Node attribute = attributeNodes.item(i);
         //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse（）去处理下
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
+        log.warn(  "XNode parseAttributes()：标签名：<" +  StringUtils.rightPad(n.getNodeName() + ">", 20) + " \t 属性值：" + value);
         attributes.put(attribute.getNodeName(), value);
       }
     }
