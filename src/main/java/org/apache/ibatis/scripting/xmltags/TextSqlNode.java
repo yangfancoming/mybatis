@@ -3,7 +3,6 @@ package org.apache.ibatis.scripting.xmltags;
 
 import java.util.regex.Pattern;
 
-import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.parsing.GenericTokenParser;

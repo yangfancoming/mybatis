@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  识别组合模式的一个要点：实现了一个接口，又聚合了这个接口的集合，那么该类很有可能是组合模式中的组合对象；
- 其中MixedSqlNode是树枝，TextSqlNode 是树叶..123
+ 其中MixedSqlNode是树枝，TextSqlNode 是树叶..
 */
 public class MixedSqlNode implements SqlNode {
   //记录sql节点中的所有SQL片段

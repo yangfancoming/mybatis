@@ -2,6 +2,8 @@
 package org.apache.ibatis.scripting.xmltags;
 
 import org.apache.ibatis.builder.SqlSourceBuilder;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.session.Configuration;
@@ -10,6 +12,8 @@ import org.apache.ibatis.session.Configuration;
 // 动态SQL
 public class DynamicSqlSource implements SqlSource {
 
+  private static final Log log = LogFactory.getLog(DynamicSqlSource.class);
+
   private final Configuration configuration;
   //记录待解析的SqlNode的根节点，在构造函数中引入
   private final SqlNode rootSqlNode;
@@ -17,6 +21,7 @@ public class DynamicSqlSource implements SqlSource {
   public DynamicSqlSource(Configuration configuration, SqlNode rootSqlNode) {
     this.configuration = configuration;
     this.rootSqlNode = rootSqlNode;
+    log.warn(" 构造函数 202001080907：configuration 地址：" + configuration);
   }
 
   @Override
@@ -28,7 +33,7 @@ public class DynamicSqlSource implements SqlSource {
     //创建SqlSourceBuilder //创建SqlSourceBuilder对象，解析参数属性，将SQL语句中的"#{}"解析成"?"占位符
     SqlSourceBuilder sqlSourceParser = new SqlSourceBuilder(configuration);
     Class<?> parameterType = parameterObject == null ? Object.class : parameterObject.getClass();
-    //解析statement节点，并返回sqlSource
+    // 处理参数  //解析statement节点，并返回sqlSource
     SqlSource sqlSource = sqlSourceParser.parse(context.getSql(), parameterType, context.getBindings());
     //创建BoundSql对象，并将DynamicContext.bindings中参数信息复制到其additionalParameters集合中保存
     BoundSql boundSql = sqlSource.getBoundSql(parameterObject);

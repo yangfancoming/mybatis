@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
@@ -27,6 +28,8 @@ import org.apache.ibatis.session.Configuration;
  *
 */
 public final class MappedStatement {
+
+  private static final Log log = LogFactory.getLog(MappedStatement.class);
 
   private String resource;
   private Configuration configuration;
@@ -304,6 +307,7 @@ public final class MappedStatement {
   }
 
   public BoundSql getBoundSql(Object parameterObject) {
+    log.warn("#getBoundSql() sqlSource 实现类：" + sqlSource.getClass());
     // 通过SqlSource获取BoundSql对象
     BoundSql boundSql = sqlSource.getBoundSql(parameterObject);
     // 校验当前的sql语句有无绑定parameterMapping属性

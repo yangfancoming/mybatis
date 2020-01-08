@@ -1,10 +1,15 @@
 
 package org.apache.ibatis.parsing;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 /**
  * 这个类是对常用Token进行parser的类
  */
 public class GenericTokenParser {
+
+  private static final Log log = LogFactory.getLog(GenericTokenParser.class);
   /**
    解析以上配置中的 ${driver}， 那么这几个成员变量
    openToken="${";
@@ -24,6 +29,7 @@ public class GenericTokenParser {
     this.openToken = openToken;
     this.closeToken = closeToken;
     this.handler = handler;
+    log.warn("构造函数 202001081047：GenericTokenParser 地址：" + this);
   }
 
   /**

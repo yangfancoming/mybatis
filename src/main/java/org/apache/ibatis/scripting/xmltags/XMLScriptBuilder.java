@@ -42,6 +42,7 @@ public class XMLScriptBuilder extends BaseBuilder {
     this.context = context;
     this.parameterType = parameterType;
     log.warn("构造函数 202001071654：XNode 地址：" + context.hashCode() + "节点名称：" + context.getName());
+    log.warn("构造函数 202001071654：configuration 地址：" + configuration);
     initNodeHandlerMap();
   }
 
@@ -61,7 +62,7 @@ public class XMLScriptBuilder extends BaseBuilder {
   public SqlSource parseScriptNode() {
     /**
      *     解析SQL语句节点，创建MixedSqlNode对象
-     *     获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句可能都有多个SqlNode对象
+     *     获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句 可能都有多个SqlNode对象
      *     包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
      *
      * 传入的context参数为：
@@ -72,14 +73,9 @@ public class XMLScriptBuilder extends BaseBuilder {
      * </select>
     */
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
-    SqlSource sqlSource;
-    //是否为动态语句  //根据是否是动态的语句，创建DynamicSqlSource或是RawSqlSource对象，并返回
-    if (isDynamic) {
-      sqlSource = new DynamicSqlSource(configuration, rootSqlNode);
-    } else {
-      //否则生成普通版SqlSource
-      sqlSource = new RawSqlSource(configuration, rootSqlNode, parameterType);
-    }
+    // 为SqlSource接口 选定实现类 动态版的 DynamicSqlSource 或 原生版的 RawSqlSource
+    SqlSource sqlSource = isDynamic ? new DynamicSqlSource(configuration, rootSqlNode) : new RawSqlSource(configuration, rootSqlNode, parameterType);
+    log.warn("parseScriptNode()：为 SqlSource 接口选定 实现类：" + sqlSource.getClass());
     return sqlSource;
   }
 
