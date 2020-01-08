@@ -54,6 +54,7 @@ public class XMLStatementBuilder extends BaseBuilder {
    * </select>
    */
   public void parseStatementNode() {
+    log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
     String id = context.getStringAttribute("id");
     log.warn("1.获取 <select|insert|update|delete> 标签的id属性：" + id);
     String databaseId = context.getStringAttribute("databaseId");
@@ -86,7 +87,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     String parameterType = context.getStringAttribute("parameterType");
     Class<?> parameterTypeClass = resolveClass(parameterType);
 
-    // doit 这里的 "lang" 属性的 文档里也没有查到啊？？？
+    // 动态 SQL 中可插拔的脚本语言
     String lang = context.getStringAttribute("lang");
     log.warn("解析 <select|insert|update|delete> 标签的 lang 属性：" + lang);
     LanguageDriver langDriver = getLanguageDriver(lang);

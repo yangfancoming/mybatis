@@ -6,8 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.scripting.defaults.RawSqlSource;
@@ -19,6 +23,8 @@ import org.w3c.dom.NodeList;
  * 这个XMLScriptBuilder类才是真正负责在背后解析mapper文件中的每个<select/>,<insert/>,<update/>,<delete/>节点内的SQL字符串(其中可能包含动态SQL部分,诸如<if/>,<where/>等) 的功臣.
 */
 public class XMLScriptBuilder extends BaseBuilder {
+
+  private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
 
   private final XNode context;
   private boolean isDynamic;
@@ -35,6 +41,7 @@ public class XMLScriptBuilder extends BaseBuilder {
     super(configuration);
     this.context = context;
     this.parameterType = parameterType;
+    log.warn("构造函数 202001071654：XNode 地址：" + context.hashCode() + "节点名称：" + context.getName());
     initNodeHandlerMap();
   }
 
@@ -87,17 +94,8 @@ public class XMLScriptBuilder extends BaseBuilder {
     NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
     //遍历子节点，解析成对应的sqlNode类型，并添加到contents中
     for (int i = 0; i < children.getLength(); i++) {
-      /**
-       * child 的值：
-       * <#text>
-       *     select * from customers where 1=1
-       * </#text>
-       *
-       * <if test="id!=null">
-       *       and id = #{id}
-       * </if>
-      */
       XNode child = node.newXNode(children.item(i));
+      log.warn("开始解析 crud 标签下的所有动态标签  XNode 地址：" + StringUtils.rightPad(child.hashCode()+"", 15)  + "节点名称：" + child.getName());
       //如果是文本节点，则先解析成TextSqlNode对象
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
         //直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
@@ -107,18 +105,21 @@ public class XMLScriptBuilder extends BaseBuilder {
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
+          log.warn("发现动态文本类型节点，节点内容：" + data.replaceAll("\n",""));
         } else { //不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
           //返回最普通的含有data的StaticTextSqlNode对象
           contents.add(new StaticTextSqlNode(data));
+          log.warn("发现静态文本类型节点，节点内容：" + data.replaceAll("\n",""));
         }
       } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628 //其他类型的节点，由不同的节点处理器来对应处理成本成不同的SqlNode类型
         String nodeName = child.getNode().getNodeName();
+        log.warn("发现节点类型节点，节点名称：" + nodeName );
         // 策略模式： 获取对应 initNodeHandlerMap() 填充的节点处理器策略
         NodeHandler handler = nodeHandlerMap.get(nodeName);
         if (handler == null) {
           throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
         }
-        //调用同一接口实现解析生成SqlNode对象并统一存入List<SqlNode>集合中
+        // 调用同一接口实现解析生成SqlNode对象并统一存入List<SqlNode>集合中
         // 这里就相当于递归了！！！
         handler.handleNode(child, contents);
         isDynamic = true;

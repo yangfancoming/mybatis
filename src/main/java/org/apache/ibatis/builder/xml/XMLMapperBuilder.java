@@ -119,7 +119,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 */
   private void configurationElement(XNode context) {
     try {
-      log.warn("开始解析局部xml配置文件的 <mapper> 标签 ");
+      log.warn("开始解析局部xml配置文件的 <mapper> 标签  XNode 地址：" + context.hashCode());
       // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前映射文件对应的Mapper Class是谁
       String namespace = context.getStringAttribute("namespace");
       if (namespace == null || namespace.equals("")) {

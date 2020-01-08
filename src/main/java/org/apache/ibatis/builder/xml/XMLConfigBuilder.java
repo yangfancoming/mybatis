@@ -128,6 +128,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
      */
     XNode xNode = parser.evalNode("/configuration");
+    log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
     //2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
     return configuration;
@@ -489,8 +490,8 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private TransactionFactory transactionManagerElement(XNode context) throws Exception {
-    log.warn("开始解析 <transactionManager> 标签");
     if (context != null) {
+      log.warn("开始解析 <transactionManager> 标签  XNode 地址：" + context.hashCode());
       String type = context.getStringAttribute("type");
       Properties props = context.getChildrenAsProperties();
       TransactionFactory factory = (TransactionFactory) resolveClass(type).newInstance();
@@ -511,8 +512,8 @@ public class XMLConfigBuilder extends BaseBuilder {
    *          </dataSource>
    */
   private DataSourceFactory dataSourceElement(XNode context) throws Exception {
-    log.warn("开始解析 <dataSource> 标签");
     if (context != null) {
+      log.warn("开始解析 <dataSource> 标签  XNode 地址：" + context.hashCode());
       // 解析 <dataSource type="POOLED"> 标签中的type属性
       String type = context.getStringAttribute("type");
       // 得到 DataSource 四大<property>元素

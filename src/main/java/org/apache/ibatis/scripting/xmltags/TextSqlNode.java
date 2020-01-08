@@ -3,6 +3,9 @@ package org.apache.ibatis.scripting.xmltags;
 
 import java.util.regex.Pattern;
 
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.parsing.TokenHandler;
 import org.apache.ibatis.scripting.ScriptingException;
@@ -13,6 +16,8 @@ import org.apache.ibatis.type.SimpleTypeRegistry;
  TextSqlNode表示的是包含${}占位符的动态SQL节点
 */
 public class TextSqlNode implements SqlNode {
+
+  private static final Log log = LogFactory.getLog(TextSqlNode.class);
 
   private final String text;
 
@@ -25,6 +30,7 @@ public class TextSqlNode implements SqlNode {
   public TextSqlNode(String text, Pattern injectionFilter) {
     this.text = text;
     this.injectionFilter = injectionFilter;
+    log.warn("构造函数 20200107172  text参数：" + text );
   }
 
   public boolean isDynamic() {
