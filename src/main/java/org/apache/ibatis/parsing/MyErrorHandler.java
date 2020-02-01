@@ -13,16 +13,16 @@ public class MyErrorHandler implements ErrorHandler {
 
   @Override
   public void warning(SAXParseException exception)  {
-    System.out.println("warning.............");
+    System.out.println("自定义ErrorHandler  warning.............");
   }
 
   @Override
   public void error(SAXParseException exception)  {
-    System.out.println("error.............");
+    System.out.println("自定义ErrorHandler error.............");
   }
 
   @Override
   public void fatalError(SAXParseException exception)  {
-    System.out.println("fatalError.............");
+    System.out.println("自定义ErrorHandler fatalError.............");
   }
 }
