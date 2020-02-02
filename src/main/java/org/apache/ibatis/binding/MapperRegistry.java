@@ -13,6 +13,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
 /**
+ * 代理模式 （jdk动态代理）优点： 再不修改源码的基础上，对已有方法进行增强。
  * MapperRegistry 是 Mapper 接口及其对应的代理对象工厂 的注册中心。
  * 注册和获取Mapper对象的代理
  * 这里关注 Configuration.mapperRegistry 字段，它记录当前使用的 MapperRegistry 对象

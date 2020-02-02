@@ -32,6 +32,7 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class DefaultSqlSession implements SqlSession {
 
+  // 系统配置
   private final Configuration configuration;
   // 执行器接口
   private final Executor executor;

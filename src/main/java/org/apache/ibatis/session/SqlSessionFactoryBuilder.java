@@ -13,7 +13,7 @@ import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 
 /**
  * Builds {@link SqlSession} instances.
- *
+ * 建造者模式 构造者模式  优点：对复杂对象的创建细节隐藏，使用者直接调用方法即可拿到对象。
  * SqlSessionFactoryBuilder 类有很多的构造方法，但主要分为三大类：
  * 1、通过读取字符流（Reader）的方式构件SqlSessionFactory。
  * 2、通过字节流（InputStream）的方式构件SqlSessionFacotry。

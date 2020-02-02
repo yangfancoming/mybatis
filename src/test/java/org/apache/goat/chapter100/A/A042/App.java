@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * 推荐：
  *       比较重要的，复杂的Dao接口我们来写sql映射文件
  *       不重要的，简单的Dao接口为了开发快速可以使用注解；
-*/
+ */
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A042/mybatis-config.xml";
@@ -42,11 +42,11 @@ class App extends MyBaseDataTest {
   }
 
 
-/**
- * 第二种方式：（class ） 使用mapper注解  去掉局部 xml
- * 可以看到 该方式 没有 ZooMapper.xml 局部xml
- * 注解在 接口上 写了sql
-*/
+  /**
+   * 第二种方式：（class ） 使用mapper注解  去掉局部 xml
+   * 可以看到 该方式 没有 ZooMapper.xml 局部xml
+   * 注解在 接口上 写了sql
+   */
   @Test
   void test1() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
