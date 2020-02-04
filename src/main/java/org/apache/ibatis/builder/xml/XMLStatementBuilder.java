@@ -90,6 +90,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     // 动态 SQL 中可插拔的脚本语言
     String lang = context.getStringAttribute("lang");
     log.warn("解析 <select|insert|update|delete> 标签的 lang 属性：" + lang);
+    // 默认实现类为： XMLLanguageDriver
     LanguageDriver langDriver = getLanguageDriver(lang);
 
     // Parse selectKey after includes and remove them. 处理selectKey
@@ -106,7 +107,7 @@ public class XMLStatementBuilder extends BaseBuilder {
       keyGenerator = context.getBooleanAttribute("useGeneratedKeys",configuration.isUseGeneratedKeys()  && SqlCommandType.INSERT.equals(sqlCommandType))  ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
     }
 
-    // 解析动态sql
+    // 解析动态sql 默认实现类为： RawSqlSource
     SqlSource sqlSource = langDriver.createSqlSource(configuration, context, parameterTypeClass);
     //STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED
     StatementType statementType = StatementType.valueOf(context.getStringAttribute("statementType", StatementType.PREPARED.toString()));
