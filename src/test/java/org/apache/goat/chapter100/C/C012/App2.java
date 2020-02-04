@@ -38,7 +38,21 @@ class App2 extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C012/mybatis-config.xml";
 
+  @Test
+  void getEmpByIdAndLastName1() throws Exception  {
+    setUpByReader(XMLPATH);
+    EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+    Employee employee = mapper.getEmpByIdAndLastName1(15);
+    System.out.println(employee);
+  }
 
+  @Test
+  void getEmpByIdAndLastName2() throws Exception  {
+    setUpByReader(XMLPATH);
+    EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+    Employee employee = mapper.getEmpByIdAndLastName2(15);
+    System.out.println(employee);
+  }
   /**
    * Preparing: select * from tbl_employee where id = 15 and last_name = ?
    * Parameters: goat(String)
@@ -47,7 +61,7 @@ class App2 extends MyBaseDataTest {
    *     select * from tbl_employee where id = ${id} and last_name = #{lastName}
   */
   @Test
-  void getEmpById() throws Exception  {
+  void getEmpByIdAndLastName3() throws Exception  {
     setUpByReader(XMLPATH);
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
     Employee employee = mapper.getEmpByIdAndLastName3(15,"goat");
@@ -57,7 +71,7 @@ class App2 extends MyBaseDataTest {
 
   // 表名不支持预编译！ 报错： You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''tbl_employee'
   @Test
-  void getEmpById2() throws Exception  {
+  void getEmpByIdAndLastName5() throws Exception  {
     setUpByReader(XMLPATH);
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
     Map<String, Object> map = new HashMap<>();

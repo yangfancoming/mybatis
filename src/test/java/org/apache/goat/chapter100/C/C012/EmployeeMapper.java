@@ -7,7 +7,9 @@ import java.util.Map;
 
 public interface EmployeeMapper {
 
+  public Employee getEmpByIdAndLastName1(@Param("id") Integer id);
 
+  public Employee getEmpByIdAndLastName2(@Param("id") Integer id);
 
   public Employee getEmpByIdAndLastName3(@Param("id") Integer id, @Param("lastName") String lastName);
 

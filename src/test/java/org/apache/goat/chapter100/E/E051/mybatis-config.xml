@@ -28,6 +28,6 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E051/EmployeeMapper.xml" />
+    <mapper resource="org/apache/goat/chapter100/E/E051/EmployeeMapper.xml" />
   </mappers>
 </configuration>

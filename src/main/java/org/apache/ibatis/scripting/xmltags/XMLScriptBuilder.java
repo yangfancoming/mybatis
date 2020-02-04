@@ -74,14 +74,17 @@ public class XMLScriptBuilder extends BaseBuilder {
     */
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
     // 为SqlSource接口 选定实现类 动态版的 DynamicSqlSource 或 原生版的 RawSqlSource
-    SqlSource sqlSource = isDynamic ? new DynamicSqlSource(configuration, rootSqlNode) : new RawSqlSource(configuration, rootSqlNode, parameterType);
+    SqlSource sqlSource = isDynamic ? new DynamicSqlSource(configuration, rootSqlNode) : new RawSqlSource(configuration, rootSqlNode, parameterType);// -modify
     log.warn("parseScriptNode()：为 SqlSource 接口选定 实现类：" + sqlSource.getClass());
     return sqlSource;
   }
 
   /**
    * 解析sql语句
-   * node是我们要解析的SQL语句: <select resultType="org.apache.ibatis.domain.blog.Author" id="selectAllAuthors">select * from author</select>
+   * node是我们要解析的SQL语句: <select id="selectAllAuthors" resultType="org.apache.ibatis.domain.blog.Author" >select * from author</select>
+   *   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
+   *     select * from foo where id = #{id}
+   *   </select>
   */
   protected MixedSqlNode parseDynamicTags(XNode node) {
     //获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
@@ -97,15 +100,15 @@ public class XMLScriptBuilder extends BaseBuilder {
         //直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
         String data = child.getStringBody("");//  select * from customers where 1=1
         TextSqlNode textSqlNode = new TextSqlNode(data);   //创建TextSqlNode对象
-        //TextSqlNode对象主要回去检查纯文本语句是否含有'${'和'}'字符串，有则为true  //判断是否是动态Sql，其过程会调用GenericTokenParser判断文本中是否含有"${"字符
+        //判断是否是动态Sql，检查纯文本语句是否含有 "${ " 字符串，有则为true。 eg: "#{ " 则为false
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
-          log.warn("发现动态文本类型节点，节点内容：" + data.replaceAll("\n",""));
+          log.warn("发现<动态>文本类型节点，节点内容：" + data.replaceAll("\n",""));
         } else { //不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
           //返回最普通的含有data的StaticTextSqlNode对象
           contents.add(new StaticTextSqlNode(data));
-          log.warn("发现静态文本类型节点，节点内容：" + data.replaceAll("\n",""));
+          log.warn("发现<静态>文本类型节点，节点内容：" + data.replaceAll("\n",""));
         }
       } else if (child.getNode().getNodeType() == Node.ELEMENT_NODE) { // issue #628 //其他类型的节点，由不同的节点处理器来对应处理成本成不同的SqlNode类型
         String nodeName = child.getNode().getNodeName();

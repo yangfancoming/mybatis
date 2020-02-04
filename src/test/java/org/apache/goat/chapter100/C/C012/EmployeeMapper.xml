@@ -4,19 +4,26 @@
 
 <mapper namespace="org.apache.goat.chapter100.C.C012.EmployeeMapper">
 
+<!--  <select id="getEmpByIdAndLastName1" resultType="org.apache.goat.common.Employee">-->
+<!--    select * from tbl_employee where id = ${id}-->
+<!--  </select>-->
 
-
-  <select id="getEmpByIdAndLastName3" resultType="org.apache.goat.common.Employee">
-    select * from tbl_employee where id = ${id} and last_name = #{lastName}
+  <select id="getEmpByIdAndLastName2" resultType="org.apache.goat.common.Employee">
+    select * from tbl_employee where id = #{id}
   </select>
 
-  <select id="getEmpByIdAndLastName4" resultType="org.apache.goat.common.Employee">
-    select * from ${tableName} where id = ${id} and last_name = #{lastName}
-  </select>
+
+<!--  <select id="getEmpByIdAndLastName3" resultType="org.apache.goat.common.Employee">-->
+<!--    select * from tbl_employee where id = ${id} and last_name = #{lastName}-->
+<!--  </select>-->
+
+<!--  <select id="getEmpByIdAndLastName4" resultType="org.apache.goat.common.Employee">-->
+<!--    select * from ${tableName} where id = ${id} and last_name = #{lastName}-->
+<!--  </select>-->
 
 
-  <select id="getEmpByIdAndLastName5" resultType="org.apache.goat.common.Employee">
-    select * from #{tableName} where id = ${id} and last_name = #{lastName}
-  </select>
+<!--  <select id="getEmpByIdAndLastName5" resultType="org.apache.goat.common.Employee">-->
+<!--    select * from #{tableName} where id = ${id} and last_name = #{lastName}-->
+<!--  </select>-->
 
 </mapper>

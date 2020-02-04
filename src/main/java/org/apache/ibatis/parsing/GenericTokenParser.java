@@ -29,19 +29,19 @@ public class GenericTokenParser {
     this.openToken = openToken;
     this.closeToken = closeToken;
     this.handler = handler;
-    log.warn("构造函数 202001081047：GenericTokenParser 地址：" + this);
+//    log.warn("构造函数 202001081047：GenericTokenParser 地址：" + this);
   }
 
   /**
    * 解析statement中的sql语句
-   * 将openToken和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
-   * @param text
+   * 将 openToken 和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
+   * @param text 待解析文本节点   "\n	 select * from tbl_employee where id = #{id} \n "
    */
   public String parse(String text) {
     if (text == null || text.isEmpty()) {
       return "";
     }
-    // search open token  //  查找开始标记的下标  //判断openToken在text中的位置，注意indexOf函数的返回值-1表示不存在，0表示在在开头的位置
+    // search open token   //查找开始标记 openToken 即："${ " 在text中的位置，indexOf函数的返回值-1表示不存在，0表示在在开头的位置
     int start = text.indexOf(openToken);
     if (start == -1) {
       return text;
@@ -91,6 +91,8 @@ public class GenericTokenParser {
           offset = src.length;
         } else {
           // 找到了结束的标记， 则放入处理器进行处理
+          //  WARN:handler 的实现类为： class org.apache.ibatis.builder.SqlSourceBuilder$ParameterMappingTokenHandler
+          log.warn("handler 的实现类为： " + handler.getClass());
           builder.append(handler.handleToken(expression.toString()));
           offset = end + closeToken.length();
         }
