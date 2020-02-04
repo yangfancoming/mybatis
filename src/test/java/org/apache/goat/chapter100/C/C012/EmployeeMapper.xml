@@ -8,7 +8,7 @@
 <!--    select * from tbl_employee where id = ${id}-->
 <!--  </select>-->
 
-  <select id="getEmpByIdAndLastName2" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName2." resultType="org.apache.goat.common.Employee">
     select * from tbl_employee where id = #{id}
   </select>
 

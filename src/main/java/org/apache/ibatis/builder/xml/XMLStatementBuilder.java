@@ -49,7 +49,7 @@ public class XMLStatementBuilder extends BaseBuilder {
   /**
    *解析sql节点的核心方法
    * context 的值为：
-   * <select resultType="org.apache.goat.common.Employee" parameterType="int" id="testIf">
+   * <select id="testIf" parameterType="int"  resultType="org.apache.goat.common.Employee">
    *    <if test="id!=null"> and id = #{id} </if>
    * </select>
    */

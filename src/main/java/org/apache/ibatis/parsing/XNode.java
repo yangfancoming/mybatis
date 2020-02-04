@@ -381,7 +381,7 @@ public class XNode {
     if (attributeNodes != null) {
       for (int i = 0; i < attributeNodes.getLength(); i++) {
         Node attribute = attributeNodes.item(i);
-        //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse（）去处理下
+        //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse()去处理下
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
 //        log.warn(  " parseAttributes()：标签名：<" +  StringUtils.rightPad(n.getNodeName() + ">", 20) + " \t 属性值：" + value);
         attributes.put(attribute.getNodeName(), value);

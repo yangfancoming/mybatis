@@ -40,6 +40,8 @@
     C040 局部xml 之  <update> 
     C050 局部xml 之  <delete> 
     
+    C070 局部xml 之  <parameterMap>  之 调用存储过程
+    
     
     
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 

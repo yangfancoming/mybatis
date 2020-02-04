@@ -599,14 +599,14 @@ public class Configuration {
   public MetaObject newMetaObject(Object object) {
     return MetaObject.forObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
   }
+
   /**  Mybatis 四大对象  四大组件
    * 执行顺序：Executor  StatementHandler  ParameterHandler  ResultSetHandler
-   *
    *  final Executor executor = configuration.newExecutor(tx, execType);
    *  newStatementHandler
    *  newParameterHandler
    *  newResultSetHandler
-   * **/
+   */
 
   /**对ParameterHandler 进行拦截**/
   public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
@@ -639,7 +639,7 @@ public class Configuration {
 
   /**
    *  对Executor 进行拦截
-   * Configuration 创建Executor组件，BatchExecutor/ReuseExecutor/SimpleExecutor三种
+   * Configuration 创建Executor组件，BatchExecutor/ReuseExecutor/SimpleExecutor 三种
    * 该方法在SqlSessionFactory的实现类DefaultSqlSessionFactory中会调用，得到的Executor组件会传到SqlSession中，
    * 因为SqlSession对数据库的访问需要使用Executor来实现
    * */
@@ -657,8 +657,8 @@ public class Configuration {
     } else { //4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
-    //5.如果开启了二级缓存，那么就装饰一下
-    if (cacheEnabled) { // mybatis 二级缓存 默认是开启的
+    //5.如果开启了二级缓存，那么就装饰一下。(mybatis的二级缓存 默认是开启的)
+    if (cacheEnabled) {
       executor = new CachingExecutor(executor);// 装饰器模式 装饰模式
     }
     //6.处理插件  责任链模式 使用每一个拦截器重新包装 executor 并返回
@@ -804,7 +804,7 @@ public class Configuration {
     if (validateIncompleteStatements) {
       buildAllStatements();
     }
-    // id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
+    // 源码中唯一 get 的地方  eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
     return mappedStatements.get(id);
   }
 

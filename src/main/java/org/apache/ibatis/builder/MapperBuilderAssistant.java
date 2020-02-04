@@ -37,7 +37,7 @@ import org.apache.ibatis.type.TypeHandler;
 
 public class MapperBuilderAssistant extends BaseBuilder {
 
-  // <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 org.apache.ibatis.domain.blog.mappers.BlogMapper
+  // 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 org.apache.ibatis.domain.blog.mappers.BlogMapper
   private String currentNamespace;
   private final String resource;
   private Cache currentCache;
@@ -63,10 +63,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
     this.currentNamespace = currentNamespace;
   }
 
+  // 带上currentNamespace前缀 getEmpByIdAndLastName2
   public String applyCurrentNamespace(String base, boolean isReference) {
-    if (base == null) {
-      return null;
-    }
+    if (base == null)  return null; // modify-
     if (isReference) {
       // is it qualified with any namespace yet?
       if (base.contains(".")) {
@@ -77,6 +76,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
       if (base.startsWith(currentNamespace + ".")) {
         return base;
       }
+      // 如果crud的标签id中有.  eg:  <select id="selectById." parameterType="int" resultType="Foo">
       if (base.contains(".")) {
         throw new BuilderException("Dots are not allowed in element names, please remove it from " + base);
       }
@@ -129,10 +129,8 @@ public class MapperBuilderAssistant extends BaseBuilder {
     return parameterMap;
   }
 
-  public ParameterMapping buildParameterMapping( Class<?> parameterType, String property, Class<?> javaType, JdbcType jdbcType,
-      String resultMap,ParameterMode parameterMode, Class<? extends TypeHandler<?>> typeHandler,Integer numericScale) {
+  public ParameterMapping buildParameterMapping( Class<?> parameterType, String property, Class<?> javaType, JdbcType jdbcType,String resultMap,ParameterMode parameterMode, Class<? extends TypeHandler<?>> typeHandler,Integer numericScale) {
     resultMap = applyCurrentNamespace(resultMap, true);
-
     // Class parameterType = parameterMapBuilder.type();
     Class<?> javaTypeClass = resolveParameterJavaType(parameterType, property, javaType, jdbcType);
     TypeHandler<?> typeHandlerInstance = resolveTypeHandler(javaTypeClass, typeHandler);
@@ -249,7 +247,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
       statementBuilder.parameterMap(statementParameterMap);
     }
 
-    // 解析出最终 sql  最终sql 对应的 MappedStatement 后保存 到全局 Configuration 中
+    // 解析出最终 sql 对应的 MappedStatement 后 保存到全局 Configuration 中
     MappedStatement statement = statementBuilder.build();
     configuration.addMappedStatement(statement);
     return statement;
@@ -260,7 +258,6 @@ public class MapperBuilderAssistant extends BaseBuilder {
   }
 
   private ParameterMap getStatementParameterMap(String parameterMapName, Class<?> parameterTypeClass,String statementId) {
-
     parameterMapName = applyCurrentNamespace(parameterMapName, true);
     ParameterMap parameterMap = null;
     if (parameterMapName != null) {
@@ -271,7 +268,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
       }
     } else if (parameterTypeClass != null) {
       List<ParameterMapping> parameterMappings = new ArrayList<>();
-      parameterMap = new ParameterMap.Builder( configuration,statementId + "-Inline",parameterTypeClass,parameterMappings).build();
+      parameterMap = new ParameterMap.Builder(configuration,statementId + "-Inline",parameterTypeClass,parameterMappings).build();
     }
     return parameterMap;
   }
