@@ -32,7 +32,7 @@ public final class MappedStatement {
 
   private String resource;
   private Configuration configuration;
-  // sql的id
+  // 命名空间+sql的id   eg：org.apache.goat.chapter100.E.E010.EmployeeMapper.getEmpById
   private String id;
   //尝试影响驱动程序每次批量返回的结果行数和这个设置值相等
   private Integer fetchSize;

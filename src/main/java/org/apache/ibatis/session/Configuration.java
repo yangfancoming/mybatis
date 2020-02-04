@@ -750,8 +750,12 @@ public class Configuration {
   }
 
   public void addMappedStatement(MappedStatement ms) {
-    // 源码中唯一put 的地方
-    mappedStatements.put(ms.getId(), ms); // com.goat.test.none.findAll
+    /**
+     * 源码中唯一 put的地方
+     * key: xml局部配置文件的 命名空间 + crud标签id
+     * value: MappedStatement
+    */
+    mappedStatements.put(ms.getId(), ms); // key:d
   }
 
   public Collection<String> getMappedStatementNames() {

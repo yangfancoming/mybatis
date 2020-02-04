@@ -63,7 +63,11 @@ public class MapperBuilderAssistant extends BaseBuilder {
     this.currentNamespace = currentNamespace;
   }
 
-  // 带上currentNamespace前缀 getEmpByIdAndLastName2
+  /**
+   * 带上currentNamespace前缀
+   * eg： 输入：getEmpByIdAndLastName2    输出：org.apache.goat.chapter100.C.C012.EmployeeMapper.getEmpByIdAndLastName2
+   *  doit 这里P2 isReference 到底是什么意思呢？
+  */
   public String applyCurrentNamespace(String base, boolean isReference) {
     if (base == null)  return null; // modify-
     if (isReference) {
@@ -81,6 +85,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
         throw new BuilderException("Dots are not allowed in element names, please remove it from " + base);
       }
     }
+    // 其他代码都是校检，只有这一语业务代码。。。
     return currentNamespace + "." + base;
   }
 
