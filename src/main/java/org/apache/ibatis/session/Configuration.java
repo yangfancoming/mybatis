@@ -357,7 +357,8 @@ public class Configuration {
   public void setMapUnderscoreToCamelCase(boolean mapUnderscoreToCamelCase) {
     this.mapUnderscoreToCamelCase = mapUnderscoreToCamelCase;
   }
-
+  // org/apache/goat/chapter100/C/C070/FooMapper.xml
+  // namespace:org.apache.goat.chapter100.C.C070.FooMapper
   public void addLoadedResource(String resource) {
     loadedResources.add(resource);
   }

@@ -34,7 +34,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     this.methodCache = methodCache;
   }
 
-  /** 这里会拦截Mapper接口的所有方法
+  /** 这里会拦截Mapper接口中的所有方法
    * 执行动态代理的所有方法时,都会白替换成执行如下的invoke方法
    * @param proxy  代表 被代理对象
    * @param method 代表 正在执行的方法

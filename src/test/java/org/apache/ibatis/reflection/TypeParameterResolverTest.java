@@ -22,6 +22,7 @@ import org.apache.ibatis.reflection.typeparam.Level2Mapper;
 import org.junit.jupiter.api.Test;
 
 class TypeParameterResolverTest {
+
   @Test
   void testReturn_Lv0SimpleClass() throws Exception {
     Class<?> clazz = Level0Mapper.class;

@@ -93,7 +93,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
       // 将该资源添加到为已经加载过的缓存中
       configuration.addLoadedResource(resource);
-      // 将该Mapper.xml对应的Mapper Class注册进configuration的mapperRegistry容器中 。 通过命名空间绑定 Mapper 接口
+      // 将当前上级循环中解析的Mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定
       bindMapperForNamespace();
     }
@@ -480,23 +480,29 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
+
   private void bindMapperForNamespace() {
+    // org.apache.goat.chapter100.C.C070.FooMapper
     String namespace = builderAssistant.getCurrentNamespace();
     if (namespace != null) {
       Class<?> boundType = null;
       try {
+        // 通过全限定类路径反射获取对应的class对象 eg：interface org.apache.goat.chapter100.C.C070.FooMapper
         boundType = Resources.classForName(namespace);
       } catch (ClassNotFoundException e) {
         //ignore, bound type is not required
       }
-      if (boundType != null) {
-        if (!configuration.hasMapper(boundType)) {
-          // Spring may not know the real resource name so we set a flag to prevent loading again this resource from the mapper interface
-          // look at MapperAnnotationBuilder#loadXmlResource
-          configuration.addLoadedResource("namespace:" + namespace);
-          // boundType ： org.apache.goat.chapter100.C010.EmployeeMapper
-          configuration.addMapper(boundType);
-        }
+      if (boundType == null) return; // -modify
+      if (!configuration.hasMapper(boundType)) {
+        // Spring may not know the real resource name so we set a flag to prevent loading again this resource from the mapper interface
+        // look at MapperAnnotationBuilder#loadXmlResource
+        configuration.addLoadedResource("namespace:" + namespace);
+        /**
+         *  boundType ： org.apache.goat.chapter100.C010.EmployeeMapper
+         * key：全限定类路径名 eg: interface org.apache.goat.chapter100.A044.ZooMapper
+         * value：MapperProxyFactory
+        */
+        configuration.addMapper(boundType);
       }
     }
   }

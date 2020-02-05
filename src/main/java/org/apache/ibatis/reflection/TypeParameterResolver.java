@@ -12,9 +12,9 @@ import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 
 /**
- TypeParameterResolver 的功能是：当存在复杂的继承关系以及泛型定义时， TypeParameterResolver 可以帮助我们解析字段、方法参数或方法返回值的类型。
- TypeParameterResolver 是在Refelctor中的addGetMethod方法中调用的，目的是获取方法的返回值类型。
-                         在Refelctor中的addSetMethod方法中调用的，目的是获取方法的参数类型。
+ TypeParameterResolver 的功能是：当存在复杂的继承关系以及泛型定义时，可以帮助我们解析字段、方法参数或方法返回值的类型。
+ TypeParameterResolver 是在Refelctor中的 addGetMethod 方法中调用的，目的是获取方法的返回值类型。
+                         在Refelctor中的 addSetMethod 方法中调用的，目的是获取方法的参数类型。
 */
 public class TypeParameterResolver {
 
@@ -99,28 +99,16 @@ public class TypeParameterResolver {
   private static ParameterizedType resolveParameterizedType(ParameterizedType parameterizedType, Type srcType, Class<?> declaringClass) {
     Class<?> rawType = (Class<?>) parameterizedType.getRawType();
     Type[] typeArgs = parameterizedType.getActualTypeArguments();
-    Type[] args = new Type[typeArgs.length];
-    for (int i = 0; i < typeArgs.length; i++) {
-      if (typeArgs[i] instanceof TypeVariable) {
-        args[i] = resolveTypeVar((TypeVariable<?>) typeArgs[i], srcType, declaringClass);
-      } else if (typeArgs[i] instanceof ParameterizedType) {
-        args[i] = resolveParameterizedType((ParameterizedType) typeArgs[i], srcType, declaringClass);
-      } else if (typeArgs[i] instanceof WildcardType) {
-        args[i] = resolveWildcardType((WildcardType) typeArgs[i], srcType, declaringClass);
-      } else {
-        args[i] = typeArgs[i];
-      }
-    }
+    Type[] args = testMe(typeArgs, srcType, declaringClass);
     return new ParameterizedTypeImpl(rawType, null, args);
   }
 
-  private static Type resolveWildcardType(WildcardType wildcardType, Type srcType, Class<?> declaringClass) {
-    Type[] lowerBounds = resolveWildcardTypeBounds(wildcardType.getLowerBounds(), srcType, declaringClass);
-    Type[] upperBounds = resolveWildcardTypeBounds(wildcardType.getUpperBounds(), srcType, declaringClass);
-    return new WildcardTypeImpl(lowerBounds, upperBounds);
+  private static Type[] resolveWildcardTypeBounds(Type[] bounds, Type srcType, Class<?> declaringClass) {
+    return testMe(bounds,srcType,declaringClass);
   }
 
-  private static Type[] resolveWildcardTypeBounds(Type[] bounds, Type srcType, Class<?> declaringClass) {
+  // -modify 抽取重复代码
+  private static Type[] testMe(Type[] bounds, Type srcType, Class<?> declaringClass) {
     Type[] result = new Type[bounds.length];
     for (int i = 0; i < bounds.length; i++) {
       if (bounds[i] instanceof TypeVariable) {
@@ -136,6 +124,11 @@ public class TypeParameterResolver {
     return result;
   }
 
+  private static Type resolveWildcardType(WildcardType wildcardType, Type srcType, Class<?> declaringClass) {
+    Type[] lowerBounds = resolveWildcardTypeBounds(wildcardType.getLowerBounds(), srcType, declaringClass);
+    Type[] upperBounds = resolveWildcardTypeBounds(wildcardType.getUpperBounds(), srcType, declaringClass);
+    return new WildcardTypeImpl(lowerBounds, upperBounds);
+  }
   /**
    resolveTypeVar 用于解析泛型类型变量参数类型，如果字段或方法在当前类中声明，
    则返回泛型类型的上界或 Object 类型；如果在父类中声明，则递归解析父类；

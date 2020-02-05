@@ -140,6 +140,18 @@ public class MapperMethod {
     }
   }
 
+  private <K, V> Map<K, V> executeForMap(SqlSession sqlSession, Object[] args) {
+    Map<K, V> result;
+    Object param = method.convertArgsToSqlCommandParam(args);
+    if (method.hasRowBounds()) {
+      RowBounds rowBounds = method.extractRowBounds(args);
+      result = sqlSession.selectMap(command.getName(), param, method.getMapKey(), rowBounds);
+    } else {
+      result = sqlSession.selectMap(command.getName(), param, method.getMapKey());
+    }
+    return result;
+  }
+
   //返回多行结果 调用sqlSession.selectList方法
   private <E> Object executeForMany(SqlSession sqlSession, Object[] args) {
     List<E> result;
@@ -194,18 +206,6 @@ public class MapperMethod {
     } else {
       return list.toArray((E[])array);
     }
-  }
-
-  private <K, V> Map<K, V> executeForMap(SqlSession sqlSession, Object[] args) {
-    Map<K, V> result;
-    Object param = method.convertArgsToSqlCommandParam(args);
-    if (method.hasRowBounds()) {
-      RowBounds rowBounds = method.extractRowBounds(args);
-      result = sqlSession.selectMap(command.getName(), param, method.getMapKey(), rowBounds);
-    } else {
-      result = sqlSession.selectMap(command.getName(), param, method.getMapKey());
-    }
-    return result;
   }
 
   //参数map，静态内部类,更严格的get方法，如果没有相应的key，报错
@@ -299,7 +299,7 @@ public class MapperMethod {
     //返回值类型
     private final Class<?> returnType;
     private final String mapKey;
-    //记下ResultHandler是第几个参数//resultHandler类型参数的位置
+    //记下ResultHandler是第几个参数 //resultHandler类型参数的位置
     private final Integer resultHandlerIndex;
     //以下重复循环2遍调用getUniqueParamIndex，是不是降低效率了
     //记下RowBounds是第几个参数

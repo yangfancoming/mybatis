@@ -12,7 +12,7 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 /**
- * ParamNameResolver 为 sql 语句参数解析器
+ * ParamNameResolver 为sql语句参数解析器
  * 主要用来处理接口形式的参数，最后会把参数处放在一个map中
  * map的key为参数的位置，value为参数的名字
  */
