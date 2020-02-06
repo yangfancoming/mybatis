@@ -22,6 +22,21 @@
   </select>
 
 
+<!--  parameterMap用于传入参数，以便匹配SQL语句中的?号, 跟JDBC中的 -->
+  <parameterMap type="org.apache.goat.common.User" id="insertUser-param">
+<!--    利用parameterMap，可以定义参数对象的属性映射到SQL查询语句的动态参数上，注意parameterMap中<parameter/>标签的先后顺序不能颠倒！-->
+    <parameter property="username"/>
+    <parameter property="password"/>
+  </parameterMap>
+
+
+  <insert id="insertUser" parameterMap="insertUser-param">
+    insert into t_user values ( null,?,? )
+    <selectKey keyColumn="id" resultType="int" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+
 
 </mapper>
 

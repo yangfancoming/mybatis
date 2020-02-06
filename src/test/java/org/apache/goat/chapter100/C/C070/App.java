@@ -1,6 +1,7 @@
 package org.apache.goat.chapter100.C.C070;
 
 import org.apache.goat.MyBaseDataTest;
+import org.apache.goat.common.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -14,7 +15,6 @@ class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C070/mybatis-config.xml";
 
-  /* xml方式 正常*/
   @Test
   void selectById() throws Exception  {
     setUpByReader(XMLPATH);
@@ -24,10 +24,17 @@ class App extends MyBaseDataTest {
     sqlSession.selectOne("org.apache.goat.chapter100.C.C070.FooMapper.getUserCount", map);
     Integer result = map.get("usercount");
     System.out.println(result);
-
-
   }
 
 
+  @Test
+  void insertUser() throws Exception  {
+    setUpByReader(XMLPATH);
+    User user = new User();
+    user.setUsername("张三dd");
+    user.setPassword("dd");
+    Object o = sqlSession.insert("org.apache.goat.chapter100.C.C070.FooMapper.insertUser", user);
+    System.out.println(o);
+  }
 
 }

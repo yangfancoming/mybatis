@@ -18,6 +18,21 @@ import java.util.Arrays;
 */
 public class TypeParameterResolver {
 
+  private TypeParameterResolver() {
+    super();
+  }
+
+  /**
+   * 返回值类型
+   * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>
+   *         they will be resolved to the actual runtime {@link Type}s.
+   */
+  public static Type resolveReturnType(Method method, Type srcType) {
+    Type returnType = method.getGenericReturnType();
+    Class<?> declaringClass = method.getDeclaringClass();
+    return resolveType(returnType, srcType, declaringClass);
+  }
+
   /**
    * 字段类型
    * resolveFileType
@@ -32,17 +47,6 @@ public class TypeParameterResolver {
     //获取字段定义所在的类的Class对象
     Class<?> declaringClass = field.getDeclaringClass();
     return resolveType(fieldType, srcType, declaringClass);
-  }
-
-  /**
-   * 返回值类型
-   * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>
-   *         they will be resolved to the actual runtime {@link Type}s.
-   */
-  public static Type resolveReturnType(Method method, Type srcType) {
-    Type returnType = method.getGenericReturnType();
-    Class<?> declaringClass = method.getDeclaringClass();
-    return resolveType(returnType, srcType, declaringClass);
   }
 
   /**
@@ -129,6 +133,7 @@ public class TypeParameterResolver {
     Type[] upperBounds = resolveWildcardTypeBounds(wildcardType.getUpperBounds(), srcType, declaringClass);
     return new WildcardTypeImpl(lowerBounds, upperBounds);
   }
+
   /**
    resolveTypeVar 用于解析泛型类型变量参数类型，如果字段或方法在当前类中声明，
    则返回泛型类型的上界或 Object 类型；如果在父类中声明，则递归解析父类；
@@ -228,9 +233,7 @@ public class TypeParameterResolver {
     return noChange ? parentType : new ParameterizedTypeImpl((Class<?>)parentType.getRawType(), null, newParentArgs);
   }
 
-  private TypeParameterResolver() {
-    super();
-  }
+
 
   static class ParameterizedTypeImpl implements ParameterizedType {
     private Class<?> rawType;
