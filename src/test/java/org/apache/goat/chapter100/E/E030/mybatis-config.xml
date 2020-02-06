@@ -34,6 +34,6 @@
 
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E030/DepartmentMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E/E030/DepartmentMapper.xml"/>
   </mappers>
 </configuration>
