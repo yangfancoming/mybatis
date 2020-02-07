@@ -155,6 +155,7 @@ public class MapperMethod {
   //返回多行结果 调用sqlSession.selectList方法
   private <E> Object executeForMany(SqlSession sqlSession, Object[] args) {
     List<E> result;
+    // param： Employee{id=2, lastName='jane', email='jane@qq.com', gender='1'}
     Object param = method.convertArgsToSqlCommandParam(args);
     if (method.hasRowBounds()) {
       //如果参数含有rowBounds则调用分页的查询

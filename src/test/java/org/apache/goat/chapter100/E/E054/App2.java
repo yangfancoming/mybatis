@@ -54,6 +54,8 @@ class App2 extends MyBaseDataTest {
     Employee2 employee2 = new Employee2();
     employee2.setId(2);
     employee2.setLastName("jane");
+    employee2.setEmail("jane@qq.com");
+    employee2.setGender("1");
     List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
     System.out.println(list);
   }
