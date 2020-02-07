@@ -49,7 +49,7 @@ public abstract class BaseExecutor implements Executor {
   private static final Log log = LogFactory.getLog(BaseExecutor.class);
   // 事务，提交，回滚，关闭事务
   protected Transaction transaction;
-  // 底层的 Executor 包装对象
+  // 底层的 Executor 包装对象 (CachingExecutor)
   protected Executor wrapper;
   // 延迟加载队列 / 线程安全队列
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
