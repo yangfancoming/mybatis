@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.apache.goat.chapter100.G.G021.FooMapper">
+<mapper namespace="org.apache.goat.chapter100.G.G021.CacheLevel2Mapper">
   <!-- 开启本mapper的namespace下的二级缓存-->
-  <cache/>
+<!--  <cache/>-->
+
+
   <!-- <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache> -->
   <!--
   eviction:缓存的回收策略：

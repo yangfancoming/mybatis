@@ -8,11 +8,10 @@
     <setting name="useGeneratedKeys" value="true"/>
     <!--开启二级缓存  和一级缓存默认开启不一样，二级缓存需要我们手动开启 -->
 <!--    <setting name="cacheEnabled" value="true"/>-->
-    <setting name="cacheEnabled" value="false"/>
+<!--    <setting name="cacheEnabled" value="false"/>-->
   </settings>
 
   <typeAliases>
-<!--    <typeAlias type="org.apache.ibatis.submitted.cache.Person" alias="Person" />-->
     <typeAlias type="org.apache.goat.chapter100.G.G021.Foo" alias="Foo" />
   </typeAliases>
 
@@ -34,6 +33,7 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/G/G021/Foo.xml"/>
+    <mapper resource="org/apache/goat/chapter100/G/G021/CacheLevel1.xml"/>
+    <mapper resource="org/apache/goat/chapter100/G/G021/CacheLevel2.xml"/>
   </mappers>
 </configuration>
