@@ -7,7 +7,7 @@
 
   <!--单个参数： mybatis 不会做处理  所以 #{ id } 中的参数名 id 可以随意写-->
  	<select id="getEmpById" resultType="org.apache.goat.common.Employee">
-		select * from tbl_employee where id = #{fuck}
+		select * from tbl_employee where id = #{wagaga}
 	</select>
 
   <!--  -->

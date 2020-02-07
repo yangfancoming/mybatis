@@ -296,7 +296,7 @@ public class XNode {
 
   public Long getLongAttribute(String name, Long def) {
     String value = attributes.getProperty(name);
-//    return (value == null) ? def : Long.parseLong(value); // modify-  fuck 如果del为null 则报空指针异常！！！
+//    return (value == null) ? def : Long.parseLong(value); // modify-  fuck 如果del为null 则报空指针异常！！！ 因为三目运算符的第二个表达式不能为null！！！
     if (value == null) {
       return def;
     } else {
