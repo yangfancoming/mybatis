@@ -8,6 +8,10 @@
     select * from foo
   </select>
 
+  <select id="findById"  resultType="Foo" >
+    select * from foo where id = #{id}
+  </select>
+
   <delete id="deleteById"  parameterType="int">
     delete from foo where id = #{id}
   </delete>

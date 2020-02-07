@@ -54,6 +54,17 @@ public class CacheLeve1Test extends BaseTest{
     System.out.println(all1 == all2);// false
   }
 
+  // 2、sqlSession相同，查询条件不同.(当前一级缓存中还没有这个数据)
+  @Test
+  public void test2() {
+    SqlSession sqlSession1 = sqlSessionFactory.openSession();
+    CacheLevel1Mapper pm1 = sqlSession1.getMapper(CacheLevel1Mapper.class);
+    Foo foo1 = pm1.findById(1); // 查库
+    Foo foo2 = pm1.findById(1); // 走缓存
+    Foo foo3 = pm1.findById(2); // 查库
+    System.out.println(foo1 == foo2); // true
+    System.out.println(foo2 == foo3); // false
+  }
 
   // 3、sqlSession相同，两次查询之间执行了增删改操作(增删改操作会清除一级缓存)
   @Test
