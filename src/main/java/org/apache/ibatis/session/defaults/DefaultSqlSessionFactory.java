@@ -121,7 +121,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   }
 
 
-
+  /*-------------------------------- 方式一：从数据源获取SqlSession-------------------------------*/
 
   @Override
   public SqlSession openSession() {
@@ -131,11 +131,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   @Override
   public SqlSession openSession(boolean autoCommit) {
     return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, autoCommit);
-  }
-
-  @Override
-  public SqlSession openSession(Connection connection) {
-    return openSessionFromConnection(configuration.getDefaultExecutorType(), connection);
   }
 
   @Override
@@ -156,6 +151,13 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   @Override
   public SqlSession openSession(ExecutorType execType, TransactionIsolationLevel level) {
     return openSessionFromDataSource(execType, level, false);
+  }
+
+  /*--------------------------------方式二：从数据库连接获取SqlSession-------------------------------*/
+
+  @Override
+  public SqlSession openSession(Connection connection) {
+    return openSessionFromConnection(configuration.getDefaultExecutorType(), connection);
   }
 
   @Override

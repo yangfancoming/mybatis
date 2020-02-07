@@ -3,7 +3,7 @@
 
 <mapper namespace="org.apache.goat.chapter100.G.G025.CacheLevel2Mapper">
   <!-- 开启本mapper的namespace下的二级缓存-->
-<!--  <cache/>-->
+
   <cache/>
 <!--  <cache></cache>-->
 

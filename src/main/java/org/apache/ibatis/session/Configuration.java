@@ -119,7 +119,10 @@ public class Configuration {
   protected boolean useGeneratedKeys;
   //使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
-  //配置全局性的cache开关
+  /**
+   * 配置全局性的cache开关  对应全局配置文件中的
+   *     <setting name="cacheEnabled" value="true"/>
+  */
   protected boolean cacheEnabled = true;
   /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
