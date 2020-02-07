@@ -1,5 +1,5 @@
 
-package org.apache.goat.chapter100.G.G021;
+package org.apache.goat.model;
 
 import java.io.Serializable;
 

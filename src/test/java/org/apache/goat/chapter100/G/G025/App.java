@@ -1,6 +1,8 @@
 
-package org.apache.goat.chapter100.G.G021;
+package org.apache.goat.chapter100.G.G025;
 
+import org.apache.goat.MyBaseDataTest;
+import org.apache.goat.model.Foo;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
@@ -9,15 +11,16 @@ import java.util.List;
 /**
  * 和缓存有关的设置/属性：
  * 			1）、cacheEnabled=true：false：关闭缓存（二级缓存关闭）(一级缓存一直可用的)
- * 			2）、每个select标签都有useCache="true"：使用二级缓存
- * 					false：不使用缓存（一级缓存依然使用，二级缓存不使用）
+ * 			2）、每个select标签都有useCache="true"：使用二级缓存  false：不使用缓存（一级缓存依然使用，二级缓存不使用）
  * 			3）、【每个增删改标签默认：flushCache="true"：（一级二级都会清除）】
  * 					增删改执行完成后就会清楚缓存； 测试：flushCache="true"：（一级二级都会清除）
  * 					查询标签默认：flushCache="false"：如果flushCache=true;每次查询之后都会清空缓存；缓存是没有被使用的；
- * 			4）、sqlSession.clearCache();只是清楚当前session的一级缓存；
+ * 			4）、sqlSession.clearCache();只是清除当前session的一级缓存；
 */
-class CacheLeve2Test extends BaseTest {
+class App extends MyBaseDataTest {
 
+  public static final String XMLPATH = "org/apache/goat/chapter100/G/G025/mybatis-config.xml";
+  public static final String DBSQL = "org/apache/goat/common/CreateDB3.sql";
 
   /**  二级缓存 测试   基于 CachingExecutor  类
    * 二级缓存：（全局缓存）：基于namespace级别的缓存：一个namespace对应一个二级缓存： <mapper namespace="org.apache.ibatis.submitted.cache.FooMapper">
@@ -36,7 +39,8 @@ class CacheLeve2Test extends BaseTest {
    */
 
   @Test
-  void test2() {
+  public void test2() throws Exception {
+    setUpByReader(XMLPATH,DBSQL);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll();
@@ -49,7 +53,8 @@ class CacheLeve2Test extends BaseTest {
   }
 
   @Test
-  void test3() {
+  public void test3() throws Exception {
+    setUpByReader(XMLPATH,DBSQL);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll(); // 查库
@@ -58,12 +63,13 @@ class CacheLeve2Test extends BaseTest {
 
     SqlSession sqlSession2 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper2 = sqlSession2.getMapper(CacheLevel2Mapper.class);
-    List<Foo> all2 = fooMapper2.findAll(); // 走缓存
+    List<Foo> all2 = fooMapper2.findAll(); // 从二级缓存中拿数据    DEBUG:Cache Hit Ratio [org.apache.goat.chapter100.G.G025.CacheLevel2Mapper]: 0.5
     System.out.println(all2);
   }
 
   @Test
-  void test4() {
+  public void test4() throws Exception {
+    setUpByReader(XMLPATH,DBSQL);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll(); // 查库

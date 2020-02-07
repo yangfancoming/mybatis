@@ -1,6 +1,8 @@
 
-package org.apache.goat.chapter100.G.G021;
+package org.apache.goat.chapter100.G.G025;
 
+
+import org.apache.goat.model.Foo;
 
 import java.util.List;
 
