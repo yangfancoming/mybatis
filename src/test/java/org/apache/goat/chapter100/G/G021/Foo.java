@@ -1,5 +1,5 @@
 
-package org.apache.ibatis.submitted.cache;
+package org.apache.goat.chapter100.G.G021;
 
 import java.io.Serializable;
 
