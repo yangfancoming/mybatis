@@ -45,7 +45,7 @@ public interface SqlSession extends Closeable {
   /**
    * Retrieve a list of mapped objects from the statement key and parameter.
    * @param <E> the returned list element type
-   * @param statement Unique identifier matching the statement to use.
+   * @param statement Unique identifier matching the statement to use. eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
    * @param parameter A parameter object to pass to the statement.
    * @return List of mapped object
    */

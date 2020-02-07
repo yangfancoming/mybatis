@@ -223,7 +223,7 @@ public class MapperMethod {
   }
   //封装了具体执行的动作   //SQL命令，静态内部类
   public static class SqlCommand {
-    //xml标签的id   通过它可以找到 MappedStatement
+    //xml标签的id   通过它可以找到 MappedStatement eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
     private final String name;
     //insert update delete select的具体类型
     private final SqlCommandType type;

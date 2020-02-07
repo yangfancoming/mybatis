@@ -32,6 +32,18 @@ public class PreparedStatementHandler extends BaseStatementHandler {
     super(executor, mappedStatement, parameter, rowBounds, resultHandler, boundSql);
   }
 
+  /**
+   在PreparedStatementHandler中的query()方法中，用 ResultSetHandler 来完成结果集的映射。
+   */
+  @Override
+  public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
+    //1.调用preparedStatemnt。execute()方法，然后将resultSet交给ResultSetHandler处理
+    PreparedStatement ps = (PreparedStatement) statement;
+    ps.execute(); // 真正的执行sql
+    //2. 使用ResultHandler来处理ResultSet
+    return resultSetHandler.handleResultSets(ps);
+  }
+
   @Override
   public int update(Statement statement) throws SQLException {
     PreparedStatement ps = (PreparedStatement) statement;
@@ -47,18 +59,6 @@ public class PreparedStatementHandler extends BaseStatementHandler {
   public void batch(Statement statement) throws SQLException {
     PreparedStatement ps = (PreparedStatement) statement;
     ps.addBatch();
-  }
-
-  /**
-   在PreparedStatementHandler中的query()方法中，用 ResultSetHandler 来完成结果集的映射。
-   */
-  @Override
-  public <E> List<E> query(Statement statement, ResultHandler resultHandler) throws SQLException {
-    //1.调用preparedStatemnt。execute()方法，然后将resultSet交给ResultSetHandler处理
-    PreparedStatement ps = (PreparedStatement) statement;
-    ps.execute(); // 真正的执行sql
-    //2. 使用ResultHandler来处理ResultSet
-    return resultSetHandler.handleResultSets(ps);
   }
 
   @Override
