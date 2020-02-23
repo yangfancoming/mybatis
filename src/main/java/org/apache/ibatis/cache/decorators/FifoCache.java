@@ -22,10 +22,13 @@ import org.apache.ibatis.cache.Cache;
 
  */
 public class FifoCache implements Cache {
+
   //真正的缓存功能实现对象
   private final Cache delegate;
+
   //FIFO队列
   private final Deque<Object> keyList;
+
   //队列大小，默认1024
   private int size;
 
