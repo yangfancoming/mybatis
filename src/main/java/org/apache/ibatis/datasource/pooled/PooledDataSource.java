@@ -623,7 +623,6 @@ public class PooledDataSource implements DataSource {
 
   /**
    * Unwraps a pooled connection to get to the 'real' connection
-   *
    * @param conn - the pooled connection to unwrap
    * @return The 'real' connection
    */

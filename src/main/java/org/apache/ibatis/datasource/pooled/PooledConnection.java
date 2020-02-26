@@ -6,9 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import org.apache.ibatis.reflection.ExceptionUtil;
-
 
 class PooledConnection implements InvocationHandler {
 
@@ -58,7 +56,6 @@ class PooledConnection implements InvocationHandler {
 
   /**
    * Method to see if the connection is usable.
-   *
    * @return True if the connection is usable
    */
   public boolean isValid() {
@@ -230,7 +227,6 @@ class PooledConnection implements InvocationHandler {
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
-
   }
 
   private void checkConnection() throws SQLException {
