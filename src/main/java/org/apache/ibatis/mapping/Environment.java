@@ -5,30 +5,18 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.transaction.TransactionFactory;
 
-/**  决定加载哪种环境(开发环境/生产环境)
- <environments default="development">
-   <environment id="development">
-
-     <transactionManager type="JDBC">
-     <property name="" value="" />
-     </transactionManager>
-
-     <dataSource type="UNPOOLED">
-       <property name="driver" value="org.hsqldb.jdbcDriver" />
-       <property name="url" value="jdbc:hsqldb:mem:cache" />
-       <property name="username" value="sa" />
-     </dataSource>
-
-   </environment>
- </environments>
+/**
+ * 全局配置文件中 具体指定的 项目运行环境
 */
-
 public final class Environment {
-  //环境id
+
+  // 主标签   <environments default="dev_hsqldb"> 中的 dev_hsqldb
   private final String id;
-  //事务工厂
+
+  // 事务工厂接口实现类
   private final TransactionFactory transactionFactory;
-  //数据源
+
+  // 数据源
   private final DataSource dataSource;
 
   public Environment(String id, TransactionFactory transactionFactory, DataSource dataSource) {
@@ -44,6 +32,19 @@ public final class Environment {
     }
     this.transactionFactory = transactionFactory;
     this.dataSource = dataSource;
+  }
+
+
+  public String getId() {
+    return this.id;
+  }
+
+  public TransactionFactory getTransactionFactory() {
+    return this.transactionFactory;
+  }
+
+  public DataSource getDataSource() {
+    return this.dataSource;
   }
 
   /**
@@ -70,25 +71,14 @@ public final class Environment {
     }
 
     public String id() {
-      return this.id;
+      return id;
     }
 
     public Environment build() {
-      return new Environment(this.id, this.transactionFactory, this.dataSource);
+      return new Environment(id, transactionFactory, dataSource);
     }
 
   }
 
-  public String getId() {
-    return this.id;
-  }
-
-  public TransactionFactory getTransactionFactory() {
-    return this.transactionFactory;
-  }
-
-  public DataSource getDataSource() {
-    return this.dataSource;
-  }
 
 }

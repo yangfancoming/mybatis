@@ -33,9 +33,8 @@ public class ManagedTransactionFactory implements TransactionFactory {
 
   @Override
   public Transaction newTransaction(DataSource ds, TransactionIsolationLevel level, boolean autoCommit) {
-    // Silently ignores autocommit and isolation level, as managed transactions are entirely
-    // controlled by an external manager.  It's silently ignored so that
-    // code remains portable between managed and unmanaged configurations.
+    // Silently ignores autocommit and isolation level, as managed transactions are entirely controlled by an external manager.
+    // It's silently ignored so that code remains portable between managed and unmanaged configurations.
     return new ManagedTransaction(ds, level, closeConnection);
   }
 }

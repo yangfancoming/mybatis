@@ -22,8 +22,11 @@ public class ManagedTransaction implements Transaction {
   private static final Log log = LogFactory.getLog(ManagedTransaction.class);
 
   private DataSource dataSource;
+
   private TransactionIsolationLevel level;
+
   private Connection connection;
+
   private final boolean closeConnection;
 
   public ManagedTransaction(Connection connection, boolean closeConnection) {
@@ -39,29 +42,26 @@ public class ManagedTransaction implements Transaction {
 
   @Override
   public Connection getConnection() throws SQLException {
-    if (this.connection == null) {
+    if (connection == null) {
       openConnection();
     }
-    return this.connection;
+    return connection;
   }
 
   @Override
-  public void commit() throws SQLException {
-    // Does nothing
-  }
+  public void commit() { }
 
   @Override
-  public void rollback() throws SQLException {
-    // Does nothing
-  }
+  public void rollback() { }
+
 
   @Override
   public void close() throws SQLException {
-    if (this.closeConnection && this.connection != null) {
+    if (closeConnection && connection != null) {
       if (log.isDebugEnabled()) {
-        log.debug("Closing JDBC Connection [" + this.connection + "]");
+        log.debug("Closing JDBC Connection [" + connection + "]");
       }
-      this.connection.close();
+      connection.close();
     }
   }
 
@@ -69,9 +69,9 @@ public class ManagedTransaction implements Transaction {
     if (log.isDebugEnabled()) {
       log.debug("Opening JDBC Connection");
     }
-    this.connection = this.dataSource.getConnection();
-    if (this.level != null) {
-      this.connection.setTransactionIsolation(this.level.getLevel());
+    connection = dataSource.getConnection();
+    if (level != null) {
+      connection.setTransactionIsolation(level.getLevel());
     }
   }
 

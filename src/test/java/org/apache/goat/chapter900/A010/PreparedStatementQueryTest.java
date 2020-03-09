@@ -30,6 +30,8 @@ public class PreparedStatementQueryTest {
       System.out.println(customer);
     }
   }
+
+
   @Test
   public void test2() throws SQLException {
     String sql = "select id,name,email,birth from customers where id < ?";

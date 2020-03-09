@@ -48,6 +48,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       /**
        * 1.该方法先从configuration读取对应的环境配置
        * 通过Confuguration对象去获取Mybatis相关配置信息, Environment对象包含了数据源和事务的配置
+       * 设置 搜索串：environmentsElement(root.evalNode("environments"));
       */
       final Environment environment = configuration.getEnvironment();
 
@@ -107,6 +108,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
   }
 
   private TransactionFactory getTransactionFactoryFromEnvironment(Environment environment) {
+    // 如果全局配置文件中 没有配置 <environments> 或是没有配置<transactionManager> 则使用默认的
     if (environment == null || environment.getTransactionFactory() == null) {
       return new ManagedTransactionFactory();
     }
