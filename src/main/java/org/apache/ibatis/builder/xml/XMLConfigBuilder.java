@@ -41,13 +41,13 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
 
-  //标识是否已经解析过mybatis-config.xml配置文件
+  // 标识是否已经解析过mybatis-config.xml配置文件
   private boolean parsed;
-  //用于解析mybatis-config.xml配置文件的XPathParser对象
+  // 用于解析mybatis-config.xml配置文件的XPathParser对象
   private final XPathParser parser;
-  //标识<enviroment>配置的名称，默认读取<enviroment>标签的default属性
+  // 用于保存 <environments default="development"> 标签的default
   private String environment;
-  //反射工厂，用于创建和缓存反射对象
+  // 反射工厂，用于创建和缓存反射对象
   private final ReflectorFactory localReflectorFactory = new DefaultReflectorFactory();
 
   public XMLConfigBuilder(Reader reader) {
@@ -433,40 +433,32 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setConfigurationFactory(resolveClass(props.getProperty("configurationFactory")));
   }
 
-  /**
-   <environments default="development">
-     <environment id="development">
-       <transactionManager type="JDBC"/>
-           <dataSource type="POOLED">
-               <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
-               <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
-               <property name="username" value="SA"/>
-               <property name="password" value=""/>
-           </dataSource>
-     </environment>
-   </environments>
-   */
   private void environmentsElement(XNode context) throws Exception {
     if (context == null) return; // modify-
     log.warn("开始解析 <environments> 标签  XNode 地址：" + context.hashCode());
     if (environment == null) {
-      // 获取 <environments default="development"> 标签中的 default 属性
+      // 获取 <environments default="pro_mysql"> 标签中的 default 属性
       environment = context.getStringAttribute("default");
     }
+    /**
+     * context.getChildren() 获取 <environments default="pro_mysql"> 标签下的所有子标签
+     *     <environment id="dev_hsqldb">
+     *     <environment id="pro_mysql">
+     *     <environment id="test_mysql">
+    */
     for (XNode child : context.getChildren()) {
-      //  <environment id="development">
+      //  <environment id="pro_mysql">
       String id = child.getStringAttribute("id");
-      if (isSpecifiedEnvironment(id)) {
-        // 解析 <transactionManager type="JDBC"/>  标签
-        TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
-        // 解析 <dataSource>  标签
-        XNode dsNode = child.evalNode("dataSource");
-        DataSourceFactory dsFactory = dataSourceElement(dsNode);
-        DataSource dataSource = dsFactory.getDataSource();
-        // 建造者模式
-        Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
-        configuration.setEnvironment(environmentBuilder.build());
-      }
+      if (!isSpecifiedEnvironment(id)) continue; // -modify
+      // 解析 <transactionManager type="JDBC"/>  标签
+      TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
+      // 解析 <dataSource>  标签
+      XNode dsNode = child.evalNode("dataSource");
+      DataSourceFactory dsFactory = dataSourceElement(dsNode);
+      DataSource dataSource = dsFactory.getDataSource();
+      // 建造者模式
+      Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
+      configuration.setEnvironment(environmentBuilder.build());
     }
   }
 
@@ -634,7 +626,13 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   * 判断是否 id 是否为默认的/指定的 环境id
+   * 判断当前传入的子标签id环境 是否是 主标签中指定的环境id
+   *  <environments default="pro_mysql">
+   *     <environment id="dev_hsqldb"> false
+   *     <environment id="pro_mysql">  true
+   *     <environment id="test_mysql"> false
+   * @param id  每次子标签<environment> 的id值 pro_mysql
+   * @return true 当前子标签id值 是 主标签指定的环境
    */
   private boolean isSpecifiedEnvironment(String id) {
     if (environment == null) {
