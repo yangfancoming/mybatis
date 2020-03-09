@@ -457,6 +457,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
       // 最终完成 configuration 实例中的Environment对象设置
       configuration.setEnvironment(environmentBuilder.build());
+      return;// -modify  一旦处理了对应的环境则直接结束
     }
   }
 
