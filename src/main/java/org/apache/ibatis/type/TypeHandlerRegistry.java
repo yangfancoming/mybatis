@@ -424,7 +424,6 @@ public final class TypeHandlerRegistry {
   }
 
   // scan
-
   public void register(String packageName) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
     resolverUtil.find(new ResolverUtil.IsA(TypeHandler.class), packageName);
@@ -438,7 +437,6 @@ public final class TypeHandlerRegistry {
   }
 
   // get information
-
   /**
    * @since 3.2.2
    */

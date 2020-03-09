@@ -102,9 +102,7 @@ public class TypeAliasRegistry {
   @SuppressWarnings("unchecked")
   public <T> Class<T> resolveAlias(String string) {  // throws class cast exception as well if types cannot be assigned
     try {
-      if (string == null) {
-        return null;
-      }
+      if (string == null) return null;
       // issue #748
       /**
        先转成小写再解析 这里转个小写也有bug？见748号bug(在google code上)

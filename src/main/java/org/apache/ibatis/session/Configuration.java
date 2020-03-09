@@ -231,7 +231,6 @@ public class Configuration {
 
   //通过使用TypeAliasRegistry来注册一些类的别名
   public Configuration() {
-
     log.warn(  " 构造函数1738：parser地址：" + this);
     typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
     typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);

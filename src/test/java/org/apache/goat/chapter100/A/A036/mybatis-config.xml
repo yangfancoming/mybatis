@@ -3,6 +3,8 @@
 
 <configuration>
 
+  <properties resource="A022.properties"></properties>
+
   <!--
    <environments> 标签： mybatis 可以配置多个 数据源
    其下 必须要有两个子标签
