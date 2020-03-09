@@ -34,11 +34,13 @@ public class DefaultSqlSession implements SqlSession {
 
   // 系统配置
   private final Configuration configuration;
+
   // 执行器接口 (CachingExecutor)
   private final Executor executor;
 
   // 事务是否自动提交
   private final boolean autoCommit;
+
   private boolean dirty;
   private List<Cursor<?>> cursorList;
 
@@ -55,13 +57,13 @@ public class DefaultSqlSession implements SqlSession {
 
   @Override
   public <T> T selectOne(String statement) {
-    return this.selectOne(statement, null);
+    return selectOne(statement, null);
   }
 
   @Override
   public <T> T selectOne(String statement, Object parameter) {
     // Popular vote was to return null on 0 results and throw exception on too many.
-    List<T> list = this.selectList(statement, parameter);
+    List<T> list = selectList(statement, parameter);
     if (list.size() == 1) {
       return list.get(0);
     } else if (list.size() > 1) {
@@ -73,12 +75,12 @@ public class DefaultSqlSession implements SqlSession {
 
   @Override
   public <K, V> Map<K, V> selectMap(String statement, String mapKey) {
-    return this.selectMap(statement, null, mapKey, RowBounds.DEFAULT);
+    return selectMap(statement, null, mapKey, RowBounds.DEFAULT);
   }
 
   @Override
   public <K, V> Map<K, V> selectMap(String statement, Object parameter, String mapKey) {
-    return this.selectMap(statement, parameter, mapKey, RowBounds.DEFAULT);
+    return selectMap(statement, parameter, mapKey, RowBounds.DEFAULT);
   }
 
   @Override
@@ -120,12 +122,12 @@ public class DefaultSqlSession implements SqlSession {
 
   @Override
   public <E> List<E> selectList(String statement) {
-    return this.selectList(statement, null);
+    return selectList(statement, null);
   }
 
   @Override
   public <E> List<E> selectList(String statement, Object parameter) {
-    return this.selectList(statement, parameter, RowBounds.DEFAULT);
+    return selectList(statement, parameter, RowBounds.DEFAULT);
   }
 
   @Override

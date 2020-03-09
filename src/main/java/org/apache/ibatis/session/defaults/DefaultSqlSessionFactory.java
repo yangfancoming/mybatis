@@ -64,6 +64,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       /**
        * 4.通过Transaction获取一个Executor对象
        * 通过配置创建一个Executor，Executor是对jdbc中Statement的封装
+       * Executor 入口
       */
       final Executor executor = configuration.newExecutor(tx, execType);
 

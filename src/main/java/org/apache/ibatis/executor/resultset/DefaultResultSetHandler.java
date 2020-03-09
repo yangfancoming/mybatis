@@ -213,8 +213,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   private ResultSetWrapper getFirstResultSet(Statement stmt) throws SQLException {
     ResultSet rs = stmt.getResultSet();
     while (rs == null) {
-      // move forward to get the first resultset in case the driver
-      // doesn't return the resultset as the first result (HSQLDB 2.1)
+      // move forward to get the first resultset in case the driver doesn't return the resultset as the first result (HSQLDB 2.1)
       if (stmt.getMoreResults()) {
         rs = stmt.getResultSet();
       } else {
@@ -263,8 +262,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
   private void validateResultMapsCount(ResultSetWrapper rsw, int resultMapCount) {
     if (rsw != null && resultMapCount < 1) {
-      throw new ExecutorException("A query was run and no Result Maps were found for the Mapped Statement '" + mappedStatement.getId()
-          + "'.  It's likely that neither a Result Type nor a Result Map was specified.");
+      throw new ExecutorException("A query was run and no Result Maps were found for the Mapped Statement '" + mappedStatement.getId() + "'.  It's likely that neither a Result Type nor a Result Map was specified.");
     }
   }
 
@@ -369,7 +367,6 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   //
   // GET VALUE FROM ROW FOR SIMPLE RESULT MAP
   //
-
   private Object getRowValue(ResultSetWrapper rsw, ResultMap resultMap, String columnPrefix) throws SQLException {
     final ResultLoaderMap lazyLoader = new ResultLoaderMap();
     Object rowValue = createResultObject(rsw, resultMap, lazyLoader, columnPrefix);
@@ -401,7 +398,6 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   //
   // PROPERTY MAPPINGS
   //
-
   private boolean applyPropertyMappings(ResultSetWrapper rsw, ResultMap resultMap, MetaObject metaObject, ResultLoaderMap lazyLoader, String columnPrefix)  throws SQLException {
     final List<String> mappedColumnNames = rsw.getMappedColumnNames(resultMap, columnPrefix);
     boolean foundValues = false;
@@ -572,8 +568,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     return resultObject;
   }
 
-  private Object createResultObject(ResultSetWrapper rsw, ResultMap resultMap, List<Class<?>> constructorArgTypes, List<Object> constructorArgs, String columnPrefix)
-      throws SQLException {
+  private Object createResultObject(ResultSetWrapper rsw, ResultMap resultMap, List<Class<?>> constructorArgTypes, List<Object> constructorArgs, String columnPrefix) throws SQLException {
     final Class<?> resultType = resultMap.getType();
     final MetaClass metaType = MetaClass.forClass(resultType, reflectorFactory);
     final List<ResultMapping> constructorMappings = resultMap.getConstructorResultMappings();
@@ -589,8 +584,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     throw new ExecutorException("Do not know how to create an instance of " + resultType);
   }
 
-  Object createParameterizedResultObject(ResultSetWrapper rsw, Class<?> resultType, List<ResultMapping> constructorMappings,
-                                         List<Class<?>> constructorArgTypes, List<Object> constructorArgs, String columnPrefix) {
+  Object createParameterizedResultObject(ResultSetWrapper rsw, Class<?> resultType, List<ResultMapping> constructorMappings,List<Class<?>> constructorArgTypes, List<Object> constructorArgs, String columnPrefix) {
     boolean foundValues = false;
     for (ResultMapping constructorMapping : constructorMappings) {
       final Class<?> parameterType = constructorMapping.getJavaType();
@@ -880,7 +874,6 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     ancestorObjects.put(resultMapId, resultObject);
   }
 
-  //
   // NESTED RESULT MAP (JOIN MAPPING)
   private boolean applyNestedResultMappings(ResultSetWrapper rsw, ResultMap resultMap, MetaObject metaObject, String parentPrefix, CacheKey parentRowKey, boolean newObject) {
     boolean foundValues = false;
@@ -938,9 +931,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
       ResultSet rs = rsw.getResultSet();
       for (String column : notNullColumns) {
         rs.getObject(prependPrefix(column, columnPrefix));
-        if (!rs.wasNull()) {
-          return true;
-        }
+        if (!rs.wasNull())  return true;
       }
       return false;
     } else if (columnPrefix != null) {

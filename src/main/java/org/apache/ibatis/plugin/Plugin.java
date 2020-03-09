@@ -15,6 +15,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
  * 利用JDK动态代理和责任链设计模式的综合运用
 */
 public class Plugin implements InvocationHandler {
+
   //被代理的目标类
   private final Object target;
   //对应的拦截器

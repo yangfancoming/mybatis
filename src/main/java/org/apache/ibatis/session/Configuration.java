@@ -625,7 +625,7 @@ public class Configuration {
     return resultSetHandler;
   }
 
-  /**对StatementHandler 进行拦截**/
+  /**对StatementHandler 进行拦截  （StatementHandler 出口） **/
   public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     /** 在MyBatis中，Configuration对象会采用new RoutingStatementHandler()来生成StatementHandler对象：
      * 然后它会根据Executor的类型去创建对应具体的statementHandler对象（SimpleStatementHandler，PreparedStatementHandler和CallableStatementHandler）。*/
@@ -804,7 +804,7 @@ public class Configuration {
   }
 
   public MappedStatement getMappedStatement(String id) {
-    return this.getMappedStatement(id, true);
+    return getMappedStatement(id, true);
   }
 
   public MappedStatement getMappedStatement(String id, boolean validateIncompleteStatements) {
@@ -812,6 +812,7 @@ public class Configuration {
       buildAllStatements();
     }
     // 源码中唯一 get 的地方  eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
+    // MappedStatement 唯一出口
     return mappedStatements.get(id);
   }
 
