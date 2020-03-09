@@ -46,22 +46,26 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     Transaction tx = null;
     try {
       /**
-       通过Confuguration对象去获取Mybatis相关配置信息, Environment对象包含了数据源和事务的配置(从上面的配置可以看出)
-       1.该方法先从configuration读取对应的环境配置
+       * 1.该方法先从configuration读取对应的环境配置
+       * 通过Confuguration对象去获取Mybatis相关配置信息, Environment对象包含了数据源和事务的配置
       */
       final Environment environment = configuration.getEnvironment();
+
       /**
-       通过环境配置获取事务工厂，如果没有配置默认是   new ManagedTransactionFactory();
-       2.初始化TransactionFactory
+       * 2.初始化TransactionFactory
+       * 通过环境配置获取事务工厂，如果没有配置默认是 new ManagedTransactionFactory();
       */
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
+
       // 3.获得一个Transaction对象 (从数据源DataSource获取tx，这是和方式二最大的区别，其他的都差不多)
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
+
       /**
-       通过配置创建一个Executor，Executor是对jdbc中Statement的封装
-       4.通过Transaction获取一个Executor对象
+       * 4.通过Transaction获取一个Executor对象
+       * 通过配置创建一个Executor，Executor是对jdbc中Statement的封装
       */
       final Executor executor = configuration.newExecutor(tx, execType);
+
       /**
        此处也是写死的，创建一个DefaultSqlSession对象
        从此处可以看出 DefaultSqlSession是SqlSession的实例。
@@ -86,8 +90,7 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
       try {
         autoCommit = connection.getAutoCommit();
       } catch (SQLException e) {
-        // Failover to true, as most poor drivers
-        // or databases won't support transactions
+        // Failover to true, as most poor drivers or databases won't support transactions
         autoCommit = true;
       }
       final Environment environment = configuration.getEnvironment();

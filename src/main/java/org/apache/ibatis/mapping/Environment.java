@@ -45,11 +45,11 @@ public final class Environment {
     this.transactionFactory = transactionFactory;
     this.dataSource = dataSource;
   }
-/**
-   一个静态内部类Builder
-   建造模式
-   用法应该是new Environment.Builder(id).transactionFactory(xx).dataSource(xx).build();
-*/
+
+  /**
+   * 一个静态内部类Builder（建造模式）
+   * 用法应该是new Environment.Builder(id).transactionFactory(xx).dataSource(xx).build();
+  */
   public static class Builder {
     private String id;
     private TransactionFactory transactionFactory;
