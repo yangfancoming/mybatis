@@ -1,12 +1,6 @@
 
 package org.apache.ibatis.builder.xml;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.Properties;
-import javax.sql.DataSource;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.datasource.DataSourceFactory;
@@ -26,13 +20,14 @@ import org.apache.ibatis.reflection.MetaClass;
 import org.apache.ibatis.reflection.ReflectorFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapperFactory;
-import org.apache.ibatis.session.AutoMappingBehavior;
-import org.apache.ibatis.session.AutoMappingUnknownColumnBehavior;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.LocalCacheScope;
+import org.apache.ibatis.session.*;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.type.JdbcType;
+
+import javax.sql.DataSource;
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.Properties;
 
 /**
  * XMLConfigBuilder 用来解析MyBatis的全局xml文件  eg: "org/apache/ibatis/submitted/association_nested/mybatis-config.xml"
@@ -458,6 +453,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       DataSource dataSource = dsFactory.getDataSource();
       // 建造者模式
       Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
+      // 最终完成 configuration 实例中的Environment对象设置
       configuration.setEnvironment(environmentBuilder.build());
     }
   }
@@ -496,7 +492,6 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    *  解析 <dataSource> 标签并获取 DataSource 四大元素
-   *
    *          <dataSource type="POOLED">
    *              <property name="driver" value="org.hsqldb.jdbc.JDBCDriver"/>
    *              <property name="url" value="jdbc:hsqldb:mem:association_nested"/>
@@ -509,10 +504,15 @@ public class XMLConfigBuilder extends BaseBuilder {
       log.warn("开始解析 <dataSource> 标签  XNode 地址：" + context.hashCode());
       // 解析 <dataSource type="POOLED"> 标签中的type属性
       String type = context.getStringAttribute("type");
+      /**
+       *  Configuration 的构造函数中初始化了
+       * typeAliasRegistry.registerAlias("JNDI", JndiDataSourceFactory.class);
+       * typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
+       * typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
+      */
+      DataSourceFactory factory = (DataSourceFactory) resolveClass(type).newInstance();
       // 得到 DataSource 四大<property>元素
       Properties props = context.getChildrenAsProperties();
-      // 通过 TypeAliasRegistry 中的  Map<String, Class<?>> typeAliases 中的key  获取 org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
-      DataSourceFactory factory = (DataSourceFactory) resolveClass(type).newInstance();
       factory.setProperties(props);
       return factory;
     }

@@ -19,11 +19,10 @@ public class ManagedTransactionFactory implements TransactionFactory {
 
   @Override
   public void setProperties(Properties props) {
-    if (props != null) {
-      String closeConnectionProperty = props.getProperty("closeConnection");
-      if (closeConnectionProperty != null) {
-        closeConnection = Boolean.valueOf(closeConnectionProperty);
-      }
+    if (props == null) return; // -modify
+    String closeConnectionProperty = props.getProperty("closeConnection");
+    if (closeConnectionProperty != null) {
+      closeConnection = Boolean.valueOf(closeConnectionProperty);
     }
   }
 
