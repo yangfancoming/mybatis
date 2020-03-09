@@ -1,5 +1,5 @@
 
-package org.apache.goat;
+package org.apache.common;
 
 
 import org.apache.ibatis.BaseDataTest;
@@ -70,7 +70,6 @@ public abstract class MyBaseDataTest {
   public void after(){
     sqlSession.close();
     log.warn(  "此次测试运行结束，关闭 sqlSession ");
-
   }
 
 

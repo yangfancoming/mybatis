@@ -1,6 +1,7 @@
 package org.apache.goat.chapter100.A.A042;
 
-import org.apache.goat.MyBaseDataTest;
+
+import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
 import org.apache.goat.common.model.Zoo;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,10 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A042/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
+  public App() throws Exception {
+    setUpByReader(XMLPATH,DBSQL);
+  }
+
   /**
    *        第二种方式， （class ）
    *        通过class指定接口，进而将接口与对应的xml文件形成映射关系
@@ -26,21 +31,18 @@ class App extends MyBaseDataTest {
    *        <mapper class="com.dy.dao.UserDao"/>
    */
   @Test
-  void selectById() throws Exception  {
-    setUpByReader(XMLPATH,DBSQL);
+  void selectById()   {
     Foo foo = sqlSession.selectOne("org.apache.goat.chapter100.A.A042.FooMapper.selectById",1);
     System.out.println(foo);
   }
 
 
   @Test
-  void test() throws Exception  {
-    setUpByReader(XMLPATH,DBSQL);
+  void test()   {
     FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
     Foo foo = fooMapper.selectById(1);
     System.out.println(foo);
   }
-
 
   /**
    * 第二种方式：（class ） 使用mapper注解  去掉局部 xml
@@ -48,12 +50,10 @@ class App extends MyBaseDataTest {
    * 注解在 接口上 写了sql
    */
   @Test
-  void test1() throws Exception  {
-    setUpByReader(XMLPATH,DBSQL);
+  void test1()   {
     ZooMapper zooMapper = sqlSession.getMapper(ZooMapper.class);
     Zoo zoo = zooMapper.selectById(1);
     System.out.println(zoo);
   }
-
 
 }

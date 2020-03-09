@@ -1,6 +1,6 @@
 package org.apache.goat.chapter100.G.G021;
 
-import org.apache.goat.MyBaseDataTest;
+import org.apache.common.MyBaseDataTest;
 import org.apache.goat.model.Foo;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;

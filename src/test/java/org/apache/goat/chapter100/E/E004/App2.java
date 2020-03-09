@@ -1,6 +1,6 @@
 package org.apache.goat.chapter100.E.E004;
 
-import org.apache.goat.MyBaseDataTest;
+import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Employee;
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.junit.jupiter.api.Test;

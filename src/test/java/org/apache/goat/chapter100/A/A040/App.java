@@ -1,6 +1,6 @@
 package org.apache.goat.chapter100.A.A040;
 
-import org.apache.goat.MyBaseDataTest;
+import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
 import org.junit.jupiter.api.Test;
 
