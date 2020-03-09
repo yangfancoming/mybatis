@@ -27,8 +27,10 @@ class App extends MyBaseDataTest {
     System.out.println(foo);
   }
 
-
-  /**  3、通过Configuration对象构建SqlSessionFactory */
+  /**  3、通过Configuration对象构建SqlSessionFactory
+   *  doit 挺长时间没碰 再次运行为啥又报错了？
+   *  org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): org.apache.goat.chapter100.A.A002.FooMapper.selectById
+   */
   @Test
   void gaga() throws Exception {
     //    DataSource dataSource = BlogDataSourceFactory.getBlogDataSource();
