@@ -442,16 +442,18 @@ public class XMLConfigBuilder extends BaseBuilder {
      *     <environment id="test_mysql">
     */
     for (XNode child : context.getChildren()) {
-      //  <environment id="pro_mysql">
+      // ① <environment id="pro_mysql">
       String id = child.getStringAttribute("id");
+      // 不是 主标签中指定的环境 则直接忽略
       if (!isSpecifiedEnvironment(id)) continue; // -modify
-      // 解析 <transactionManager type="JDBC"/>  标签
+      // ② 解析 <transactionManager type="JDBC"/>标签，从而获取TransactionFactory接口的实现类
       TransactionFactory txFactory = transactionManagerElement(child.evalNode("transactionManager"));
       // 解析 <dataSource>  标签
       XNode dsNode = child.evalNode("dataSource");
       DataSourceFactory dsFactory = dataSourceElement(dsNode);
+      // ③ 获取DataSource接口的实现类
       DataSource dataSource = dsFactory.getDataSource();
-      // 建造者模式
+      // ④ 再获取了 ①  ②  ③ 后，使用建造者模式 创建Environment对象
       Environment.Builder environmentBuilder = new Environment.Builder(id).transactionFactory(txFactory).dataSource(dataSource);
       // 最终完成 configuration 实例中的Environment对象设置
       configuration.setEnvironment(environmentBuilder.build());
