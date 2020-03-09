@@ -1,7 +1,7 @@
 package org.apache.goat.chapter100.E.E050;
 
 
-import org.apache.goat.common.Employee2;
+import org.apache.goat.common.model.Employee2;
 
 import java.util.List;
 

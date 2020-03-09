@@ -12,8 +12,8 @@
                 type:指定要起别名的类型全类名;默认别名就是类名小写；employee
                 alias:指定新的别名
      -->
-    <typeAlias type="org.apache.goat.common.Foo" alias="Foo0"/>
-    <typeAlias type="org.apache.goat.common.Bar" alias="Bar0"/>
+    <typeAlias type="org.apache.goat.common.model.Foo" alias="Foo0"/>
+    <typeAlias type="org.apache.goat.common.model.Bar" alias="Bar0"/>
 
     <package name="org.apache.goat.common"/>
   </typeAliases>

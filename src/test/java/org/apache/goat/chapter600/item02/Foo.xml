@@ -10,7 +10,7 @@
   <!--select from foo where id = #{id}-->
   <!--</select>-->
 
-  <select id="findList" parameterType="java.util.Map" resultType="org.apache.goat.common.Foo">
+  <select id="findList" parameterType="java.util.Map" resultType="org.apache.goat.common.model.Foo">
     SELECT a.id,a.username,a.password,a.nickname,a.headImgUrl,a.phone,a.sex,a.enabled,a.type,a.createTime,a.updateTime,a.banlance,a.control,a.win,a.loginTime
     FROM app_user a
     <if test="groupId != null">

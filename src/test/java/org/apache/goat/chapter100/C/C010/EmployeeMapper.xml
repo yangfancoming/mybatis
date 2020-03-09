@@ -6,33 +6,33 @@
 
 
   <!--单个参数： mybatis 不会做处理  所以 #{ id } 中的参数名 id 可以随意写-->
- 	<select id="getEmpById" resultType="org.apache.goat.common.Employee">
+ 	<select id="getEmpById" resultType="org.apache.goat.common.model.Employee">
 		select * from tbl_employee where id = #{wagaga}
 	</select>
 
   <!--  -->
-  <select id="getEmpByIdAndLastName" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
 
-  <select id="getEmpByIdAndLastName1" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName1" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{param1} and last_name = #{param2}
   </select>
 
-  <select id="getEmpByIdAndLastName2" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName2" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{arg0} and last_name = #{arg1}
   </select>
 
-  <select id="getEmpByIdAndLastName3" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName3" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
 
 
-  <select id="getEmpByIdAndLastName4" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName4" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
 
-  <select id="getEmpByIdAndLastName5" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByIdAndLastName5" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
 

@@ -1,7 +1,7 @@
 package org.apache.goat.chapter100.A.A034;
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.Bar;
+import org.apache.goat.common.model.Bar;
 import org.junit.jupiter.api.Test;
 
 

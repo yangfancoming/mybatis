@@ -93,7 +93,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
       // 将该资源添加到为已经加载过的缓存中
       configuration.addLoadedResource(resource);
-      // 将当前上级循环中解析的Mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
+      // 将当前上级循环中解析的mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定
       bindMapperForNamespace();
     }

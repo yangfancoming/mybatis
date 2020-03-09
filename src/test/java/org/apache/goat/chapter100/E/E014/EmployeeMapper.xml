@@ -13,7 +13,7 @@
            d.id as deptId ,d.dept_name
         2. 对应 javaBean对象中的属性 ===  property
    -->
-  <resultMap type="org.apache.goat.common.Employee2" id="MyDifEmp">
+  <resultMap type="org.apache.goat.common.model.Employee2" id="MyDifEmp">
     <id property="id" column="empId" />
     <result property="lastName" column="last_name"/>
     <result property="email" column="email"/>

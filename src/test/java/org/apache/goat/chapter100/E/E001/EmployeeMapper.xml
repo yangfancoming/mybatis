@@ -6,7 +6,7 @@
 
 
   <!--resultType：如果返回的是一个集合，要写集合中元素的类型  -->
-  <select id="getEmpsByLastNameLike" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpsByLastNameLike" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where last_name like #{lastName}
   </select>
 

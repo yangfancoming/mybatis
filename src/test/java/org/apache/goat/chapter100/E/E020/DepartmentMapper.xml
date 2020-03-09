@@ -4,7 +4,7 @@
 
 <mapper namespace="org.apache.goat.chapter100.E.E020.DepartmentMapper">
 
-	<select id="getDeptById" resultType="org.apache.goat.common.Department">
+	<select id="getDeptById" resultType="org.apache.goat.common.model.Department">
 		select id,dept_name departmentName from tbl_dept where id=#{id}
 	</select>
 

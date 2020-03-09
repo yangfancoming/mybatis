@@ -1,8 +1,8 @@
 package org.apache.goat.chapter100.A.A042;
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.Foo;
-import org.apache.goat.common.Zoo;
+import org.apache.goat.common.model.Foo;
+import org.apache.goat.common.model.Zoo;
 import org.junit.jupiter.api.Test;
 
 

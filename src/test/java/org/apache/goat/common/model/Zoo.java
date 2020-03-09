@@ -1,21 +1,18 @@
 
-package org.apache.goat.common;
-
-import org.apache.ibatis.type.Alias;
+package org.apache.goat.common.model;
 
 import java.io.Serializable;
 
-@Alias("what")
-public class Bar implements Serializable {
+public class Zoo implements Serializable {
 
   private int id;
   private String firstname;
   private String lastname;
 
-  public Bar() {
+  public Zoo() {
   }
 
-  public Bar(int id, String firstname, String lastname) {
+  public Zoo(int id, String firstname, String lastname) {
     setId(id);
     setFirstname(firstname);
     setLastname(lastname);

@@ -1,6 +1,6 @@
 package org.apache.goat.chapter900.A010;
 
-import org.apache.goat.common.Customer;
+import org.apache.goat.common.model.Customer;
 import org.junit.Test;
 
 import java.sql.*;

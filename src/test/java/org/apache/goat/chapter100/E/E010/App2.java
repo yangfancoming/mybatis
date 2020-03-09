@@ -2,7 +2,7 @@ package org.apache.goat.chapter100.E.E010;
 
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.Employee;
+import org.apache.goat.common.model.Employee;
 import org.junit.jupiter.api.Test;
 
 

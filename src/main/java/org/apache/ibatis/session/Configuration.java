@@ -847,7 +847,7 @@ public class Configuration {
   public boolean hasStatement(String statementName) {
     return hasStatement(statementName, true);
   }
-
+  // org.apache.goat.chapter100.A.A002.FooMapper.selectById
   public boolean hasStatement(String statementName, boolean validateIncompleteStatements) {
     if (validateIncompleteStatements) {
       buildAllStatements();

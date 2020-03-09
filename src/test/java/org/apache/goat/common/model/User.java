@@ -1,4 +1,4 @@
-package org.apache.goat.common;
+package org.apache.goat.common.model;
 
 /**
  * Created by Administrator on 2020/2/6.

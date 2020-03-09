@@ -5,7 +5,7 @@
 <mapper namespace="org.apache.goat.chapter100.E.E034.EmployeeMapper">
 
 
-  <select id="getEmpsByDeptId" resultType="org.apache.goat.common.Employee2">
+  <select id="getEmpsByDeptId" resultType="org.apache.goat.common.model.Employee2">
     select * from tbl_employee where d_id=#{deptId}
   </select>
 

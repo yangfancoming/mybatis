@@ -18,7 +18,7 @@
             如果是男生，把last_name这一列的值赋值给email;
      -->
 
-  <resultMap type="org.apache.goat.common.Employee2" id="MyEmpDis">
+  <resultMap type="org.apache.goat.common.model.Employee2" id="MyEmpDis">
     <id column="id" property="id"/>
     <result column="last_name" property="lastName"/>
     <result column="email" property="email"/>
@@ -27,14 +27,14 @@
     <!-- column：指定判定的列名 javaType：列值对应的java类型  -->
     <discriminator javaType="string" column="gender">
       <!--女生  resultType:指定封装的结果类型；不能缺少。/resultMap-->
-      <case value="0" resultType="org.apache.goat.common.Employee2">
+      <case value="0" resultType="org.apache.goat.common.model.Employee2">
         <association property="dept"
                      select="org.apache.goat.chapter100.E.E040.DepartmentMapper.getDeptById"
                      column="id">
         </association>
       </case>
       <!--男生 ;如果是男生，把last_name这一列的值赋值给email; -->
-      <case value="1" resultType="org.apache.goat.common.Employee2">
+      <case value="1" resultType="org.apache.goat.common.model.Employee2">
         <id column="id" property="id"/>
         <result property="lastName" column="last_name" />
         <result property="email" column="last_name" />

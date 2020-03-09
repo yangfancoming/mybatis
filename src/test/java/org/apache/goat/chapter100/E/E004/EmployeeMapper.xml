@@ -10,7 +10,7 @@
   </select>
 
 
-  <select id="getEmpByLastNameLikeReturnMap" resultType="org.apache.goat.common.Employee">
+  <select id="getEmpByLastNameLikeReturnMap" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where last_name like #{lastName}
   </select>
 

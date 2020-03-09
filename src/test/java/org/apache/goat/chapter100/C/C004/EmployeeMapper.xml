@@ -16,7 +16,7 @@
       当需要设置多个属性时，使用逗号隔开，这种情况下通常还需要设置 keyColumn 属性
       按顺序指定数据库的列，这里列的值会和 keyProperty 配置的属性一一对应
   -->
-  <insert id="addEmp" parameterType="org.apache.goat.common.Employee" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="addEmp" parameterType="org.apache.goat.common.model.Employee" useGeneratedKeys="true" keyProperty="id" >
     insert into
       tbl_employee(last_name,email,gender)
     values

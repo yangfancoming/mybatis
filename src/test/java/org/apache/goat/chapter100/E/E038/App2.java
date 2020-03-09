@@ -1,8 +1,8 @@
 package org.apache.goat.chapter100.E.E038;
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.Department;
-import org.apache.goat.common.Employee2;
+import org.apache.goat.common.model.Department;
+import org.apache.goat.common.model.Employee2;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

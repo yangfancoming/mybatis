@@ -1,7 +1,7 @@
 package org.apache.goat.chapter100.C.C070;
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.User;
+import org.apache.goat.common.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

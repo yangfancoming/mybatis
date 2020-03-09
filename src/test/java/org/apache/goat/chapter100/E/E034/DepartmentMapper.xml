@@ -5,7 +5,7 @@
 <mapper namespace="org.apache.goat.chapter100.E.E034.DepartmentMapper">
 
   <!-- collection：分段查询 -->
-  <resultMap type="org.apache.goat.common.Department" id="MyDeptStep">
+  <resultMap type="org.apache.goat.common.model.Department" id="MyDeptStep">
 
     <id property="id" column="id" />
     <id property="departmentName" column="dept_name" />

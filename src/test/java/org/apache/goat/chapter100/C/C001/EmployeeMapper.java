@@ -1,6 +1,6 @@
 package org.apache.goat.chapter100.C.C001;
 
-import org.apache.goat.common.Employee;
+import org.apache.goat.common.model.Employee;
 
 public interface EmployeeMapper {
 

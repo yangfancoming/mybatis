@@ -22,7 +22,7 @@ public Employee getEmpById(Integer id);
         select * from foo where id = #{id}
     </#text>
  -->
-  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
+  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.model.Foo" >
       select * from foo where id = #{id}
   </select>
 

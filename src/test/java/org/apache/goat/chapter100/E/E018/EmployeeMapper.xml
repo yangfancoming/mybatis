@@ -8,7 +8,7 @@
   <!--
         使用 association 定义关联的单个对象的封装规则
      -->
-  <resultMap type="org.apache.goat.common.Employee2" id="MyDifEmp2">
+  <resultMap type="org.apache.goat.common.model.Employee2" id="MyDifEmp2">
     <id column="id" property="id"/>
     <result property="lastName" column="last_name" />
     <result property="gender" column="gender" />
@@ -18,7 +18,7 @@
         property="dept"：指定哪个属性是联合的对象
         javaType:指定这个属性对象的类型[不能省略]
         -->
-    <association property="dept" javaType="org.apache.goat.common.Department">
+    <association property="dept" javaType="org.apache.goat.common.model.Department">
       <id property="id" column="deptId" />
       <result property="departmentName" column="dept_name" />
     </association>

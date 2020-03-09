@@ -1,7 +1,7 @@
 package org.apache.goat.chapter600.item01;
 
 import org.apache.goat.MyBaseDataTest;
-import org.apache.goat.common.Customer;
+import org.apache.goat.common.model.Customer;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -6,7 +6,7 @@
 
 
   <!--  &amp; 为 and/&&  的转义字符  -->
-  <select id="getEmpsByConditionIf" resultType="org.apache.goat.common.Employee2">
+  <select id="getEmpsByConditionIf" resultType="org.apache.goat.common.model.Employee2">
     select * from tbl_employee
     <where>
       <if test="id!=null"> id=#{id} </if>

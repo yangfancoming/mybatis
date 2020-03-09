@@ -19,14 +19,14 @@
   </select>
 
   <!--嵌套结果集的方式，使用collection标签定义关联的集合类型的属性封装规则  -->
-  <resultMap type="org.apache.goat.common.Department" id="MyDept">
+  <resultMap type="org.apache.goat.common.model.Department" id="MyDept">
     <id property="id" column="deptId" />
     <id property="departmentName" column="dept_name" />
     <!--
             collection定义关联集合类型的属性的封装规则
             ofType:指定集合里面元素的类型
         -->
-    <collection property="emps" ofType="org.apache.goat.common.Employee2">
+    <collection property="emps" ofType="org.apache.goat.common.model.Employee2">
       <!-- 定义这个集合中元素的封装规则 -->
       <id column="eid" property="id"/>
       <result column="last_name" property="lastName"/>

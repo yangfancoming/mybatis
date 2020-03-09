@@ -3,7 +3,7 @@ package org.apache.goat.chapter200.A03;
 
 
 
-import org.apache.goat.common.Foo;
+import org.apache.goat.common.model.Foo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.apache.goat.common;
+package org.apache.goat.common.model;
 
 import java.util.List;
 

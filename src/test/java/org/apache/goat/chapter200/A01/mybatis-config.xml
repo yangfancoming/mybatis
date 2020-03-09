@@ -13,7 +13,7 @@
 	</settings>
 
 	<typeAliases>
-		<typeAlias type="org.apache.goat.common.Foo" alias="Foo" />
+		<typeAlias type="org.apache.goat.common.model.Foo" alias="Foo" />
 	</typeAliases>
 
 	<environments default="development">

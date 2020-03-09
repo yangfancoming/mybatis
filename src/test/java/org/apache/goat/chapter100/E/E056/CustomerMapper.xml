@@ -5,7 +5,7 @@
 <mapper namespace="org.apache.goat.chapter100.E.E056.CustomerMapper">
 
 
-  <select id="getTest" resultType="org.apache.goat.common.Customer">
+  <select id="getTest" resultType="org.apache.goat.common.model.Customer">
     select * from customers where 1=1
     <if test="id!=null">and id = #{id}</if>
   </select>
@@ -13,7 +13,7 @@
   <sql id="myTag">id IN (1,2,3)</sql>
 
   <!--这个<include refid="myTag" />会自动把上面的代码贴过来-->
-  <select id="getTest2" resultType="org.apache.goat.common.Customer">
+  <select id="getTest2" resultType="org.apache.goat.common.model.Customer">
     SELECT * FROM customers WHERE <include refid="myTag"/>
   </select>
 
@@ -23,7 +23,7 @@
     from ${tableName}
   </sql>
 
-  <select id="getTest3" parameterType="int" resultType="org.apache.goat.common.Customer">
+  <select id="getTest3" parameterType="int" resultType="org.apache.goat.common.model.Customer">
     select *
     <include refid="table_name">
       <property name="tableName" value="customers" />

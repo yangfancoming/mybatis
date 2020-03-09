@@ -1,6 +1,6 @@
 package org.apache.goat.chapter100.C.C010;
 
-import org.apache.goat.common.Employee;
+import org.apache.goat.common.model.Employee;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;

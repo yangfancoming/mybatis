@@ -2,7 +2,7 @@
 package org.apache.goat.chapter100.A.A042;
 
 
-import org.apache.goat.common.Zoo;
+import org.apache.goat.common.model.Zoo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
