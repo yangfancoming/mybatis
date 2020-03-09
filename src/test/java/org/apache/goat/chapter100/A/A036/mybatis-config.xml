@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-
-
-  <properties resource="A022.properties"></properties>
-
 
   <!--
    <environments> 标签： mybatis 可以配置多个 数据源
@@ -37,7 +32,6 @@
       </dataSource>
     </environment>
 
-
     <!--正式环境环境mysql数据库-->
     <environment id="pro_mysql">
       <transactionManager type="JDBC" />
@@ -48,8 +42,6 @@
         <property name="password" value="12345" />
       </dataSource>
     </environment>
-
-
 
     <environment id="test_mysql">
       <transactionManager type="JDBC"/>
@@ -63,7 +55,6 @@
       </dataSource>
     </environment>
   </environments>
-
 
   <mappers>
     <mapper resource="org/apache/goat/chapter100/A/A036/Foo.xml" />

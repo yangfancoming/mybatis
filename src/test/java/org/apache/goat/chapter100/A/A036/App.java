@@ -12,8 +12,8 @@ class App extends MyBaseDataTest {
 
   /**
    * 切换   注释一下两个标签  查看运行结果
-   * <environments default="pro_mysql">   连接 myslq  数据库 查询
-   * <environments default="dev_hsqldb">  连接 hsqldb  数据库 查询
+   * <environments default="pro_mysql">   连接 myslq   数据库 查询   id=1, lastname=Doe, firstname=Jane
+   * <environments default="dev_hsqldb">  连接 hsqldb  数据库 查询   id=1, lastname=null, firstname=111
   */
   @Test
   void test1() throws Exception {
@@ -21,7 +21,6 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
     System.out.println(foo);
   }
-
 
 
 }
