@@ -89,10 +89,8 @@ class BaseStatementHandlerTest {
     void specifyMappedStatementTimeoutAndDefaultTimeout() throws SQLException {
         doReturn(20).when(configuration).getDefaultStatementTimeout();
         mappedStatementBuilder.timeout(30);
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, null);
-
         verify(statement).setQueryTimeout(30); // apply a mapped statement timeout
         verify(configuration, never()).getDefaultStatementTimeout();
     }
@@ -100,20 +98,16 @@ class BaseStatementHandlerTest {
     @Test
     void specifyQueryTimeoutAndTransactionTimeoutMinIsQueryTimeout() throws SQLException {
         doReturn(10).when(configuration).getDefaultStatementTimeout();
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, 20);
-
         verify(statement).setQueryTimeout(10); // apply a query timeout
     }
 
     @Test
     void specifyQueryTimeoutAndTransactionTimeoutMinIsTransactionTimeout() throws SQLException {
         doReturn(10).when(configuration).getDefaultStatementTimeout();
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, 5);
-
         verify(statement).setQueryTimeout(10);
         verify(statement).setQueryTimeout(5); // apply a transaction timeout
     }
@@ -121,10 +115,8 @@ class BaseStatementHandlerTest {
     @Test
     void specifyQueryTimeoutAndTransactionTimeoutWithSameValue() throws SQLException {
         doReturn(10).when(configuration).getDefaultStatementTimeout();
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, 10);
-
         verify(statement).setQueryTimeout(10);
     }
 

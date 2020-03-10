@@ -30,8 +30,8 @@ class UnpooledDataSourceTest {
   @Test
   void shouldRegisterDynamicallyLoadedDriver() throws Exception {
     int before = countRegisteredDrivers();
-    ClassLoader driverClassLoader = null;
-    UnpooledDataSource dataSource = null;
+    ClassLoader driverClassLoader;
+    UnpooledDataSource dataSource;
     driverClassLoader = new URLClassLoader(new URL[] { new URL("jar:file:/PATH_TO/mysql-connector-java-5.1.25.jar!/") });
     dataSource = new UnpooledDataSource(driverClassLoader, "com.mysql.jdbc.Driver", "jdbc:mysql://127.0.0.1/test", "root", "");
     dataSource.getConnection().close();

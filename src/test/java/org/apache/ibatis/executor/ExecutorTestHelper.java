@@ -137,7 +137,6 @@ class ExecutorTestHelper {
 
   static MappedStatement prepareSelectOneAuthorMappedStatement(final Configuration config) {
     final TypeHandlerRegistry registry = config.getTypeHandlerRegistry();
-
     final ResultMap rm = new ResultMap.Builder(config, "defaultResultMap", Author.class, new
         ArrayList<ResultMapping>() {
           {
@@ -609,19 +608,12 @@ class ExecutorTestHelper {
         }).build();
   }
 
-
   static MappedStatement prepareInsertAuthorMappedStatementWithBeforeAutoKey(final Configuration config) {
     final TypeHandlerRegistry registry = config.getTypeHandlerRegistry();
-    final ResultMap rm = new ResultMap.Builder(config, "keyResultMap", Integer.class, new ArrayList<>())
-        .build();
-
+    final ResultMap rm = new ResultMap.Builder(config, "keyResultMap", Integer.class, new ArrayList<>()).build();
     MappedStatement kms = new MappedStatement.Builder(config, "insertAuthor!selectKey", new StaticSqlSource(config,"SELECT 123456 as id FROM SYSIBM.SYSDUMMY1"), SqlCommandType.SELECT)
         .keyProperty("id")
-        .resultMaps(new ArrayList<ResultMap>() {
-          {
-            add(rm);
-          }
-        })
+        .resultMaps(new ArrayList<ResultMap>() {{ add(rm);} })
         .build();
     config.addMappedStatement(kms);
     return new MappedStatement.Builder(config, "insertAuthor", new DynamicSqlSource(config, new TextSqlNode("INSERT INTO author (id,username,password,email,bio,favourite_section) values(#{id},#{username},#{password},#{email},#{bio:VARCHAR},#{favouriteSection})")), SqlCommandType.INSERT)

@@ -26,6 +26,7 @@ public class PooledDataSource implements DataSource {
 
   private final PoolState state = new PoolState(this);
 
+  // doit 为啥这里要持有 UnpooledDataSource 引用呢？
   private final UnpooledDataSource dataSource;
 
   // OPTIONAL CONFIGURATION FIELDS
@@ -135,9 +136,7 @@ public class PooledDataSource implements DataSource {
 
   /**
    * Sets the default network timeout value to wait for the database operation to complete. See {@link Connection#setNetworkTimeout(java.util.concurrent.Executor, int)}
-   * 
-   * @param milliseconds
-   *          The time in milliseconds to wait for the database operation to complete.
+   * @param milliseconds The time in milliseconds to wait for the database operation to complete.
    * @since 3.5.2
    */
   public void setDefaultNetworkTimeout(Integer milliseconds) {
@@ -157,7 +156,6 @@ public class PooledDataSource implements DataSource {
 
   /**
    * The maximum number of idle connections.
-   *
    * @param poolMaximumIdleConnections The maximum number of idle connections
    */
   public void setPoolMaximumIdleConnections(int poolMaximumIdleConnections) {
@@ -168,10 +166,8 @@ public class PooledDataSource implements DataSource {
   /**
    * The maximum number of tolerance for bad connection happens in one thread
    * which are applying for new {@link PooledConnection}.
-   *
    * @param poolMaximumLocalBadConnectionTolerance
    * max tolerance for bad connection happens in one thread
-   *
    * @since 3.4.5
    */
   public void setPoolMaximumLocalBadConnectionTolerance(
@@ -180,9 +176,7 @@ public class PooledDataSource implements DataSource {
   }
 
   /**
-   * The maximum time a connection can be used before it *may* be
-   * given away again.
-   *
+   * The maximum time a connection can be used before it *may* be given away again.
    * @param poolMaximumCheckoutTime The maximum time
    */
   public void setPoolMaximumCheckoutTime(int poolMaximumCheckoutTime) {
@@ -192,7 +186,6 @@ public class PooledDataSource implements DataSource {
 
   /**
    * The time to wait before retrying to get a connection.
-   *
    * @param poolTimeToWait The time to wait
    */
   public void setPoolTimeToWait(int poolTimeToWait) {
@@ -211,7 +204,6 @@ public class PooledDataSource implements DataSource {
 
   /**
    * Determines if the ping query should be used.
-   *
    * @param poolPingEnabled True if we need to check a connection before using it
    */
   public void setPoolPingEnabled(boolean poolPingEnabled) {
@@ -222,7 +214,6 @@ public class PooledDataSource implements DataSource {
   /**
    * If a connection has not been used in this many milliseconds, ping the
    * database to make sure the connection is still good.
-   *
    * @param milliseconds the number of milliseconds of inactivity that will trigger a ping
    */
   public void setPoolPingConnectionsNotUsedFor(int milliseconds) {

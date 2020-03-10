@@ -43,6 +43,7 @@ public abstract class BaseDataTest {
     return ds;
   }
 
+
   public static void runScript(DataSource ds, String resource) throws IOException, SQLException {
     try (Connection connection = ds.getConnection()) {
       ScriptRunner runner = new ScriptRunner(connection);
