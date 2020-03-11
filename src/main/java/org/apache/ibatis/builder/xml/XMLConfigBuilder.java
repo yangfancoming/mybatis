@@ -244,17 +244,17 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void typeAliasesElement(XNode parent) {
     if (parent == null)  return; // -modify-
     log.warn("开始解析 <typeAliases> 标签  XNode 地址：" + parent.hashCode());
-    //1.非空才会处理，依次遍历所有节点 遍历<typeAliases>下的所有子节点
+    // 遍历<typeAliases>下的所有子节点  dtd约束该标签下 只能出现 <package> or <typeAlias> 标签
     for (XNode child : parent.getChildren()) {
-      //2.处理package类型配置 // 若当前结点为<package>
+      // 若为<package>
       if ("package".equals(child.getName())) {
         log.warn("发现 <typeAliases> 节点 使用 package 属性方式");
-        //  //2.1获取包名 获取<package>上的name属性（包名）
+        //  获取name属性 <package name="org.apache.goat.common"/>
         String typeAliasPackage = child.getStringAttribute("name");
         // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
         //2.2注册包名，将包名放到typeAliasRegistry里面，里面拿到包名之后还会进一步处理 最后会放到TypeAliasRegistry.TYPE_ALIASES这个Map里面去
         // 这里为啥 不想 下面那样使用  typeAliasRegistry.registerAlias(clazz); 呢？？？doit
-        configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage); // org.apache.goat.common
+        configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage);
       } else {
         //3.处理typeAlias类型配置  // 如果当前结点为< typeAlias >
         //3.1获取别名 // 获取alias和type属性

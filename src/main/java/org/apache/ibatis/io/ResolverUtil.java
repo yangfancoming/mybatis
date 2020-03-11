@@ -184,32 +184,31 @@ public class ResolverUtil<T> {
 
   /**
    * Scans for classes starting at the package provided and descending into subpackages.
-   * 从提供的package开始扫描classes，并且递归扫描所有子package。
+   * 从提供的package开始扫描classes，并且递归扫描所有子包
    * Each class is offered up to the Test as it is discovered, and if the Test returns true the class is retained.
-   * 每一个class被发现时都会提供一个Test(验证器)，如果验证返回true，这个class会被保存起来。通过通过{@link #getClasses()}获取累计的classes。
+   * 每一个class被发现时都会提供一个Test(验证器)，如果验证返回true，这个class会被保存起来。
    * Accumulated classes can be fetched by calling {@link #getClasses()}.
    * 可以通过调用getClasses() 获取累积类
    * 输入示例：   org.apache.goat.common
    * 输出结果：   org/apache/goat/common
    * @param test an instance of {@link Test} that will be used to filter classes
-   * @param packageName the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}
+   * @param packageName the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}  eg: org.apache.goat.common
    */
   public ResolverUtil<T> find(Test test, String packageName) {
     String path = getPackagePath(packageName);
     try {
       /**
+       * 获取目录下的所有编译后文件
        * org/apache/goat/common/Bar.class
        * org/apache/goat/common/Foo.class
        * org/apache/goat/common/Zoo.class
        * org/apache/goat/common/CreateDB.sql
       */
-      //获取目录下的所有文件
       List<String> children = VFS.getInstance().list(path);
       for (String child : children) {
-        if (child.endsWith(".class")) {
-          //验证是匹配条件的Class
-          addIfMatching(test, child);
-        }
+        // 忽略掉非class文件
+        if (!child.endsWith(".class")) continue; //  -modify
+        addIfMatching(test, child);
       }
     } catch (IOException ioe) {
       log.error("Could not read package: " + packageName, ioe);
@@ -220,6 +219,8 @@ public class ResolverUtil<T> {
   /**
    * Converts a Java package name to a path that can be looked up with a call to {@link ClassLoader#getResources(String)}.
    * 将Java包名转换为可通过调用ClassLoader类的getResources方法查找的路径
+   * 输入示例：   org.apache.goat.common
+   * 输出结果：   org/apache/goat/common
    * @param packageName The Java package name to convert to a path
    */
   protected String getPackagePath(String packageName) {
@@ -235,7 +236,7 @@ public class ResolverUtil<T> {
   @SuppressWarnings("unchecked")
   protected void addIfMatching(Test test, String fqn) {
     try {
-      // org.apache.goat.common.Customer
+      // org/apache/goat/common/Customer.class  ===>  org.apache.goat.common.Customer
       String externalName = fqn.substring(0, fqn.indexOf('.')).replace('/', '.');
       ClassLoader loader = getClassLoader();
       if (log.isDebugEnabled()) {

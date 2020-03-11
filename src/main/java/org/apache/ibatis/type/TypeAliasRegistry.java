@@ -124,7 +124,9 @@ public class TypeAliasRegistry {
     }
   }
 
-  //    <package name="org.apache.goat.common"/> 标签中的 org.apache.goat.common
+  /**
+   * @param packageName  <package name="org.apache.goat.common"/> 标签中的 org.apache.goat.common
+  */
   public void registerAliases(String packageName) {
     registerAliases(packageName, Object.class);
   }
@@ -132,7 +134,9 @@ public class TypeAliasRegistry {
 
   public void registerAliases(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
+    // 将指定packageName下的所有class文件，全部添加到 ResolverUtil.matches 中
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
+    // 添加完成后再取出来
     Set<Class<? extends Class<?>>> typeSet = resolverUtil.getClasses();
     for (Class<?> type : typeSet) {
       // Ignore inner classes and interfaces (including package-info.java)  Skip also inner classes. See issue #6
@@ -162,7 +166,7 @@ public class TypeAliasRegistry {
     // issue #748
     String key = alias.toLowerCase(Locale.ENGLISH);
     /**
-     如果已经存在key了，且value和之前不一致，报错
+     如果已经存在key了，且value和之前不一致则报错
      这里逻辑略显复杂，感觉没必要，一个key对一个value呗，存在key直接报错不就得了
     */
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
