@@ -29,7 +29,8 @@ class AutodiscoverTest {
   @Test
   void testTypeAlias() {
     TypeAliasRegistry typeAliasRegistry = sqlSessionFactory.getConfiguration().getTypeAliasRegistry();
-    typeAliasRegistry.resolveAlias("testAlias");
+    Class<Object> testAlias = typeAliasRegistry.resolveAlias("testAlias");
+    System.out.println(testAlias);
   }
 
   @Test

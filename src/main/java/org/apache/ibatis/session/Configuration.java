@@ -831,6 +831,7 @@ public class Configuration {
   public void addMappers(String packageName) {
     mapperRegistry.addMappers(packageName);
   }
+
   // 通过 接口mapper类  会进入该方法
   public <T> void addMapper(Class<T> type) {
     mapperRegistry.addMapper(type);
