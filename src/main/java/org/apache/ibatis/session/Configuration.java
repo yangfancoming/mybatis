@@ -175,7 +175,7 @@ public class Configuration {
   protected boolean lazyLoadingEnabled = false;
   //指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具
   protected ProxyFactory proxyFactory = new JavassistProxyFactory(); // #224 Using internal Javassist instead of OGNL
-  //数据库类型id，MyBatis 可以根据不同的数据库厂商执行不同的语句，这种多厂商的支持是基于映射语句中的 databaseId 属性
+  // 全局数据库厂商标识 对应 局部配置文件 <CRUD> 标签中的databaseId="hsqldb"属性
   protected String databaseId;
   /**
    * Configuration factory class.

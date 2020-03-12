@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * See issue #135
- *
  */
 class MapTypeHandlerTest {
 
@@ -25,14 +24,10 @@ class MapTypeHandlerTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create an SqlSessionFactory
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/maptypehandler/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/maptypehandler/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/maptypehandler/CreateDB.sql");
   }
 
   @Test

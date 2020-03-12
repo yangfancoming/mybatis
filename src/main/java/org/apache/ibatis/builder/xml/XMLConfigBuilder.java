@@ -161,7 +161,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>节点
       environmentsElement(root.evalNode("environments"));
       // 解析 databaseIdProvider，获取并设置 databaseId 到 Configuration 对象
-      // MyBatis能够执行不同的语句取决于你提供的数据库供应商。许多数据库供应商的支持是基于databaseId映射
+      // MyBatis能够执行不同的语句取决于你提供的数据库供应商。
       databaseIdProviderElement(root.evalNode("databaseIdProvider"));
       // 解析 typeHandlers 配置  当MyBatis设置参数到PreparedStatement 或者从ResultSet 结果集中取得值时，就会使用TypeHandler  来处理数据库类型与java 类型之间转换
       typeHandlerElement(root.evalNode("typeHandlers"));
@@ -457,21 +457,32 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   * 解析 <databaseIdProvider> 标签
+   * @param context
+   *   <databaseIdProvider type="DB_VENDOR">
+   *     <property name="MySQL" value="mysql"/>
+   *     <property name="Oracle" value="oracle"/>
+   *     <property name="SQL Server" value="sqlserver"/>
+   *     <property name="HSQL Database Engine" value="hsqldb"/>
+   *   </databaseIdProvider>
+  */
   private void databaseIdProviderElement(XNode context) throws Exception {
     DatabaseIdProvider databaseIdProvider = null;
     if (context != null) {
       String type = context.getStringAttribute("type");
       // awful patch to keep backward compatibility
-      if ("VENDOR".equals(type)) {
-        type = "DB_VENDOR";
-      }
+      if ("VENDOR".equals(type)) type = "DB_VENDOR";
       Properties properties = context.getChildrenAsProperties();
+      // 通过 DB_VENDOR 从别名map中 取出接口实现类 VendorDatabaseIdProvider
       databaseIdProvider = (DatabaseIdProvider) resolveClass(type).newInstance();
+      // 保存 全局配置文件中配置的数据库厂商别名
       databaseIdProvider.setProperties(properties);
     }
     Environment environment = configuration.getEnvironment();
     if (environment != null && databaseIdProvider != null) {
       String databaseId = databaseIdProvider.getDatabaseId(environment.getDataSource());
+      // 最终保存到configuration中
       configuration.setDatabaseId(databaseId);
     }
   }

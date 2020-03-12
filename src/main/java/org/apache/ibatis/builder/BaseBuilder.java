@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.ParameterMode;
@@ -125,9 +124,7 @@ public abstract class BaseBuilder {
   }
 
   protected <T> Class<? extends T> resolveClass(String alias) {
-    if (alias == null) {
-      return null;
-    }
+    if (alias == null) return null;
     try {
       return resolveAlias(alias);// 通过别名解析
     } catch (Exception e) {

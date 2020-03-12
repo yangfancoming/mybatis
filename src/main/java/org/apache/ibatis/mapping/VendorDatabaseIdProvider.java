@@ -25,9 +25,7 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
 
   @Override
   public String getDatabaseId(DataSource dataSource) {
-    if (dataSource == null) {
-      throw new NullPointerException("dataSource cannot be null");
-    }
+    if (dataSource == null) throw new NullPointerException("dataSource cannot be null");
     try {
       return getDatabaseName(dataSource);
     } catch (Exception e) {
@@ -42,32 +40,45 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
   }
 
   private String getDatabaseName(DataSource dataSource) throws SQLException {
-    String productName = getDatabaseProductName(dataSource);
-    if (this.properties != null) {
+    String productName = getDatabaseProductName(dataSource); // MySQL
+    /**
+     * "HSQL Database Engine" -> "hsqldb"
+     * "Oracle" -> "oracle"
+     * "SQL Server" -> "sqlserver"
+     * "MySQL" -> "mysql"
+    */
+    if (properties != null) {
       for (Map.Entry<Object, Object> property : properties.entrySet()) {
+        // 用key匹配 返回value
         if (productName.contains((String) property.getKey())) {
           return (String) property.getValue();
         }
       }
-      // no match, return null
-      return null;
+      return null; // no match, return null
     }
     return productName;
   }
 
+  /**
+   * 通过数据源获取数据库产品名称
+   * @param dataSource  原生数据源
+   * @return productName  数据库产品名称  eg： Oracle、MySQL、SQL Server、HSQL Database Engine
+  */
   private String getDatabaseProductName(DataSource dataSource) throws SQLException {
     Connection con = null;
     try {
+      // 1.连接数据库
       con = dataSource.getConnection();
+      // 2.获取数据库元信息
       DatabaseMetaData metaData = con.getMetaData();
-      return metaData.getDatabaseProductName();
+      // 3.获取数据库厂商标识
+      String productName = metaData.getDatabaseProductName();
+      return productName;
     } finally {
       if (con != null) {
         try {
           con.close();
-        } catch (SQLException e) {
-          // ignored
-        }
+        } catch (SQLException e) { }
       }
     }
   }

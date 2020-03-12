@@ -13,9 +13,11 @@ class App extends MyBaseDataTest {
   /**
    * 使用  <environments default="pro_mysql"> 标签 会执行
    * <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo"  databaseId="mysql">
+   *   结果：  id=1, lastname=11, firstname=1
    *
    * 使用  <environments default="dev_hsqldb"> 标签 会执行
    * <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo"  databaseId="hsqldb">
+   *   结果：  id=1, lastname=null, firstname=111
    * 
    * 局部xml中的两个sql 标签是一样的  mybatis 根据 databaseId 属性不同 进行区分
   */
