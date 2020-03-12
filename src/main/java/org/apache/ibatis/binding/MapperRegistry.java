@@ -66,10 +66,10 @@ public class MapperRegistry {
    * 接下来就是遍历这些类然后解析了
    */
   public <T> void addMapper(Class<T> type) {
-    // 判断该类是否是 接口类 interface  //mapper必须是接口！才会添加
+    // 忽略掉所有非接口类，mapper必须是接口类 interface才会被添加！
     if (!type.isInterface()) return; // -modify
-
-    if (hasMapper(type)) {  //检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
+    //检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
+    if (hasMapper(type)) {
       throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     }
     boolean loadCompleted = false;
@@ -77,7 +77,6 @@ public class MapperRegistry {
       //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper
       MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
       // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
-      // 将 Mapper 接口对应的Class对象和 MapperProxyFactory 对象添加到 knownMappers 集合
       knownMappers.put(type, tMapperProxyFactory);
       /**  验证 两个对象相同
        Class<T> mapperInterface = tMapperProxyFactory.getMapperInterface();
@@ -110,8 +109,17 @@ public class MapperRegistry {
 
   /**
    * @since 3.2.2
+   * 查找包下所有类
    * @param packageName org.apache.goat.chapter100.A044
-   * @param superType Object.class
+   */
+  public void addMappers(String packageName) {
+    addMappers(packageName, Object.class);
+  }
+
+  /**
+   * @since 3.2.2
+   * @param packageName  org.apache.goat.chapter100.A.A044
+   * @param superType    Object.class
    * 根据注解生成mappedstatemnet：
    * configuration会把工作委托给MapperRegistry去做，MapperRegistry会持有所有被解析的接口（运行时生成动态代理用），
    * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
@@ -132,15 +140,6 @@ public class MapperRegistry {
     for (Class<?> mapperClass : mapperSet) {
       addMapper(mapperClass);
     }
-  }
-
-  /**
-   * @since 3.2.2
-   * 查找包下所有类
-   * @param packageName org.apache.goat.chapter100.A044
-   */
-  public void addMappers(String packageName) {
-    addMappers(packageName, Object.class);
   }
 
 }

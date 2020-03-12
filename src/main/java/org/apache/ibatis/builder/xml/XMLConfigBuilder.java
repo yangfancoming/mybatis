@@ -576,13 +576,10 @@ public class XMLConfigBuilder extends BaseBuilder {
       if ("package".equals(child.getName())) {
         /**
          * 第一部分：根据注解生成对应的mappedStatement
-         * 1.1 处理package类型的配置
-         * 获取<package>的name属性（该属性值为mapper class所在的包名）
-         * child ---  <package name="org.apache.goat.chapter100.A044"/>
-         * mapperPackage ---  org.apache.goat.chapter100.A044
          * 1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，mapperPackage 就是包名
          * 将该包下的所有Mapper Class注册到configuration的mapperRegistry容器中
          */
+        // 获取<package name="org.apache.goat.chapter100.A.A044"/>中的name属性
         String mapperPackage = child.getStringAttribute("name");
         configuration.addMappers(mapperPackage);
       } else {

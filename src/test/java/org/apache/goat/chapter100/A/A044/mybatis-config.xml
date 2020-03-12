@@ -4,8 +4,6 @@
 
 <configuration>
 
-
-
   <environments default="development">
 
     <environment id="development">
@@ -28,4 +26,5 @@
     <!-- 批量注册： 写的是包名-->
     <package name="org.apache.goat.chapter100.A.A044"/>
   </mappers>
+
 </configuration>

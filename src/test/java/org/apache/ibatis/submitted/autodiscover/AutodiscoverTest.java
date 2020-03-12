@@ -9,9 +9,11 @@ import java.math.BigInteger;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.submitted.autodiscover.aliases.DummyTypeAlias;
 import org.apache.ibatis.submitted.autodiscover.mappers.DummyMapper;
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +28,12 @@ class AutodiscoverTest {
     }
   }
 
+  // 测试注解别名
   @Test
   void testTypeAlias() {
     TypeAliasRegistry typeAliasRegistry = sqlSessionFactory.getConfiguration().getTypeAliasRegistry();
     Class<Object> testAlias = typeAliasRegistry.resolveAlias("testAlias");
-    System.out.println(testAlias);
+    Assert.assertTrue(testAlias.getName().equals(DummyTypeAlias.class.getName()));
   }
 
   @Test

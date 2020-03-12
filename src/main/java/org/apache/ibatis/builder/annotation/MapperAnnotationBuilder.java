@@ -100,9 +100,9 @@ public class MapperAnnotationBuilder {
     SQL_PROVIDER_ANNOTATION_TYPES.add(DeleteProvider.class);
   }
 
-  // 注意type参数代表MapperInterface接口类
+  // 注意type参数代表MapperInterface接口类    org.apache.goat.chapter100.A.A044.FooMapper
   public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
-    String resource = type.getName().replace('.', '/') + ".java (best guess)";
+    String resource = type.getName().replace('.', '/') + ".java (best guess)"; // org/apache/goat/chapter100/A/A044/FooMapper.java (best guess)
     this.assistant = new MapperBuilderAssistant(configuration, resource);
     this.configuration = configuration;
     this.type = type;
@@ -110,7 +110,7 @@ public class MapperAnnotationBuilder {
 
   public void parse() {
     //获取接口类的名字，比如com.jing.test.TestMapper的输出为class com.jing.test.TestMapper
-    String resource = type.toString();
+    String resource = type.toString(); // interface org.apache.goat.chapter100.A.A044.FooMapper
     if (!configuration.isResourceLoaded(resource)) {
       //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
       loadXmlResource();
