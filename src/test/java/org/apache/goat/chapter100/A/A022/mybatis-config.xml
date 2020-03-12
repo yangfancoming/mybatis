@@ -56,7 +56,7 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/A/A030/Foo.xml" />
+    <mapper resource="org/apache/goat/chapter100/A/A022/Foo.xml" />
   </mappers>
 </configuration>
 
