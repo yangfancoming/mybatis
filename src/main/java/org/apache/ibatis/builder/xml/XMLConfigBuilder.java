@@ -474,16 +474,14 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private TransactionFactory transactionManagerElement(XNode context) throws Exception {
-    if (context != null) {
-      log.warn("开始解析 <transactionManager> 标签  XNode 地址：" + context.hashCode());
-      String type = context.getStringAttribute("type");
-      // Configuration 的构造函数中初始化了 JdbcTransactionFactory和ManagedTransactionFactory实现类
-      TransactionFactory factory = (TransactionFactory) resolveClass(type).newInstance();
-      Properties props = context.getChildrenAsProperties();
-      factory.setProperties(props);
-      return factory;
-    }
-    throw new BuilderException("Environment declaration requires a TransactionFactory.");
+    if (context == null) throw new BuilderException("Environment declaration requires a TransactionFactory.");// -modify
+    log.warn("开始解析 <transactionManager> 标签  XNode 地址：" + context.hashCode());
+    String type = context.getStringAttribute("type");
+    // Configuration 的构造函数中初始化了 JdbcTransactionFactory和ManagedTransactionFactory实现类
+    TransactionFactory factory = (TransactionFactory) resolveClass(type).newInstance();
+    Properties props = context.getChildrenAsProperties();
+    factory.setProperties(props);
+    return factory;
   }
 
   /**

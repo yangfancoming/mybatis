@@ -20,16 +20,13 @@ public final class Environment {
   private final DataSource dataSource;
 
   public Environment(String id, TransactionFactory transactionFactory, DataSource dataSource) {
-    if (id == null) {
+    if (id == null)
       throw new IllegalArgumentException("Parameter 'id' must not be null");
-    }
-    if (transactionFactory == null) {
+    if (transactionFactory == null)
       throw new IllegalArgumentException("Parameter 'transactionFactory' must not be null");
-    }
-    this.id = id;
-    if (dataSource == null) {
+    if (dataSource == null)
       throw new IllegalArgumentException("Parameter 'dataSource' must not be null");
-    }
+    this.id = id; // -modify
     this.transactionFactory = transactionFactory;
     this.dataSource = dataSource;
   }
@@ -79,6 +76,5 @@ public final class Environment {
     }
 
   }
-
 
 }
