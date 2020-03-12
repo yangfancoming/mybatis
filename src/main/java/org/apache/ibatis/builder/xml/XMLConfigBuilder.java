@@ -278,6 +278,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       }
     }
   }
+
   /**
    *   <plugins>
    *     <plugin interceptor="org.apache.goat.chapter200.D10.MyMybatisPlugin">
