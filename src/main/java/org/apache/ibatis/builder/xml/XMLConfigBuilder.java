@@ -140,8 +140,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       XNode propertiesNode = root.evalNode("properties");
       propertiesElement(propertiesNode);
       // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似。最终，所有的setting属性都被存储在Configuration对象中。
-      XNode temp = root.evalNode("settings");
-      Properties settings = settingsAsProperties(temp);
+      Properties settings = settingsAsProperties(root.evalNode("settings"));
       // 加载 vfs
       loadCustomVfs(settings);
       // 加载自定义日志  日志加载配置
@@ -158,7 +157,7 @@ public class XMLConfigBuilder extends BaseBuilder {
       reflectorFactoryElement(root.evalNode("reflectorFactory"));
       // settings 中的信息设置到 Configuration 对象中
       settingsElement(settings);
-      // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>节点
+      // read it after objectFactory and objectWrapperFactory issue #631  // 解析<environments>标签
       environmentsElement(root.evalNode("environments"));
       // 解析 databaseIdProvider，获取并设置 databaseId 到 Configuration 对象
       // MyBatis能够执行不同的语句取决于你提供的数据库供应商。
@@ -179,9 +178,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    4. 若通过 MetaClass 的检测，则返回 Properties 对象，方法逻辑结束
    */
   private Properties settingsAsProperties(XNode context) {
-    if (context == null) {
-      return new Properties();
-    }
+    if (context == null) return new Properties();
     /**
      *  Check that all settings are known to the configuration class 检查配置类是否知道所有设置
      *  创建Configuration对应的MetaClass “元信息” 对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
@@ -200,6 +197,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     Properties props = context.getChildrenAsProperties();
     for (Object key : props.keySet()) {
       // 检测 Configuration 中是否存在相关属性，不存在则抛出异常
+      // 说白了就是判断 settings 标签中配置的name属性 必须得是mybatis内置的，不能是自己随便写的。
       if (!metaConfig.hasSetter(String.valueOf(key))) {
         throw new BuilderException("The setting " + key + " is not known.  Make sure you spelled it correctly (case sensitive).");
       }

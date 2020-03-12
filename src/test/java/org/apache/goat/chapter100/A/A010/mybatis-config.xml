@@ -9,26 +9,24 @@
     <!-- 驼峰命名法 eg: javabean中的属性 lastName  数据库表中的字段 last_name 则 last_name 会被映射为 lastName -->
     <setting name="mapUnderscoreToCamelCase" value="true"/>
     <setting name="cacheEnabled" value="true" />
+    <setting name="阿道夫" value="gaga" />
   </settings>
 
-<!--  <environments default="development">-->
-<!--    <environment id="development">-->
+  <environments default="development">
+    <environment id="development">
 
-<!--      <transactionManager type="JDBC">-->
-<!--        <property name="" value="" />-->
-<!--      </transactionManager>-->
+      <transactionManager type="JDBC">
+        <property name="" value="" />
+      </transactionManager>
 
-<!--      <dataSource type="UNPOOLED">-->
-<!--        <property name="driver" value="com.mysql.jdbc.Driver" />-->
-<!--        <property name="url" value="jdbc:mysql://192.168.211.128:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />-->
-<!--        <property name="username" value="root" />-->
-<!--        <property name="password" value="12345" />-->
-<!--      </dataSource>-->
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://47.98.148.84:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
+        <property name="username" value="root" />
+        <property name="password" value="12345" />
+      </dataSource>
 
-<!--    </environment>-->
-<!--  </environments>-->
+    </environment>
+  </environments>
 
-<!--  <mappers>-->
-<!--    <mapper resource="org/apache/goat/chapter100/A/A010/EmployeeMapper.xml"/>-->
-<!--  </mappers>-->
 </configuration>

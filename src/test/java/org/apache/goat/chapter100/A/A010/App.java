@@ -10,7 +10,6 @@ public class App extends MyBaseDataTest {
 
   /** javaBean中的属性 与 数据库表字段 不对应情况的 两种解决方式：  */
 
-
   /**  解决方式一： 开启 全局 mapUnderscoreToCamelCase  配置
    * 运行结果可以看到 Employee{id=1, lastName='tom', email='tom@qq.com', gender='0'}
    * 即 开启了  <setting name="mapUnderscoreToCamelCase" value="true"/>  全局配置
@@ -19,10 +18,8 @@ public class App extends MyBaseDataTest {
   @Test
   void Reader() throws Exception {
     setUpByReader(XMLPATH);
-//    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById", 1);
-//    System.out.println(o.toString());
-  }
 
+  }
 
   /** 解决方式二： 局部xml中的sql 查询字典使用as映射
    * 注释掉 全局 setting 配置 则 ( 解决方式一 运行结果 lastName 属性为null )
@@ -31,8 +28,6 @@ public class App extends MyBaseDataTest {
   @Test
   void InputStream() throws Exception {
     setUpByInputStream(XMLPATH);
-//    Employee o = sqlSession.selectOne("com.goat.test.namespace.getEmpById2", 1);
-//    System.out.println(o.toString());
   }
 
 }

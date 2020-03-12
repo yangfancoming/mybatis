@@ -28,6 +28,4 @@ class App extends MyBaseDataTest {
     System.out.println(foo);
   }
 
-
-
 }
