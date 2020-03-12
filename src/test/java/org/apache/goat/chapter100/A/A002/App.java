@@ -1,7 +1,7 @@
 package org.apache.goat.chapter100.A.A002;
 
 import org.apache.common.MyBaseDataTest;
-import org.apache.goat.common.mapper.BlogMapper;
+import org.apache.common.mapper.BlogMapper;
 import org.apache.goat.common.model.Foo;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.domain.blog.Blog;

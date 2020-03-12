@@ -1,5 +1,5 @@
 
-package org.apache.goat.common.mapper;
+package org.apache.common.mapper;
 
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.domain.blog.Blog;

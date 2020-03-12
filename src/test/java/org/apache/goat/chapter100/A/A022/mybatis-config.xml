@@ -15,7 +15,6 @@
 
   例如： 下面  <property name="jdbc.username" value="what"/> 子节点属性将会被 <properties resource="jdbc.properties">
   配置文件中的   jdbc.username=root 覆盖掉！ 即：resource 和 url 属性的优先级更高！
-  doit 没理解是怎么互相覆盖的？？？
       -->
   <properties resource="A022.properties">
     <property name="jdbc.driver" value="bar"/>

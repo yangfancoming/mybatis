@@ -333,36 +333,11 @@ public class XMLConfigBuilder extends BaseBuilder {
    首先读取<resources>节点下的所有<resource>节点，并将每个节点的name和value属性存入Properties中。
    然后读取<resources>节点上的resource、url属性，并获取指定配置文件中的name和value，也存入Properties中。
    （PS：由此可知，如果resource节点上定义的属性和properties文件中的属性重名，那么properties文件中的属性值会覆盖resource节点上定义的属性值。）
-   最终，携带所有属性的Properties对象会被存储在Configuration对象中。
-
-   <properties>节点解析过程，不是很复杂。主要包含三个步骤，
-   一是解析 <properties>节点的子节点，并将解析结果设置到 Properties 对象中。
-   二是从文件系统或通过网络读取属性配置，这取决于<properties>节点的 resource 和 url 是否为空。
-   最后一步则是将包含属性信息的 Properties 对象设置到 XPathParser 和 Configuration 中
+   最终，携带所有属性的Properties对象会被存储在Configuration和XPathParser对象中。
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
     log.warn("开始解析 <properties> 标签  XNode 地址：" + context.hashCode());
-    /**
-     * 获取<properties>节点的所有子节点 并将这些节点内容转换为属性对象 Properties
-     * 情况一：
-     *  <properties resource="dbconfig.properties"></properties>
-     *   defaults =  size为0
-     *
-     * 情况二：
-     *     <properties resource="dbconfig.properties">
-     *         <property name="jdbc.driver" value="1"/>
-     *         <property name="jdbc.url" value="2"/>
-     *         <property name="jdbc.username" value="3"/>
-     *         <property name="jdbc.password" value="4"/>
-     *     </properties>
-     *   defaults =  size 为 4
-     *   "jdbc.url" -> "2"
-     *   "jdbc.username" -> "3"
-     *   "jdbc.driver" -> "1"
-     *   "jdbc.password" -> "4"
-    */
-    Properties defaults = context.getChildrenAsProperties();
     // 获取<properties>节点上的resource属性  eg: resource="dbconfig.properties"
     String resource = context.getStringAttribute("resource");
     // 获取<properties>节点上的url属性
@@ -371,11 +346,25 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (resource != null && url != null) {
       throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
     }
+    /**
+     * 获取<properties>节点的所有子节点 并将这些节点内容转换为Properties对象
+     * 情况一： defaults =  size为0
+     *  <properties resource="dbconfig.properties"/>
+     *
+     * 情况二： defaults =  size 为 4
+     *   <properties resource="A022.properties">
+     *     <property name="jdbc.driver" value="bar"/>
+     *     <property name="jdbc.url" value="foo"/>
+     *     <property name="jdbc.username" value="bar"/>
+     *     <property name="jdbc.password" value="foo"/>
+     *   </properties>
+     */
+    Properties defaults = context.getChildrenAsProperties();
     if (resource != null) {
-      // 从文件系统中加载并解析属性文件  获取resource属性值对应的properties文件中的键值对
-      Properties properties = Resources.getResourceAsProperties(resource);
+      // 从dbconfig.properties配置中加载
+      Properties fileProperty = Resources.getResourceAsProperties(resource);
       // 添加至defaults容器中 会产生覆盖操作 eg: 将文件中的键值对替换掉  xml标签中的对应的value <property name="jdbc.driver" value="1"/>
-      defaults.putAll(properties);
+      defaults.putAll(fileProperty);
     } else if (url != null) {
       // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
       defaults.putAll(Resources.getUrlAsProperties(url));
@@ -386,7 +375,6 @@ public class XMLConfigBuilder extends BaseBuilder {
       defaults.putAll(vars);
     }
     parser.setVariables(defaults);
-    // 将defaults容器添加至configuration中
     configuration.setVariables(defaults);
     log.warn(  " propertiesElement()：解析<properties> 标签完毕 ：" +  defaults);
   }
