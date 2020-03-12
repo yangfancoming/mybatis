@@ -602,7 +602,7 @@ public class XMLConfigBuilder extends BaseBuilder {
         } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
           log.warn("发现 <mapper> 节点 使用 class 属性方式");
           //1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
-          // 将Mapper Class的权限定名转化成Class对象
+          // 将Mapper Class的全限定名转化成Class对象
           Class<?> mapperInterface = Resources.classForName(mapperClass);
           // 注册进configuration对象的mapperRegistry容器中
           configuration.addMapper(mapperInterface);

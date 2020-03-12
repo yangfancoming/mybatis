@@ -2,16 +2,14 @@ package org.apache.goat.chapter100.C.C001;
 
 import org.apache.goat.common.model.Employee;
 
-public interface EmployeeMapper {
+ interface EmployeeMapper {
 
+	 Employee getEmpById(Integer id);
 
-	
-	public Employee getEmpById(Integer id);
+	 Long addEmp(Employee employee);
 
-	public Long addEmp(Employee employee);
+	 boolean updateEmp(Employee employee);
 
-	public boolean updateEmp(Employee employee);
-
-	public void deleteEmpById(Integer id);
+	 Integer deleteEmpById(Integer id);
 	
 }

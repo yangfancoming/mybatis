@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C001/mybatis-config.xml";
-  public static final String DBSQL = "org/apache/goat/common/CreateDB2.sql";
 
   /**
-   * 查询
-   */
+   * mybatis 允许 CRUD 的返回值  直接定义以下返回值类型
+   * Integer  Long  boolean  mybatis 会自动给我们返回对应的值
+  */
+
+  // 查询
   @Test
   void getEmpById() throws Exception  {
     setUpByReader(XMLPATH);
@@ -21,9 +23,7 @@ class App extends MyBaseDataTest {
     System.out.println(employee);
   }
 
-  /**
-   * 插入
-   */
+  // 插入
   @Test
   void addEmp() throws Exception  {
     setUpByReader(XMLPATH);
@@ -33,9 +33,7 @@ class App extends MyBaseDataTest {
     System.out.println(result);
   }
 
-  /**
-   * 修改
-   */
+  // 修改
   @Test
   void updateEmp() throws Exception  {
     setUpByReader(XMLPATH);
@@ -45,13 +43,12 @@ class App extends MyBaseDataTest {
     System.out.println(b);
   }
 
-  /**
-   * 删除
-   */
+  // 删除
   @Test
   void deleteEmpById() throws Exception  {
     setUpByReader(XMLPATH);
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-    mapper.deleteEmpById(8);
+    Integer integer = mapper.deleteEmpById(8);
+    System.out.println(integer);
   }
 }
