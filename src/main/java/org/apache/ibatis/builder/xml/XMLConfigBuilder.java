@@ -570,10 +570,9 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void mapperElement(XNode parent) throws Exception {
     if (parent == null) return; // -modify
     log.warn("开始解析 <mappers> 标签  XNode 地址：" + parent.hashCode());
-    //  遍历<mappers>下所有子节点 <mapper> 或 <package>
+    //  遍历<mappers>下所有子节点 <package> 或 <mapper>
     for (XNode child : parent.getChildren()) {
-      // 如果当前节点为<package>
-      if ("package".equals(child.getName())) {
+      if ("package".equals(child.getName())) { // 如果当前节点为<package>
         /**
          * 第一部分：根据注解生成对应的mappedStatement
          * 1.2 按照包来添加，扫包之后默认会在包下找与java接口名称相同的mapper映射文件，mapperPackage 就是包名
@@ -582,10 +581,8 @@ public class XMLConfigBuilder extends BaseBuilder {
         // 获取<package name="org.apache.goat.chapter100.A.A044"/>中的name属性
         String mapperPackage = child.getStringAttribute("name");
         configuration.addMappers(mapperPackage);
-      } else {
-        /** 处理 <mapper> 标签 依次获取resource、url、class属性
-         * mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
-         */
+      } else { // 如果当前节点为<mapper>
+        // mapper节点配置有3个属性且处理的优先级依次是 ：resource,url,class  三者是互斥的 只能是其中一种
         String resource = child.getStringAttribute("resource");
         String url = child.getStringAttribute("url");
         String mapperClass = child.getStringAttribute("class");

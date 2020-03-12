@@ -205,7 +205,7 @@ public class Configuration {
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
   //主键生成器 //mapper文件中配置KeyGenerator的insert和update节点，key为命名空间+ID
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
-  //存储已经加载过的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource  //加载到的所有*mapper.xml文件
+  // 存储已经加载过所有的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource
   protected final Set<String> loadedResources = new HashSet<>();
   //存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");

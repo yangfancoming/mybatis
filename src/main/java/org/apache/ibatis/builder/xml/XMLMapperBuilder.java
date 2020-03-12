@@ -43,12 +43,13 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
 
-  //用来解析XML
+  // 用来解析XML
   private final XPathParser parser;
-  //再解析完成后，用解析所得的属性来帮助创建各个对象
+  // 再解析完成后，用解析所得的属性来帮助创建各个对象
   private final MapperBuilderAssistant builderAssistant;
-  //保存SQL节点
+  // 保存SQL节点
   private final Map<String, XNode> sqlFragments;
+  // <mapper resource="org/apache/goat/chapter100/A/A040/Foo.xml" /> 标签中的resource属性值
   private final String resource;
 
   @Deprecated
@@ -80,13 +81,13 @@ public class XMLMapperBuilder extends BaseBuilder {
     this.parser = parser;
     this.sqlFragments = sqlFragments;
     this.resource = resource;
-    log.warn(  "构造函数 202001071500：configuration 地址：" + configuration);
+    log.warn("构造函数 202001071500：configuration 地址：" + configuration);
   }
 
   // 若当前的Mapper.xml尚未被解析，则开始解析  解析局部xml配置文件
   public void parse() {
     log.warn(  "parse() ：configuration 地址：" + configuration);
-    // PS：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了 //判断是否已经加载过资源
+    // 判断是否已经加载过资源：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了
     if (!configuration.isResourceLoaded(resource)) {
       // 从<mapper> 根节点开始解析
       configurationElement(parser.evalNode("/mapper"));
@@ -109,23 +110,23 @@ public class XMLMapperBuilder extends BaseBuilder {
     return sqlFragments.get(refid);
   }
 
-/** 解析局部xml    参数 XNode context
- <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
-   <cache/>
-   <select id="selectAllPosts" resultType="hashmap">
-       select * from post order by id
-   </select>
- </mapper>
-*/
+  /**
+   * 解析局部xml
+   * @param context
+   *  <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
+   *    <cache/>
+   *    <select id="selectAllPosts" resultType="hashmap">
+   *        select * from post order by id
+   *    </select>
+   *  </mapper>
+  */
   private void configurationElement(XNode context) {
     try {
       log.warn("开始解析局部xml配置文件的 <mapper> 标签  XNode 地址：" + context.hashCode());
-      // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前映射文件对应的Mapper Class是谁
+      // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前局部xml文件对应的mapper接口是谁
       String namespace = context.getStringAttribute("namespace");
-      if (namespace == null || namespace.equals("")) {
-        throw new BuilderException("Mapper's namespace cannot be empty");
-      }
-      // 记录当前命名空间 // 将namespace属性值赋给builderAssistant
+      if (namespace == null || namespace.equals(""))  throw new BuilderException("Mapper's namespace cannot be empty");
+      // 记录当前命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
       builderAssistant.setCurrentNamespace(namespace);
       // 解析<cache-ref>节点
       cacheRefElement(context.evalNode("cache-ref"));
