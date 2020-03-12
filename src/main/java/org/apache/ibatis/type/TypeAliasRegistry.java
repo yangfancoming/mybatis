@@ -132,7 +132,6 @@ public class TypeAliasRegistry {
     registerAliases(packageName, Object.class);
   }
 
-
   public void registerAliases(String packageName, Class<?> superType) {
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
     // 将指定packageName下的所有class文件，全部添加到 ResolverUtil.matches 中
@@ -167,8 +166,14 @@ public class TypeAliasRegistry {
     // issue #748
     String key = alias.toLowerCase(Locale.ENGLISH);
     /**
-     如果已经存在key了，且value和之前不一致则报错
-     这里逻辑略显复杂，感觉没必要，一个key对一个value呗，存在key直接报错不就得了
+     * 如果已经存在key了，且value和之前不一致则报错，代码执行流程如下：
+     *  <typeAlias type="org.apache.goat.common.model.Bar" alias="foo"/>
+     *      创建k,v键值对（foo , org.apache.goat.common.model.Bar） ok
+     *  <package name="org.apache.goat.common"/>
+     *      创建k,v键值对（bar , org.apache.goat.common.model.Bar） ok
+     *      创建k,v键值对（foo , org.apache.goat.common.model.Foo） error  The alias 'Foo' is already mapped to the value 'org.apache.goat.common.model.Bar'.
+     *  mybatis别名原则： 多个key可以对应同一个value，但是相同key的value是不允许被覆盖的！
+     *  相对于只判断key是否存在而言，后者在相同key和value的情况下也会报错，显示不够友好
     */
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
       throw new TypeException("The alias '" + alias + "' is already mapped to the value '" + typeAliases.get(key).getName() + "'.");
