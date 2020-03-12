@@ -248,24 +248,19 @@ public class XMLConfigBuilder extends BaseBuilder {
     for (XNode child : parent.getChildren()) {
       // 若为<package>
       if ("package".equals(child.getName())) {
-        log.warn("发现 <typeAliases> 节点 使用 package 属性方式");
         //  获取name属性 <package name="org.apache.goat.common"/>
         String typeAliasPackage = child.getStringAttribute("name");
-        // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中
-        //2.2注册包名，将包名放到typeAliasRegistry里面，里面拿到包名之后还会进一步处理 最后会放到TypeAliasRegistry.TYPE_ALIASES这个Map里面去
-        // 这里为啥 不想 下面那样使用  typeAliasRegistry.registerAlias(clazz); 呢？？？doit
-        configuration.getTypeAliasRegistry().registerAliases(typeAliasPackage);
+        // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中的typeAliases
+        typeAliasRegistry.registerAliases(typeAliasPackage); // -modify
       } else {
-        //3.处理typeAlias类型配置  // 如果当前结点为< typeAlias >
-        //3.1获取别名 // 获取alias和type属性
+        // 若为<typeAlias> 获取其alias和type属性
         String alias = child.getStringAttribute("alias");
-        //3.2获取类名
         String type = child.getStringAttribute("type");
-        // 注册进configuration的typeAliasRegistry中
         try {
+          // 反射获取模板类
           Class<?> clazz = Resources.classForName(type);
-          //3.3下面的注册逻辑其实比前面注册包名要简单，注册包名要依次处理包下的类，也会调用registerAlias方法，
-          //这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
+          // 这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
+          // 和<package> 一样会注册进configuration的typeAliasRegistry中的typeAliases
           if (alias == null) {
             typeAliasRegistry.registerAlias(clazz);
           } else {

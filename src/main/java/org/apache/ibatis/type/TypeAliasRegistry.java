@@ -125,6 +125,7 @@ public class TypeAliasRegistry {
   }
 
   /**
+   * 使用Object.class作为父类  调用重载函数
    * @param packageName  <package name="org.apache.goat.common"/> 标签中的 org.apache.goat.common
   */
   public void registerAliases(String packageName) {
@@ -158,7 +159,7 @@ public class TypeAliasRegistry {
     registerAlias(alias, type);
   }
 
-  //注册类型别名
+  // 最终重载函数
   public void registerAlias(String alias, Class<?> value) {
     if (alias == null) {
       throw new TypeException("The parameter alias cannot be null");
