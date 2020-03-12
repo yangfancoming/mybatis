@@ -5,9 +5,7 @@
 <configuration>
 
   <!--
-        1、mybatis可以使用properties来引入外部properties配置文件的内容；
-        resource：引入类路径下的资源
-        url：引入网络路径或者磁盘路径下的资源
+  方式三 标签从外部配置文件和内部标签 混合读取
 
   propertiesElement 方法是先解析<properties>节点的子节点(<property>)内容，
   然后再从文件系统(resource)或者网络(url)读取属性配置，并将所有的属性及属性值都放入到 defaults 属性对象中。
@@ -15,6 +13,17 @@
 
   例如： 下面  <property name="jdbc.username" value="what"/> 子节点属性将会被 <properties resource="jdbc.properties">
   配置文件中的   jdbc.username=root 覆盖掉！ 即：resource 和 url 属性的优先级更高！
+
+  核心理解：
+    <properties resource="A022.properties"> 中的
+    子标签列表 ：
+    <property name="jdbc.driver" value="bar"/>
+    <property name="jdbc.url" value="foo"/>
+    <property name="jdbc.username" value="bar"/>
+    <property name="jdbc.password" value="foo"/>
+    可以看做是 默认值，
+    如果 主标签中没有 resource="A022.properties" 属性 则使用默认值
+    如果 主标签中存在 resource="A022.properties" 属性 则使用指定配置文件中的属性，覆盖掉默认值中冲突的属性
       -->
   <properties resource="A022.properties">
     <property name="jdbc.driver" value="bar"/>

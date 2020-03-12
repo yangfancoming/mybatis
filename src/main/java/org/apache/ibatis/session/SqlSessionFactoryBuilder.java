@@ -75,7 +75,6 @@ public class SqlSessionFactoryBuilder {
     return build(inputStream, null, properties);
   }
 
-
   /* 最终通用处理 =================================================================================================================================*/
   /** XMLConfigBuilder#parse 方法是配置解析的主要方法
    我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，

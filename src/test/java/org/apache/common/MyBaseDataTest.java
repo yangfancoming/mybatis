@@ -24,7 +24,6 @@ public abstract class MyBaseDataTest {
 
   public static SqlSessionFactory sqlSessionFactory;
 
-
   /** Reader 使用内存数据库 */
   public static void setUpByReader(String xmlPath,String dbSql) throws Exception {
     setUpByReader(xmlPath);
@@ -62,6 +61,5 @@ public abstract class MyBaseDataTest {
     if (sqlSession != null) sqlSession.close();
     log.warn(  "此次测试运行结束，关闭 sqlSession ");
   }
-
 
 }

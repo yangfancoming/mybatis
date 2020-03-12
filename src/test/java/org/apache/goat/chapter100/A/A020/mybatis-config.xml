@@ -5,6 +5,8 @@
 <configuration>
 
   <!--
+      方式一 标签从外部配置文件读取属性值
+
         1、mybatis可以使用properties来引入外部properties配置文件的内容；
         resource：引入类路径下的资源
         url：引入网络路径或者磁盘路径下的资源

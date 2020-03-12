@@ -30,9 +30,13 @@ public class XPathParser {
   private static final Log log = LogFactory.getLog(XPathParser.class);
 
   private final Document document; //Document对象通过createDocument方法得到
+
   private boolean validation; //是否开启验证
+
   private EntityResolver entityResolver; //用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
+
   private Properties variables; //mybatis-config.xml 中<propteries>标签定义的键值对集合
+
   private XPath xpath;  //XPath对象
 
   public XPathParser(String xml) {
@@ -129,6 +133,7 @@ public class XPathParser {
     //设置类中的document属性作为root，
     return evalString(document, expression);
   }
+
   /**
    * evalXXX函数有两种多态形式：除了expression参数外还包含一个root参数。
    * 像我们经常见到的那样，带一个参数的evalXXX函数会在设置一个默认值后调用带有两个参数的函数，

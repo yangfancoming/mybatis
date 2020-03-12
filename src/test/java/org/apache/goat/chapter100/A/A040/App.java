@@ -10,7 +10,6 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A040/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-
   /** <mappers>    注册方式一
    * 第一种方式 ：（resourc）通过resource指定   <mapper resource="com/dy/dao/userDao.xml"/>
    *
@@ -23,7 +22,5 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
     System.out.println(foo);
   }
-
-
 
 }

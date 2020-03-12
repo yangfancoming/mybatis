@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+  <!--
+      方式二 标签从内部标签读取
+    -->
+
+  <properties>
+    <property name="jdbc.driver" value="bar"/>
+    <property name="jdbc.url" value="foo"/>
+    <property name="jdbc.username" value="bar"/>
+    <property name="jdbc.password" value="foo"/>
+  </properties>
+
+</configuration>
