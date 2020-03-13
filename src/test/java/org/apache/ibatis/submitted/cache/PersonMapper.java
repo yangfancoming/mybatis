@@ -12,8 +12,7 @@ import org.apache.ibatis.annotations.Select;
 
 /**
  <cache/> 与 @CacheNamespace 是一样的
- <cache/> 用在 xml 配置文件中
- @CacheNamespace 用 mapper接口类中
+ <cache/> 用在 xml 配置文件中 @CacheNamespace 用在 mapper接口类中
 */
 @CacheNamespace
 public interface PersonMapper {

@@ -61,7 +61,6 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);
     }
-
     /** 其他Mapper接口定义的方法交由 mapperMethod 来执行
      * 最后2句关键，我们执行所调用Mapper的每一个接口方法，最后返回的是MapperMethod.execute方法。
      * 每一个MapperMethod对应了一个mapper文件中配置的一个sql语句或FLUSH配置，对应的sql语句通过mapper对应的class文件名+方法名从Configuration对象中获得。

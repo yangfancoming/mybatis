@@ -51,23 +51,19 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
        * 设置 搜索串：environmentsElement(root.evalNode("environments"));
       */
       final Environment environment = configuration.getEnvironment();
-
       /**
        * 2.初始化TransactionFactory
        * 通过环境配置获取事务工厂，如果没有配置默认是 new ManagedTransactionFactory();
       */
       final TransactionFactory transactionFactory = getTransactionFactoryFromEnvironment(environment);
-
       // 3.获得一个Transaction对象 (从数据源DataSource获取tx，这是和方式二最大的区别，其他的都差不多)
       tx = transactionFactory.newTransaction(environment.getDataSource(), level, autoCommit);
-
       /**
        * 4.通过Transaction获取一个Executor对象
        * 通过配置创建一个Executor，Executor是对jdbc中Statement的封装
        * Executor 入口
       */
       final Executor executor = configuration.newExecutor(tx, execType);
-
       /**
        此处也是写死的，创建一个DefaultSqlSession对象
        从此处可以看出 DefaultSqlSession是SqlSession的实例。

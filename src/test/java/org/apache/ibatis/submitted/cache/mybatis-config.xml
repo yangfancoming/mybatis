@@ -7,7 +7,7 @@
     <setting name="defaultExecutorType" value="SIMPLE"/>
     <setting name="useGeneratedKeys" value="true"/>
     <!--开启二级缓存  和一级缓存默认开启不一样，二级缓存需要我们手动开启 -->
-    <setting name="cacheEnabled" value="true"/>
+<!--    <setting name="cacheEnabled" value="true"/>-->
     <!--<setting name="cacheEnabled" value="false"/>-->
   </settings>
 

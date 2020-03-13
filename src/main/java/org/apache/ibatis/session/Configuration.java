@@ -119,10 +119,7 @@ public class Configuration {
   protected boolean useGeneratedKeys;
   //使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
-  /**
-   * 配置全局性的cache开关  对应全局配置文件中的
-   *     <setting name="cacheEnabled" value="true"/>
-  */
+  // 二级缓存开关对应全局xml配置 <setting name="cacheEnabled" value="false"/>  默认开启
   protected boolean cacheEnabled = true;
   /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
@@ -650,7 +647,7 @@ public class Configuration {
     //根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = (executorType == null) ? defaultExecutorType : executorType;
     // doit 这行代码我怎么觉得 是没有用的呢？
-//    executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // modify-
+    // executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // modify-
     Executor executor;
     //2.BATCH
     if (ExecutorType.BATCH == executorType) {
@@ -660,7 +657,7 @@ public class Configuration {
     } else { //4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
-    //5.如果开启了二级缓存，那么就装饰一下。(mybatis的二级缓存 默认是开启的)
+    //5.如果开启了二级缓存，就装饰一下。(二级缓存默认是开启的)
     if (cacheEnabled) {
       executor = new CachingExecutor(executor);// 装饰器模式 装饰模式
     }
