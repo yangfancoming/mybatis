@@ -26,7 +26,6 @@ class App extends MyBaseDataTest {
     System.out.println(foo1); //
   }
 
-
   /**  2、通过字节流（InputStream）的方式构件SqlSessionFacotry */
   @Test
   void InputStream() throws Exception {

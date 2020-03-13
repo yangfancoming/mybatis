@@ -20,6 +20,7 @@ class App extends MyBaseDataTest {
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
     Employee employee = new Employee("goat","642744551@qq.com","1");
     mapper.addEmp(employee);
+    // 查看 employee的  id属性 是否为数据库自动生成的主键id值
     System.out.println(employee);
   }
 

@@ -11,7 +11,7 @@ class App extends MyBaseDataTest {
 
   /**
    * mybatis 允许 CRUD 的返回值  直接定义以下返回值类型
-   * Integer  Long  boolean  mybatis 会自动给我们返回对应的值
+   * Integer  Long  boolean  mybatis  void 会自动给我们返回对应的值
   */
 
   // 查询

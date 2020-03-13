@@ -29,15 +29,20 @@ public class XPathParser {
 
   private static final Log log = LogFactory.getLog(XPathParser.class);
 
-  private final Document document; //Document对象通过createDocument方法得到
+  //Document对象通过createDocument方法得到
+  private final Document document;
 
-  private boolean validation; //是否开启验证
+  //是否开启验证
+  private boolean validation;
 
-  private EntityResolver entityResolver; //用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
+  //用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
+  private EntityResolver entityResolver;
 
-  private Properties variables; //mybatis-config.xml 中<propteries>标签定义的键值对集合
+  //mybatis-config.xml 中<propteries>标签定义的键值对集合
+  private Properties variables;
 
-  private XPath xpath;  //XPath对象
+  //XPath对象
+  private XPath xpath;
 
   public XPathParser(String xml) {
     commonConstructor(false, null, null);
