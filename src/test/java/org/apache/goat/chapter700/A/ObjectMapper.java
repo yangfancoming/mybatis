@@ -5,12 +5,8 @@ package org.apache.goat.chapter700.A;
  *
  * @ Description: TODO
  * @ author  山羊来了
- * @ date 2020/3/13---13:15
+ * @ date 2020/3/13---13:56
  */
-public interface MyMapper {
-
-  default int test(int x){
-    return x;
-  }
+public interface ObjectMapper {
 
 }

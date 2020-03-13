@@ -44,19 +44,18 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     /**
      *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
-     *  1.先判断执行的方法是不是Object类的方法，比如tostring，hashcode等方法，是的话则直接反射执行这些方法
+     *  1.先判断执行的方法是不是Object类的方法，比如toString()，hashcode() 等方法，是的话则直接反射执行这些方法
      *  2.如果不是，从缓存中获取MapperMethod，如果为空则创建并加入缓存，然后执行sql语句
      *  org.apache.goat.chapter100.E001.EmployeeMapper
      */
     try {
-      if (Object.class.equals(method.getDeclaringClass())) {
+      if (Object.class.equals(method.getDeclaringClass())) { // 如果是java8中的接口默认方法 #测试用例 org.apache.goat.chapter700.A.App
         return method.invoke(this, args);
         /*
-         * 下面的代码最早出现在 mybatis-3.4.2 版本中，用于支持 JDK 1.8 中的新特性 - 默认方法。
-         * 这段代码的逻辑就不分析了， 有兴趣的同学可以
+         * 下面的代码最早出现在 mybatis-3.4.2 版本中，用于支持 JDK 1.8 中的新特性 - 接口默认方法。
          * 去 Github 上看一下相关的相关的讨论（issue #709），链接如下：https://github.com/mybatis/mybatis-3/issues/709
          */
-      } else if (method.isDefault()) { //如果是默认的method则调用默认的method
+      } else if (method.isDefault()) { // 如果是java8中的接口默认方法 #测试用例 org.apache.goat.chapter700.A.App
         return invokeDefaultMethod(proxy, method, args);
       }
     } catch (Throwable t) {

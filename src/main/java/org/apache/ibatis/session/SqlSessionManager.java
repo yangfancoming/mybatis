@@ -251,7 +251,8 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
   @Override
   public <T> T getMapper(Class<T> type) {
-    return getConfiguration().getMapper(type, this);
+    T mapper = getConfiguration().getMapper(type, this);
+    return mapper;
   }
 
   @Override
