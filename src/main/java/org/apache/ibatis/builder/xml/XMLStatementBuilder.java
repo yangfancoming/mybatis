@@ -92,10 +92,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     log.warn("解析 <select|insert|update|delete> 标签的 lang 属性：" + lang);
     // 默认实现类为： XMLLanguageDriver
     LanguageDriver langDriver = getLanguageDriver(lang);
-
     // Parse selectKey after includes and remove them. 处理selectKey
     processSelectKeyNodes(id, parameterTypeClass, langDriver);
-
     // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)
     // 设置主键自增的方式
     KeyGenerator keyGenerator;

@@ -42,12 +42,13 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
    */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    /**
+     *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
+     *  1.先判断执行的方法是不是Object类的方法，比如tostring，hashcode等方法，是的话则直接反射执行这些方法
+     *  2.如果不是，从缓存中获取MapperMethod，如果为空则创建并加入缓存，然后执行sql语句
+     *  org.apache.goat.chapter100.E001.EmployeeMapper
+     */
     try {
-      /**
-       *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
-       *  并不是任何一个方法都需要执行调用代理对象进行执行，如果这个方法是Object中通用的方法（toString、hashCode等）则直接放行
-       *  org.apache.goat.chapter100.E001.EmployeeMapper
-      */
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, args);
         /*
@@ -84,6 +85,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
    *     }
    *     return mapperMethod;
    *   }
+   *   若key对应的value为空，会将第二个参数的返回值存入并返回
   */
   private MapperMethod cachedMapperMethod(Method method) {
     return methodCache.computeIfAbsent(method, k -> new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));

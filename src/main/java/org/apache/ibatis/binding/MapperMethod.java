@@ -44,11 +44,10 @@ public class MapperMethod {
     // 创建 MethodSignature 对象， 由类名可知，该对象包含了被拦截方法的一些信息
     this.method = new MethodSignature(config, mapperInterface, method);
   }
- // 这个方法是对SqlSession的包装，对应insert、delete、update、select四种操作 // 根据解析结果，路由到恰当的SqlSession方法上
- //可以看到执行时就是4种情况，insert|update|delete|select，分别调用SqlSession的4大类方法
+
+ // 这个方法是对SqlSession的包装 可以看到执行时就是4种情况，insert|update|delete|select，分别调用SqlSession的4大类方法
   public Object execute(SqlSession sqlSession, Object[] args) {
     Object result;
-//    Object param = method.convertArgsToSqlCommandParam(args);
     // CURD操作，对持久层返回的结果集进行处理  获取method方法上的带有@Param的参数，默认返回0,1,2,3...
     switch (command.getType()) {
       case INSERT: {
