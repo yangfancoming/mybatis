@@ -25,7 +25,7 @@
       <dataSource type="UNPOOLED">
 
         <property name="driver" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://192.168.211.128:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
+        <property name="url" value="jdbc:mysql://47.98.148.84:3306/mybatis?Unicode=true&amp;characterEncoding=utf8&amp;useSSL=false" />
         <property name="username" value="root" />
         <property name="password" value="12345" />
       </dataSource>

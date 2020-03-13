@@ -87,7 +87,11 @@ public class XMLMapperBuilder extends BaseBuilder {
   // 若当前的Mapper.xml尚未被解析，则开始解析  解析局部xml配置文件
   public void parse() {
     log.warn(  "parse() ：configuration 地址：" + configuration);
-    // 判断是否已经加载过资源：若<mappers>节点下有相同的<mapper>节点，那么就无需再次解析了
+    /**
+     * 判断是否已经加载过资源：若<mappers>节点下有相同的<mapper>节点，就无需再次解析了
+     *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>
+     *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>  遇到相同的<mapper>节点 不会再次解析
+    */
     if (!configuration.isResourceLoaded(resource)) {
       // 从<mapper> 根节点开始解析
       configurationElement(parser.evalNode("/mapper"));
