@@ -49,9 +49,11 @@ public class XMLStatementBuilder extends BaseBuilder {
   /**
    *解析sql节点的核心方法
    * context 的值为：
-   * <select id="testIf" parameterType="int"  resultType="org.apache.goat.common.Employee">
-   *    <if test="id!=null"> and id = #{id} </if>
-   * </select>
+   * 	<select id="selectWithOptions" resultType="org.apache.ibatis.domain.blog.Author" fetchSize="200" timeout="10"
+   * 	statementType="PREPARED" resultSetType="SCROLL_SENSITIVE" flushCache="false" useCache="false">
+   * 		select * from author
+   * 	</select>
+
    */
   public void parseStatementNode() {
     log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
