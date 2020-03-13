@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="org.apache.goat.chapter100.E.E056.CustomerMapper">
-
 
   <select id="getTest" resultType="org.apache.goat.common.model.Customer">
     select * from customers where 1=1
@@ -16,8 +14,6 @@
   <select id="getTest2" resultType="org.apache.goat.common.model.Customer">
     SELECT * FROM customers WHERE <include refid="myTag"/>
   </select>
-
-
 
   <sql id="table_name">
     from ${tableName}

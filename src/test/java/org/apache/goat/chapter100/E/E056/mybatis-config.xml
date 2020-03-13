@@ -32,8 +32,7 @@
 
   </environments>
 
-
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E056/CustomerMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E/E056/CustomerMapper.xml"/>
   </mappers>
 </configuration>
