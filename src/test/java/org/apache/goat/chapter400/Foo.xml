@@ -10,10 +10,10 @@
 
   <cache
     eviction="FIFO"
-    flushInterval="60000"
+
     size="512"
     readOnly="true"/>
 
-
+<!--  flushInterval="60000"-->
 
 </mapper>

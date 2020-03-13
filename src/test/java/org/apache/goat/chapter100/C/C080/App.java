@@ -21,7 +21,10 @@ public class App extends MyBaseJavaMapperConfig {
   */
   @Test
   public void mappedStatementWithOptions() throws Exception {
-    MappedStatement mappedStatement = getMappedStatement(resource,statementId);
+    // 配置
+    configuration.setDatabaseId("mysql");
+    MappedStatement mappedStatement = getMappedStatement(configuration,resource,statementId);
+    // 使用
     Assertions.assertEquals(Integer.valueOf(200), mappedStatement.getFetchSize());
     Assertions.assertEquals(Integer.valueOf(10), mappedStatement.getTimeout());
     Assertions.assertEquals(StatementType.PREPARED, mappedStatement.getStatementType());

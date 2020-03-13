@@ -5,8 +5,31 @@
 				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:schemaLocation="http://mybatis.org/schema/mybatis-mapper http://mybatis.org/schema/mybatis-mapper.xsd">
 
+<!--
 
-	<select id="selectWithOptions" resultType="org.apache.ibatis.domain.blog.Author" fetchSize="200" timeout="10" statementType="PREPARED" resultSetType="SCROLL_SENSITIVE" flushCache="false" useCache="false">
+  <!ELEMENT select (#PCDATA | include | trim | where | set | foreach | choose | if | bind)*>
+  <!ATTLIST select
+  id CDATA #REQUIRED
+  parameterMap CDATA #IMPLIED
+  parameterType CDATA #IMPLIED
+  resultMap CDATA #IMPLIED
+  resultType CDATA #IMPLIED
+  resultSetType (FORWARD_ONLY | SCROLL_INSENSITIVE | SCROLL_SENSITIVE | DEFAULT) #IMPLIED
+  statementType (STATEMENT|PREPARED|CALLABLE) #IMPLIED
+  fetchSize CDATA #IMPLIED
+  timeout CDATA #IMPLIED
+  flushCache (true|false) #IMPLIED
+  useCache (true|false) #IMPLIED
+  databaseId CDATA #IMPLIED
+  lang CDATA #IMPLIED
+  resultOrdered (true|false) #IMPLIED
+  resultSets CDATA #IMPLIED>
+
+-->
+
+	<select id="selectWithOptions" resultType="org.apache.ibatis.domain.blog.Author" fetchSize="200" timeout="10" statementType="PREPARED"
+          resultSetType="SCROLL_SENSITIVE" flushCache="true" useCache="false"
+          databaseId="mysql">
 		select * from author
 	</select>
 

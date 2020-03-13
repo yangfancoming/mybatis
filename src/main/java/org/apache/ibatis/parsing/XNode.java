@@ -1,7 +1,6 @@
 
 package org.apache.ibatis.parsing;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.w3c.dom.CharacterData;
@@ -160,12 +159,7 @@ public class XNode {
   }
 
   public String getStringBody(String def) {
-    if (body == null) {
-      return def;
-    } else {
-      return body;
-    }
-//    return (body == null) ? def : body; // modify-
+    return (body == null) ? def : body; // modify-
   }
 
   public Boolean getBooleanBody() {
@@ -178,12 +172,7 @@ public class XNode {
    */
   public Boolean getBooleanBody(Boolean def) {
     //两个函数的不同在于这个函数具有一个默认值，而上面的没有
-    if (body == null) {
-      return def;
-    } else {
-      return Boolean.valueOf(body);
-    }
-//    return (body == null) ? def : Boolean.valueOf(body); // modify-
+    return (body == null) ? def : Boolean.valueOf(Boolean.valueOf(body)); // modify-
   }
 
   public Integer getIntBody() {
@@ -191,12 +180,7 @@ public class XNode {
   }
 
   public Integer getIntBody(Integer def) {
-    if (body == null) {
-      return def;
-    } else {
-      return Integer.parseInt(body);
-    }
-//    return (body == null) ? def : Integer.parseInt(body); // modify-
+    return (body == null) ? def : Integer.valueOf(Integer.parseInt(body)); // modify-
   }
 
   public Long getLongBody() {
@@ -204,12 +188,7 @@ public class XNode {
   }
 
   public Long getLongBody(Long def) {
-    if (body == null) {
-      return def;
-    } else {
-      return Long.parseLong(body);
-    }
-//    return (body == null) ? def : Long.parseLong(body); // modify-
+    return (body == null) ? def : Long.valueOf(Long.parseLong(body)); // modify-
   }
 
   public Double getDoubleBody() {
@@ -217,12 +196,7 @@ public class XNode {
   }
 
   public Double getDoubleBody(Double def) {
-    if (body == null) {
-      return def;
-    } else {
-      return Double.parseDouble(body);
-    }
-//    return (body == null) ? def : Double.parseDouble(body); // modify-
+    return (body == null) ? def : Double.valueOf(Double.parseDouble(body)); // modify-
   }
 
   public Float getFloatBody() {
@@ -230,12 +204,7 @@ public class XNode {
   }
 
   public Float getFloatBody(Float def) {
-    if (body == null) {
-      return def;
-    } else {
-      return Float.parseFloat(body);
-    }
-//    return (body == null) ? def : Float.parseFloat(body); // modify-
+    return (body == null) ? def : Float.valueOf(Float.parseFloat(body)); // modify-
   }
 
   public <T extends Enum<T>> T getEnumAttribute(Class<T> enumType, String name) {
@@ -244,12 +213,7 @@ public class XNode {
 
   public <T extends Enum<T>> T getEnumAttribute(Class<T> enumType, String name, T def) {
     String value = getStringAttribute(name);
-    if (value == null) {
-      return def;
-    } else {
-      return Enum.valueOf(enumType, value);
-    }
-//    return (value == null) ? def : Enum.valueOf(enumType, value); // modify-
+    return (value == null) ? def : Enum.valueOf(enumType, value); // modify-
   }
 
   public String getStringAttribute(String name) {
@@ -273,7 +237,7 @@ public class XNode {
   public Boolean getBooleanAttribute(String name, Boolean def) {
     //从attributes获取key，如果存在则进行类型转换，否则就返回默认值
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Boolean.valueOf(value); // modify-
+    return (value == null) ? def : Boolean.valueOf(Boolean.valueOf(value)); // modify-
   }
 
   public Integer getIntAttribute(String name) {
@@ -282,12 +246,7 @@ public class XNode {
 
   public Integer getIntAttribute(String name, Integer def) {
     String value = attributes.getProperty(name);
-    if (value == null) {
-      return def;
-    } else {
-      return Integer.parseInt(value);
-    }
-//    return (value == null) ? def : Integer.parseInt(value); // modify-
+    return (value == null) ? def : Integer.valueOf(Integer.parseInt(value)); // modify-
   }
 
   public Long getLongAttribute(String name) {
@@ -296,12 +255,8 @@ public class XNode {
 
   public Long getLongAttribute(String name, Long def) {
     String value = attributes.getProperty(name);
-//    return (value == null) ? def : Long.parseLong(value); // modify-  fuck 如果del为null 则报空指针异常！！！ 因为三目运算符的第二个表达式不能为null！！！
-    if (value == null) {
-      return def;
-    } else {
-      return Long.parseLong(value);
-    }
+    // sos 这里千万不能使用  Long.parseLong(value) 否则自动拆箱后会报空异常，所以必须要装箱和def保持类型一样
+    return (value == null) ? def : Long.valueOf(Long.parseLong(value)); // modify-
   }
 
   public Double getDoubleAttribute(String name) {
@@ -310,7 +265,7 @@ public class XNode {
 
   public Double getDoubleAttribute(String name, Double def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Double.parseDouble(value); // modify-
+    return (value == null) ? def : Double.valueOf(Double.parseDouble(value)); // modify-
   }
 
   public Float getFloatAttribute(String name) {
@@ -319,7 +274,7 @@ public class XNode {
 
   public Float getFloatAttribute(String name, Float def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Float.parseFloat(value); // modify-
+    return (value == null) ? def : Float.valueOf(Float.parseFloat(value)); // modify-
   }
 
   /**

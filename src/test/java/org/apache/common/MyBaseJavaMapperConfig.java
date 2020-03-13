@@ -17,16 +17,28 @@ import java.io.InputStream;
  */
 public abstract class MyBaseJavaMapperConfig {
 
-  public MappedStatement getMappedStatement(String resource,String statementId) throws IOException {
-    Configuration configuration = getConfiguration(resource);
+  public Configuration configuration = new Configuration();
+
+  // 通过自定义的 Configuration 获取 MappedStatement
+  public MappedStatement getMappedStatement(Configuration configuration,String localXml,String statementId) throws IOException {
+    InputStream inputStream = Resources.getResourceAsStream(localXml);
+    XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, localXml, configuration.getSqlFragments());
+    builder.parse();
     MappedStatement mappedStatement = configuration.getMappedStatement(statementId);
     return mappedStatement;
   }
 
-  public Configuration getConfiguration(String resource) throws IOException {
-    Configuration configuration = new Configuration();
-    InputStream inputStream = Resources.getResourceAsStream(resource);
-    XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
+  // 再空配置的Configuration基础上获取 MappedStatement
+  public MappedStatement getMappedStatement(String localXml,String statementId) throws IOException {
+    Configuration configuration = getConfiguration(localXml);
+    MappedStatement mappedStatement = configuration.getMappedStatement(statementId);
+    return mappedStatement;
+  }
+
+  // 获取空配置的 Configuration
+  public Configuration getConfiguration(String localXml) throws IOException {
+    InputStream inputStream = Resources.getResourceAsStream(localXml);
+    XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, localXml, configuration.getSqlFragments());
     builder.parse();
     return configuration;
   }

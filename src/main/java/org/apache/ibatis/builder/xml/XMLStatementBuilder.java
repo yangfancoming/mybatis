@@ -53,20 +53,22 @@ public class XMLStatementBuilder extends BaseBuilder {
    * 	statementType="PREPARED" resultSetType="SCROLL_SENSITIVE" flushCache="false" useCache="false">
    * 		select * from author
    * 	</select>
-
    */
   public void parseStatementNode() {
     log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
+    // SQL语句Id selectWithOptions
     String id = context.getStringAttribute("id");
+    // 该sql对应的数据库厂商标识 mysql
     String databaseId = context.getStringAttribute("databaseId");
     // 验证databaseId是否匹配   //不符合就返回
     if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId))  return;
+    // 获取标签名称 select
     String nodeName = context.getNode().getNodeName();
-    log.warn("3.获取 <select|insert|update|delete> 标签的名称属性：" + nodeName);
+    // 通过标签名称 解析出对应的枚举类型  SELECT
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
-    log.warn("4.通过标签名称获取对应的标签类型：" + sqlCommandType.name());
+    // 判断当前标签CRUD类型 是否为SELECT类型
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
-    // flushCache；在执行语句时表示是否刷新缓存
+    // flushCache：在执行语句时表示是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
     // 是否对该语句进行二级缓存；默认值：对 select 元素为 true
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
