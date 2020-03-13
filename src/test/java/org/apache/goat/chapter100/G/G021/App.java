@@ -18,6 +18,7 @@ import java.util.List;
 public class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/G/G021/mybatis-config.xml";
+
   CacheLevel1Mapper cache1;
   /**
    * 一级缓存 测试   基于 BaseExecutor  类

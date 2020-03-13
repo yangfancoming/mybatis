@@ -4,11 +4,6 @@
 
 <configuration>
 
-  <settings>
-    <setting name="defaultExecutorType" value="SIMPLE"/>
-    <setting name="useGeneratedKeys" value="true"/>
-  </settings>
-
   <typeAliases>
     <typeAlias type="org.apache.goat.model.Foo" alias="Foo" />
   </typeAliases>

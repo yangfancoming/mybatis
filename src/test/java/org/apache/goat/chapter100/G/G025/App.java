@@ -20,7 +20,6 @@ import java.util.List;
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/G/G025/mybatis-config.xml";
-  public static final String DBSQL = "org/apache/goat/common/CreateDB3.sql";
 
   /**  二级缓存 测试   基于 CachingExecutor  类
    * 二级缓存：（全局缓存）：基于namespace级别的缓存：一个namespace对应一个二级缓存： <mapper namespace="org.apache.ibatis.submitted.cache.FooMapper">
@@ -40,7 +39,7 @@ class App extends MyBaseDataTest {
 
   @Test
   public void test2() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);
+    setUpByReader(XMLPATH);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll();
@@ -54,7 +53,7 @@ class App extends MyBaseDataTest {
 
   @Test
   public void test3() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);
+    setUpByReader(XMLPATH);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll(); // 查库
@@ -69,7 +68,7 @@ class App extends MyBaseDataTest {
 
   @Test
   public void test4() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);
+    setUpByReader(XMLPATH);
     SqlSession sqlSession1 = sqlSessionFactory.openSession(false);
     CacheLevel2Mapper fooMapper1 = sqlSession1.getMapper(CacheLevel2Mapper.class);
     List<Foo> all = fooMapper1.findAll(); // 查库
