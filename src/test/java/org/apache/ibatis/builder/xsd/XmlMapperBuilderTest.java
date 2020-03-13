@@ -18,7 +18,6 @@ class XmlMapperBuilderTest {
 
   @Test
   void mappedStatementWithOptions() throws Exception {
-    // System.setProperty(XPathParser.KEY_USE_XSD, "true");
     Configuration configuration = new Configuration();
     String resource = "org/apache/ibatis/builder/xsd/AuthorMapper.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
@@ -32,8 +31,6 @@ class XmlMapperBuilderTest {
       Assertions.assertEquals(ResultSetType.SCROLL_SENSITIVE, mappedStatement.getResultSetType());
       Assertions.assertFalse(mappedStatement.isFlushCacheRequired());
       Assertions.assertFalse(mappedStatement.isUseCache());
-    } finally {
-      // System.clearProperty(XPathParser.KEY_USE_XSD);
     }
   }
 

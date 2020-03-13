@@ -56,34 +56,25 @@ public class XMLStatementBuilder extends BaseBuilder {
   public void parseStatementNode() {
     log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
     String id = context.getStringAttribute("id");
-    log.warn("1.获取 <select|insert|update|delete> 标签的id属性：" + id);
     String databaseId = context.getStringAttribute("databaseId");
-    log.warn("2.获取 databaseId 属性 ：" + databaseId);
-    //验证databaseId是否匹配   //不符合就返回
-    if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId)) {
-      return;
-    }
-    /** context 的值
-     <select id="findAll" resultType="Foo">
-       select * from foo
-     </select>
-    */
+    // 验证databaseId是否匹配   //不符合就返回
+    if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId))  return;
     String nodeName = context.getNode().getNodeName();
     log.warn("3.获取 <select|insert|update|delete> 标签的名称属性：" + nodeName);
     SqlCommandType sqlCommandType = SqlCommandType.valueOf(nodeName.toUpperCase(Locale.ENGLISH));
     log.warn("4.通过标签名称获取对应的标签类型：" + sqlCommandType.name());
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
-    //flushCache；在执行语句时表示是否刷新缓存
+    // flushCache；在执行语句时表示是否刷新缓存
     boolean flushCache = context.getBooleanAttribute("flushCache", !isSelect);
-    //是否对该语句进行二级缓存；默认值：对 select 元素为 true
+    // 是否对该语句进行二级缓存；默认值：对 select 元素为 true
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
-    //根嵌套结果相关
+    // 根嵌套结果相关
     boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
 
     // Include Fragments before parsing 引入SQL片段
     XMLIncludeTransformer includeParser = new XMLIncludeTransformer(configuration, builderAssistant);
     includeParser.applyIncludes(context.getNode());
-    //参数类型；将会传入这条语句的参数类的完全限定名或别名。这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset
+    // 参数类型；将会传入这条语句的参数类的完全限定名或别名。这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset
     String parameterType = context.getStringAttribute("parameterType");
     Class<?> parameterTypeClass = resolveClass(parameterType);
 
@@ -111,14 +102,14 @@ public class XMLStatementBuilder extends BaseBuilder {
     StatementType statementType = StatementType.valueOf(context.getStringAttribute("statementType", StatementType.PREPARED.toString()));
     Integer fetchSize = context.getIntAttribute("fetchSize");
     Integer timeout = context.getIntAttribute("timeout");
-    //已废弃
+    // 已废弃
     String parameterMap = context.getStringAttribute("parameterMap");
-    //结果类型；表示从这条语句中返回的期望类型的类的完全限定名或别名。注意如果是集合情形，那应该是集合可以包含的类型，而不能是集合本身。不能和resultMap同时使用
+    // 结果类型；表示从这条语句中返回的期望类型的类的完全限定名或别名。注意如果是集合情形，那应该是集合可以包含的类型，而不能是集合本身。不能和resultMap同时使用
     String resultType = context.getStringAttribute("resultType");
     Class<?> resultTypeClass = resolveClass(resultType);
-    //结果类型；外部 resultMap 的命名引用
+    // 结果类型；外部 resultMap 的命名引用
     String resultMap = context.getStringAttribute("resultMap");
-    //结果集类型；FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动）
+    // 结果集类型；FORWARD_ONLY，SCROLL_SENSITIVE 或 SCROLL_INSENSITIVE 中的一个，默认值为 unset （依赖驱动）
     String resultSetType = context.getStringAttribute("resultSetType");
     ResultSetType resultSetTypeEnum = resolveResultSetType(resultSetType);
     String keyProperty = context.getStringAttribute("keyProperty");
@@ -127,8 +118,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     // 通过buildAssistant将解析得到的参数设置构造成 MappedStatement 对象
     builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,
         fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass,
-        resultSetTypeEnum, flushCache, useCache, resultOrdered,
-        keyGenerator, keyProperty, keyColumn, databaseId, langDriver, resultSets);
+        resultSetTypeEnum, flushCache, useCache, resultOrdered, keyGenerator, keyProperty, keyColumn, databaseId, langDriver, resultSets);
+
   }
 
   private void processSelectKeyNodes(String id, Class<?> parameterTypeClass, LanguageDriver langDriver) {

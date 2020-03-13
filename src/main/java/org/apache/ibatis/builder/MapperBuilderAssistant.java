@@ -220,9 +220,8 @@ public class MapperBuilderAssistant extends BaseBuilder {
       LanguageDriver lang,
       String resultSets) {
 
-    if (unresolvedCacheRef) {
+    if (unresolvedCacheRef)
       throw new IncompleteElementException("Cache-ref not yet resolved");
-    }
 
     id = applyCurrentNamespace(id, false);
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;

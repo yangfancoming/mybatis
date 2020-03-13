@@ -49,13 +49,13 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
      *  org.apache.goat.chapter100.E001.EmployeeMapper
      */
     try {
-      if (Object.class.equals(method.getDeclaringClass())) { // 如果是java8中的接口默认方法 #测试用例 org.apache.goat.chapter700.A.App
+      if (Object.class.equals(method.getDeclaringClass())) { // 如果是Object中的方法 则直接放行 #测试用例 org.apache.goat.chapter700.A.App
         return method.invoke(this, args);
         /*
          * 下面的代码最早出现在 mybatis-3.4.2 版本中，用于支持 JDK 1.8 中的新特性 - 接口默认方法。
          * 去 Github 上看一下相关的相关的讨论（issue #709），链接如下：https://github.com/mybatis/mybatis-3/issues/709
          */
-      } else if (method.isDefault()) { // 如果是java8中的接口默认方法 #测试用例 org.apache.goat.chapter700.A.App
+      } else if (method.isDefault()) { // 如果是java8中的接口默认方法 则直接放行 #测试用例 org.apache.goat.chapter700.A.App
         return invokeDefaultMethod(proxy, method, args);
       }
     } catch (Throwable t) {
