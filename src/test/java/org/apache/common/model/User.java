@@ -1,18 +1,22 @@
-package org.apache.goat.model;
+package org.apache.common.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+  private static final long serialVersionUID = 2636291819488700444L;
 
   public Integer id;
   public String name;
-	private String user;
+	private String username;
 	private String password;
 
 	public User() {
 	}
 
-	public User(String user, String password) {
+	public User(String username, String password) {
 		super();
-		this.user = user;
+		this.username = username;
 		this.password = password;
 	}
 
@@ -33,12 +37,13 @@ public class User {
     this.name = name;
   }
 
-  public String getUser() {
-    return user;
+
+  public String getUsername() {
+    return username;
   }
 
-  public void setUser(String user) {
-    this.user = user;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getPassword() {
