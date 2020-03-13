@@ -3,7 +3,6 @@
 
 <mapper namespace="org.apache.goat.chapter100.G.G021.CacheLevel1Mapper">
 
-
   <select id="findAll"  resultType="Foo" >
     select * from foo
   </select>

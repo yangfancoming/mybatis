@@ -3,6 +3,7 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+
   <settings>
     <setting name="defaultExecutorType" value="SIMPLE"/>
     <setting name="useGeneratedKeys" value="true"/>
@@ -11,7 +12,6 @@
   <typeAliases>
     <typeAlias type="org.apache.goat.model.Foo" alias="Foo" />
   </typeAliases>
-
 
 
   <environments default="development">
@@ -32,4 +32,5 @@
   <mappers>
     <mapper resource="org/apache/goat/chapter100/G/G021/CacheLevel1.xml"/>
   </mappers>
+
 </configuration>

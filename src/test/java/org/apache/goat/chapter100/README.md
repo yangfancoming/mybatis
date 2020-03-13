@@ -48,7 +48,6 @@
     C070 局部xml 之  <parameterMap>  之 调用存储过程
     
     
-    
 # 局部xml 之 <select> 标签高级查询 之 <resultMap> 
     E001  返回  List 
     E004  返回  Map 
