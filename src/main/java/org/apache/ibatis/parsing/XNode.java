@@ -389,7 +389,6 @@ public class XNode {
    * 解析身体的东西，不知道干什么用,反正是递归的调用这个东西
    *  获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的
    * @param node
-   * @return
    */
   private String parseBody(Node node) {
     String data = getBodyData(node);
