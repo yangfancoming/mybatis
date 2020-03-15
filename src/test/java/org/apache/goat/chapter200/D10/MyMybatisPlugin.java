@@ -9,6 +9,9 @@ import java.util.Properties;
 
 /**
  * 完成插件签名：告诉MyBatis当前插件用来拦截哪个对象的哪个方法
+ * type  指定要拦截哪个类
+ * method 指定要拦截类的哪个方法
+ * args   指定拦截方法的参数，(用于重载方法的识别)
  */
 @Intercepts(
 		{
