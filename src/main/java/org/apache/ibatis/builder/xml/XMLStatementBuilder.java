@@ -74,14 +74,12 @@ public class XMLStatementBuilder extends BaseBuilder {
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
     // 根嵌套结果相关
     boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
-
     // Include Fragments before parsing 引入SQL片段
     XMLIncludeTransformer includeParser = new XMLIncludeTransformer(configuration, builderAssistant);
     includeParser.applyIncludes(context.getNode());
     // 参数类型；将会传入这条语句的参数类的完全限定名或别名。这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset
     String parameterType = context.getStringAttribute("parameterType");
     Class<?> parameterTypeClass = resolveClass(parameterType);
-
     // 动态 SQL 中可插拔的脚本语言
     String lang = context.getStringAttribute("lang");
     log.warn("解析 <select|insert|update|delete> 标签的 lang 属性：" + lang);
@@ -99,7 +97,6 @@ public class XMLStatementBuilder extends BaseBuilder {
     } else {
       keyGenerator = context.getBooleanAttribute("useGeneratedKeys",configuration.isUseGeneratedKeys()  && SqlCommandType.INSERT.equals(sqlCommandType))  ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
     }
-
     // 解析动态sql 默认实现类为： RawSqlSource
     SqlSource sqlSource = langDriver.createSqlSource(configuration, context, parameterTypeClass);
     //STATEMENT，PREPARED 或 CALLABLE 的一个。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED

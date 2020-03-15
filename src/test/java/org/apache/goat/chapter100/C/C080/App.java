@@ -29,7 +29,7 @@ public class App extends MyBaseJavaMapperConfig {
     Assertions.assertEquals(Integer.valueOf(10), mappedStatement.getTimeout());
     Assertions.assertEquals(StatementType.PREPARED, mappedStatement.getStatementType());
     Assertions.assertEquals(ResultSetType.SCROLL_SENSITIVE, mappedStatement.getResultSetType());
-    Assertions.assertFalse(mappedStatement.isFlushCacheRequired());
+    Assertions.assertTrue(mappedStatement.isFlushCacheRequired());
     Assertions.assertFalse(mappedStatement.isUseCache());
   }
 
