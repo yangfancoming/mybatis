@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.apache.goat.chapter100.A.A025.item01.UsersMapper">
+
+  <!--
+    注：也可以在resultmap result标签下填写 typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
+    这样mybatis-config.xml中的typehandler就可以省略了。
+  -->
+
+    <resultMap id="usersMapper" type="org.apache.goat.chapter100.A.A025.item01.Users">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+      <result column="password" property="password"/>
+      <result column="sex1" property="sex1" />
+  <!--    <result column="sex1" property="sex1" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>-->
+  </resultMap>
+
+  <select id="getUser" parameterType="int" resultMap="usersMapper">
+    select * from user where id = #{id}
+  </select>
+
+</mapper>

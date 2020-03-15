@@ -161,7 +161,7 @@ public abstract class BaseExecutor implements Executor {
     try {
       queryStack++;// 嵌套查询层数加1  //加一，这样递归调用到上面的时候就不会再清局部缓存了
       // 首先从一级缓存中进行查询  //根据cachekey从localCache去查
-      list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
+      list = (resultHandler == null) ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
         // 如果命中缓存，则处理存储过程 //如果查到localCache缓存，处理localOutputParameterCache
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);

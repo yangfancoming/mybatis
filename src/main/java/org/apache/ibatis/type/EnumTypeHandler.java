@@ -6,7 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * 在Mybatis中，处理枚举类的TypeHandler有两个：
+ * EnumTypeHandler: 用于保存枚举名
+ * EnumOrdinalTypeHandler: 用于保存枚举的序号
+*/
 public class EnumTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {
 
   private final Class<E> type;
