@@ -118,7 +118,7 @@ public class XMLMapperBuilder extends BaseBuilder {
    * 解析局部xml
    * @param context
    *  <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
-   *    <cache/>
+   *    <cache eviction="FIFO" size="512" flushInterval="60000"  readOnly="true"/>
    *    <select id="selectAllPosts" resultType="hashmap">
    *        select * from post order by id
    *    </select>
@@ -253,19 +253,21 @@ public class XMLMapperBuilder extends BaseBuilder {
    *    每个cache内部都有一个唯一的ID，这个id的值就是namespace。
    *    创建好的cache对象存入configuration的cache缓存中
    *    （该缓存以cache的ID属性即namespace为key，这里再次体现了mybatis的namespace的强大用处）。
+   *    <cache eviction="FIFO" size="512" flushInterval="60000"  readOnly="true"/>
+   *    <cache type="org.apache.ibatis.submitted.global_variables.CustomCache">
    */
   private void cacheElement(XNode context) {
     log.warn("开始解析<cache> 标签");
     if (context == null) return; // modify
-    // 基础缓存类型
+    // 获取type属性
     String type = context.getStringAttribute("type", "PERPETUAL");
     Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
-    // 排除算法缓存类型
+    // 获取eviction属性 默认使用排除算法缓存类型
     String eviction = context.getStringAttribute("eviction", "LRU");
     Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
-    // 缓存自动刷新时间
+    // 获取flushInterval属性 缓存自动刷新时间
     Long flushInterval = context.getLongAttribute("flushInterval");
-    // 缓存存储实例引用的大小
+    // 获取size属性 缓存存储实例引用的大小
     Integer size = context.getIntAttribute("size");
     // 是否是只读缓存
     boolean readWrite = !context.getBooleanAttribute("readOnly", false);

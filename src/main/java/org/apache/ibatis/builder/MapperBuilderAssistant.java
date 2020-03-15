@@ -105,11 +105,11 @@ public class MapperBuilderAssistant extends BaseBuilder {
     }
   }
 
-  // 使用建造模式构建缓存实例  //  缓存对象的构建逻辑
+  // 使用建造模式构建缓存实例
   public Cache useNewCache(Class<? extends Cache> typeClass, Class<? extends Cache> evictionClass,Long flushInterval,Integer size,boolean readWrite,boolean blocking, Properties props) {
     // 这里构建 Cache 实例采用 Builder 模式，每一个 Namespace 生成一个  Cache 实例
     Cache cache = new CacheBuilder(currentNamespace)
-      // Builder 前设置一些从XML中解析过来的参数
+      // Builder前 设置从xml中解析过来的参数
         .implementation(valueOrDefault(typeClass, PerpetualCache.class))
         .addDecorator(valueOrDefault(evictionClass, LruCache.class))
         .clearInterval(flushInterval)

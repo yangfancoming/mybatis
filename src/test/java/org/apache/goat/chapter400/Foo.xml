@@ -8,12 +8,24 @@
   <!--缓存的容量为 512 个对象引用-->
   <!--缓存返回的对象是写安全的，即在外部修改对象不会影响到缓存内部存储对象-->
 
+<!--  <cache-->
+<!--    eviction="FIFO"-->
+<!--    size="512"-->
+<!--    readOnly="true"/>-->
+
+
   <cache
     eviction="FIFO"
-
     size="512"
+    flushInterval="60000"
     readOnly="true"/>
 
-<!--  flushInterval="60000"-->
 
+
+
+
+
+
+<!--  type CDATA #IMPLIED-->
+<!--  blocking CDATA #IMPLIED-->
 </mapper>
