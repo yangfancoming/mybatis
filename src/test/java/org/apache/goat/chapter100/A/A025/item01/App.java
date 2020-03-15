@@ -18,7 +18,19 @@ public class App extends MyBaseDataTest {
   public void test1() throws Exception {
     setUpByReader(XMLPATH);
     UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
-    Users user = usersMapper.getUser(1);
-    System.out.println(user);
+    Users user = usersMapper.getUser(3);
+    System.out.println(user.getSex1().getName());
+  }
+
+  // doit 为啥失败
+  @Test
+  public void test2() throws Exception {
+    setUpByReader(XMLPATH);
+    UsersMapper usersMapper = sqlSession.getMapper(UsersMapper.class);
+    Users users = new Users();
+    users.setName("goat");
+    users.setPassword("123");
+    users.setSex1(SexEnum.male);
+    System.out.println(usersMapper.addUser(users));
   }
 }

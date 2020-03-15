@@ -9,7 +9,8 @@ package org.apache.goat.chapter100.A.A025.item01;
  */
 public enum SexEnum {
 
-  male(0, "男"), female(1, "女");
+  female(0, "女"),
+  male(1, "男");
 
   private int id;
   private String name;

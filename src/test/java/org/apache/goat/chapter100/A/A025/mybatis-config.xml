@@ -11,6 +11,13 @@
 <!--  </typeHandlers>-->
 
 
+<!--  <typeHandlers>-->
+<!--    <typeHandler-->
+<!--      handler="org.apache.goat.chapter100.A.A025.item01.MyEnumEmpStatusTypeHandler"-->
+<!--      javaType="org.apache.goat.chapter100.A.A025.item01.SexEnum" />-->
+<!--  </typeHandlers>-->
+
+
   <environments default="development">
 
     <environment id="development">

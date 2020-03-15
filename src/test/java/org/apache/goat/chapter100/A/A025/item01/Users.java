@@ -11,7 +11,7 @@ package org.apache.goat.chapter100.A.A025.item01;
 public class Users {
 
   private Integer id;
-  private String username;
+  private String name;
   private String password;
   private SexEnum sex1;
 
@@ -23,12 +23,12 @@ public class Users {
     this.id = id;
   }
 
-  public String getUsername() {
-    return username;
+  public String getName() {
+    return name;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getPassword() {

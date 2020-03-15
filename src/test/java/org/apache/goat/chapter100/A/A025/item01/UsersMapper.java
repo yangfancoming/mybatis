@@ -10,4 +10,6 @@ package org.apache.goat.chapter100.A.A025.item01;
 public interface UsersMapper {
 
   Users getUser(int id);
+
+  int addUser(Users users);
 }
