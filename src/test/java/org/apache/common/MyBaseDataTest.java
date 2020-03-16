@@ -52,7 +52,7 @@ public abstract class MyBaseDataTest {
     try (InputStream inputStream = Resources.getResourceAsStream(xmlPath)) {
       //然后再通过 SqlSessionFactoryBuilder 对象的 build 方法 根据配置文件构建 SqlSessionFactory 对象
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-      sqlSession = sqlSessionFactory.openSession(false);
+      sqlSession = sqlSessionFactory.openSession();
     }
   }
 

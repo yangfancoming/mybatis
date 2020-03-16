@@ -17,12 +17,9 @@
   </environments>
 
   <mappers>
-    <mapper
-      class="org.apache.ibatis.submitted.resolution.javamethods.MapperA" />
-    <mapper
-      class="org.apache.ibatis.submitted.resolution.javamethods.MapperB" />
-    <mapper
-      class="org.apache.ibatis.submitted.resolution.javamethods.MapperC" />
+    <mapper class="org.apache.ibatis.submitted.resolution.javamethods.MapperA" />
+    <mapper class="org.apache.ibatis.submitted.resolution.javamethods.MapperB" />
+    <mapper class="org.apache.ibatis.submitted.resolution.javamethods.MapperC" />
   </mappers>
 
 </configuration>

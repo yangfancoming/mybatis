@@ -17,8 +17,7 @@
   </environments>
 
   <mappers>
-    <mapper
-      class="org.apache.ibatis.submitted.resolution.cachereffromxml.UserMapper" />
+    <mapper class="org.apache.ibatis.submitted.resolution.cachereffromxml.UserMapper" />
   </mappers>
 
 </configuration>

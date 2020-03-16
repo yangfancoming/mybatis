@@ -2,11 +2,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper
-  namespace="org.apache.ibatis.submitted.resolution.javamethods.MapperA">
+<mapper  namespace="org.apache.ibatis.submitted.resolution.javamethods.MapperA">
 
-  <resultMap
-    type="org.apache.ibatis.submitted.resolution.User" id="userRM">
+  <resultMap  type="org.apache.ibatis.submitted.resolution.User" id="userRM">
     <id column="id" property="id" />
     <result column="name" property="name" />
   </resultMap>

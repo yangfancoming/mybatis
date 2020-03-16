@@ -1,156 +1,120 @@
 
 package org.apache.ibatis.submitted.member_access;
 
-import java.io.Reader;
+import org.apache.common.MyBaseDataTest;
+import org.apache.ibatis.annotations.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Arg;
-import org.apache.ibatis.annotations.ConstructorArgs;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for member access of Java Object.
  */
-class MemberAccessTest {
+class MemberAccessTest extends MyBaseDataTest {
 
-  private static SqlSessionFactory sqlSessionFactory;
+  public static final String XMLPATH = "org/apache/ibatis/submitted/member_access/mybatis-config.xml";
 
-  @BeforeAll
-  static void setUp() throws Exception {
-    try (Reader reader = Resources
-        .getResourceAsReader("org/apache/ibatis/submitted/member_access/mybatis-config.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-      sqlSessionFactory.getConfiguration().addMapper(Mapper.class);
-    }
+  Mapper mapper;
+
+  @BeforeEach
+  public void beforeAll() throws Exception {
+    setUpByInputStream(XMLPATH);
+    sqlSessionFactory.getConfiguration().addMapper(Mapper.class);
+    mapper = sqlSession.getMapper(Mapper.class);
   }
 
   @Test
   void parameterMappingAndResultAutoMapping() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-
       Params params = new Params();
       Bean bean = mapper.resultAutoMapping(params);
-
       assertEquals(params.privateField, bean.privateField);
       assertEquals(params.packagePrivateField, bean.packagePrivateField);
       assertEquals(params.protectedField, bean.protectedField);
       assertEquals(params.publicField, bean.publicField);
       assertEquals(params.getPrivateProperty(), bean.properties.get("privateProperty"));
-      assertEquals(params.getPackagePrivateProperty(),
-          bean.properties.get("packagePrivateProperty"));
+      assertEquals(params.getPackagePrivateProperty(),bean.properties.get("packagePrivateProperty"));
       assertEquals(params.getProtectedProperty(), bean.properties.get("protectedProperty"));
       assertEquals(params.getPublicProperty(), bean.properties.get("publicProperty"));
-    }
   }
 
   @Test // gh-1258
   void parameterMappingAndResultAutoMappingUsingOgnl() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-
       Params params = new Params();
       Bean bean = mapper.resultAutoMappingUsingOgnl(params);
-
       assertEquals(params.privateField + "%", bean.privateField);
       assertEquals(params.packagePrivateField + "%", bean.packagePrivateField);
       assertEquals(params.protectedField + "%", bean.protectedField);
       assertEquals(params.publicField + "%", bean.publicField);
       assertEquals(params.getPrivateProperty() + "%", bean.properties.get("privateProperty"));
-      assertEquals(params.getPackagePrivateProperty() + "%",
-          bean.properties.get("packagePrivateProperty"));
+      assertEquals(params.getPackagePrivateProperty() + "%",bean.properties.get("packagePrivateProperty"));
       assertEquals(params.getProtectedProperty() + "%", bean.properties.get("protectedProperty"));
       assertEquals(params.getPublicProperty() + "%", bean.properties.get("publicProperty"));
-    }
   }
 
   @Test
   void parameterMappingAndResultMapping() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-
       Params params = new Params();
       Bean bean = mapper.resultMapping(params);
-
       assertEquals(params.privateField, bean.privateField);
       assertEquals(params.packagePrivateField, bean.packagePrivateField);
       assertEquals(params.protectedField, bean.protectedField);
       assertEquals(params.publicField, bean.publicField);
       assertEquals(params.getPrivateProperty(), bean.properties.get("privateProperty"));
-      assertEquals(params.getPackagePrivateProperty(),
-          bean.properties.get("packagePrivateProperty"));
+      assertEquals(params.getPackagePrivateProperty(),bean.properties.get("packagePrivateProperty"));
       assertEquals(params.getProtectedProperty(), bean.properties.get("protectedProperty"));
       assertEquals(params.getPublicProperty(), bean.properties.get("publicProperty"));
-    }
   }
 
   @Test
   void constructorAutoMapping() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-
-      {
-        Immutable immutable = mapper.privateConstructorAutoMapping();
-        assertEquals(1, immutable.properties.size());
-        assertEquals("1", immutable.properties.get("arg1"));
-      }
-
-      {
-        Immutable immutable = mapper.packagePrivateConstructorAutoMapping();
-        assertEquals(2, immutable.properties.size());
-        assertEquals("1", immutable.properties.get("arg1"));
-        assertEquals("2", immutable.properties.get("arg2"));
-      }
-
-      {
-        Immutable immutable = mapper.protectedConstructorAutoMapping();
-        assertEquals(3, immutable.properties.size());
-        assertEquals("1", immutable.properties.get("arg1"));
-        assertEquals("2", immutable.properties.get("arg2"));
-        assertEquals("3", immutable.properties.get("arg3"));
-      }
-
-      {
-        Immutable immutable = mapper.publicConstructorAutoMapping();
-        assertEquals(4, immutable.properties.size());
-        assertEquals("1", immutable.properties.get("arg1"));
-        assertEquals("2", immutable.properties.get("arg2"));
-        assertEquals("3", immutable.properties.get("arg3"));
-        assertEquals("4", immutable.properties.get("arg4"));
-      }
+    {
+      Immutable immutable = mapper.privateConstructorAutoMapping();
+      assertEquals(1, immutable.properties.size());
+      assertEquals("1", immutable.properties.get("arg1"));
     }
 
+    {
+      Immutable immutable = mapper.packagePrivateConstructorAutoMapping();
+      assertEquals(2, immutable.properties.size());
+      assertEquals("1", immutable.properties.get("arg1"));
+      assertEquals("2", immutable.properties.get("arg2"));
+    }
+
+    {
+      Immutable immutable = mapper.protectedConstructorAutoMapping();
+      assertEquals(3, immutable.properties.size());
+      assertEquals("1", immutable.properties.get("arg1"));
+      assertEquals("2", immutable.properties.get("arg2"));
+      assertEquals("3", immutable.properties.get("arg3"));
+    }
+
+    {
+      Immutable immutable = mapper.publicConstructorAutoMapping();
+      assertEquals(4, immutable.properties.size());
+      assertEquals("1", immutable.properties.get("arg1"));
+      assertEquals("2", immutable.properties.get("arg2"));
+      assertEquals("3", immutable.properties.get("arg3"));
+      assertEquals("4", immutable.properties.get("arg4"));
+    }
   }
 
   @Test
   void constructorMapping() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-
       {
         Immutable immutable = mapper.privateConstructorMapping();
         assertEquals(1, immutable.properties.size());
         assertEquals("1", immutable.properties.get("arg1"));
       }
-
       {
         Immutable immutable = mapper.packagePrivateConstructorMapping();
         assertEquals(2, immutable.properties.size());
         assertEquals("1", immutable.properties.get("arg1"));
         assertEquals("2", immutable.properties.get("arg2"));
       }
-
       {
         Immutable immutable = mapper.protectedConstructorMapping();
         assertEquals(3, immutable.properties.size());
@@ -158,7 +122,6 @@ class MemberAccessTest {
         assertEquals("2", immutable.properties.get("arg2"));
         assertEquals("3", immutable.properties.get("arg3"));
       }
-
       {
         Immutable immutable = mapper.publicConstructorMapping();
         assertEquals(4, immutable.properties.size());
@@ -167,8 +130,6 @@ class MemberAccessTest {
         assertEquals("3", immutable.properties.get("arg3"));
         assertEquals("4", immutable.properties.get("arg4"));
       }
-    }
-
   }
 
   interface Mapper {

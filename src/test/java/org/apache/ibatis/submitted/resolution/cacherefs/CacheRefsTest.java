@@ -19,15 +19,10 @@ class CacheRefsTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    // create an SqlSessionFactory
-    try (Reader reader = Resources
-      .getResourceAsReader("org/apache/ibatis/submitted/resolution/cacherefs/mybatis-config.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/resolution/cacherefs/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-      "org/apache/ibatis/submitted/resolution/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/resolution/CreateDB.sql");
   }
 
   @Test
