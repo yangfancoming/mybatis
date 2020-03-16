@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.apache.ibatis.submitted.include_property.MapperSuffix">
+
+
+  <sql id="colsSuffix">
+    col_${suffix}
+  </sql>
+
+  <select id="selectSimpleA" resultType="string">
+    select
+    <include refid="colsSuffix">
+      <property name="suffix" value="a" />
+    </include>
+    from table1
+  </select>
+
+  <select id="selectSimpleB" resultType="string">
+    select
+    <include refid="colsSuffix">
+      <property name="suffix" value="b" />
+    </include>
+    from table1
+  </select>
+
+
+  <select id="selectPropertyContext" resultType="map">
+    select
+    <include refid="nestedPropertyContext">
+      <property name="suffix" value="b" />
+    </include>
+    from table1
+  </select>
+
+  <sql id="nestedPropertyContext">
+    <include refid="colsSuffix">
+      <property name="suffix" value="a" />
+    </include>
+    , col_${suffix}
+  </sql>
+
+</mapper>

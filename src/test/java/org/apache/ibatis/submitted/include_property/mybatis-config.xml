@@ -22,7 +22,8 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/ibatis/submitted/include_property/Mapper.xml"/>
+<!--    <mapper resource="org/apache/ibatis/submitted/include_property/Mapper.xml"/>-->
+    <mapper resource="org/apache/ibatis/submitted/include_property/MapperSuffix.xml"/>
   </mappers>
 
 </configuration>

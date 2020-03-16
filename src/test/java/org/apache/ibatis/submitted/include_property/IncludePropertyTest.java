@@ -21,23 +21,29 @@ class IncludePropertyTest extends MyBaseDataTest {
     setUpByInputStream(XMLPATH,DBSQL);
   }
 
+//  MapperSuffix.xml
   @Test
-  void testSimpleProperty() {
-    List<String> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.Mapper.selectSimpleA");
+  void testSimplePropertyA() {
+    List<String> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.MapperSuffix.selectSimpleA");
     assertEquals("col_a value", results.get(0));
-    results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.Mapper.selectSimpleB");
+  }
+
+  @Test
+  void testSimplePropertyB() {
+    List<String> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.MapperSuffix.selectSimpleB");
     assertEquals("col_b value", results.get(0));
   }
 
   @Test
   void testPropertyContext() {
-    List<Map<String, String>> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.Mapper.selectPropertyContext");
+    List<Map<String, String>> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.MapperSuffix.selectPropertyContext");
     Map<String, String> map = results.get(0);
     assertEquals(2, map.size());
     assertEquals("col_a value", map.get("COL_A"));
     assertEquals("col_b value", map.get("COL_B"));
   }
 
+//  Mapper.xml
   @Test
   void testNestedDynamicValue() {
     List<String> results = sqlSession.selectList("org.apache.ibatis.submitted.include_property.Mapper.selectNestedDynamicValue");

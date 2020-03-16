@@ -32,12 +32,6 @@
     </include>
   </sql>
 
-  <sql id="nestedPropertyContext">
-    <include refid="colsSuffix">
-      <property name="suffix" value="a" />
-    </include>
-    , col_${suffix}
-  </sql>
 
   <sql id="colsIfAttribute">
     <if test="'${value}' == 'x'">
@@ -48,34 +42,10 @@
     </if>
   </sql>
 
-  <select id="selectSimpleA" resultType="string">
-    select
-    <include refid="colsSuffix">
-      <property name="suffix" value="a" />
-    </include>
-    from table1
-  </select>
-
-  <select id="selectSimpleB" resultType="string">
-    select
-    <include refid="colsSuffix">
-      <property name="suffix" value="b" />
-    </include>
-    from table1
-  </select>
-
   <select id="selectNestedDynamicValue" resultType="string">
     select
     <include refid="nestedDynamicValue">
       <property name="var" value="col_" />
-    </include>
-    from table1
-  </select>
-
-  <select id="selectPropertyContext" resultType="map">
-    select
-    <include refid="nestedPropertyContext">
-      <property name="suffix" value="b" />
     </include>
     from table1
   </select>
