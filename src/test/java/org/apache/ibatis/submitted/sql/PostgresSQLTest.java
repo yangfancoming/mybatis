@@ -26,8 +26,7 @@ class PostgresSQLTest {
   @BeforeAll
   static void setUp() throws Exception {
     Configuration configuration = new Configuration();
-    Environment environment = new Environment("development", new JdbcTransactionFactory(),
-      PgContainer.getUnpooledDataSource());
+    Environment environment = new Environment("development", new JdbcTransactionFactory(), PgContainer.getUnpooledDataSource());
     configuration.setEnvironment(environment);
     configuration.setUseGeneratedKeys(true);
     configuration.addMapper(Mapper.class);
@@ -35,9 +34,7 @@ class PostgresSQLTest {
     properties.setProperty("schema", "mbtest.");
     configuration.setVariables(properties);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-      "org/apache/ibatis/submitted/sql/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/sql/CreateDB.sql");
   }
 
   @Test

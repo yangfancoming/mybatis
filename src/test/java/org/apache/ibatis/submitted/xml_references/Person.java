@@ -2,6 +2,7 @@
 package org.apache.ibatis.submitted.xml_references;
 
 public class Person {
+
     public enum Type {
         EMPLOYEE,
         DIRECTOR

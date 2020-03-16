@@ -25,7 +25,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.*;
 
@@ -42,8 +41,7 @@ class BindingTest {
     DataSource dataSource = BaseDataTest.createBlogDataSource();
     BaseDataTest.runScript(dataSource, BaseDataTest.BLOG_DDL);
     BaseDataTest.runScript(dataSource, BaseDataTest.BLOG_DATA);
-    TransactionFactory transactionFactory = new JdbcTransactionFactory();
-    Environment environment = new Environment("Production", transactionFactory, dataSource);
+    Environment environment = new Environment("Production", new JdbcTransactionFactory(), dataSource);
     Configuration configuration = new Configuration(environment);
     configuration.setLazyLoadingEnabled(true);
     configuration.setUseActualParamName(false); // to test legacy style reference (#{0} #{1})   测试旧样式引用
@@ -53,11 +51,6 @@ class BindingTest {
     configuration.addMapper(BoundBlogMapper.class);
     configuration.addMapper(BoundAuthorMapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-  }
-
-  @AfterEach
-  public void after(){
-    session.rollback();
   }
 
   /* 主要涉及 mapper.xml 中 resultMap 标签级联多级对象嵌套的 映射规则  */
@@ -540,6 +533,11 @@ class BindingTest {
     assertEquals(2, mapperClasses.size());
     assertTrue(mapperClasses.contains(BoundBlogMapper.class));
     assertTrue(mapperClasses.contains(BoundAuthorMapper.class));
+  }
+
+  @AfterEach
+  public void after(){
+    session.rollback();
   }
 
 }

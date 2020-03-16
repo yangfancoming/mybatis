@@ -215,9 +215,10 @@ public class Configuration {
   protected final Collection<MethodResolver> incompleteMethods = new LinkedList<>();
 
   /*
-   * A map holds cache-ref relationship. The key is the namespace that
-   * references a cache bound to another namespace and the value is the
-   * namespace which the actual cache is bound to.
+   * A map holds cache-ref relationship.
+   * The key is the namespace that references a cache bound to another namespace and
+   * the value is the namespace which the actual cache is bound to.
+   * 对应 <cache-ref> 标签
    */
   protected final Map<String, String> cacheRefMap = new HashMap<>();
 

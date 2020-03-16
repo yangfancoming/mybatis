@@ -54,18 +54,14 @@ public class FlushTest {
             ids.add(author.getId());
             // test
             List<BatchResult> results = mapper.flush();
-
             assertThat(results.size()).isEqualTo(1);
             assertThat(results.get(0).getUpdateCounts().length).isEqualTo(ids.size());
-
             for (int id : ids) {
                 Author selectedAuthor = mapper.selectAuthor(id);
                 assertNotNull(selectedAuthor, id + " is not found.");
             }
-
             session.rollback();
         }
-
     }
 
 }

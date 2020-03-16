@@ -225,15 +225,14 @@ public class XMLMapperBuilder extends BaseBuilder {
    *         需要注意的是，如果cache-ref和cache都配置了，以cache为准。
    */
   private void cacheRefElement(XNode context) {
+    if (context == null) return; // -modify
     log.warn("开始解析<cache-ref> 标签");
-    if (context != null) {
-      configuration.addCacheRef(builderAssistant.getCurrentNamespace(), context.getStringAttribute("namespace"));
-      CacheRefResolver cacheRefResolver = new CacheRefResolver(builderAssistant, context.getStringAttribute("namespace"));
-      try {
-        cacheRefResolver.resolveCacheRef();
-      } catch (IncompleteElementException e) {
-        configuration.addIncompleteCacheRef(cacheRefResolver);
-      }
+    configuration.addCacheRef(builderAssistant.getCurrentNamespace(), context.getStringAttribute("namespace"));
+    CacheRefResolver cacheRefResolver = new CacheRefResolver(builderAssistant, context.getStringAttribute("namespace"));
+    try {
+      cacheRefResolver.resolveCacheRef();
+    } catch (IncompleteElementException e) {
+      configuration.addIncompleteCacheRef(cacheRefResolver);
     }
   }
 

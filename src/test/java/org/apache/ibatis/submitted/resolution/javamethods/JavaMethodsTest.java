@@ -30,7 +30,7 @@ class JavaMethodsTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       MapperB mapper = sqlSession.getMapper(MapperB.class);
       User user = mapper.getUser(1);
-      Assertions.assertEquals(Integer.valueOf(1), user.getId());
+      Assertions.assertEquals(1, user.getId());
       Assertions.assertEquals("User1", user.getName());
     }
   }
