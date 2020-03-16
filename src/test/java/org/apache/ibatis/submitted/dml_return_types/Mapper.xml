@@ -4,40 +4,40 @@
 
 <mapper namespace="org.apache.ibatis.submitted.dml_return_types.Mapper">
 
-    <select id="getUser" parameterType="Integer" resultType="org.apache.ibatis.submitted.dml_return_types.User">
-        select * from users where id = #{id}
-    </select>
+  <select id="getUser" parameterType="Integer" resultType="org.apache.ibatis.submitted.dml_return_types.User">
+    select * from users where id = #{id}
+  </select>
 
-    <sql id="update">
-        update users set name = #{name} where id = #{id}
-    </sql>
+  <sql id="update">
+    update users set name = #{name} where id = #{id}
+  </sql>
 
-	<update id="updateReturnsVoid" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-		<include refid="update"/>
-	</update>
+  <update id="updateReturnsVoid" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsPrimitiveInteger" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsPrimitiveInteger" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsInteger" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsInteger" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsPrimitiveLong" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsPrimitiveLong" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsLong" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsLong" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsPrimitiveBoolean" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsPrimitiveBoolean" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
-    <update id="updateReturnsBoolean" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
-        <include refid="update"/>
-    </update>
+  <update id="updateReturnsBoolean" parameterType="org.apache.ibatis.submitted.dml_return_types.User">
+    <include refid="update"/>
+  </update>
 
 </mapper>

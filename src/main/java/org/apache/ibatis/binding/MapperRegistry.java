@@ -20,7 +20,6 @@ import org.apache.ibatis.session.SqlSession;
  * */
 public class MapperRegistry {
 
-  // Configuration 对象， MyBatis 全局唯一的配置对象，其中包含了所有配置信息
   private final Configuration config;
 
   /**
