@@ -11,6 +11,8 @@
     <include refid="${include_target}"/>
   </sql>
 
+<!-- 执行SQL： select field1, field2, field3 from SomeTable-->
+
   <select id="select" resultType="map">
     <include refid="someinclude">
         <property name="include_target" value="org.apache.ibatis.submitted.includes.fragments.select"/>
@@ -23,9 +25,12 @@
       </include>
   </select>
 
+  <!-- 执行SQL： VALUES (1) -->
   <select id="selectWithProperty" resultType="_int">
     <include refid="${ns}.values"/>
   </select>
+
+
 
   <update id="update" parameterType="map">
     <include refid="org.apache.ibatis.submitted.includes.fragments.update"/>

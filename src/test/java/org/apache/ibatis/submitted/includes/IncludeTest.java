@@ -1,45 +1,33 @@
 
 package org.apache.ibatis.submitted.includes;
 
-import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.jupiter.api.BeforeAll;
+import org.apache.common.MyBaseDataTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.Reader;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-import org.junit.jupiter.api.Assertions;
+class IncludeTest extends MyBaseDataTest {
 
-class IncludeTest {
+  public static final String XMLPATH = "org/apache/ibatis/submitted/includes/MapperConfig.xml";
+  public static final String DBSQL = "org/apache/ibatis/submitted/includes/CreateDB.sql";
 
-  private static SqlSessionFactory sqlSessionFactory;
-
-  @BeforeAll
-  static void setUp() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/includes/MapperConfig.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-    }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/includes/CreateDB.sql");
+  @BeforeEach
+  public void beforeAll() throws Exception {
+    setUpByInputStream(XMLPATH,DBSQL);
   }
 
   @Test
   void testIncludes()  {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      final Integer result = sqlSession.selectOne("org.apache.ibatis.submitted.includes.mapper.selectWithProperty");
-      Assertions.assertEquals(Integer.valueOf(1), result);
-    }
+    final Integer result = sqlSession.selectOne("org.apache.ibatis.submitted.includes.mapper.selectWithProperty");
+    Assertions.assertEquals(Integer.valueOf(1), result);
   }
 
   @Test
   void testParametrizedIncludes() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      final Map<String, Object> result = sqlSession.selectOne("org.apache.ibatis.submitted.includes.mapper.select");
-      // Assertions.assertEquals(Integer.valueOf(1), result);
-    }
+    final Map<String, Object> result = sqlSession.selectOne("org.apache.ibatis.submitted.includes.mapper.select");
+    Assertions.assertEquals(Integer.valueOf(3), result.size());
   }
 
 }
