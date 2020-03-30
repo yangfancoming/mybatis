@@ -130,23 +130,18 @@ public class ResultLoaderMap {
       this.property = property;
       this.metaResultObject = metaResultObject;
       this.resultLoader = resultLoader;
-
       /* Save required information only if original object can be serialized. */
       if (metaResultObject != null && metaResultObject.getOriginalObject() instanceof Serializable) {
         final Object mappedStatementParameter = resultLoader.parameterObject;
-
         /* @todo May the parameter be null? */
         if (mappedStatementParameter instanceof Serializable) {
           this.mappedStatement = resultLoader.mappedStatement.getId();
           this.mappedParameter = (Serializable) mappedStatementParameter;
-
           this.configurationFactory = resultLoader.configuration.getConfigurationFactory();
         } else {
           Log log = this.getLogger();
           if (log.isDebugEnabled()) {
-            log.debug("Property [" + this.property + "] of ["
-                    + metaResultObject.getOriginalObject().getClass() + "] cannot be loaded "
-                    + "after deserialization. Make sure it's loaded before serializing forenamed object.");
+            log.debug("Property [" + this.property + "] of [" + metaResultObject.getOriginalObject().getClass() + "] cannot be loaded after deserialization. Make sure it's loaded before serializing forenamed object.");
           }
         }
       }
@@ -155,13 +150,8 @@ public class ResultLoaderMap {
     public void load() throws SQLException {
       /* These field should not be null unless the loadpair was serialized.
        * Yet in that case this method should not be called. */
-      if (this.metaResultObject == null) {
-        throw new IllegalArgumentException("metaResultObject is null");
-      }
-      if (this.resultLoader == null) {
-        throw new IllegalArgumentException("resultLoader is null");
-      }
-
+      if (this.metaResultObject == null) throw new IllegalArgumentException("metaResultObject is null");
+      if (this.resultLoader == null) throw new IllegalArgumentException("resultLoader is null");
       this.load(null);
     }
 
@@ -176,18 +166,15 @@ public class ResultLoaderMap {
         if (ms == null) {
           throw new ExecutorException("Cannot lazy load property [" + this.property
                   + "] of deserialized object [" + userObject.getClass()
-                  + "] because configuration does not contain statement ["
-                  + this.mappedStatement + "]");
+                  + "] because configuration does not contain statement [" + this.mappedStatement + "]");
         }
 
         this.metaResultObject = config.newMetaObject(userObject);
-        this.resultLoader = new ResultLoader(config, new ClosedExecutor(), ms, this.mappedParameter,
-                metaResultObject.getSetterType(this.property), null, null);
+        this.resultLoader = new ResultLoader(config, new ClosedExecutor(), ms, this.mappedParameter, metaResultObject.getSetterType(this.property), null, null);
       }
 
       /* We are using a new executor because we may be (and likely are) on a new thread
        * and executors aren't thread safe. (Is this sufficient?)
-       *
        * A better approach would be making executors thread safe. */
       if (this.serializationCheck == null) {
         final ResultLoader old = this.resultLoader;
@@ -197,10 +184,7 @@ public class ResultLoaderMap {
     }
 
     private Configuration getConfiguration() {
-      if (this.configurationFactory == null) {
-        throw new ExecutorException("Cannot get Configuration as configuration factory was not set.");
-      }
-
+      if (this.configurationFactory == null) throw new ExecutorException("Cannot get Configuration as configuration factory was not set.");
       Object configurationObject;
       try {
         final Method factoryMethod = this.configurationFactory.getDeclaredMethod(FACTORY_METHOD);
@@ -235,7 +219,6 @@ public class ResultLoaderMap {
                 + FACTORY_METHOD + "] didn't return [" + Configuration.class + "] but ["
                 + (configurationObject == null ? "null" : configurationObject.getClass()) + "].");
       }
-
       return Configuration.class.cast(configurationObject);
     }
 

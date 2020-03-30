@@ -198,13 +198,10 @@ public class MapperAnnotationBuilder {
   }
 
   private Properties convertToProperties(Property[] properties) {
-    if (properties.length == 0) {
-      return null;
-    }
+    if (properties.length == 0) return null;
     Properties props = new Properties();
     for (Property property : properties) {
-      props.setProperty(property.name(),
-          PropertyParser.parse(property.value(), configuration.getVariables()));
+      props.setProperty(property.name(), PropertyParser.parse(property.value(), configuration.getVariables()));
     }
     return props;
   }
@@ -285,8 +282,7 @@ public class MapperAnnotationBuilder {
       Class<?> javaType = discriminator.javaType() == void.class ? String.class : discriminator.javaType();
       JdbcType jdbcType = discriminator.jdbcType() == JdbcType.UNDEFINED ? null : discriminator.jdbcType();
       @SuppressWarnings("unchecked")
-      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>)
-              (discriminator.typeHandler() == UnknownTypeHandler.class ? null : discriminator.typeHandler());
+      Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>)  (discriminator.typeHandler() == UnknownTypeHandler.class ? null : discriminator.typeHandler());
       Case[] cases = discriminator.cases();
       Map<String, String> discriminatorMap = new HashMap<>();
       for (Case c : cases) {
@@ -479,7 +475,6 @@ public class MapperAnnotationBuilder {
         }
       }
     }
-
     return returnType;
   }
 
@@ -517,10 +512,7 @@ public class MapperAnnotationBuilder {
     Class<? extends Annotation> type = getSqlAnnotationType(method);
     if (type == null) {
       type = getSqlProviderAnnotationType(method);
-      if (type == null) {
-        return SqlCommandType.UNKNOWN;
-      }
-
+      if (type == null)  return SqlCommandType.UNKNOWN;
       if (type == SelectProvider.class) {
         type = Select.class;
       } else if (type == InsertProvider.class) {
@@ -546,9 +538,7 @@ public class MapperAnnotationBuilder {
   private Class<? extends Annotation> chooseAnnotationType(Method method, Set<Class<? extends Annotation>> types) {
     for (Class<? extends Annotation> type : types) {
       Annotation annotation = method.getAnnotation(type);
-      if (annotation != null) {
-        return type;
-      }
+      if (annotation != null) return type;
     }
     return null;
   }

@@ -38,7 +38,6 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
    我们看看Configuration#newExecutor()方法
   */
 
-
   /** 方式一：从数据源获取SqlSession
    核心方法，DefaultSqlSessionFactory其他方法都是调用此方法
    **/
@@ -122,9 +121,11 @@ public class DefaultSqlSessionFactory implements SqlSessionFactory {
     }
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【SqlSessionFactory】 interface
+  //---------------------------------------------------------------------
 
   /*-------------------------------- 方式一：从数据源获取SqlSession-------------------------------*/
-
   @Override
   public SqlSession openSession() {
     return openSessionFromDataSource(configuration.getDefaultExecutorType(), null, false);

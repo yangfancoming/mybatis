@@ -39,6 +39,55 @@ public class JdbcTransaction implements Transaction {
     this.connection = connection;
   }
 
+  protected void setDesiredAutoCommit(boolean desiredAutoCommit) {
+    try {
+      if (connection.getAutoCommit() != desiredAutoCommit) {
+        if (log.isDebugEnabled()) log.debug("Setting autocommit to " + desiredAutoCommit + " on JDBC Connection [" + connection + "]");
+        connection.setAutoCommit(desiredAutoCommit);
+      }
+    } catch (SQLException e) {
+      // Only a very poorly implemented driver would fail here,and there's not much we can do about that.
+      // 只有一个实现非常差的驱动程序才会在这里失败，对此我们无能为力
+      throw new TransactionException("Error configuring AutoCommit. Your driver may not support getAutoCommit() or setAutoCommit(). Requested setting: " + desiredAutoCommit + ".  Cause: " + e, e);
+    }
+  }
+
+  protected void resetAutoCommit() {
+    try {
+      if (!connection.getAutoCommit()) {
+        /**
+         *    MyBatis does not call commit/rollback on a connection if just selects were performed.
+         *    Some databases start transactions with select statements and they mandate a commit/rollback before closing the connection.
+         *    A workaround is setting the autocommit to true before closing the connection.
+         *    Sybase throws an exception here.
+        */
+        if (log.isDebugEnabled()) log.debug("Resetting autocommit to true on JDBC Connection [" + connection + "]");
+        connection.setAutoCommit(true);
+      }
+    } catch (SQLException e) {
+      if (log.isDebugEnabled()) log.debug("Error resetting autocommit to true before closing the connection.  Cause: " + e);
+    }
+  }
+
+  protected void openConnection() throws SQLException {
+    if (log.isDebugEnabled()) {
+      log.debug("Opening JDBC Connection");
+    }
+    connection = dataSource.getConnection();
+    if (level != null) {
+      connection.setTransactionIsolation(level.getLevel());
+    }
+    setDesiredAutoCommit(autoCommit);
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Transaction】 interface
+  //---------------------------------------------------------------------
+
+  @Override
+  public Integer getTimeout() throws SQLException {
+    return null;
+  }
   @Override
   public Connection getConnection() throws SQLException {
     if (connection == null) {
@@ -76,57 +125,4 @@ public class JdbcTransaction implements Transaction {
     }
     connection.close();
   }
-
-  protected void setDesiredAutoCommit(boolean desiredAutoCommit) {
-    try {
-      if (connection.getAutoCommit() != desiredAutoCommit) {
-        if (log.isDebugEnabled()) {
-          log.debug("Setting autocommit to " + desiredAutoCommit + " on JDBC Connection [" + connection + "]");
-        }
-        connection.setAutoCommit(desiredAutoCommit);
-      }
-    } catch (SQLException e) {
-      // Only a very poorly implemented driver would fail here,and there's not much we can do about that.
-      // 只有一个实现非常差的驱动程序才会在这里失败，对此我们无能为力
-      throw new TransactionException("Error configuring AutoCommit. Your driver may not support getAutoCommit() or setAutoCommit(). Requested setting: " + desiredAutoCommit + ".  Cause: " + e, e);
-    }
-  }
-
-  protected void resetAutoCommit() {
-    try {
-      if (!connection.getAutoCommit()) {
-        /**
-         *    MyBatis does not call commit/rollback on a connection if just selects were performed.
-         *    Some databases start transactions with select statements and they mandate a commit/rollback before closing the connection.
-         *    A workaround is setting the autocommit to true before closing the connection.
-         *    Sybase throws an exception here.
-        */
-        if (log.isDebugEnabled()) {
-          log.debug("Resetting autocommit to true on JDBC Connection [" + connection + "]");
-        }
-        connection.setAutoCommit(true);
-      }
-    } catch (SQLException e) {
-      if (log.isDebugEnabled()) {
-        log.debug("Error resetting autocommit to true before closing the connection.  Cause: " + e);
-      }
-    }
-  }
-
-  protected void openConnection() throws SQLException {
-    if (log.isDebugEnabled()) {
-      log.debug("Opening JDBC Connection");
-    }
-    connection = dataSource.getConnection();
-    if (level != null) {
-      connection.setTransactionIsolation(level.getLevel());
-    }
-    setDesiredAutoCommit(autoCommit);
-  }
-
-  @Override
-  public Integer getTimeout() throws SQLException {
-    return null;
-  }
-
 }
