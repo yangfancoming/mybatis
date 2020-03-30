@@ -3,41 +3,14 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
-    <node x="17.166666666666664" y="80.0">org.apache.ibatis.plugin.Plugin</node>
-    <node x="14.825000000000003" y="160.0">org.apache.ibatis.plugin.Interceptor</node>
-    <node x="30.666666666666657" y="0.0">org.apache.ibatis.plugin.Invocation</node>
-    <node x="0.0" y="240.0">org.apache.ibatis.plugin.InterceptorChain</node>
+    <node x="151.0" y="148.0">org.apache.ibatis.plugin.Plugin</node>
+    <node x="0.0" y="74.0">org.apache.ibatis.plugin.Interceptor</node>
+    <node x="0.0" y="148.0">org.apache.ibatis.plugin.Invocation</node>
+    <node x="0.0" y="0.0">org.apache.ibatis.plugin.InterceptorChain</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="org.apache.ibatis.plugin.Plugin" target="org.apache.ibatis.plugin.Interceptor">
-      <point x="27.66666666666668" y="15.0" />
-      <point x="14.125" y="-15.0" />
-    </edge>
-    <edge source="org.apache.ibatis.plugin.Interceptor" target="org.apache.ibatis.plugin.Plugin">
-      <point x="-42.375" y="-15.0" />
-      <point x="28.950000000000003" y="135.0" />
-      <point x="31.0" y="135.0" />
-      <point x="-27.666666666666668" y="15.0" />
-    </edge>
-    <edge source="org.apache.ibatis.plugin.Plugin" target="org.apache.ibatis.plugin.Invocation">
-      <point x="-7.105427357601002E-15" y="-15.0" />
-      <point x="-27.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.ibatis.plugin.Interceptor" target="org.apache.ibatis.plugin.Invocation">
-      <point x="42.375" y="-15.0" />
-      <point x="113.7" y="135.0" />
-      <point x="110.66666666666666" y="135.0" />
-      <point x="27.0" y="15.0" />
-    </edge>
-    <edge source="org.apache.ibatis.plugin.InterceptorChain" target="org.apache.ibatis.plugin.Interceptor">
-      <point x="36.25" y="-15.0" />
-      <point x="108.75" y="215.0" />
-      <point x="99.575" y="215.0" />
-      <point x="28.25" y="15.0" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="273.5" y="55.0" />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="687.0" y="426.5" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
