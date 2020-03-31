@@ -24,20 +24,6 @@ public class SelectKeyGenerator implements KeyGenerator {
     this.keyStatement = keyStatement;
   }
 
-  @Override
-  public void processBefore(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
-    if (executeBefore) {
-      processGeneratedKeys(executor, ms, parameter);
-    }
-  }
-
-  @Override
-  public void processAfter(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
-    if (!executeBefore) {
-      processGeneratedKeys(executor, ms, parameter);
-    }
-  }
-
   private void processGeneratedKeys(Executor executor, MappedStatement ms, Object parameter) {
     try {
       if (parameter != null && keyStatement != null && keyStatement.getKeyProperties() != null) {
@@ -100,6 +86,23 @@ public class SelectKeyGenerator implements KeyGenerator {
       metaParam.setValue(property, value);
     } else {
       throw new ExecutorException("No setter found for the keyProperty '" + property + "' in " + metaParam.getOriginalObject().getClass().getName() + ".");
+    }
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【KeyGenerator】 interface
+  //---------------------------------------------------------------------
+  @Override
+  public void processBefore(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
+    if (executeBefore) {
+      processGeneratedKeys(executor, ms, parameter);
+    }
+  }
+
+  @Override
+  public void processAfter(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
+    if (!executeBefore) {
+      processGeneratedKeys(executor, ms, parameter);
     }
   }
 }

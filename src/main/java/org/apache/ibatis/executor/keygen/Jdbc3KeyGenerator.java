@@ -36,8 +36,8 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
    */
   public static final Jdbc3KeyGenerator INSTANCE = new Jdbc3KeyGenerator();
 
-  private static final String MSG_TOO_MANY_KEYS = "Too many keys are generated. There are only %d target objects. "
-      + "You either specified a wrong 'keyProperty' or encountered a driver bug like #1523.";
+  private static final String MSG_TOO_MANY_KEYS = "Too many keys are generated. There are only %d target objects. You either specified a wrong 'keyProperty' or encountered a driver bug like #1523.";
+
 
   @Override
   public void processBefore(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
@@ -216,8 +216,7 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
     private final String propertyName;
     private TypeHandler<?> typeHandler;
 
-    protected KeyAssigner(Configuration configuration, ResultSetMetaData rsmd, int columnPosition, String paramName,
-        String propertyName) {
+    protected KeyAssigner(Configuration configuration, ResultSetMetaData rsmd, int columnPosition, String paramName, String propertyName) {
       super();
       this.configuration = configuration;
       this.rsmd = rsmd;
@@ -237,11 +236,10 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
         if (typeHandler == null) {
           if (metaParam.hasSetter(propertyName)) {
             Class<?> propertyType = metaParam.getSetterType(propertyName);
-            typeHandler = typeHandlerRegistry.getTypeHandler(propertyType,
-                JdbcType.forCode(rsmd.getColumnType(columnPosition)));
+            typeHandler = typeHandlerRegistry.getTypeHandler(propertyType,JdbcType.forCode(rsmd.getColumnType(columnPosition)));
+
           } else {
-            throw new ExecutorException("No setter found for the keyProperty '" + propertyName + "' in '"
-                + metaParam.getOriginalObject().getClass().getName() + "'.");
+            throw new ExecutorException("No setter found for the keyProperty '" + propertyName + "' in '"  + metaParam.getOriginalObject().getClass().getName() + "'.");
           }
         }
         if (typeHandler == null) {
