@@ -16,13 +16,21 @@ class ClassLoaderWrapperTest extends BaseDataTest {
   private final String RESOURCE_NOT_FOUND = "some_resource_that_does_not_exist.properties";
   private final String CLASS_NOT_FOUND = "some.random.class.that.does.not.Exist";
   private final String CLASS_FOUND = "java.lang.Object";
-//  private final String CLASS_STRING = "java.lang.String";
 
   // 测试通过 类全限定名反射该类
   @Test
   void classForName() throws ClassNotFoundException {
     Class<?> aClass = wrapper.classForName(CLASS_FOUND);
     assertTrue(aClass instanceof Object);
+  }
+
+  // 测试通过 类全限定名反射 任意类
+  @Test
+  void classForName2() throws Exception {
+    Class<?> aClass = wrapper.classForName("org.apache.ibatis.io.ResolverUtil");
+    assertEquals("org.apache.ibatis.io.ResolverUtil",aClass.getCanonicalName());
+    ResolverUtil o = (ResolverUtil)aClass.newInstance();
+    System.out.println(o.getClassLoader());
   }
 
   // 测试 找不到类名的异常
@@ -56,7 +64,6 @@ class ClassLoaderWrapperTest extends BaseDataTest {
   void getResourceAsURLNotFound() {
     assertNull(wrapper.getResourceAsURL(RESOURCE_NOT_FOUND));
   }
-
 
   @Test
   void getResourceAsStream() {

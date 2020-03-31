@@ -187,8 +187,8 @@ public class TypeAliasRegistry {
      *  <package name="org.apache.goat.common"/>
      *      创建k,v键值对（bar , org.apache.goat.common.model.Bar） ok
      *      创建k,v键值对（foo , org.apache.goat.common.model.Foo） error  The alias 'Foo' is already mapped to the value 'org.apache.goat.common.model.Bar'.
-     *  mybatis别名原则： 多个key可以对应同一个value，但是相同key的value是不允许被覆盖的！
-     *  相对于只判断key是否存在而言，后者在相同key和value的情况下也会报错，显示不够友好
+     *  mybatis别名原则： 不同的key可以对应同一个value，但是相同key的不同value是不允许被覆盖的！(map是允许覆盖的)
+     *  相对于只判断key是否存在(Map)而言，后者在相同key和吧不同value的情况下(typeAliases)会报异常，不允许覆盖
      */
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
       throw new TypeException("The alias '" + alias + "' is already mapped to the value '" + typeAliases.get(key).getName() + "'.");

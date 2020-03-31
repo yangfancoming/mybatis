@@ -1,35 +1,38 @@
 
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.domain.misc.RichType;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TypeAliasRegistryTest {
 
   TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
 
-  //  注册别名 map 和 取出别名 map 操作
+  //  通过 全限定名串的方式注册别名
   @Test
   void shouldRegisterAndResolveTypeAlias() {
     typeAliasRegistry.registerAlias("rich", "org.apache.ibatis.domain.misc.RichType");
-    Class<Object> rich = typeAliasRegistry.resolveAlias("rich");
-    System.out.println(rich.getName());
-    assertEquals("org.apache.ibatis.domain.misc.RichType", typeAliasRegistry.resolveAlias("rich").getName());
+    Class<RichType> rich = typeAliasRegistry.resolveAlias("rich");
+    assertEquals("org.apache.ibatis.domain.misc.RichType", rich.getName());
   }
 
   @Test
   void shouldFetchArrayType() {
     Class<Object> objectClass = typeAliasRegistry.resolveAlias("byte[]");
-    System.out.println(objectClass); // class [Ljava.lang.Byte;
-    assertEquals(Byte[].class, typeAliasRegistry.resolveAlias("byte[]"));
+    assertEquals(Byte[].class, objectClass);
   }
 
+  //  通过 全限定名串的方式注册别名
   @Test
   void shouldBeAbleToRegisterSameAliasWithSameTypeAgain() {
-    // 能够再次注册相同类型的别名     其中 alias 参数 无论大小写进源码后 都会被转成小写存储
+    assertEquals(50,typeAliasRegistry.getTypeAliases().size());
+    // 能够再次注册相同类型的别名     其中 alias 参数 无论大小写 都会被转成小写存储  map会自动覆盖
     typeAliasRegistry.registerAlias("String", String.class);
     typeAliasRegistry.registerAlias("string", String.class);
+    assertEquals(50,typeAliasRegistry.getTypeAliases().size());
   }
 
   @Test
