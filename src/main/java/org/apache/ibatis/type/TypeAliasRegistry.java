@@ -161,6 +161,12 @@ public class TypeAliasRegistry {
     registerAlias(alias, type);
   }
 
+
+  /**
+   *
+   * @param alias -
+   * @param value -
+   */
   public void registerAlias(String alias, String value) {
     try {
       registerAlias(alias, Resources.classForName(value));

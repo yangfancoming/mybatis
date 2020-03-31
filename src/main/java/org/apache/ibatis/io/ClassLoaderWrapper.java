@@ -88,19 +88,14 @@ public class ClassLoaderWrapper {
   InputStream getResourceAsStream(String resource, ClassLoader[] classLoader) {
     //循环ClassLoader 数组
     for (ClassLoader cl : classLoader) {
-      if (null != cl) {
-        // try to find the resource as passed  // 根据入参resource，读取该路径下文件
-        InputStream returnValue = cl.getResourceAsStream(resource);
-        // now, some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
-        // 如果没有，加上“/”再尝试读取
-        if (null == returnValue) {
-          returnValue = cl.getResourceAsStream("/" + resource);
-        }
-        //如果读取到，终止循环，返回结果
-        if (null != returnValue) {
-          return returnValue;
-        }
-      }
+      if (cl == null) continue; // -modify
+      // try to find the resource as passed  // 根据入参resource，读取该路径下文件
+      InputStream returnValue = cl.getResourceAsStream(resource);
+      // now, some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
+      // 如果没有，加上“/”再尝试读取
+      if (null == returnValue) returnValue = cl.getResourceAsStream("/" + resource);
+      //如果读取到，终止循环，返回结果
+      if (null != returnValue) return returnValue;
     }
     return null;
   }
@@ -115,20 +110,15 @@ public class ClassLoaderWrapper {
     URL url;
     //循环ClassLoader，通过指定或者默认的ClassLoader读取文件
     for (ClassLoader cl : classLoader) {
-      if (null != cl) {
-        // look for the resource as passed in...
-        url = cl.getResource(resource);
-        // ...but some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
-        // 如果在resource的路径下没有找到，加“/”再进行查询读取
-        if (null == url) {
-          url = cl.getResource("/" + resource);
-        }
-        // "It's always in the last place I look for it!"  ... because only an idiot would keep looking for it after finding it, so stop looking already.
-        // 如果查询到url，终止循环返回结果
-        if (null != url) {
-          return url;
-        }
-      }
+      if (cl == null) continue; // -modify
+      // look for the resource as passed in...
+      url = cl.getResource(resource);
+      // ...but some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
+      // 如果在resource的路径下没有找到，加“/”再进行查询读取
+      if (null == url) url = cl.getResource("/" + resource);
+      // "It's always in the last place I look for it!"  ... because only an idiot would keep looking for it after finding it, so stop looking already.
+      // 如果查询到url，终止循环返回结果
+      if (null != url) return url;
     }
     // didn't find it anywhere.
     return null;
@@ -143,12 +133,10 @@ public class ClassLoaderWrapper {
    */
   Class<?> classForName(String name, ClassLoader[] classLoader) throws ClassNotFoundException {
     for (ClassLoader cl : classLoader) {
-      if (null != cl) {
+      if (cl != null) {
         try {
           Class<?> c = Class.forName(name, true, cl);
-          if (null != c) {
-            return c;
-          }
+          if (c != null)  return c; // -modify
         } catch (ClassNotFoundException e) {
           // we'll ignore this until all classloaders fail to locate the class
         }

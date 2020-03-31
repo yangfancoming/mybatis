@@ -2,45 +2,54 @@
 package org.apache.ibatis.io;
 
 import org.apache.ibatis.BaseDataTest;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.URL;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ClassLoaderWrapperTest extends BaseDataTest {
 
-  private ClassLoaderWrapper wrapper;
-  private ClassLoader loader;
+  private ClassLoaderWrapper wrapper = new ClassLoaderWrapper();
+  private ClassLoader loader = getClass().getClassLoader();
   private final String RESOURCE_NOT_FOUND = "some_resource_that_does_not_exist.properties";
   private final String CLASS_NOT_FOUND = "some.random.class.that.does.not.Exist";
   private final String CLASS_FOUND = "java.lang.Object";
+//  private final String CLASS_STRING = "java.lang.String";
 
-  @BeforeEach
-  void beforeClassLoaderWrapperTest() {
-    wrapper = new ClassLoaderWrapper();
-    loader = getClass().getClassLoader();
-  }
-
+  // 测试通过 类全限定名反射该类
   @Test
   void classForName() throws ClassNotFoundException {
-    assertNotNull(wrapper.classForName(CLASS_FOUND));
+    Class<?> aClass = wrapper.classForName(CLASS_FOUND);
+    assertTrue(aClass instanceof Object);
   }
 
+  // 测试 找不到类名的异常
   @Test
   void classForNameNotFound() {
     Assertions.assertThrows(ClassNotFoundException.class, () -> assertNotNull(wrapper.classForName(CLASS_NOT_FOUND)));
   }
 
+  // 测试 使用类加载器 反射该类
   @Test
   void classForNameWithClassLoader() throws ClassNotFoundException {
-    assertNotNull(wrapper.classForName(CLASS_FOUND, loader));
+    Class<?> aClass = wrapper.classForName(CLASS_FOUND, loader);
+    assertTrue(aClass instanceof Object);
   }
 
+  // 测试 通过 url字符串 获取 URL类
   @Test
   void getResourceAsURL() {
-    assertNotNull(wrapper.getResourceAsURL(JPETSTORE_PROPERTIES));
+    URL url = wrapper.getResourceAsURL(JPETSTORE_PROPERTIES);
+    System.out.println(url);
+  }
+
+  // 测试 通过 url字符串 + 类加载器   获取 URL类
+  @Test
+  void getResourceAsURLWithClassLoader() {
+    URL url = wrapper.getResourceAsURL(JPETSTORE_PROPERTIES, loader);
+    System.out.println(url);
   }
 
   @Test
@@ -48,10 +57,6 @@ class ClassLoaderWrapperTest extends BaseDataTest {
     assertNull(wrapper.getResourceAsURL(RESOURCE_NOT_FOUND));
   }
 
-  @Test
-  void getResourceAsURLWithClassLoader() {
-    assertNotNull(wrapper.getResourceAsURL(JPETSTORE_PROPERTIES, loader));
-  }
 
   @Test
   void getResourceAsStream() {

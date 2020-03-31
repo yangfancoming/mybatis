@@ -12,9 +12,7 @@ class TypeAliasRegistryTest {
   //  注册别名 map 和 取出别名 map 操作
   @Test
   void shouldRegisterAndResolveTypeAlias() {
-    // 注册操作
     typeAliasRegistry.registerAlias("rich", "org.apache.ibatis.domain.misc.RichType");
-    // 取出操作
     Class<Object> rich = typeAliasRegistry.resolveAlias("rich");
     System.out.println(rich.getName());
     assertEquals("org.apache.ibatis.domain.misc.RichType", typeAliasRegistry.resolveAlias("rich").getName());
