@@ -40,9 +40,7 @@ import org.apache.ibatis.logging.LogFactory;
  ResoulverUtil 主要用于解析给定package目录下满足特定条件的class，从源码中可以看到，实际是调用VFS.getInstance().list(path) 解析
  */
 public class ResolverUtil<T> {
-  /*
-   * An instance of Log to use for logging in this class.
-   */
+
   private static final Log log = LogFactory.getLog(ResolverUtil.class);
 
   /**
@@ -131,7 +129,7 @@ public class ResolverUtil<T> {
   /**
    * Attempts to discover classes that are assignable to the type provided.
    * In the case that an interface is provided this method will collect implementations.
-   *  In the case of a non-interface class, subclasses will be collected.  Accumulated classes can be accessed by calling {@link #getClasses()}.
+   * In the case of a non-interface class, subclasses will be collected.  Accumulated classes can be accessed by calling {@link #getClasses()}.
    * @param parent the class of interface to find subclasses or implementations of
    * @param packageNames one or more package names to scan (including subpackages) for classes
    */
@@ -167,7 +165,6 @@ public class ResolverUtil<T> {
    * Each class is offered up to the Test as it is discovered, and if the Test returns true the class is retained.
    * 每一个class被发现时都会提供一个Test(验证器)，如果验证返回true，这个class会被保存起来。
    * Accumulated classes can be fetched by calling {@link #getClasses()}.
-   * 可以通过调用getClasses() 获取累积类
    * 输入示例：   org.apache.goat.common
    * 输出结果：   org/apache/goat/common
    * @param test an instance of {@link Test} that will be used to filter classes
