@@ -12,7 +12,7 @@ class App extends MyBaseDataTest {
 
 
   /**
-
+   * 无mapper接口 入门示例
   */
   @Test
   void test1() throws Exception {
@@ -20,7 +20,6 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
     System.out.println(foo);
   }
-
 
 
 }

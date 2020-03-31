@@ -17,7 +17,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  问题：mybatis是如何控制解决并发问题的。
- 解答：通过SqlSession管理员类SqlSessionManager中线程本地变量ThreadLocal localSqlSession+动态代理SqlSession解决
+ 解答：通过SqlSession管理员类SqlSessionManager中线程本地变量ThreadLocal localSqlSession + 动态代理SqlSession解决
  */
 public class SqlSessionManager implements SqlSessionFactory, SqlSession {
 
@@ -95,9 +95,10 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
     return this.localSqlSession.get() != null;
   }
 
-  /**
-   *  实现 SqlSessionFactory 接口 ========================================================== 开始
-  */
+
+  //---------------------------------------------------------------------
+  // Implementation of 【SqlSessionFactory】 interface
+  //---------------------------------------------------------------------
   @Override
   public SqlSession openSession() {
     return sqlSessionFactory.openSession();
@@ -142,13 +143,10 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
   public Configuration getConfiguration() {
     return sqlSessionFactory.getConfiguration();
   }
-  /**
-   *  实现 SqlSessionFactory 接口 ========================================================== 结束
-   */
 
-  /**
-   *  实现 SqlSession 接口 ====== 开始
-   */
+  //---------------------------------------------------------------------
+  // Implementation of 【SqlSession】 interface
+  //---------------------------------------------------------------------
   @Override
   public <T> T selectOne(String statement) {
     return sqlSessionProxy.selectOne(statement);
@@ -258,72 +256,56 @@ public class SqlSessionManager implements SqlSessionFactory, SqlSession {
   @Override
   public Connection getConnection() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot get connection.  No managed session is started.");
-    }
+    if (sqlSession == null)  throw new SqlSessionException("Error:  Cannot get connection.  No managed session is started.");
     return sqlSession.getConnection();
   }
 
   @Override
   public void clearCache() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot clear the cache.  No managed session is started.");
-    }
+    if (sqlSession == null) throw new SqlSessionException("Error:  Cannot clear the cache.  No managed session is started.");
     sqlSession.clearCache();
   }
 
   @Override
   public void commit() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot commit.  No managed session is started.");
-    }
+    if (sqlSession == null) throw new SqlSessionException("Error:  Cannot commit.  No managed session is started.");
     sqlSession.commit();
   }
 
   @Override
   public void commit(boolean force) {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot commit.  No managed session is started.");
-    }
+    if (sqlSession == null) throw new SqlSessionException("Error:  Cannot commit.  No managed session is started.");
     sqlSession.commit(force);
   }
 
   @Override
   public void rollback() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
-    }
+    if (sqlSession == null)  throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
     sqlSession.rollback();
   }
 
   @Override
   public void rollback(boolean force) {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
-    }
+    if (sqlSession == null)  throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
     sqlSession.rollback(force);
   }
 
   @Override
   public List<BatchResult> flushStatements() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
-    }
+    if (sqlSession == null) throw new SqlSessionException("Error:  Cannot rollback.  No managed session is started.");
     return sqlSession.flushStatements();
   }
 
   @Override
   public void close() {
     final SqlSession sqlSession = localSqlSession.get();
-    if (sqlSession == null) {
-      throw new SqlSessionException("Error:  Cannot close.  No managed session is started.");
-    }
+    if (sqlSession == null) throw new SqlSessionException("Error:  Cannot close.  No managed session is started.");
     try {
       sqlSession.close();
     } finally {

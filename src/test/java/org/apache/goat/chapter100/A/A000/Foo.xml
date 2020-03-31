@@ -15,7 +15,6 @@ public Employee getEmpById(Integer id);
 
 <mapper namespace="com.goat.test.namespace">
 
-
 <!--
     <#text>
         select * from foo where id = #{id}
@@ -30,6 +29,5 @@ public Employee getEmpById(Integer id);
     <#text>select * from foo where id = #{id}</#text>
 -->
 <!--  <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >select * from foo where id = #{id}</select>-->
-
 
 </mapper>

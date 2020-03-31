@@ -15,9 +15,12 @@ import org.apache.ibatis.executor.BatchResult;
  */
 public interface SqlSession extends Closeable {
 
+  //---------------------------------------------------------------------
+  //  【执行sql相关】
+  //---------------------------------------------------------------------
+
   /**
    * Retrieve a single row mapped from the statement key.
-   * 检索从语句键映射的单行
    * @param <T> the returned object type
    * @param statement
    * @return Mapped object
@@ -26,7 +29,6 @@ public interface SqlSession extends Closeable {
 
   /**
    * Retrieve a single row mapped from the statement key and parameter.
-   * 检索从语句键和参数映射的单行
    * @param <T> the returned object type
    * @param statement Unique identifier matching the statement to use.
    * @param parameter A parameter object to pass to the statement.
@@ -202,6 +204,22 @@ public interface SqlSession extends Closeable {
    */
   int delete(String statement, Object parameter);
 
+  //---------------------------------------------------------------------
+  //  【获取mapper代理】
+  //---------------------------------------------------------------------
+
+  /**
+   * Retrieves a mapper.
+   * @param <T> the mapper type
+   * @param type Mapper interface class
+   * @return a mapper bound to this SqlSession
+   */
+  <T> T getMapper(Class<T> type);
+
+  //---------------------------------------------------------------------
+  //  【事务管理相关】
+  //---------------------------------------------------------------------
+
   /**
    * Flushes batch statements and commits database connection.
    * Note that database connection will not be committed if no updates/deletes/inserts were called.
@@ -236,32 +254,16 @@ public interface SqlSession extends Closeable {
    */
   List<BatchResult> flushStatements();
 
-  /**
-   * Closes the session.
-   */
+  /**  Closes the session. */
   @Override
   void close();
 
-  /**
-   * Clears local session cache.
-   */
+  /** Clears local session cache. */
   void clearCache();
 
-  /**
-   * Retrieves current configuration.
-   */
+  /**  Retrieves current configuration. */
   Configuration getConfiguration();
 
-  /**
-   * Retrieves a mapper.
-   * @param <T> the mapper type
-   * @param type Mapper interface class
-   * @return a mapper bound to this SqlSession
-   */
-  <T> T getMapper(Class<T> type);
-
-  /**
-   * Retrieves inner database connection.
-   */
+  /**  Retrieves inner database connection. */
   Connection getConnection();
 }

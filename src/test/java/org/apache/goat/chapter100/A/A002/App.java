@@ -21,7 +21,7 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A002/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-
+  // 有mapper接口 入门示例
   @Test
   void selectById() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
