@@ -24,6 +24,7 @@ import org.apache.ibatis.logging.LogFactory;
  * A default implementation of {@link VFS} that works for most application servers.
  */
 public class DefaultVFS extends VFS {
+
   private static final Log log = LogFactory.getLog(DefaultVFS.class);
 
   /** The magic header that indicates a JAR (ZIP) file. */

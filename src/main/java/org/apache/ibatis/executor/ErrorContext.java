@@ -21,8 +21,7 @@ public class ErrorContext {
   private Throwable cause;
 
   // 私有化构造函数
-  private ErrorContext() {
-  }
+  private ErrorContext() { }
 
   // 第一次使用时才new  懒汉式
   public static ErrorContext instance() {
@@ -50,33 +49,27 @@ public class ErrorContext {
   }
 
   public ErrorContext resource(String resource) {
-    this.resource = resource;
-    return this;
+    this.resource = resource; return this;
   }
 
   public ErrorContext activity(String activity) {
-    this.activity = activity;
-    return this;
+    this.activity = activity; return this;
   }
 
   public ErrorContext object(String object) {
-    this.object = object;
-    return this;
+    this.object = object;return this;
   }
 
   public ErrorContext message(String message) {
-    this.message = message;
-    return this;
+    this.message = message;return this;
   }
 
   public ErrorContext sql(String sql) {
-    this.sql = sql;
-    return this;
+    this.sql = sql; return this;
   }
 
   public ErrorContext cause(Throwable cause) {
-    this.cause = cause;
-    return this;
+    this.cause = cause;return this;
   }
 
   public ErrorContext reset() {
@@ -90,53 +83,36 @@ public class ErrorContext {
     return this;
   }
 
+  // -modify
   @Override
   public String toString() {
     StringBuilder description = new StringBuilder();
-
-    // message
-    if (this.message != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### ");
-      description.append(this.message);
+    if (message != null) {
+      commonAppend(description, "### ", message);
     }
-
-    // resource
     if (resource != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### The error may exist in ");
-      description.append(resource);
+      commonAppend(description, "### The error may exist in ", resource);
     }
-
-    // object
     if (object != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### The error may involve ");
-      description.append(object);
+      commonAppend(description, "### The error may involve ", object);
     }
-
-    // activity
     if (activity != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### The error occurred while ");
-      description.append(activity);
+      commonAppend(description, "### The error occurred while ", activity);
     }
-
-    // activity
     if (sql != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### SQL: ");
-      description.append(sql.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim());
+      String trim = sql.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ').trim();
+      commonAppend(description, "### SQL: ", trim);
     }
-
-    // cause
     if (cause != null) {
-      description.append(LINE_SEPARATOR);
-      description.append("### Cause: ");
-      description.append(cause.toString());
+      commonAppend(description, "### Cause: ", cause.toString());
     }
-
     return description.toString();
+  }
+
+  private void commonAppend(StringBuilder description, String s, String message) {
+    description.append(LINE_SEPARATOR);
+    description.append(s);
+    description.append(message);
   }
 
 }
