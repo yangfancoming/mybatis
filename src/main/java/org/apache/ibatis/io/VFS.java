@@ -175,10 +175,14 @@ public abstract class VFS {
   /**
    * Recursively list the full resource path of all the resources that are children of all the resources found at the specified path.
    * 递归地列出所有资源的完整资源路径，这些资源是在指定路径上找到的所有资源的子级。
-   * @param path The path of the resource(s) to list.  org/apache/goat/common
+   * @param path The path of the resource(s) to list.  eg：org/apache/goat/common
    * @return A list containing the names of the child resources.
    * @throws IOException If I/O errors occur
-   * D.递归列出所有的资源 org/apache/goat/common
+   * 递归获取目录下的所有编译后文件
+   * org/apache/goat/common/Bar.class
+   * org/apache/goat/common/Foo.class
+   * org/apache/goat/common/Zoo.class
+   * org/apache/goat/common/CreateDB.sql
    */
   public List<String> list(String path) throws IOException {
     List<String> names = new ArrayList<>();

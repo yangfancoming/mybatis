@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for VFS getInstance method in multi-thread environment
- *
- * @author jasonleaster
  */
 class VFSTest {
 

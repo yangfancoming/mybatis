@@ -143,15 +143,12 @@ public class ResolverUtil<T> {
   }
 
   /**
-   * Attempts to discover classes that are annotated with the annotation. Accumulated
-   * classes can be accessed by calling {@link #getClasses()}.
+   * Attempts to discover classes that are annotated with the annotation. Accumulated classes can be accessed by calling {@link #getClasses()}.
    * @param annotation the annotation that should be present on matching classes
    * @param packageNames one or more package names to scan (including subpackages) for classes
    */
   public ResolverUtil<T> findAnnotated(Class<? extends Annotation> annotation, String... packageNames) {
-    if (packageNames == null) {
-      return this;
-    }
+    if (packageNames == null)  return this;
     Test test = new AnnotatedWith(annotation);
     for (String pkg : packageNames) {
       find(test, pkg);
@@ -165,22 +162,12 @@ public class ResolverUtil<T> {
    * Each class is offered up to the Test as it is discovered, and if the Test returns true the class is retained.
    * 每一个class被发现时都会提供一个Test(验证器)，如果验证返回true，这个class会被保存起来。
    * Accumulated classes can be fetched by calling {@link #getClasses()}.
-   * 输入示例：   org.apache.goat.common
-   * 输出结果：   org/apache/goat/common
    * @param test an instance of {@link Test} that will be used to filter classes
-   * @param packageName the name of the package from which to start scanning for classes, e.g. {@code net.sourceforge.stripes}  eg: org.apache.goat.common
+   * @param packageName the name of the package from which to start scanning for classes, eg: org.apache.goat.common
    */
   public ResolverUtil<T> find(Test test, String packageName) {
-    String path = getPackagePath(packageName);
     try {
-      /**
-       * 获取目录下的所有编译后文件
-       * org/apache/goat/common/Bar.class
-       * org/apache/goat/common/Foo.class
-       * org/apache/goat/common/Zoo.class
-       * org/apache/goat/common/CreateDB.sql
-      */
-      List<String> children = VFS.getInstance().list(path);
+      List<String> children = VFS.getInstance().list(getPackagePath(packageName));// org/apache/goat/common
       for (String child : children) {
         // 忽略掉非class文件
         if (!child.endsWith(".class")) continue; //  -modify
@@ -205,9 +192,9 @@ public class ResolverUtil<T> {
 
   /**
    * Add the class designated by the fully qualified class name provided to the set of resolved classes if and only if it is approved by the Test supplied.
-   * 如果且仅当通过所提供的测试批准时，才将由提供的完全限定类名指定的类添加到解析类集。
-   * @param test the test used to determine if the class matches
-   * @param fqn the fully qualified name of a class  eg: org/apache/goat/common/Customer.class
+   * 当且仅当通过Test接口判断后，才将提供的全限定类名的类添加到matches集合中
+   * @param test the test used to determine if the class matches   eg: ResolverUtil<VFS> resolverUtil = new ResolverUtil<>();
+   * @param fqn the fully qualified name of a class  eg: org/apache/ibatis/io/DefaultVFS.class
    */
   @SuppressWarnings("unchecked")
   protected void addIfMatching(Test test, String fqn) {
@@ -215,14 +202,16 @@ public class ResolverUtil<T> {
       // org/apache/goat/common/Customer.class  ===>  org.apache.goat.common.Customer
       String externalName = fqn.substring(0, fqn.indexOf('.')).replace('/', '.');
       ClassLoader loader = getClassLoader();
-      if (log.isDebugEnabled()) log.debug("Checking to see if class " + externalName + " matches criteria [" + test + "]");
+      if (log.isDebugEnabled()) log.debug("Checking to see if class 【" + externalName + "】" + " matches criteria 【" + test + "】");
       Class<?> type = loader.loadClass(externalName);
       if (test.matches(type)) {
         matches.add((Class<T>) type);
+        log.warn("【" + externalName + "】" + " 匹配成功  【" + test + "】");
       }else {
-        log.debug(externalName + " match failed！ modify-");
+        log.warn("【" + externalName + "】" + " 匹配失败  【" + test + "】");
       }
     } catch (Throwable t) {
+      // org.apache.ibatis.io.Resources 异常    org.apache.ibatis.io.Resources.class 正常
       log.warn("Could not examine class '" + fqn + "'" + " due to a " + t.getClass().getName() + " with message: " + t.getMessage());
     }
   }

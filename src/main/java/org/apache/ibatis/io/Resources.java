@@ -23,8 +23,7 @@ public class Resources {
    */
   private static Charset charset;
 
-  Resources() {
-  }
+  Resources() { }
 
   /**
    * Returns the default classloader (may be null).
@@ -49,8 +48,7 @@ public class Resources {
    * @throws java.io.IOException If the resource cannot be found or read
    */
   public static URL getResourceURL(String resource) throws IOException {
-      // issue #625
-      return getResourceURL(null, resource);
+      return getResourceURL(null, resource); // issue #625
   }
 
   /**
@@ -62,9 +60,7 @@ public class Resources {
    */
   public static URL getResourceURL(ClassLoader loader, String resource) throws IOException {
     URL url = classLoaderWrapper.getResourceAsURL(resource, loader);
-    if (url == null) {
-      throw new IOException("Could not find resource " + resource);
-    }
+    if (url == null) throw new IOException("Could not find resource " + resource);
     return url;
   }
 
@@ -87,9 +83,7 @@ public class Resources {
    */
   public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
     InputStream in = classLoaderWrapper.getResourceAsStream(resource, loader);
-    if (in == null) {
-      throw new IOException("Could not find resource " + resource);
-    }
+    if (in == null) throw new IOException("Could not find resource " + resource);
     return in;
   }
 
