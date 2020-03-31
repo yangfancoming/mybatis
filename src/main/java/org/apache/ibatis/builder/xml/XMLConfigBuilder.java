@@ -555,7 +555,6 @@ public class XMLConfigBuilder extends BaseBuilder {
        <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
        <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
-
    * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，
    * 具体的解析细节是依赖于 XMLMapperBuilder 来实现的，
    * XMLMapperBuilder通过 mapperParser.parse() 方法屏蔽了细节，内部完成解析过程

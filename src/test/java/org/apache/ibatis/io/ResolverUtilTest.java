@@ -13,12 +13,10 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link ResolverUtil}.
- *
- * @author Pi Chen
  * @since 3.5.2
  */
-
 class ResolverUtilTest {
+
   private static ClassLoader currentContextClassLoader;
 
   @BeforeAll

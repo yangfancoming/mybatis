@@ -30,16 +30,20 @@ import org.apache.ibatis.io.Resources;
  　　　　7.集合类型（别名类似collection、map、list、hsahmap、arraylist、iterator）
  　　　　8.ResultSet结果集类型（别名为ResultSet）
  　注意：这并不是全部的MyBatis内置的类型别名，还有一部分类型别名是在创建Configuration实例的时候在其无参构造器中进行注册的，这里暂不介绍。
+ getTypeAliases
+ registerAlias
+ registerAliases
+ resolveAlias
 */
 public class TypeAliasRegistry {
   //这就是核心所在啊， 原来别名就仅仅通过一个HashMap来实现， key为别名， value就是别名对应的类型（class对象）
   private final Map<String, Class<?>> typeAliases = new HashMap<>();
 
-  //构造函数里注册系统内置的类型别名
+  // 注册系统内置的类型别名
   public TypeAliasRegistry() {
-    //字符串类型
+    // 字符串类型
     registerAlias("string", String.class);
-    //基本包装类型
+    // 基本包装类型
     registerAlias("byte", Byte.class);
     registerAlias("long", Long.class);
     registerAlias("short", Short.class);
@@ -48,7 +52,7 @@ public class TypeAliasRegistry {
     registerAlias("double", Double.class);
     registerAlias("float", Float.class);
     registerAlias("boolean", Boolean.class);
-    //基本数组包装类型
+    // 基本数组包装类型
     registerAlias("byte[]", Byte[].class);
     registerAlias("long[]", Long[].class);
     registerAlias("short[]", Short[].class);
@@ -57,7 +61,7 @@ public class TypeAliasRegistry {
     registerAlias("double[]", Double[].class);
     registerAlias("float[]", Float[].class);
     registerAlias("boolean[]", Boolean[].class);
-    //加个下划线，就变成了基本类型
+    // 加个下划线，就变成了基本类型
     registerAlias("_byte", byte.class);
     registerAlias("_long", long.class);
     registerAlias("_short", short.class);
@@ -66,7 +70,7 @@ public class TypeAliasRegistry {
     registerAlias("_double", double.class);
     registerAlias("_float", float.class);
     registerAlias("_boolean", boolean.class);
-    //加个下划线，就变成了基本数组类型
+    // 加个下划线，就变成了基本数组类型
     registerAlias("_byte[]", byte[].class);
     registerAlias("_long[]", long[].class);
     registerAlias("_short[]", short[].class);
@@ -75,26 +79,25 @@ public class TypeAliasRegistry {
     registerAlias("_double[]", double[].class);
     registerAlias("_float[]", float[].class);
     registerAlias("_boolean[]", boolean[].class);
-    //日期数字型
+    // 日期数字类型
     registerAlias("date", Date.class);
     registerAlias("decimal", BigDecimal.class);
     registerAlias("bigdecimal", BigDecimal.class);
     registerAlias("biginteger", BigInteger.class);
     registerAlias("object", Object.class);
-    //集合型
+    // 日期数字数组类型
     registerAlias("date[]", Date[].class);
     registerAlias("decimal[]", BigDecimal[].class);
     registerAlias("bigdecimal[]", BigDecimal[].class);
     registerAlias("biginteger[]", BigInteger[].class);
     registerAlias("object[]", Object[].class);
-    //还有个ResultSet型
+    // 集合型
     registerAlias("map", Map.class);
     registerAlias("hashmap", HashMap.class);
     registerAlias("list", List.class);
     registerAlias("arraylist", ArrayList.class);
     registerAlias("collection", Collection.class);
     registerAlias("iterator", Iterator.class);
-
     registerAlias("ResultSet", ResultSet.class);
   }
 
@@ -158,11 +161,17 @@ public class TypeAliasRegistry {
     registerAlias(alias, type);
   }
 
+  public void registerAlias(String alias, String value) {
+    try {
+      registerAlias(alias, Resources.classForName(value));
+    } catch (ClassNotFoundException e) {
+      throw new TypeException("Error registering type alias " + alias + " for " + value + ". Cause: " + e, e);
+    }
+  }
+
   // 最终重载函数
   public void registerAlias(String alias, Class<?> value) {
-    if (alias == null) {
-      throw new TypeException("The parameter alias cannot be null");
-    }
+    if (alias == null)  throw new TypeException("The parameter alias cannot be null");
     // issue #748
     String key = alias.toLowerCase(Locale.ENGLISH);
     /**
@@ -174,24 +183,14 @@ public class TypeAliasRegistry {
      *      创建k,v键值对（foo , org.apache.goat.common.model.Foo） error  The alias 'Foo' is already mapped to the value 'org.apache.goat.common.model.Bar'.
      *  mybatis别名原则： 多个key可以对应同一个value，但是相同key的value是不允许被覆盖的！
      *  相对于只判断key是否存在而言，后者在相同key和value的情况下也会报错，显示不够友好
-    */
+     */
     if (typeAliases.containsKey(key) && typeAliases.get(key) != null && !typeAliases.get(key).equals(value)) {
       throw new TypeException("The alias '" + alias + "' is already mapped to the value '" + typeAliases.get(key).getName() + "'.");
     }
     typeAliases.put(key, value);
   }
 
-  public void registerAlias(String alias, String value) {
-    try {
-      registerAlias(alias, Resources.classForName(value));
-    } catch (ClassNotFoundException e) {
-      throw new TypeException("Error registering type alias " + alias + " for " + value + ". Cause: " + e, e);
-    }
-  }
-
-  /**
-   * @since 3.2.2
-   */
+  /** @since 3.2.2 */
   public Map<String, Class<?>> getTypeAliases() {
     return Collections.unmodifiableMap(typeAliases);
   }

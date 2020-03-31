@@ -40,7 +40,7 @@ class App extends MyBaseDataTest {
     // 配置
     DataSource dataSource = BaseDataTest.createBlogDataSource();
     TransactionFactory transactionFactory = new JdbcTransactionFactory();
-    Environment environment = new Environment("No Care",transactionFactory , dataSource);
+    Environment environment = new Environment("NoCare",transactionFactory , dataSource);
     Configuration configuration = new Configuration(environment);
     configuration.addMapper(BlogMapper.class);
 

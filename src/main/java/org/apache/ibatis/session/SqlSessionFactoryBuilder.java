@@ -48,8 +48,7 @@ public class SqlSessionFactoryBuilder {
       XMLConfigBuilder parser = new XMLConfigBuilder(reader, environment, properties);// reader , null , null
       // 调用 parse 方法解析配置文件，生成 Configuration 对象
       Configuration configuration = parser.parse();
-      SqlSessionFactory build = build(configuration);
-      return build;
+      return build(configuration);
     } catch (Exception e) {
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);
     } finally {
@@ -75,7 +74,6 @@ public class SqlSessionFactoryBuilder {
     return build(inputStream, null, properties);
   }
 
-  /* 最终通用处理 =================================================================================================================================*/
   /** XMLConfigBuilder#parse 方法是配置解析的主要方法
    我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，
    构造出Configuration，最终返回new DefaultSqlSessionFactory(config)的SqlSessionFactory实例
@@ -105,7 +103,9 @@ public class SqlSessionFactoryBuilder {
     }
   }
 
-  /* Configuration 相关处理 */
+  /* 以上所有代码的最终调用 =================================================================================================================================*/
+
+  // 通过 Configuration 构建出 SqlSessionFactory
   public SqlSessionFactory build(Configuration config) {
     return new DefaultSqlSessionFactory(config);
   }
