@@ -53,11 +53,9 @@ public class JBoss6VFS extends VFS {
   static class VFS {
     static Class<?> VFS;
     static Method getChild;
-
     private VFS() {
       // Prevent Instantiation
     }
-
     static VirtualFile getChild(URL url) throws IOException {
       Object o = invoke(getChild, VFS, url);
       return o == null ? null : new VirtualFile(o);
@@ -88,14 +86,11 @@ public class JBoss6VFS extends VFS {
   }
 
   /**
-   * Verifies that the provided object reference is null. If it is null, then this VFS is marked
-   * as invalid for the current environment.
+   * Verifies that the provided object reference is null. If it is null, then this VFS is marked as invalid for the current environment.
    * @param object The object reference to check for null.
    */
   protected static <T> T checkNotNull(T object) {
-    if (object == null) {
-      setInvalid();
-    }
+    if (object == null) setInvalid();
     return object;
   }
 
@@ -135,20 +130,13 @@ public class JBoss6VFS extends VFS {
   public List<String> list(URL url, String path) throws IOException {
     VirtualFile directory;
     directory = VFS.getChild(url);
-    if (directory == null) {
-      return Collections.emptyList();
-    }
-
-    if (!path.endsWith("/")) {
-      path += "/";
-    }
-
+    if (directory == null)  return Collections.emptyList();
+    if (!path.endsWith("/"))  path += "/";
     List<VirtualFile> children = directory.getChildren();
     List<String> names = new ArrayList<>(children.size());
     for (VirtualFile vf : children) {
       names.add(path + vf.getPathNameRelativeTo(directory));
     }
-
     return names;
   }
 }

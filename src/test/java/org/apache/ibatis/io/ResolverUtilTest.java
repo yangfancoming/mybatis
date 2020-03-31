@@ -33,23 +33,23 @@ class ResolverUtilTest {
     assertEquals(new ResolverUtil<>().getClassLoader(), currentContextClassLoader);
   }
 
+  ResolverUtil resolverUtilTemp = new ResolverUtil();
+
   //  测试 setClassLoader 方法
   @Test
   void setClassLoader() {
-    ResolverUtil resolverUtil = new ResolverUtil();
     AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-      resolverUtil.setClassLoader(new ClassLoader() {});
+      resolverUtilTemp.setClassLoader(new ClassLoader() {});
       return null;
     });
-    assertNotEquals(resolverUtil.getClassLoader(), currentContextClassLoader);
+    assertNotEquals(resolverUtilTemp.getClassLoader(), currentContextClassLoader);
   }
 
   //  测试 getPackagePath 方法
   @Test
   void getPackagePath() {
-    ResolverUtil resolverUtil = new ResolverUtil();
-    assertNull(resolverUtil.getPackagePath(null));
-    assertEquals(resolverUtil.getPackagePath("org.apache.ibatis.io"), "org/apache/ibatis/io");
+    assertNull(resolverUtilTemp.getPackagePath(null));
+    assertEquals(resolverUtilTemp.getPackagePath("org.apache.ibatis.io"), "org/apache/ibatis/io");
   }
 
   ResolverUtil.Test test = new ResolverUtil.IsA(VFS.class);

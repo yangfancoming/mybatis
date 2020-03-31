@@ -35,26 +35,25 @@ class TypeAliasRegistryTest {
     assertEquals(50,typeAliasRegistry.getTypeAliases().size());
   }
 
+  //  别名相同 但对应的类型不同 则不能够注册
   @Test
   void shouldNotBeAbleToRegisterSameAliasWithDifferentType() {
-    //  别名相同 但对应的类型不同 则不能够注册
     assertThrows(TypeException.class, () -> typeAliasRegistry.registerAlias("string", BigDecimal.class));
   }
 
+  //  别名对应类型为null的  也可以注册
   @Test
   void shouldBeAbleToRegisterAliasWithNullType() {
-    //  别名对应类型为null的  也可以注册
     typeAliasRegistry.registerAlias("foo", (Class<?>) null);
-    System.out.println(typeAliasRegistry.resolveAlias("foo"));// null
     assertNull(typeAliasRegistry.resolveAlias("foo"));
   }
 
+  // 如果已经注册的 别名对应类型为null 则可以再次注册其他的类型
   @Test
   void shouldBeAbleToRegisterNewTypeIfRegisteredTypeIsNull() {
-    // 如果已经注册的 别名对应类型为null 则可以再次注册新的类型
     typeAliasRegistry.registerAlias("foo", (Class<?>) null);
     typeAliasRegistry.registerAlias("foo", String.class);
-    System.out.println(typeAliasRegistry.resolveAlias("foo"));//  class java.lang.String
+    assertEquals(String.class, typeAliasRegistry.resolveAlias("foo"));
   }
 
 }

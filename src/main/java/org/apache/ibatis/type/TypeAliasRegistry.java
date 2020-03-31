@@ -161,11 +161,10 @@ public class TypeAliasRegistry {
     registerAlias(alias, type);
   }
 
-
   /**
-   *
-   * @param alias -
-   * @param value -
+   * 注册别名功能
+   * @param alias - 要注册的别名 eg: "rich"
+   * @param value - 全限定类名   eg: "org.apache.ibatis.domain.misc.RichType"
    */
   public void registerAlias(String alias, String value) {
     try {
