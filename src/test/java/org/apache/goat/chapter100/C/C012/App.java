@@ -34,7 +34,7 @@ import java.util.Map;
  * 		2、jdbcTypeForNull=NULL ;      即<setting name="jdbcTypeForNull" value="NULL"/>
  *
 */
-class App2 extends MyBaseDataTest {
+class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C012/mybatis-config.xml";
 

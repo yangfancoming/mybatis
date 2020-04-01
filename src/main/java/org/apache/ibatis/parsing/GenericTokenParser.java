@@ -29,7 +29,6 @@ public class GenericTokenParser {
     this.openToken = openToken;
     this.closeToken = closeToken;
     this.handler = handler;
-//    log.warn("构造函数 202001081047：GenericTokenParser 地址：" + this);
   }
 
   /**
@@ -38,9 +37,7 @@ public class GenericTokenParser {
    * @param text 待解析文本节点   "\n	 select * from tbl_employee where id = #{id} \n "
    */
   public String parse(String text) {
-    if (text == null || text.isEmpty()) {
-      return "";
-    }
+    if (text == null || text.isEmpty()) return "";
     // search open token   //查找开始标记 openToken 即："${ " 在text中的位置，indexOf函数的返回值-1表示不存在，0表示在在开头的位置
     int start = text.indexOf(openToken);
     if (start == -1) {

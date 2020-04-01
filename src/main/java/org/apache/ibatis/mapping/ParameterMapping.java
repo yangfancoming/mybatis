@@ -12,9 +12,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 public class ParameterMapping {
 
   private Configuration configuration;
-  /**
-   * 必填
-   */
+  /** 必填*/
   private String property;
   /**
    * mode 属性允许你指定 IN，OUT 或 INOUT 参数。如果参数为 OUT 或 INOUT，参数对象属性的真实值将会被改变，就像你在获取输出参数时所期望的那样。
@@ -23,23 +21,19 @@ public class ParameterMapping {
   private ParameterMode mode;
   private Class<?> javaType = Object.class;
   private JdbcType jdbcType;
-  /**
-   * 小数点后保留的位数
-   */
+  /** 小数点后保留的位数 */
   private Integer numericScale;
-  /**
-   * 类型处理器
-   */
+  /** 类型处理器 */
   private TypeHandler<?> typeHandler;
   private String resultMapId;
   private String jdbcTypeName;
   private String expression;
 
-  // 此处的构造方法私有，通过内部类的build设计模式，来创建和初始化对象
-  private ParameterMapping() {
-  }
+  // 私有构造方法，通过内部类的build设计模式，来创建和初始化对象
+  private ParameterMapping() { }
 
   public static class Builder {
+
     private ParameterMapping parameterMapping = new ParameterMapping();
 
     public Builder(Configuration configuration, String property, TypeHandler<?> typeHandler) {
@@ -105,8 +99,7 @@ public class ParameterMapping {
     private void validate() {
       if (ResultSet.class.equals(parameterMapping.javaType)) {
         if (parameterMapping.resultMapId == null) {
-          throw new IllegalStateException("Missing resultmap in property '" + parameterMapping.property + "'.  "
-              + "Parameters of type java.sql.ResultSet require a resultmap.");
+          throw new IllegalStateException("Missing resultmap in property '" + parameterMapping.property + "'. Parameters of type java.sql.ResultSet require a resultmap.");
         }
       } else {
         if (parameterMapping.typeHandler == null) {

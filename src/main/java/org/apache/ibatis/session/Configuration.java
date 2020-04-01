@@ -18,7 +18,6 @@ import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.ResultMapResolver;
 import org.apache.ibatis.builder.annotation.MethodResolver;
-import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.decorators.FifoCache;
@@ -90,7 +89,6 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * Configuration是mybatis的各种环境信息、数据源、插件、解析后的sqlMap等存储的类结构，是mybatis非常核心的一个配置信息类。
  * Configuration类主要是用来存储对Mybatis的配置文件及mapper文件解析后的数据，Configuration对象会贯穿整个Mybatis的执行流程，为Mybatis的执行过程提供必要的配置信息。
  *
- *
  * 外观模式
  * 在Configuration中一组newExecutor、newMetaObject、newStatementHandler、newResultSetHandler、newParameterHandler方法，其他类需要这些对象时都使用这些方法创建
  * 再来看看其中的newMetaObject方法都有哪些调用者
@@ -137,8 +135,7 @@ public class Configuration {
    默认值为 SESSION，这种情况下会缓存一个会话中执行的所有查询。
    若设置值为 STATEMENT，本地会话仅用在语句执行上，对相同 SqlSession 的不同调用将不会共享数据。*/
   protected LocalCacheScope localCacheScope = LocalCacheScope.SESSION;
-  /*当没有为参数提供特定的 JDBC 类型时，为空值指定 JDBC 类型。
-    某些驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。*/
+  /*当没有为参数提供特定的 JDBC 类型时，为空值指定 JDBC 类型。 某些驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。*/
   protected JdbcType jdbcTypeForNull = JdbcType.OTHER;
   //指定哪个对象的方法触发一次延迟加载。
   protected Set<String> lazyLoadTriggerMethods = new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString"));
@@ -275,11 +272,11 @@ public class Configuration {
     return logImpl;
   }
 
+
   public void setLogImpl(Class<? extends Log> logImpl) {
-    if (logImpl != null) {
-      this.logImpl = logImpl;
-      LogFactory.useCustomLogging(this.logImpl);
-    }
+    if (logImpl == null) return; // -modify
+    this.logImpl = logImpl;
+    LogFactory.useCustomLogging(this.logImpl);
   }
 
   public Class<? extends VFS> getVfsImpl() {
@@ -287,10 +284,9 @@ public class Configuration {
   }
 
   public void setVfsImpl(Class<? extends VFS> vfsImpl) {
-    if (vfsImpl != null) {
-      this.vfsImpl = vfsImpl;
-      VFS.addImplClass(this.vfsImpl);
-    }
+    if (vfsImpl == null) return; // -modify
+    this.vfsImpl = vfsImpl;
+    VFS.addImplClass(this.vfsImpl);
   }
 
   public boolean isCallSettersOnNulls() {
@@ -569,9 +565,7 @@ public class Configuration {
   }
 
   public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
-    if (driver == null) {
-      driver = XMLLanguageDriver.class;
-    }
+    if (driver == null) driver = XMLLanguageDriver.class;
     getLanguageRegistry().setDefaultDriverClass(driver);
   }
 

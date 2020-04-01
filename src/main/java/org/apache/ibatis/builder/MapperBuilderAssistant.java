@@ -70,33 +70,23 @@ public class MapperBuilderAssistant extends BaseBuilder {
     if (base == null)  return null; // modify-
     if (isReference) {
       // is it qualified with any namespace yet?
-      if (base.contains(".")) {
-        return base;
-      }
+      if (base.contains("."))  return base;
     } else {
       // is it qualified with this namespace yet?
-      if (base.startsWith(currentNamespace + ".")) {
-        return base;
-      }
+      if (base.startsWith(currentNamespace + ".")) return base;
       // 如果crud的标签id中有.  eg:  <select id="selectById." parameterType="int" resultType="Foo">
-      if (base.contains(".")) {
-        throw new BuilderException("Dots are not allowed in element names, please remove it from " + base);
-      }
+      if (base.contains(".")) throw new BuilderException("Dots are not allowed in element names, please remove it from " + base);
     }
     // 其他代码都是校检，只有这一语业务代码。。。
     return currentNamespace + "." + base;
   }
 
   public Cache useCacheRef(String namespace) {
-    if (namespace == null) {
-      throw new BuilderException("cache-ref element requires a namespace attribute.");
-    }
+    if (namespace == null) throw new BuilderException("cache-ref element requires a namespace attribute.");
     try {
       unresolvedCacheRef = true;
       Cache cache = configuration.getCache(namespace);
-      if (cache == null) {
-        throw new IncompleteElementException("No cache for namespace '" + namespace + "' could be found.");
-      }
+      if (cache == null) throw new IncompleteElementException("No cache for namespace '" + namespace + "' could be found.");
       currentCache = cache;
       unresolvedCacheRef = false;
       return cache;
@@ -220,12 +210,9 @@ public class MapperBuilderAssistant extends BaseBuilder {
       LanguageDriver lang,
       String resultSets) {
 
-    if (unresolvedCacheRef)
-      throw new IncompleteElementException("Cache-ref not yet resolved");
-
+    if (unresolvedCacheRef) throw new IncompleteElementException("Cache-ref not yet resolved");
     id = applyCurrentNamespace(id, false);
     boolean isSelect = (sqlCommandType == SqlCommandType.SELECT);
-
     MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, id, sqlSource, sqlCommandType)
         .resource(resource)
         .fetchSize(fetchSize)
@@ -248,7 +235,6 @@ public class MapperBuilderAssistant extends BaseBuilder {
     if (statementParameterMap != null) {
       statementBuilder.parameterMap(statementParameterMap);
     }
-
     // 解析出最终 sql 对应的 MappedStatement 后 保存到全局 Configuration 中
     MappedStatement statement = statementBuilder.build();
     configuration.addMappedStatement(statement);
@@ -383,9 +369,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
         javaType = metaResultType.getGetterType(property);
       }
     }
-    if (javaType == null) {
-      javaType = Object.class;
-    }
+    if (javaType == null) javaType = Object.class;
     return javaType;
   }
 
