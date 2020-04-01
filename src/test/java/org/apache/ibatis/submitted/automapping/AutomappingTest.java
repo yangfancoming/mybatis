@@ -1,33 +1,24 @@
 
 package org.apache.ibatis.submitted.automapping;
 
-import java.io.Reader;
-import java.util.List;
-
-import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.io.Resources;
+import org.apache.common.MyBaseDataTest;
 import org.apache.ibatis.session.AutoMappingBehavior;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AutomappingTest {
+import java.util.List;
 
-  private static SqlSessionFactory sqlSessionFactory;
-  private static SqlSession sqlSession;
-  private static  Mapper mapper;
+class AutomappingTest extends MyBaseDataTest {
 
-  @BeforeAll
-  static void setUp() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/automapping/mybatis-config.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-      sqlSession = sqlSessionFactory.openSession();
-      mapper = sqlSession.getMapper(Mapper.class);
-    }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/automapping/CreateDB.sql");
+  public static final String XMLPATH = "org/apache/ibatis/submitted/automapping/mybatis-config.xml";
+  public static final String DBSQL = "org/apache/ibatis/submitted/automapping/CreateDB.sql";
+  Mapper mapper;
+
+  @BeforeEach
+  public void beforeAll() throws Exception {
+    setUpByInputStream(XMLPATH,DBSQL);
+    mapper = sqlSession.getMapper(Mapper.class);
   }
 
   @Test

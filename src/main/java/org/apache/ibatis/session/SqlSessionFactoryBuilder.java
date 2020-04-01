@@ -32,7 +32,7 @@ public class SqlSessionFactoryBuilder {
     return build(reader, environment, null);
   }
 
-  // mybatis配置文件 + properties, 此时mybatis配置文件中可以不配置properties，也能使用${}形式
+  // mybatis配置文件 + properties, 此时mybatis配置文件中可以不配置 <properties> 标签 ，也能使用${}形式
   public SqlSessionFactory build(Reader reader, Properties properties) {
     return build(reader, null, properties);
   }

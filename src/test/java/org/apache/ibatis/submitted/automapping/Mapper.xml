@@ -4,11 +4,11 @@
 
 <mapper namespace="org.apache.ibatis.submitted.automapping.Mapper">
 
+  <resultMap type="org.apache.ibatis.submitted.automapping.User" id="result" autoMapping="true"/>
+
 	<select id="getUser" resultMap="result">
 		select id, name from users where id = #{id}
 	</select>
-
-	<resultMap type="org.apache.ibatis.submitted.automapping.User" id="result" autoMapping="true"> </resultMap>
 
 
 	<select id="getUserWithPhoneNumber" resultMap="resultWithPhoneNumber">
@@ -20,9 +20,7 @@
 	</resultMap>
 
 	<sql id="selectUserPetBreeder">
-		select users.id, users.name,
-			pets.id as petId, pets.name as petName,
-			breeder.id as breederId, breeder.name as breederName
+		select users.id, users.name,pets.id as petId, pets.name as petName,breeder.id as breederId, breeder.name as breederName
 		from users
 		left join pets on pets.owner = users.id
 		left join breeder on breeder.id = pets.breeder

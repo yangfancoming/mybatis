@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  存储每条sql语句的详细信息
+ *  存储每条sql语句的详细信息，即： 每一个<select>、<insert>、<update>、<delete> 标签，都会被解析为一个 MapperStatement 对象。
+ *
  *  在mapper xml文件中，我们会将各种动态sql写在该映射文件中，mybatis解析过后，会按语句为单位将信息放在MappedStatement中。
  *  对应： SQL节点：
  *   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
@@ -24,7 +25,6 @@ import java.util.List;
  *
  *   映射配置文件中定义的SQL节点会被解析成 MappedStatement 对象
  *   其中的 SQL 语句会被解析成 SqlSource 对象 ， SQL 语句中定义的动态 SQL节点、文本节点等，则由sqlNode 接口的相应实现表示。
- *
 */
 public final class MappedStatement {
 
@@ -74,6 +74,7 @@ public final class MappedStatement {
   }
 
   public static class Builder {
+
     private MappedStatement mappedStatement = new MappedStatement();
 
     public Builder(Configuration configuration, String id, SqlSource sqlSource, SqlCommandType sqlCommandType) {

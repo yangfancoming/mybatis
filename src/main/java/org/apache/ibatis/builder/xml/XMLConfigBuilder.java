@@ -312,19 +312,17 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private void objectWrapperFactoryElement(XNode context) throws Exception {
-    if (context != null) {
-      String type = context.getStringAttribute("type");
-      ObjectWrapperFactory factory = (ObjectWrapperFactory) resolveClass(type).newInstance();
-      configuration.setObjectWrapperFactory(factory);
-    }
+    if (context == null) return; // -modify
+    String type = context.getStringAttribute("type");
+    ObjectWrapperFactory factory = (ObjectWrapperFactory) resolveClass(type).newInstance();
+    configuration.setObjectWrapperFactory(factory);
   }
 
   private void reflectorFactoryElement(XNode context) throws Exception {
-    if (context != null) {
-      String type = context.getStringAttribute("type");
-      ReflectorFactory factory = (ReflectorFactory) resolveClass(type).newInstance();
-      configuration.setReflectorFactory(factory);
-    }
+    if (context == null) return; // -modify
+    String type = context.getStringAttribute("type");
+    ReflectorFactory factory = (ReflectorFactory) resolveClass(type).newInstance();
+    configuration.setReflectorFactory(factory);
   }
 
   /**
@@ -369,9 +367,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
     // 获取configuration中原本的属性，并添加至defaults容器中
     Properties vars = configuration.getVariables();
-    if (vars != null) {
-      defaults.putAll(vars);
-    }
+    if (vars != null) defaults.putAll(vars);
     parser.setVariables(defaults);
     configuration.setVariables(defaults);
     log.warn(  " propertiesElement()：解析<properties> 标签完毕 ：" +  defaults);
