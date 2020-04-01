@@ -9,10 +9,7 @@ import java.time.Month;
 import org.apache.ibatis.executor.result.ResultMapException;
 import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author Eduardo Macarron
- */
+
 class MonthTypeHandlerTest extends BaseTypeHandlerTest {
 
   private static final TypeHandler<Month> TYPE_HANDLER = new MonthTypeHandler();

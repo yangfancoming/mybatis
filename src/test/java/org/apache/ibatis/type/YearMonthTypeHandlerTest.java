@@ -8,9 +8,7 @@ import java.time.YearMonth;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Björn Raupach
- */
+
 class YearMonthTypeHandlerTest extends BaseTypeHandlerTest {
 
   private static final TypeHandler<YearMonth> TYPE_HANDLER = new YearMonthTypeHandler();

@@ -25,9 +25,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link BlobInputStreamTypeHandler}.
- *
  * @since 3.4.0
- * @author Kazuki Shimizu
  */
 class BlobInputStreamTypeHandlerTest extends BaseTypeHandlerTest {
 
@@ -46,9 +44,7 @@ class BlobInputStreamTypeHandlerTest extends BaseTypeHandlerTest {
     Configuration configuration = new Configuration(environment);
     configuration.addMapper(Mapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/type/BlobInputStreamTypeHandlerTest.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/type/BlobInputStreamTypeHandlerTest.sql");
   }
 
   @Override

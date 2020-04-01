@@ -19,17 +19,13 @@ import org.junit.jupiter.api.Test;
 
 /*
  * Test for NPE when using extends.
- *
- * @author poitrac
  */
 class NpeExtendsTest {
 
     @BeforeAll
     static void initDatabase() throws Exception {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryWithConstructor();
-
-        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-                "org/apache/ibatis/submitted/extends_with_constructor/CreateDB.sql");
+        BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/extends_with_constructor/CreateDB.sql");
     }
 
     @Test

@@ -39,8 +39,8 @@ public abstract class BaseBuilder {
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
   public BaseBuilder(Configuration configuration) {
+    log.warn(  " 构造函数1740：this.configuration 地址：" + configuration);
     this.configuration = configuration;
-    log.warn(  " 构造函数1740：this.configuration 地址：" + this.configuration);
     this.typeAliasRegistry = this.configuration.getTypeAliasRegistry();
     this.typeHandlerRegistry = this.configuration.getTypeHandlerRegistry();
   }
@@ -72,9 +72,7 @@ public abstract class BaseBuilder {
 
   // 根据别名查询对应的JDBC数据类型,JdbcType是mybatis对java.sql.Types的一次包装,并且是个枚举类,详细的信息可以查看org.apache.ibatis.type.JdbcType
   protected JdbcType resolveJdbcType(String alias) {
-    if (alias == null) {
-      return null;
-    }
+    if (alias == null) return null;
     try {
       return JdbcType.valueOf(alias);
     } catch (IllegalArgumentException e) {
@@ -89,9 +87,7 @@ public abstract class BaseBuilder {
    ResultSet.TYPE_SCROLL_SENSITIVE 返回可滚动的结果集，当数据库变化时，当前结果集同步改变。
   */
   protected ResultSetType resolveResultSetType(String alias) {
-    if (alias == null) {
-      return null;
-    }
+    if (alias == null) return null;
     try {
       return ResultSetType.valueOf(alias);
     } catch (IllegalArgumentException e) {
@@ -101,9 +97,7 @@ public abstract class BaseBuilder {
 
   // 根据别名获取ParameterMode类型,可选值为IN, OUT, INOUT,详细信息可参照org.apache.ibatis.mapping.ParameterMode类
   protected ParameterMode resolveParameterMode(String alias) {
-    if (alias == null) {
-      return null;
-    }
+    if (alias == null) return null;
     try {
       return ParameterMode.valueOf(alias);
     } catch (IllegalArgumentException e) {
@@ -113,9 +107,7 @@ public abstract class BaseBuilder {
 
   protected Object createInstance(String alias) {
     Class<?> clazz = resolveClass(alias);
-    if (clazz == null) {
-      return null;
-    }
+    if (clazz == null) return null;
     try {
       return resolveClass(alias).newInstance();
     } catch (Exception e) {
@@ -133,9 +125,7 @@ public abstract class BaseBuilder {
   }
 
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, String typeHandlerAlias) {
-    if (typeHandlerAlias == null) {
-      return null;
-    }
+    if (typeHandlerAlias == null) return null;
     //通过类型别名映射解析别名
     Class<?> type = resolveClass(typeHandlerAlias);
     //如果type不为null且type不为TypeHandler接口的实现类，抛出异常
@@ -149,9 +139,7 @@ public abstract class BaseBuilder {
   }
 
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, Class<? extends TypeHandler<?>> typeHandlerType) {
-    if (typeHandlerType == null) {
-      return null;
-    }
+    if (typeHandlerType == null)  return null;
     // javaType ignored for injected handlers see issue #746 for full detail
     //从类型处理器注册器中获取typeHandlerType类实例对应的TypeHandler对象
     TypeHandler<?> handler = typeHandlerRegistry.getMappingTypeHandler(typeHandlerType);
@@ -163,8 +151,8 @@ public abstract class BaseBuilder {
     return handler;
   }
 
+  // 通过别名注册器解析别名对于的类型 Class
   protected <T> Class<? extends T> resolveAlias(String alias) {
-    // 通过别名注册器解析别名对于的类型 Class
     return typeAliasRegistry.resolveAlias(alias);
   }
 }

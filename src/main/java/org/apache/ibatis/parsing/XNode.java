@@ -306,7 +306,6 @@ public class XNode {
    * 输入示例：   getChildrenAsProperties("name", "value");
    * 输出结果：   key：mapUnderscoreToCamelCase  value：true
    * 输出结果：   key：cacheEnabled              value：false
-   * @author goat
    * @date 2018/7/11
    * @return  Properties
    */

@@ -14,7 +14,6 @@ public interface Interceptor {
   //插入 // 这个方法是对拦截器的包装， 如果不包装的话它是不会被加入到拦截器链中 其实就是生成代理对象；
   /**
    * @Description: 包装
-   * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param target 目标对象，需要被代理的对象
    * @return 成功包装后的对象

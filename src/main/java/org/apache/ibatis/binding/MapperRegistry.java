@@ -54,7 +54,6 @@ public class MapperRegistry {
 
   /**
    * @Description: 包装
-   * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param type interface org.apache.goat.chapter100.C010.EmployeeMapper
    * @param type interface org.apache.goat.chapter100.A044.ZooMapper

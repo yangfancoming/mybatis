@@ -16,7 +16,6 @@ public interface LanguageDriver {
    * @param mappedStatement The mapped statement that is being executed
    * @param parameterObject The input parameter object (can be null)
    * @param boundSql The resulting SQL once the dynamic language has been executed.
-   * @author Frank D. Martinez [mnesarco]
    * @see DefaultParameterHandler
    */
   ParameterHandler createParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql);

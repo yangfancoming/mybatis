@@ -27,9 +27,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link ClobReaderTypeHandler}.
- *
  * @since 3.4.0
- * @author Kazuki Shimizu
  */
 class ClobReaderTypeHandlerTest extends BaseTypeHandlerTest {
 
@@ -48,9 +46,7 @@ class ClobReaderTypeHandlerTest extends BaseTypeHandlerTest {
     Configuration configuration = new Configuration(environment);
     configuration.addMapper(Mapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/type/ClobReaderTypeHandlerTest.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/type/ClobReaderTypeHandlerTest.sql");
   }
 
   @Override

@@ -43,7 +43,6 @@ public class PropertyParser {
 
   /**
    * @Description: 解析
-   * @author fan.yang
    * @date 2019年11月13日20:13:32
    * @param string 待解析的字符串
    * @param variables 属性替换集合

@@ -7,7 +7,6 @@ import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 
 /**
  * @since #444
- * @author Kazuki Shimizu
  */
 public interface PersonMapper {
 

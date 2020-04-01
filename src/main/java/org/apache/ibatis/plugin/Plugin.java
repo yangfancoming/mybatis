@@ -49,7 +49,6 @@ public class Plugin implements InvocationHandler {
 */
   /**
    * @Description: 包装
-   * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param target 要包装的目标对象
    * @param interceptor 指定要用哪个拦截器进行包装
@@ -74,7 +73,6 @@ public class Plugin implements InvocationHandler {
 
   /**
    * @Description:
-   * @author fan.yang
    * @date 2019年10月28日19:03:13
    * @param proxy 当前的代理对象
    * @param method 当前执行的方法

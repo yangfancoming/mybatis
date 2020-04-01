@@ -41,7 +41,6 @@ public class PropertyParser {
 
   /**
    * @Description: 根据指定的占位符数据字典 解析传入的字符串
-   * @author fan.yang
    * @date 2019年11月13日20:13:32
    * @param string 待解析的字符串  eg: "${key1}"
    * @param variables Properties 占位符替换字典 里面包含了 要替换成的值 eg:  props.setProperty("key1", "goat");

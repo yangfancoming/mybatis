@@ -11,7 +11,6 @@ import java.sql.SQLException;
 /**
  * The {@link TypeHandler} for {@link Blob}/{@link InputStream} using method supported at JDBC 4.0.
  * @since 3.4.0
- * @author Kazuki Shimizu
  */
 public class BlobInputStreamTypeHandler extends BaseTypeHandler<InputStream> {
 

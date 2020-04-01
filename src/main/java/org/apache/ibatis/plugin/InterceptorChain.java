@@ -20,7 +20,6 @@ public class InterceptorChain {
 
   /**
    * @Description: 包装
-   * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param target 目标对象，需要被代理的对象
    *               这个是Executor、ParameterHandler、ResultSetHandler、StatementHandler接口的实现类，

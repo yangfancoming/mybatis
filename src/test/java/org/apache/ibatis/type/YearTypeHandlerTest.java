@@ -8,10 +8,7 @@ import java.time.Year;
 
 import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author Eduardo Macarron
- */
+
 class YearTypeHandlerTest extends BaseTypeHandlerTest {
 
   private static final TypeHandler<Year> TYPE_HANDLER = new YearTypeHandler();

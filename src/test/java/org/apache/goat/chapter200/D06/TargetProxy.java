@@ -31,7 +31,6 @@ public class TargetProxy implements InvocationHandler {
 
   /**
    * @Description: 包装
-   * @author fan.yang
    * @date 2019年10月27日21:11:26
    * @param method public abstract java.lang.String org.apache.goat.chapter200.D05.Target.execute(java.lang.String)
    * @param args "HelloWord"

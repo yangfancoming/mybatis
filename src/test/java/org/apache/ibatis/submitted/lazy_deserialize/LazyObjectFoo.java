@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 /**
  * @since 2011-04-06T10:57:30+0200
- * @author Franta Mejta
  */
 public class LazyObjectFoo implements Serializable {
 
