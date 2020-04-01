@@ -16,44 +16,36 @@ import org.junit.jupiter.api.Test;
 class DoNotCallSettersOnNullsTest {
 
   private static SqlSessionFactory sqlSessionFactory;
+  private static SqlSession sqlSession;
 
   @BeforeAll
   static void setUp() throws Exception {
-
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/call_setters_on_nulls/mybatis-config-2.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+      sqlSession = sqlSessionFactory.openSession();
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/call_setters_on_nulls/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/call_setters_on_nulls/CreateDB.sql");
   }
 
   @Test
   void shouldCallNullOnMappedProperty() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-      User user = mapper.getUserMapped(1);
-      Assertions.assertFalse(user.nullReceived);
-    }
+    Mapper mapper = sqlSession.getMapper(Mapper.class);
+    User user = mapper.getUserMapped(1);
+    Assertions.assertFalse(user.nullReceived);
   }
 
   @Test
   void shouldCallNullOnAutomaticMapping() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-      User user = mapper.getUserUnmapped(1);
-      Assertions.assertFalse(user.nullReceived);
-    }
+    Mapper mapper = sqlSession.getMapper(Mapper.class);
+    User user = mapper.getUserUnmapped(1);
+    Assertions.assertFalse(user.nullReceived);
   }
 
   @Test
   void shouldCallNullOnMap() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-      Mapper mapper = sqlSession.getMapper(Mapper.class);
-      Map user = mapper.getUserInMap(1);
-      Assertions.assertFalse(user.containsKey("NAME"));
-    }
+    Mapper mapper = sqlSession.getMapper(Mapper.class);
+    Map user = mapper.getUserInMap(1);
+    Assertions.assertFalse(user.containsKey("NAME"));
   }
 
 }

@@ -22,14 +22,10 @@ class JavassistTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/javassist/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/javassist/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/javassist/CreateDB.sql");
   }
 
   @Test

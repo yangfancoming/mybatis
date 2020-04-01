@@ -20,9 +20,7 @@ public class User {
   }
 
   public void setName(String name) {
-    if (name == null) {
-      nullReceived = true;
-    }
+    if (name == null) nullReceived = true;
     this.name = name;
   }
 }

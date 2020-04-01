@@ -54,10 +54,8 @@ public class MapperBuilderAssistant extends BaseBuilder {
   }
 
   public void setCurrentNamespace(String currentNamespace) {
-    if (currentNamespace == null)
-      throw new BuilderException("The mapper element requires a namespace attribute to be specified.");
-    if (this.currentNamespace != null && !this.currentNamespace.equals(currentNamespace))
-      throw new BuilderException("Wrong namespace. Expected '" + this.currentNamespace + "' but found '" + currentNamespace + "'.");
+    if (currentNamespace == null) throw new BuilderException("The mapper element requires a namespace attribute to be specified.");
+    if (this.currentNamespace != null && !this.currentNamespace.equals(currentNamespace)) throw new BuilderException("Wrong namespace. Expected '" + this.currentNamespace + "' but found '" + currentNamespace + "'.");
     this.currentNamespace = currentNamespace;
   }
 
@@ -137,13 +135,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
         .build();
   }
 
-  public ResultMap addResultMap(
-      String id,
-      Class<?> type,
-      String extend,
-      Discriminator discriminator,
-      List<ResultMapping> resultMappings,
-      Boolean autoMapping) {
+  public ResultMap addResultMap(String id,Class<?> type, String extend, Discriminator discriminator,List<ResultMapping> resultMappings, Boolean autoMapping) {
     id = applyCurrentNamespace(id, false);
     extend = applyCurrentNamespace(extend, true);
 

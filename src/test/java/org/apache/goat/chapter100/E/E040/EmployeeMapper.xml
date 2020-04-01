@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="org.apache.goat.chapter100.E.E040.EmployeeMapper">
-
-
 
   <select id="getEmpById" resultMap="MyEmpDis" >
     select * from tbl_employee where id = #{id}
@@ -28,10 +25,7 @@
     <discriminator javaType="string" column="gender">
       <!--女生  resultType:指定封装的结果类型；不能缺少。/resultMap-->
       <case value="0" resultType="org.apache.goat.common.model.Employee2">
-        <association property="dept"
-                     select="org.apache.goat.chapter100.E.E040.DepartmentMapper.getDeptById"
-                     column="id">
-        </association>
+        <association property="dept" column="id" select="org.apache.goat.chapter100.E.E040.DepartmentMapper.getDeptById"/>
       </case>
       <!--男生 ;如果是男生，把last_name这一列的值赋值给email; -->
       <case value="1" resultType="org.apache.goat.common.model.Employee2">

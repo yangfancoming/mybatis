@@ -323,7 +323,8 @@ public class XMLMapperBuilder extends BaseBuilder {
   private ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings, Class<?> enclosingType) throws Exception {
     ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
     // 获取<ResultMap>上的type属性（即resultMap的返回值类型）
-    String type = resultMapNode.getStringAttribute("type",resultMapNode.getStringAttribute("ofType",resultMapNode.getStringAttribute("resultType",resultMapNode.getStringAttribute("javaType"))));
+    String stringAttribute = resultMapNode.getStringAttribute("ofType", resultMapNode.getStringAttribute("resultType", resultMapNode.getStringAttribute("javaType")));
+    String type = resultMapNode.getStringAttribute("type",stringAttribute);
     // 将resultMap的返回值类型转换成Class对象
     Class<?> typeClass = resolveClass(type);
     if (typeClass == null) {
@@ -351,9 +352,9 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
     // 获取<ResultMap>上的id属性
     String id = resultMapNode.getStringAttribute("id", resultMapNode.getValueBasedIdentifier());
-    // 获取extends属性
+    // 获取extends 属性
     String extend = resultMapNode.getStringAttribute("extends");
-    // 获取autoMapping属性
+    // 获取autoMapping 属性
     Boolean autoMapping = resultMapNode.getBooleanAttribute("autoMapping");
     // ResultMapResolver的作用是生成ResultMap对象，并将其加入到Configuration对象的resultMaps容器中（具体过程见下）
     ResultMapResolver resultMapResolver = new ResultMapResolver(builderAssistant, id, typeClass, extend, discriminator, resultMappings, autoMapping);

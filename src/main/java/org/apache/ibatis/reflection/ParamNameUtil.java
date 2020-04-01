@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class ParamNameUtil {
 
+  // -modify
+
   public static List<String> getParamNames(Method method) {
     return getParameterNames(method);
   }
@@ -24,7 +26,4 @@ public class ParamNameUtil {
     return collect;
   }
 
-  private ParamNameUtil() {
-    super();
-  }
 }

@@ -19,7 +19,6 @@
       </dataSource>
     </environment>
 
-
     <!--正式环境环境mysql数据库-->
     <environment id="pro_mysql">
       <transactionManager type="JDBC" />
@@ -32,7 +31,6 @@
     </environment>
 
   </environments>
-
 
   <mappers>
     <mapper resource="org/apache/goat/chapter100/E/E010/EmployeeMapper.xml"/>

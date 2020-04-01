@@ -193,7 +193,7 @@ public class Configuration {
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection").conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
   //对应Mapper.xml里配置的cache  //mapper文件中配置cache节点的 二级缓存
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
-  //对应Mapper.xml里的ResultMap  //mapper文件中配置的所有resultMap对象  key为命名空间+ID
+  //对应Mapper.xml里配置的所有resultMap对象  key为命名空间+ID
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
   //对应Mapper.xml里的ParameterMap
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");

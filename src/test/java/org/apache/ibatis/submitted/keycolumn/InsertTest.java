@@ -28,14 +28,11 @@ class InsertTest {
   @BeforeAll
   static void setUp() throws Exception {
     Configuration configuration = new Configuration();
-    Environment environment = new Environment("development", new JdbcTransactionFactory(),
-        PgContainer.getUnpooledDataSource());
+    Environment environment = new Environment("development", new JdbcTransactionFactory(), PgContainer.getUnpooledDataSource());
     configuration.setEnvironment(environment);
     configuration.addMapper(InsertMapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/submitted/keycolumn/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/keycolumn/CreateDB.sql");
   }
 
   @Test
@@ -45,9 +42,7 @@ class InsertTest {
       Name name = new Name();
       name.setFirstName("Fred");
       name.setLastName("Flintstone");
-
       int rows = mapper.insertNameAnnotated(name);
-
       assertNotNull(name.getId());
       assertEquals(1, rows);
     }
@@ -60,9 +55,7 @@ class InsertTest {
       Name name = new Name();
       name.setFirstName("Fred");
       name.setLastName("Flintstone");
-
       int rows = mapper.insertNameMapped(name);
-
       assertNotNull(name.getId());
       assertEquals(1, rows);
     }

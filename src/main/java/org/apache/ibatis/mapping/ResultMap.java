@@ -65,9 +65,7 @@ public class ResultMap {
     }
 
     public ResultMap build() {
-      if (resultMap.id == null) {
-        throw new IllegalArgumentException("ResultMaps must have an id");
-      }
+      if (resultMap.id == null) throw new IllegalArgumentException("ResultMaps must have an id");
       resultMap.mappedColumns = new HashSet<>();
       resultMap.mappedProperties = new HashSet<>();
       resultMap.idResultMappings = new ArrayList<>();
