@@ -34,7 +34,7 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E040/EmployeeMapper.xml"/>
-    <mapper resource="org/apache/goat/chapter100/E040/DepartmentMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E/E040/EmployeeMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E/E040/DepartmentMapper.xml"/>
   </mappers>
 </configuration>
