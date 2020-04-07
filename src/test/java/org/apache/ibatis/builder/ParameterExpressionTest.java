@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class ParameterExpressionTest {
 
-  // 测试 简单属性测试
+  // 测试 无符号 property
   @Test
   void simpleProperty() {
     Map<String, String> result = new ParameterExpression("id");
@@ -15,7 +15,7 @@ class ParameterExpressionTest {
     Assertions.assertEquals("id", result.get("property"));
   }
 
-  // 测试 属性值中间空白符
+  // 测试 无符号 property 属性值中间空白符
   @Test
   void propertyWithSpacesInside() {
     Map<String, String> result = new ParameterExpression(" with spaces ");

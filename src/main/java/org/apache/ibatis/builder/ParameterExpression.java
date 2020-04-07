@@ -32,6 +32,13 @@ public class ParameterExpression extends HashMap<String, String> {
 
   private static final long serialVersionUID = -2417552199605158680L;
 
+  // -modify
+  private static final Character JDBCTYPE = ':';
+
+  private static final Character EXPRESSION = '(';
+
+  private static final Character ATTRIBUTE = ',';
+
   public ParameterExpression(String expression) {
     parse(expression);
   }
@@ -39,7 +46,7 @@ public class ParameterExpression extends HashMap<String, String> {
   // 解析表达式入口  以括号确定
   private void parse(String expression) {
     int p = skipWS(expression, 0);
-    if (expression.charAt(p) == '(') {
+    if (expression.charAt(p) == EXPRESSION) {
       expression(expression, p + 1);
     } else {
       property(expression, p);
@@ -53,7 +60,7 @@ public class ParameterExpression extends HashMap<String, String> {
     while (match > 0) {
       if (expression.charAt(right) == ')') {
         match--;
-      } else if (expression.charAt(right) == '(') {
+      } else if (expression.charAt(right) == EXPRESSION) {
         match++;
       }
       right++;
@@ -118,9 +125,9 @@ public class ParameterExpression extends HashMap<String, String> {
   private void jdbcTypeOpt(String expression, int p) {
     p = skipWS(expression, p);
     if (p < expression.length()) {
-      if (expression.charAt(p) == ':') {
+      if (expression.charAt(p) == Character.valueOf(JDBCTYPE)) {
         jdbcType(expression, p + 1);
-      } else if (expression.charAt(p) == ',') {
+      } else if (expression.charAt(p) == ATTRIBUTE) {
         option(expression, p + 1);
       } else {
         throw new BuilderException("Parsing error in {" + expression + "} in position " + p);
@@ -135,7 +142,7 @@ public class ParameterExpression extends HashMap<String, String> {
    */
   private void jdbcType(String expression, int p) {
     int left = skipWS(expression, p);
-    int right = skipUntil(expression, left, ",");
+    int right = skipUntil(expression, left, String.valueOf(ATTRIBUTE));
     if (right > left) {
       put("jdbcType", trimmedStr(expression, left, right));
     } else {
@@ -155,7 +162,7 @@ public class ParameterExpression extends HashMap<String, String> {
       int right = skipUntil(expression, left, "=");
       String name = trimmedStr(expression, left, right);
       left = right + 1;
-      right = skipUntil(expression, left, ",");
+      right = skipUntil(expression, left, String.valueOf(ATTRIBUTE));
       String value = trimmedStr(expression, left, right);
       put(name, value);
       option(expression, right + 1);
