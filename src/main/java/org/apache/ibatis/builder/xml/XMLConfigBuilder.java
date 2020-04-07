@@ -190,14 +190,12 @@ public class XMLConfigBuilder extends BaseBuilder {
      *     <setting name="mapUnderscoreToCamelCase" value="true"/>
      *     <setting name="cacheEnabled" value="true" />
      *   </settings>
-     *
      * "mapUnderscoreToCamelCase" -> "true"
      * "cacheEnabled" -> "true"
      */
     Properties props = context.getChildrenAsProperties();
     for (Object key : props.keySet()) {
-      // 检测 Configuration 中是否存在相关属性，不存在则抛出异常
-      // 说白了就是判断 settings 标签中配置的name属性 必须得是mybatis内置的，不能是自己随便写的。
+      // 检测 Configuration 中是否存在相关属性，不存在则抛出异常 (说白了就是判断 settings 标签中配置的name属性 必须得是mybatis内置的，不能是自己随便写的。)
       if (!metaConfig.hasSetter(String.valueOf(key))) {
         throw new BuilderException("The setting " + key + " is not known.  Make sure you spelled it correctly (case sensitive).");
       }

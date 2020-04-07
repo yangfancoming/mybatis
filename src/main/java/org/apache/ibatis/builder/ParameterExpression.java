@@ -163,7 +163,7 @@ public class ParameterExpression extends HashMap<String, String> {
   }
 
   /**
-   * 去掉前后空格
+   * 只去掉前后空格 (字符串中间的不去掉)
    * @param str 字符串
    * @param start 开始位置
    * @param end 结束位置

@@ -11,7 +11,6 @@ public class App extends MyBaseJavaConfig {
    * MapperProxy 源码解析
    *  源码位置搜索串：else if (method.isDefault())
   */
-
   @Test
   public void defaultTest() {
     DefaultMapper mapper = getMapper(DefaultMapper.class);

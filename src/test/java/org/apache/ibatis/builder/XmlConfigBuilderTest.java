@@ -1,6 +1,7 @@
 
 package org.apache.ibatis.builder;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.math.RoundingMode;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Properties;
 
+import org.apache.common.MyBaseXmlConfig;
 import org.apache.ibatis.builder.mapper.CustomMapper;
 import org.apache.ibatis.builder.typehandler.CustomIntegerTypeHandler;
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
@@ -48,40 +50,38 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class XmlConfigBuilderTest {
+class XmlConfigBuilderTest extends MyBaseXmlConfig {
 
   @Test
-  void shouldSuccessfullyLoadMinimalXMLConfigFile() throws Exception {
-    String resource = "org/apache/ibatis/builder/MinimalMapperConfig.xml";
-    try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
-      Configuration config = builder.parse();
-      assertNotNull(config);
-      assertThat(config.getAutoMappingBehavior()).isEqualTo(AutoMappingBehavior.PARTIAL);
-      assertThat(config.getAutoMappingUnknownColumnBehavior()).isEqualTo(AutoMappingUnknownColumnBehavior.NONE);
-      assertThat(config.isCacheEnabled()).isTrue();
-      assertThat(config.getProxyFactory()).isInstanceOf(JavassistProxyFactory.class);
-      assertThat(config.isLazyLoadingEnabled()).isFalse();
-      assertThat(config.isAggressiveLazyLoading()).isFalse();
-      assertThat(config.isMultipleResultSetsEnabled()).isTrue();
-      assertThat(config.isUseColumnLabel()).isTrue();
-      assertThat(config.isUseGeneratedKeys()).isFalse();
-      assertThat(config.getDefaultExecutorType()).isEqualTo(ExecutorType.SIMPLE);
-      assertNull(config.getDefaultStatementTimeout());
-      assertNull(config.getDefaultFetchSize());
-      assertThat(config.isMapUnderscoreToCamelCase()).isFalse();
-      assertThat(config.isSafeRowBoundsEnabled()).isFalse();
-      assertThat(config.getLocalCacheScope()).isEqualTo(LocalCacheScope.SESSION);
-      assertThat(config.getJdbcTypeForNull()).isEqualTo(JdbcType.OTHER);
-      assertThat(config.getLazyLoadTriggerMethods()).isEqualTo(new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString")));
-      assertThat(config.isSafeResultHandlerEnabled()).isTrue();
-      assertThat(config.getDefaultScriptingLanuageInstance()).isInstanceOf(XMLLanguageDriver.class);
-      assertThat(config.isCallSettersOnNulls()).isFalse();
-      assertNull(config.getLogPrefix());
-      assertNull(config.getLogImpl());
-      assertNull(config.getConfigurationFactory());
-      assertThat(config.getTypeHandlerRegistry().getTypeHandler(RoundingMode.class)).isInstanceOf(EnumTypeHandler.class);
-    }
+  void shouldSuccessfullyLoadMinimalXMLConfigFile() throws IOException {
+    Configuration config = getConfiguration("org/apache/ibatis/builder/MinimalMapperConfig.xml");
+    assertNotNull(config);
+    assertEquals(AutoMappingBehavior.PARTIAL,config.getAutoMappingBehavior());
+    assertEquals(AutoMappingUnknownColumnBehavior.NONE,config.getAutoMappingUnknownColumnBehavior());
+    assertEquals(true,config.isCacheEnabled());
+
+    assertThat(config.getProxyFactory()).isInstanceOf(JavassistProxyFactory.class);
+    assertEquals(false,config.isLazyLoadingEnabled());
+
+    assertThat(config.isAggressiveLazyLoading()).isFalse();
+    assertThat(config.isMultipleResultSetsEnabled()).isTrue();
+    assertThat(config.isUseColumnLabel()).isTrue();
+    assertThat(config.isUseGeneratedKeys()).isFalse();
+    assertThat(config.getDefaultExecutorType()).isEqualTo(ExecutorType.SIMPLE);
+    assertNull(config.getDefaultStatementTimeout());
+    assertNull(config.getDefaultFetchSize());
+    assertThat(config.isMapUnderscoreToCamelCase()).isFalse();
+    assertThat(config.isSafeRowBoundsEnabled()).isFalse();
+    assertThat(config.getLocalCacheScope()).isEqualTo(LocalCacheScope.SESSION);
+    assertThat(config.getJdbcTypeForNull()).isEqualTo(JdbcType.OTHER);
+    assertThat(config.getLazyLoadTriggerMethods()).isEqualTo(new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString")));
+    assertThat(config.isSafeResultHandlerEnabled()).isTrue();
+    assertThat(config.getDefaultScriptingLanuageInstance()).isInstanceOf(XMLLanguageDriver.class);
+    assertThat(config.isCallSettersOnNulls()).isFalse();
+    assertNull(config.getLogPrefix());
+    assertNull(config.getLogImpl());
+    assertNull(config.getConfigurationFactory());
+    assertThat(config.getTypeHandlerRegistry().getTypeHandler(RoundingMode.class)).isInstanceOf(EnumTypeHandler.class);
   }
 
   enum MyEnum {
@@ -214,14 +214,10 @@ class XmlConfigBuilderTest {
 
   @Test  //  遍历 <properties> 标签   jdbc.properties 中4个属性  + 自定义3个属性 共遍历出7个
   void shouldSuccessfullyLoadXMLConfigFileWithPropertiesUrl() throws Exception {
-    String resource = "org/apache/ibatis/builder/PropertiesUrlMapperConfig.xml";
-    try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
-      XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
-      Configuration config = builder.parse();
-      Properties variables = config.getVariables();
-      variables.entrySet().stream().forEach(x->System.out.println(x.getKey()+ "---"+x.getValue()));
-      assertEquals(7,variables.size());
-    }
+    Configuration config = getConfiguration("org/apache/ibatis/builder/PropertiesUrlMapperConfig.xml");
+    Properties variables = config.getVariables();
+    variables.entrySet().stream().forEach(x->System.out.println(x.getKey()+ "---"+x.getValue()));
+    assertEquals(7,variables.size());
   }
 
   @Test // 全局配置文件只能被解析一次
@@ -247,8 +243,7 @@ class XmlConfigBuilderTest {
 
     XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
     when(builder).parse();
-    then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining("The setting foo is not known.  Make sure you spelled it correctly (case sensitive).");
+    then(caughtException()).isInstanceOf(BuilderException.class).hasMessageContaining("The setting foo is not known.  Make sure you spelled it correctly (case sensitive).");
   }
 
   @Test

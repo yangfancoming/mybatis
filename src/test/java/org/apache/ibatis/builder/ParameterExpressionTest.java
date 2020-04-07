@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 class ParameterExpressionTest {
 
+  // 测试 简单属性测试
   @Test
   void simpleProperty() {
     Map<String, String> result = new ParameterExpression("id");
@@ -14,6 +15,7 @@ class ParameterExpressionTest {
     Assertions.assertEquals("id", result.get("property"));
   }
 
+  // 测试 属性值中间空白符
   @Test
   void propertyWithSpacesInside() {
     Map<String, String> result = new ParameterExpression(" with spaces ");
@@ -21,22 +23,18 @@ class ParameterExpressionTest {
     Assertions.assertEquals("with spaces", result.get("property"));
   }
 
+  // 测试 ":" jdbcType
   @Test
   void simplePropertyWithOldStyleJdbcType() {
-    Map<String, String> result = new ParameterExpression("id:VARCHAR");
+    String temp = "id:VARCHAR";
+//    String temp = " id :  VARCHAR "; // 测试  jdbcType 再有额外的空白符情况下 也是可以正常工作的
+    Map<String, String> result = new ParameterExpression(temp);
     Assertions.assertEquals(2, result.size());
     Assertions.assertEquals("id", result.get("property"));
     Assertions.assertEquals("VARCHAR", result.get("jdbcType"));
   }
 
-  @Test
-  void oldStyleJdbcTypeWithExtraWhitespaces() {
-    Map<String, String> result = new ParameterExpression(" id :  VARCHAR ");
-    Assertions.assertEquals(2, result.size());
-    Assertions.assertEquals("id", result.get("property"));
-    Assertions.assertEquals("VARCHAR", result.get("jdbcType"));
-  }
-
+  // 测试 "(" expression
   @Test
   void expressionWithOldStyleJdbcType() {
     Map<String, String> result = new ParameterExpression("(id.toString()):VARCHAR");
@@ -45,6 +43,7 @@ class ParameterExpressionTest {
     Assertions.assertEquals("VARCHAR", result.get("jdbcType"));
   }
 
+  // 测试 ","  单个Attribute
   @Test
   void simplePropertyWithOneAttribute() {
     Map<String, String> result = new ParameterExpression("id,name=value");
@@ -53,6 +52,7 @@ class ParameterExpressionTest {
     Assertions.assertEquals("value", result.get("name"));
   }
 
+  // 测试 "(" expression  和 ","  单个Attribute
   @Test
   void expressionWithOneAttribute() {
     Map<String, String> result = new ParameterExpression("(id.toString()),name=value");
@@ -61,6 +61,7 @@ class ParameterExpressionTest {
     Assertions.assertEquals("value", result.get("name"));
   }
 
+  // 测试 ","  多个Attribute
   @Test
   void simplePropertyWithManyAttributes() {
     Map<String, String> result = new ParameterExpression("id, attr1=val1, attr2=val2, attr3=val3");
