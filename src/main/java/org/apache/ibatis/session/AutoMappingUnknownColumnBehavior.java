@@ -11,19 +11,14 @@ import org.apache.ibatis.mapping.MappedStatement;
  */
 public enum AutoMappingUnknownColumnBehavior {
 
-  /**
-   * Do nothing (Default).
-   */
+  // Do nothing (Default).
   NONE {
     @Override
-    public void doAction(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {
-      // do nothing
-    }
+    public void doAction(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {  /* do nothing */  }
   },
 
   /**
-   * Output warning log.
-   * Note: The log level of {@code 'org.apache.ibatis.session.AutoMappingUnknownColumnBehavior'} must be set to {@code WARN}.
+   * Output warning log. Note: The log level of {@code 'org.apache.ibatis.session.AutoMappingUnknownColumnBehavior'} must be set to {@code WARN}.
    */
   WARNING {
     @Override
@@ -33,8 +28,7 @@ public enum AutoMappingUnknownColumnBehavior {
   },
 
   /**
-   * Fail mapping.
-   * Note: throw {@link SqlSessionException}.
+   * Fail mapping. Note: throw {@link SqlSessionException}.
    */
   FAILING {
     @Override

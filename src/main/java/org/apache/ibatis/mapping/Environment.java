@@ -6,8 +6,8 @@ import javax.sql.DataSource;
 import org.apache.ibatis.transaction.TransactionFactory;
 
 /**
- * 全局配置文件中 具体指定的 项目运行环境
-*/
+ * MyBatis 可以配置成适应多种环境，这种机制有助于将 SQL 映射应用于多种数据库之中,比如设置不同的开发、测试、线上配置，在每个配置中可以配置事务管理器和数据源对象.
+ */
 public final class Environment {
 
   // 主标签   <environments default="dev_hsqldb"> 中的 dev_hsqldb

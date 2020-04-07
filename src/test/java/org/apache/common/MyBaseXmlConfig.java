@@ -16,4 +16,9 @@ public abstract class MyBaseXmlConfig {
       XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
       return builder.parse();
     }
+
+  public XMLConfigBuilder getXMLConfigBuilder(String resource) throws IOException {
+    InputStream inputStream = Resources.getResourceAsStream(resource);
+    return new XMLConfigBuilder(inputStream);
+  }
 }

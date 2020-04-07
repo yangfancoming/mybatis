@@ -55,7 +55,6 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
   @Test
   void shouldSuccessfullyLoadMinimalXMLConfigFile() throws IOException {
     Configuration config = getConfiguration("org/apache/ibatis/builder/MinimalMapperConfig.xml");
-    assertNotNull(config);
     assertEquals(AutoMappingBehavior.PARTIAL,config.getAutoMappingBehavior());
     assertEquals(AutoMappingUnknownColumnBehavior.NONE,config.getAutoMappingUnknownColumnBehavior());
     assertEquals(true,config.isCacheEnabled());
@@ -72,71 +71,25 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
     assertNull(config.getDefaultFetchSize());
     assertThat(config.isMapUnderscoreToCamelCase()).isFalse();
     assertThat(config.isSafeRowBoundsEnabled()).isFalse();
-    assertThat(config.getLocalCacheScope()).isEqualTo(LocalCacheScope.SESSION);
+    assertEquals(LocalCacheScope.SESSION,config.getLocalCacheScope());
+
     assertThat(config.getJdbcTypeForNull()).isEqualTo(JdbcType.OTHER);
     assertThat(config.getLazyLoadTriggerMethods()).isEqualTo(new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString")));
     assertThat(config.isSafeResultHandlerEnabled()).isTrue();
     assertThat(config.getDefaultScriptingLanuageInstance()).isInstanceOf(XMLLanguageDriver.class);
-    assertThat(config.isCallSettersOnNulls()).isFalse();
+    assertEquals(false,config.isCallSettersOnNulls());
     assertNull(config.getLogPrefix());
     assertNull(config.getLogImpl());
     assertNull(config.getConfigurationFactory());
     assertThat(config.getTypeHandlerRegistry().getTypeHandler(RoundingMode.class)).isInstanceOf(EnumTypeHandler.class);
   }
 
-  enum MyEnum {
-    ONE, TWO
-  }
-
-  public static class EnumOrderTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {
-
-    private E[] constants;
-
-    public EnumOrderTypeHandler(Class<E> javaType) {
-      constants = javaType.getEnumConstants();
-    }
-
-    @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType) throws SQLException {
-      ps.setInt(i, parameter.ordinal() + 1); // 0 means NULL so add +1
-    }
-
-    @Override
-    public E getNullableResult(ResultSet rs, String columnName) throws SQLException {
-      int index = rs.getInt(columnName) - 1;
-      return index < 0 ? null : constants[index];
-    }
-
-    @Override
-    public E getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-      int index = rs.getInt(rs.getInt(columnIndex)) - 1;
-      return index < 0 ? null : constants[index];
-    }
-
-    @Override
-    public E getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-      int index = cs.getInt(columnIndex) - 1;
-      return index < 0 ? null : constants[index];
-    }
-  }
-
   @Test
-  void registerJavaTypeInitializingTypeHandler() {
-    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-        + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
-        + "<configuration>\n"
-        + "  <typeHandlers>\n"
-        + "    <typeHandler javaType=\"org.apache.ibatis.builder.XmlConfigBuilderTest$MyEnum\"\n"
-        + "      handler=\"org.apache.ibatis.builder.XmlConfigBuilderTest$EnumOrderTypeHandler\"/>\n"
-        + "  </typeHandlers>\n"
-        + "</configuration>\n";
-
-    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+  void registerJavaTypeInitializingTypeHandler() throws Exception {
+    XMLConfigBuilder builder = getXMLConfigBuilder("org/apache/ibatis/builder/RegisterJavaTypeInitializingTypeHandler.xml");
     builder.parse();
-
     TypeHandlerRegistry typeHandlerRegistry = builder.getConfiguration().getTypeHandlerRegistry();
     TypeHandler<MyEnum> typeHandler = typeHandlerRegistry.getTypeHandler(MyEnum.class);
-
     assertTrue(typeHandler instanceof EnumOrderTypeHandler);
     assertArrayEquals(MyEnum.values(), ((EnumOrderTypeHandler<MyEnum>) typeHandler).constants);
   }
@@ -232,61 +185,66 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
   }
 
   @Test
-  void unknownSettings() {
-    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-            + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
-            + "<configuration>\n"
-            + "  <settings>\n"
-            + "    <setting name=\"foo\" value=\"bar\"/>\n"
-            + "  </settings>\n"
-            + "</configuration>\n";
-
-    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+  void unknownSettings() throws Exception {
+    XMLConfigBuilder builder = getXMLConfigBuilder("org/apache/ibatis/builder/UnknownSettings.xml");
     when(builder).parse();
     then(caughtException()).isInstanceOf(BuilderException.class).hasMessageContaining("The setting foo is not known.  Make sure you spelled it correctly (case sensitive).");
   }
 
   @Test
-  void knownSettings() {
-    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-      + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
-      + "<configuration>\n"
-      + "  <settings>\n"
-      + "    <setting name=\"cacheEnabled\" value=\"false\"/>\n"
-      + "  </settings>\n"
-      + "</configuration>\n";
-    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+  void knownSettings() throws Exception {
+    XMLConfigBuilder builder = getXMLConfigBuilder("org/apache/ibatis/builder/KnownSettings.xml");
     Configuration config = builder.parse();
     assertNotNull(config);
   }
 
   @Test
-  void unknownJavaTypeOnTypeHandler() {
-    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-            + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
-            + "<configuration>\n"
-            + "  <typeAliases>\n"
-            + "    <typeAlias type=\"a.b.c.Foo\"/>\n"
-            + "  </typeAliases>\n"
-            + "</configuration>\n";
-
-    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+  void unknownJavaTypeOnTypeHandler() throws Exception {
+    XMLConfigBuilder builder = getXMLConfigBuilder("org/apache/ibatis/builder/UnknownJavaTypeOnTypeHandler.xml");
     when(builder).parse();
-    then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining("Error registering typeAlias for 'null'. Cause: ");
+    then(caughtException()).isInstanceOf(BuilderException.class).hasMessageContaining("Error registering typeAlias for 'null'. Cause: ");
   }
 
   @Test
-  void propertiesSpecifyResourceAndUrlAtSameTime() {
-    final String MAPPER_CONFIG = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-            + "<!DOCTYPE configuration PUBLIC \"-//mybatis.org//DTD Config 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-config.dtd\">\n"
-            + "<configuration>\n"
-            + "  <properties resource=\"a/b/c/foo.properties\" url=\"file:./a/b/c/jdbc.properties\"/>\n"
-            + "</configuration>\n";
-
-    XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
+  void propertiesSpecifyResourceAndUrlAtSameTime() throws Exception {
+    XMLConfigBuilder builder = getXMLConfigBuilder("org/apache/ibatis/builder/PropertiesSpecifyResourceAndUrlAtSameTime.xml");
     when(builder).parse();
     then(caughtException()).isInstanceOf(BuilderException.class).hasMessageContaining("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
   }
 
+  enum MyEnum {
+    ONE, TWO
+  }
+
+  public static class EnumOrderTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {
+
+    private E[] constants;
+
+    public EnumOrderTypeHandler(Class<E> javaType) {
+      constants = javaType.getEnumConstants();
+    }
+
+    @Override
+    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType) throws SQLException {
+      ps.setInt(i, parameter.ordinal() + 1); // 0 means NULL so add +1
+    }
+
+    @Override
+    public E getNullableResult(ResultSet rs, String columnName) throws SQLException {
+      int index = rs.getInt(columnName) - 1;
+      return index < 0 ? null : constants[index];
+    }
+
+    @Override
+    public E getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+      int index = rs.getInt(rs.getInt(columnIndex)) - 1;
+      return index < 0 ? null : constants[index];
+    }
+
+    @Override
+    public E getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+      int index = cs.getInt(columnIndex) - 1;
+      return index < 0 ? null : constants[index];
+    }
+  }
 }

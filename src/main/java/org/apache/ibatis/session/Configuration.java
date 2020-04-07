@@ -98,10 +98,7 @@ public class Configuration {
 
   private static final Log log = LogFactory.getLog(Configuration.class);
 
-  /**  对应全局 xml 文件中的 <environments default="development"> 标签
-   * MyBatis 可以配置成适应多种环境，这种机制有助于将 SQL 映射应用于多种数据库之中,
-   * 比如设置不同的开发、测试、线上配置，在每个配置中可以配置事务管理器和数据源对象.
-   */
+  // 对应全局 xml 文件中的 <environments default="development"> 标签
   protected Environment environment;
   //允许在嵌套语句中使用分页（RowBounds）。如果允许使用则设置为false。
   protected boolean safeRowBoundsEnabled;
@@ -117,7 +114,7 @@ public class Configuration {
   protected boolean useGeneratedKeys;
   //使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
-  // 二级缓存开关对应全局xml配置 <setting name="cacheEnabled" value="false"/>  默认开启
+  // 二级缓存开关  对应全局xml配置 <setting name="cacheEnabled" value="false"/> 标签  默认开启
   protected boolean cacheEnabled = true;
   /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
@@ -142,24 +139,13 @@ public class Configuration {
   //设置超时时间，它决定驱动等待数据库响应的秒数。
   protected Integer defaultStatementTimeout;
   protected Integer defaultFetchSize;
-  /**
-   * 配置默认的执行器。
-  SIMPLE 就是普通的执行器；
-  REUSE 执行器会重用预处理语句（prepared statements）；
-  BATCH 执行器将重用语句并执行批量更新。
-   */
+  // 配置默认的执行器
   protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE; // 默认是 SimpleExecutor 实现类
-  /**
-   * 指定 MyBatis 应如何自动映射列到字段或属性。
-   * NONE 表示取消自动映射；
-   * PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集。
-   * FULL 会自动映射任意复杂的结果集（无论是否嵌套）。
-   */
+  // 设置mybatis 以哪种方式 自动映射结果集
   protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;
   protected AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior = AutoMappingUnknownColumnBehavior.NONE;
   // 对应全局 xml 文件中的 <properties> 标签  这里配置的属性可以在整个配置文件中使用 来替换需要动态配置的属性值
   protected Properties variables = new Properties();
-
   protected ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
   //对象创建工厂，默认的实现类DefaultObjectFactory，用来创建对象，比如传入List.class，利用反射返回ArrayList的实例
   protected ObjectFactory objectFactory = new DefaultObjectFactory();
@@ -377,7 +363,6 @@ public class Configuration {
   public void setAutoMappingBehavior(AutoMappingBehavior autoMappingBehavior) {
     this.autoMappingBehavior = autoMappingBehavior;
   }
-
 
   /** @since 3.4.0  */
   public AutoMappingUnknownColumnBehavior getAutoMappingUnknownColumnBehavior() {
