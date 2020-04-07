@@ -286,8 +286,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
 
     XMLConfigBuilder builder = new XMLConfigBuilder(new StringReader(MAPPER_CONFIG));
     when(builder).parse();
-    then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
+    then(caughtException()).isInstanceOf(BuilderException.class).hasMessageContaining("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
   }
 
 }
