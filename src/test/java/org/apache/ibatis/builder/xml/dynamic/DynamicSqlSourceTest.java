@@ -45,7 +45,6 @@ class DynamicSqlSourceTest extends BaseDataTest {
     final MixedSqlNode sqlNode = mixedContents(textSqlNode);
     DynamicSqlSource source = createDynamicSqlSource(sqlNode);
     BoundSql boundSql = source.getBoundSql(null);
-    System.out.println(boundSql.getSql());
     assertEquals(expected, boundSql.getSql());
   }
 
@@ -56,7 +55,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
   @Test
   void shouldDemonstrateMultipartExpectedTextWithNoLoopsOrConditionals() throws Exception {
     final String expected = "SELECT * FROM BLOG WHERE ID = ?";
-    DynamicSqlSource source = createDynamicSqlSource( textSqlNode, textSqlNode2);
+    DynamicSqlSource source = createDynamicSqlSource(textSqlNode, textSqlNode2);
     BoundSql boundSql = source.getBoundSql(null);
     System.out.println(boundSql.getSql());
     assertEquals(expected, boundSql.getSql());
@@ -364,8 +363,7 @@ class DynamicSqlSourceTest extends BaseDataTest {
 
   private DynamicSqlSource createDynamicSqlSource(SqlNode... contents) throws IOException, SQLException {
     createBlogDataSource();
-    final String resource = "org/apache/ibatis/builder/MapperConfig.xml";
-    final Reader reader = Resources.getResourceAsReader(resource);
+    final Reader reader = Resources.getResourceAsReader("org/apache/ibatis/builder/MapperConfig.xml");
     SqlSessionFactory sqlMapper = new SqlSessionFactoryBuilder().build(reader);
     Configuration configuration = sqlMapper.getConfiguration();
     MixedSqlNode sqlNode = mixedContents(contents);

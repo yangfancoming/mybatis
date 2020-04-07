@@ -3,7 +3,6 @@ package org.apache.ibatis.builder;
 
 import java.io.InputStream;
 import java.util.regex.Pattern;
-
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -13,10 +12,8 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.TypeHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import static com.googlecode.catchexception.apis.BDDCatchException.*;
 import static org.assertj.core.api.BDDAssertions.then;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class XmlMapperBuilderTest {

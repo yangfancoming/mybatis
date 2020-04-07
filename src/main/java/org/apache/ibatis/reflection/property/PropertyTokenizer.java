@@ -9,11 +9,9 @@ import java.util.Iterator;
    <result property="orders[0].items[1].name" column="col2"/>
    ...
  </resultMap>
-
- orders[0].items[0].name 这样的表达式是由 PropertyTokenizer 解析的，
- 其构造方法能够对表达式进行解析；同时还实现了 Iterator 接口，能够迭代解析表达式
-
- 该类会被reflection包中其他的类频繁的引用到。这个类实现了Iterator接口，在使用时经常被用到的是Iterator接口中的hasNext这个函数
+ orders[0].items[0].name 这样的表达式是由 PropertyTokenizer 解析的，其构造方法能够对表达式进行解析；
+ 同时还实现了 Iterator 接口，能够迭代解析表达式  该类会被reflection包中其他的类频繁的引用到。
+ 这个类实现了Iterator接口，在使用时经常被用到的是Iterator接口中的hasNext这个函数
 */
 
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {

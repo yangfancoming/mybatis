@@ -14,21 +14,23 @@ class ExpressionEvaluatorTest {
 
   private ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
+  Author author = new Author(1, "cbegin", "******", "cbegin@apache.org", "N/A", Section.NEWS);
+
   @Test
   void shouldCompareStringsReturnTrue() {
-    boolean value = evaluator.evaluateBoolean("username == 'cbegin'", new Author(1, "cbegin", "******", "cbegin@apache.org", "N/A", Section.NEWS));
+    boolean value = evaluator.evaluateBoolean("username == 'cbegin'", author);
     assertTrue(value);
   }
 
   @Test
   void shouldCompareStringsReturnFalse() {
-    boolean value = evaluator.evaluateBoolean("username == 'norm'", new Author(1, "cbegin", "******", "cbegin@apache.org", "N/A", Section.NEWS));
+    boolean value = evaluator.evaluateBoolean("username == 'norm'", author);
     assertFalse(value);
   }
 
   @Test
   void shouldReturnTrueIfNotNull() {
-    boolean value = evaluator.evaluateBoolean("username", new Author(1, "cbegin", "******", "cbegin@apache.org", "N/A", Section.NEWS));
+    boolean value = evaluator.evaluateBoolean("username", author);
     assertTrue(value);
   }
 

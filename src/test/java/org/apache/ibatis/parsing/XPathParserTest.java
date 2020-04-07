@@ -35,7 +35,6 @@ class XPathParserTest {
      <active>true</active>
    </employee>
   */
-
   private void testEvalMethod(XPathParser parser) {
     assertEquals((Long) 1970L, parser.evalLong("/employee/birth_date/year"));
     assertEquals((short) 6, (short) parser.evalShort("/employee/birth_date/month"));

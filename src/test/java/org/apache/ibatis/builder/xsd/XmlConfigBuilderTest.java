@@ -77,7 +77,7 @@ class XmlConfigBuilderTest {
 
   @Test
   void shouldSuccessfullyLoadXMLConfigFitle() throws Exception {
-    // System.setProperty(XPathParser.KEY_USE_XSD, "true");
+//     System.setProperty(XPathParser.KEY_USE_XSD, "true");
     String resource = "org/apache/ibatis/builder/xsd/CustomizedSettingsMapperConfig.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLConfigBuilder builder = new XMLConfigBuilder(inputStream);
