@@ -1,15 +1,10 @@
 
 package org.apache.ibatis.submitted.dynsql;
 
-import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.common.MyBaseDataTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -18,27 +13,17 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DynSqlTest {
-
-  protected static SqlSessionFactory sqlSessionFactory;
-  private static SqlSession sqlSession;
+class DynSqlTest extends MyBaseDataTest {
 
   @BeforeAll
   static void setUp() throws Exception {
-    try (Reader configReader = Resources.getResourceAsReader("org/apache/ibatis/submitted/dynsql/MapperConfig.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
-      sqlSession = sqlSessionFactory.openSession();
-    }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/dynsql/CreateDB.sql");
+    setUpByReader("org/apache/ibatis/submitted/dynsql/MapperConfig.xml","org/apache/ibatis/submitted/dynsql/CreateDB.sql");
   }
 
   @Test
   void testSelect() {
     List<Integer> ids = Arrays.asList(1,3,5);
-    Parameter parameter = new Parameter();
-    parameter.setEnabled(true);
-    parameter.setSchema("ibtest");
-    parameter.setIds(ids);
+    Parameter parameter = new Parameter("ibtest",ids,true);
     List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.select", parameter);
     assertEquals(3, answer.size());
   }
@@ -46,10 +31,7 @@ class DynSqlTest {
   @Test
   void testSelectSimple() {
     List<Integer> ids = Arrays.asList(1,3,5);
-    Parameter parameter = new Parameter();
-    parameter.setEnabled(true);
-    parameter.setSchema("ibtest");
-    parameter.setIds(ids);
+    Parameter parameter = new Parameter("ibtest",ids,true);
     List<Map<String, Object>> answer = sqlSession.selectList("org.apache.ibatis.submitted.dynsql.select_simple", parameter);
     assertEquals(3, answer.size());
   }

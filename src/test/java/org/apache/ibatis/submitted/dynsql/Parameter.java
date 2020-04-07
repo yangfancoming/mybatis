@@ -9,6 +9,15 @@ public class Parameter {
   private List<Integer> ids;
   private boolean enabled;
 
+  public Parameter() {
+  }
+
+  public Parameter(String schema, List<Integer> ids, boolean enabled) {
+    this.schema = schema;
+    this.ids = ids;
+    this.enabled = enabled;
+  }
+
   public String getFred() {
     // added this method to check for bug with DynamicContext
     // IBATIS-777

@@ -19,6 +19,6 @@
     </environments>
 
     <mappers>
-        <mapper resource="org/apache/ibatis/submitted/empty_namespace/Person.xml"/>
+        <mapper resource="org/apache/ibatis/submitted/empty_namespace/Person2.xml"/>
     </mappers>
 </configuration>

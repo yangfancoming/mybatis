@@ -15,16 +15,16 @@ public class MyErrorHandler implements ErrorHandler {
 
   @Override
   public void warning(SAXParseException exception) throws SAXException {
-
+    System.out.println("warning.............");
   }
 
   @Override
   public void error(SAXParseException exception) throws SAXException {
-
+    System.out.println("error.............");
   }
 
   @Override
   public void fatalError(SAXParseException exception) throws SAXException {
-
+    System.out.println("fatalError.............");
   }
 }
