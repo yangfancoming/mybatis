@@ -10,13 +10,12 @@
         <result property="lastName" column="lastName"/>
     </resultMap>
 
-
     <sql id="selectByIdScript">
-        SELECT id, firstName, lastName, personType
-        FROM person
-        WHERE id = #{id}
+        SELECT id, firstName, lastName, personType FROM person WHERE id = #{id}
     </sql>
+
     <select id="selectById" resultMap="personMap" parameterType="int">
     	<include refid="selectByIdScript"/>
     </select>
+
 </mapper>
