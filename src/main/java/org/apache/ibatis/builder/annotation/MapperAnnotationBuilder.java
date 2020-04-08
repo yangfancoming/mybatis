@@ -103,6 +103,7 @@ public class MapperAnnotationBuilder {
   // 注意type参数代表MapperInterface接口类    org.apache.goat.chapter100.A.A044.FooMapper
   public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
     String resource = type.getName().replace('.', '/') + ".java (best guess)"; // org/apache/goat/chapter100/A/A044/FooMapper.java (best guess)
+    // 全局入口之(注解方式)
     this.assistant = new MapperBuilderAssistant(configuration, resource);
     this.configuration = configuration;
     this.type = type;

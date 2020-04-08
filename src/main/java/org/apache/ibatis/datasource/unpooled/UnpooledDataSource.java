@@ -187,15 +187,9 @@ public class UnpooledDataSource implements DataSource {
 
   private Connection doGetConnection(String username, String password) throws SQLException {
     Properties props = new Properties();
-    if (driverProperties != null) {
-      props.putAll(driverProperties);
-    }
-    if (username != null) {
-      props.setProperty("user", username);
-    }
-    if (password != null) {
-      props.setProperty("password", password);
-    }
+    if (driverProperties != null) props.putAll(driverProperties);
+    if (username != null) props.setProperty("user", username);
+    if (password != null) props.setProperty("password", password);
     return doGetConnection(props);
   }
 
@@ -225,9 +219,7 @@ public class UnpooledDataSource implements DataSource {
         } else {
           driverType = Resources.classForName(driver);
         }
-        // DriverManager requires the driver to be loaded via the system ClassLoader.
-        // http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
-        // 创建驱动
+        // DriverManager requires the driver to be loaded via the system ClassLoader.http://www.kfu.com/~nsayer/Java/dyn-jdbc.html
         Driver driverInstance = (Driver)driverType.newInstance();
         // 向  JDBC 的 DriverManager 注册驱动
         DriverManager.registerDriver(new DriverProxy(driverInstance));

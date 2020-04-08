@@ -60,8 +60,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   @Deprecated
   public XMLMapperBuilder(Reader reader, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
-    this(new XPathParser(reader, true, configuration.getVariables(), new XMLMapperEntityResolver()),
-        configuration, resource, sqlFragments);
+    this(new XPathParser(reader, true, configuration.getVariables(), new XMLMapperEntityResolver()),configuration, resource, sqlFragments);
   }
 
   public XMLMapperBuilder(InputStream inputStream, Configuration configuration, String resource, Map<String, XNode> sqlFragments, String namespace) {
@@ -73,10 +72,11 @@ public class XMLMapperBuilder extends BaseBuilder {
     this(new XPathParser(inputStream, true, configuration.getVariables(), new XMLMapperEntityResolver()), configuration, resource, sqlFragments);
   }
 
+  // 最终构造函数
   private XMLMapperBuilder(XPathParser parser, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
     // 将configuration赋给父类 BaseBuilder
     super(configuration);
-    // 创建MapperBuilderAssistant对象（该对象为MapperBuilder的协助者）
+    // MapperBuilderAssistant builderAssistant 全局入口之xml方式
     this.builderAssistant = new MapperBuilderAssistant(configuration, resource);
     this.parser = parser;
     this.sqlFragments = sqlFragments;

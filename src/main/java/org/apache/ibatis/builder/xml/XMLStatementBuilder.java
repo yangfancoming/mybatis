@@ -58,9 +58,9 @@ public class XMLStatementBuilder extends BaseBuilder {
     log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
     // SQL语句Id selectWithOptions
     String id = context.getStringAttribute("id");
-    // 该sql对应的数据库厂商标识 mysql
+    // <C|R|U|D>标签中的databaseId属性  数据库厂商标识
     String databaseId = context.getStringAttribute("databaseId");
-    // 验证databaseId是否匹配，不符合则直接返回
+    // 验证databaseId是否与<environment>标签中配置的数据库是否匹配，不符合则直接返回
     if (!databaseIdMatchesCurrent(id, databaseId, requiredDatabaseId))  return;
     // 获取标签名称 select
     String nodeName = context.getNode().getNodeName();
@@ -178,9 +178,7 @@ public class XMLStatementBuilder extends BaseBuilder {
 
   private LanguageDriver getLanguageDriver(String lang) {
     Class<? extends LanguageDriver> langClass = null;
-    if (lang != null) {
-      langClass = resolveClass(lang);
-    }
+    if (lang != null) langClass = resolveClass(lang);
     return configuration.getLanguageDriver(langClass);
   }
 

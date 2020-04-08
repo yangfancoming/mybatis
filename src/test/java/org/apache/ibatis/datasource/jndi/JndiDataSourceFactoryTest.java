@@ -49,10 +49,8 @@ class JndiDataSourceFactoryTest extends BaseDataTest {
     try {
       Properties env = new Properties();
       env.put(Context.INITIAL_CONTEXT_FACTORY, TEST_INITIAL_CONTEXT_FACTORY);
-
       MockContext ctx = new MockContext(false);
       ctx.bind(TEST_DATA_SOURCE, expectedDataSource);
-
       InitialContext initCtx = new InitialContext(env);
       initCtx.bind(TEST_INITIAL_CONTEXT, ctx);
     } catch (NamingException e) {

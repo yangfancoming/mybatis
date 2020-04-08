@@ -35,6 +35,9 @@ import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 
+/**
+ *  MapperBuilderAssistant 对象为MapperBuilder的协助者
+*/
 public class MapperBuilderAssistant extends BaseBuilder {
 
   // 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 org.apache.ibatis.domain.blog.mappers.BlogMapper
