@@ -146,29 +146,14 @@ public class XMLStatementBuilder extends BaseBuilder {
     String keyProperty = nodeToHandle.getStringAttribute("keyProperty");
     String keyColumn = nodeToHandle.getStringAttribute("keyColumn");
     boolean executeBefore = "BEFORE".equals(nodeToHandle.getStringAttribute("order", "AFTER"));
-
-    //defaults
-    boolean useCache = false;
-    boolean resultOrdered = false;
+    //defaults   -modify
     KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
     Integer fetchSize = null;
     Integer timeout = null;
-    boolean flushCache = false;
-    String parameterMap = null;
-    String resultMap = null;
-    ResultSetType resultSetTypeEnum = null;
-
     SqlSource sqlSource = langDriver.createSqlSource(configuration, nodeToHandle, parameterTypeClass);
-
     SqlCommandType sqlCommandType = SqlCommandType.SELECT;
-
-    builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,
-        fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass,
-        resultSetTypeEnum, flushCache, useCache, resultOrdered,
-        keyGenerator, keyProperty, keyColumn, databaseId, langDriver, null);
-
+    builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,fetchSize, timeout, null, parameterTypeClass, null, resultTypeClass,null, false, false, false,keyGenerator, keyProperty, keyColumn, databaseId, langDriver, null);
     id = builderAssistant.applyCurrentNamespace(id, false);
-
     MappedStatement keyStatement = configuration.getMappedStatement(id, false);
     configuration.addKeyGenerator(id, new SelectKeyGenerator(keyStatement, executeBefore));
   }

@@ -642,23 +642,13 @@ public class MapperAnnotationBuilder {
     String keyProperty = selectKeyAnnotation.keyProperty();
     String keyColumn = selectKeyAnnotation.keyColumn();
     boolean executeBefore = selectKeyAnnotation.before();
-
-    // defaults
-    boolean useCache = false;
+    // defaults -modify
     KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
     Integer fetchSize = null;
     Integer timeout = null;
-    boolean flushCache = false;
-    String parameterMap = null;
-    String resultMap = null;
-    ResultSetType resultSetTypeEnum = null;
-
     SqlSource sqlSource = buildSqlSourceFromStrings(selectKeyAnnotation.statement(), parameterTypeClass, languageDriver);
     SqlCommandType sqlCommandType = SqlCommandType.SELECT;
-
-    assistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType, fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum,
-        flushCache, useCache, false, keyGenerator, keyProperty, keyColumn, null, languageDriver, null);
-
+    assistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType, fetchSize, timeout, null, parameterTypeClass, null, resultTypeClass, null,false, false, false, keyGenerator, keyProperty, keyColumn, null, languageDriver, null);
     id = assistant.applyCurrentNamespace(id, false);
     MappedStatement keyStatement = configuration.getMappedStatement(id, false);
     SelectKeyGenerator answer = new SelectKeyGenerator(keyStatement, executeBefore);
