@@ -134,13 +134,13 @@ public class XMLMapperBuilder extends BaseBuilder {
       builderAssistant.setCurrentNamespace(namespace);
       // 解析<cache-ref>节点
       cacheRefElement(context.evalNode("cache-ref"));
-      //解析<cache>节点，可以设置缓存类型和属性，或是指定自定义的缓存
+      // 解析<cache>节点，可以设置缓存类型和属性，或是指定自定义的缓存
       cacheElement(context.evalNode("cache"));
       // 解析<parameterMap>节点,这个已经被废弃，不推荐使用
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
       // 解析<resultMap>节点
       resultMapElements(context.evalNodes("/mapper/resultMap"));
-      //解析<SQL>节点，SQL节点可以使一些SQL片段被复用
+      // 解析<SQL>节点，SQL节点可以使一些SQL片段被复用
       sqlElement(context.evalNodes("/mapper/sql"));
       // 解析sql语句 （select|insert|update|delete节点） // 解析 statement
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
@@ -157,12 +157,12 @@ public class XMLMapperBuilder extends BaseBuilder {
   private void buildStatementFromContext(List<XNode> list, String requiredDatabaseId) {
     log.warn("开始解析 <select|insert|update|delete> 标签  标签个数：" + list.size());
     for (XNode context : list) {
-      //遍历 "select|insert|update|delete" 节点 为每个节点创建XMLStatementBuilder对象，
+      // 遍历 "select|insert|update|delete" 节点 为每个节点创建XMLStatementBuilder对象，
       final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);
       try {
         statementParser.parseStatementNode();
       } catch (IncompleteElementException e) {
-        //对不能完全解析的节点添加到incompleteStatement，在parsePendingStatements方法中再解析
+        // 对不能完全解析的节点添加到incompleteStatement，在parsePendingStatements方法中再解析
         configuration.addIncompleteStatement(statementParser);
       }
     }
@@ -475,8 +475,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   protected void validateCollection(XNode context, Class<?> enclosingType) {
-    if ("collection".equals(context.getName()) && context.getStringAttribute("resultMap") == null
-        && context.getStringAttribute("javaType") == null) {
+    if ("collection".equals(context.getName()) && context.getStringAttribute("resultMap") == null && context.getStringAttribute("javaType") == null) {
       MetaClass metaResultType = MetaClass.forClass(enclosingType, configuration.getReflectorFactory());
       String property = context.getStringAttribute("property");
       if (!metaResultType.hasSetter(property)) {

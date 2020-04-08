@@ -462,7 +462,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     Environment environment = configuration.getEnvironment();
     if (environment != null && databaseIdProvider != null) {
       String databaseId = databaseIdProvider.getDatabaseId(environment.getDataSource());
-      // 最终保存到configuration中
+      // databaseId属性的全局唯一入口
       configuration.setDatabaseId(databaseId);
     }
   }

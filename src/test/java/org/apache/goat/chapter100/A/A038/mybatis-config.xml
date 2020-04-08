@@ -32,13 +32,12 @@
 
 
   <!-- 5、databaseIdProvider：支持多数据库厂商的  必须配合 <environments> 标签使用
-       type="DB_VENDOR"：VendorDatabaseIdProvider
-           作用就是得到数据库厂商的标识(驱动getDatabaseProductName())，mybatis就能根据数据库厂商标识来执行不同的sql;
+       type="DB_VENDOR"：VendorDatabaseIdProvider 作用就是得到数据库厂商的标识(驱动getDatabaseProductName())，mybatis就能根据数据库厂商标识来执行不同的sql;
             mysql  数据库标识：MySQL
-            Oracle 数据库标识：Oracle
-            SQL Server 数据库标识：SQL Server
-            hsqldb Engine 数据库标识：HSQL Database Engine
-            可以看到 有的数据库厂商标识很长，  有必要给他起个别名
+            oracle 数据库标识：Oracle
+            sqlserver 数据库标识：SQL Server
+            hsqldb 数据库标识：HSQL Database Engine
+            可以看到 有的数据库厂商标识很长，因此有必要给他起个别名
     -->
 
   <databaseIdProvider type="DB_VENDOR">

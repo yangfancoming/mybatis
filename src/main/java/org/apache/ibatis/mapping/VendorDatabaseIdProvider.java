@@ -21,32 +21,12 @@ import org.apache.ibatis.logging.LogFactory;
  */
 public class VendorDatabaseIdProvider implements DatabaseIdProvider {
 
+  private static final Log log = LogFactory.getLog(VendorDatabaseIdProvider.class);
+
   private Properties properties;
-
-  @Override
-  public String getDatabaseId(DataSource dataSource) {
-    if (dataSource == null) throw new NullPointerException("dataSource cannot be null");
-    try {
-      return getDatabaseName(dataSource);
-    } catch (Exception e) {
-      LogHolder.log.error("Could not get a databaseId from dataSource", e);
-    }
-    return null;
-  }
-
-  @Override
-  public void setProperties(Properties p) {
-    this.properties = p;
-  }
 
   private String getDatabaseName(DataSource dataSource) throws SQLException {
     String productName = getDatabaseProductName(dataSource); // MySQL
-    /**
-     * "HSQL Database Engine" -> "hsqldb"
-     * "Oracle" -> "oracle"
-     * "SQL Server" -> "sqlserver"
-     * "MySQL" -> "mysql"
-    */
     if (properties != null) {
       for (Map.Entry<Object, Object> property : properties.entrySet()) {
         // 用key匹配 返回value
@@ -72,8 +52,7 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
       // 2.获取数据库元信息
       DatabaseMetaData metaData = con.getMetaData();
       // 3.获取数据库厂商标识
-      String productName = metaData.getDatabaseProductName();
-      return productName;
+      return metaData.getDatabaseProductName();
     } finally {
       if (con != null) {
         try {
@@ -83,8 +62,20 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
     }
   }
 
-  private static class LogHolder {
-    private static final Log log = LogFactory.getLog(VendorDatabaseIdProvider.class);
+  @Override
+  public String getDatabaseId(DataSource dataSource) {
+    if (dataSource == null) throw new NullPointerException("dataSource cannot be null");
+    try {
+      return getDatabaseName(dataSource);
+    } catch (Exception e) {
+      log.error("Could not get a databaseId from dataSource", e); // -modify
+    }
+    return null;
+  }
+
+  @Override
+  public void setProperties(Properties p) {
+    this.properties = p;
   }
 
 }

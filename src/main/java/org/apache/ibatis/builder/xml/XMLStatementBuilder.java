@@ -60,8 +60,8 @@ public class XMLStatementBuilder extends BaseBuilder {
     String id = context.getStringAttribute("id");
     // 该sql对应的数据库厂商标识 mysql
     String databaseId = context.getStringAttribute("databaseId");
-    // 验证databaseId是否匹配   //不符合就返回
-    if (!databaseIdMatchesCurrent(id, databaseId, this.requiredDatabaseId))  return;
+    // 验证databaseId是否匹配，不符合则直接返回
+    if (!databaseIdMatchesCurrent(id, databaseId, requiredDatabaseId))  return;
     // 获取标签名称 select
     String nodeName = context.getNode().getNodeName();
     // 通过标签名称 解析出对应的枚举类型  SELECT
@@ -168,11 +168,11 @@ public class XMLStatementBuilder extends BaseBuilder {
     if (requiredDatabaseId != null)  return requiredDatabaseId.equals(databaseId);
     if (databaseId != null) return false;
     id = builderAssistant.applyCurrentNamespace(id, false);
-    if (!this.configuration.hasStatement(id, false)) {
+    if (!configuration.hasStatement(id, false)) {
       return true;
     }
     // skip this statement if there is a previous one with a not null databaseId
-    MappedStatement previous = this.configuration.getMappedStatement(id, false); // issue #2
+    MappedStatement previous = configuration.getMappedStatement(id, false); // issue #2
     return previous.getDatabaseId() == null;
   }
 
