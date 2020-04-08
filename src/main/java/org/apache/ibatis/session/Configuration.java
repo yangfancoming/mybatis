@@ -787,8 +787,7 @@ public class Configuration {
     if (validateIncompleteStatements) {
       buildAllStatements();
     }
-    // 源码中唯一 get 的地方  eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
-    // MappedStatement 唯一出口
+    // 源码中唯一 get 的地方 (MappedStatement 唯一出口) eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
     return mappedStatements.get(id);
   }
 

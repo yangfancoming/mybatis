@@ -48,8 +48,7 @@ public class XMLIncludeTransformer {
    * @param variablesContext Current context for static variables with values
    */
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
-    //走到这里，单独解析<include refid="userColumns"/>
-    //拿到SQL片段
+    //拿到SQL片段  走到这里，单独解析<include refid="userColumns"/>
     if (source.getNodeName().equals("include")) {
       Node toInclude = findSqlFragment(getStringAttribute(source, "refid"), variablesContext);
       //获取<include>标签中的<property>中的值:{tableName=author}
@@ -77,8 +76,7 @@ public class XMLIncludeTransformer {
       for (int i = 0; i < children.getLength(); i++) {
         applyIncludes(children.item(i), variablesContext, included);
       }
-    } else if (included && source.getNodeType() == Node.TEXT_NODE
-        && !variablesContext.isEmpty()) {
+    } else if (included && source.getNodeType() == Node.TEXT_NODE && !variablesContext.isEmpty()) {
       // replace variables in text node
       source.setNodeValue(PropertyParser.parse(source.getNodeValue(), variablesContext));
     }

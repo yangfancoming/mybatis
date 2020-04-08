@@ -183,12 +183,8 @@ public class XMLStatementBuilder extends BaseBuilder {
   }
 
   private boolean databaseIdMatchesCurrent(String id, String databaseId, String requiredDatabaseId) {
-    if (requiredDatabaseId != null) {
-      return requiredDatabaseId.equals(databaseId);
-    }
-    if (databaseId != null) {
-      return false;
-    }
+    if (requiredDatabaseId != null)  return requiredDatabaseId.equals(databaseId);
+    if (databaseId != null) return false;
     id = builderAssistant.applyCurrentNamespace(id, false);
     if (!this.configuration.hasStatement(id, false)) {
       return true;

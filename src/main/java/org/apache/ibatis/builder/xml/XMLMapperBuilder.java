@@ -162,7 +162,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       //遍历 "select|insert|update|delete" 节点 为每个节点创建XMLStatementBuilder对象，
       final XMLStatementBuilder statementParser = new XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);
       try {
-        statementParser.parseStatementNode();//解析Node
+        statementParser.parseStatementNode();
       } catch (IncompleteElementException e) {
         //对不能完全解析的节点添加到incompleteStatement，在parsePendingStatements方法中再解析
         configuration.addIncompleteStatement(statementParser);

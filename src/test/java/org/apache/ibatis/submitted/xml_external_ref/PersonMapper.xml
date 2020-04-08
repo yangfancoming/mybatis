@@ -34,8 +34,7 @@
 	</select>
 
 	<!-- Referencing a sql fragment and a result map in another file -->
-	<select id="selectPet" parameterType="java.lang.Integer"
-		resultMap="org.apache.ibatis.submitted.xml_external_ref.PetMapper.petResult">
+	<select id="selectPet" parameterType="java.lang.Integer" resultMap="org.apache.ibatis.submitted.xml_external_ref.PetMapper.petResult">
 		SELECT
 		<include refid="org.apache.ibatis.submitted.xml_external_ref.PetMapper.petColumnList" />
 		FROM pet
