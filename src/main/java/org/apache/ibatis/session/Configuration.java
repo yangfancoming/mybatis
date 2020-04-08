@@ -865,9 +865,7 @@ public class Configuration {
   }
 
   private void parsePendingResultMaps() {
-    if (incompleteResultMaps.isEmpty()) {
-      return;
-    }
+    if (incompleteResultMaps.isEmpty()) return;
     synchronized (incompleteResultMaps) {
       boolean resolved;
       IncompleteElementException ex = null;
