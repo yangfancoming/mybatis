@@ -9,6 +9,11 @@ import java.io.InputStream;
 
 public abstract class MyBaseXmlConfig {
 
+  public XMLConfigBuilder getXMLConfigBuilder(String resource) throws IOException {
+    InputStream inputStream = Resources.getResourceAsStream(resource);
+    return new XMLConfigBuilder(inputStream);
+  }
+
     // eg:  "org/apache/ibatis/builder/MinimalMapperConfig.xml";
     public Configuration getConfiguration(String resource) throws IOException {
       InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -16,8 +21,4 @@ public abstract class MyBaseXmlConfig {
       return builder.parse();
     }
 
-  public XMLConfigBuilder getXMLConfigBuilder(String resource) throws IOException {
-    InputStream inputStream = Resources.getResourceAsStream(resource);
-    return new XMLConfigBuilder(inputStream);
-  }
 }

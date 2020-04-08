@@ -31,7 +31,7 @@ public class XMLStatementBuilder extends BaseBuilder {
 
   private final MapperBuilderAssistant builderAssistant;
   private final XNode context;
-  private final String requiredDatabaseId;
+  private final String databaseId;
 
   public XMLStatementBuilder(Configuration configuration, MapperBuilderAssistant builderAssistant, XNode context) {
     this(configuration, builderAssistant, context, null);
@@ -41,9 +41,9 @@ public class XMLStatementBuilder extends BaseBuilder {
     super(configuration);
     this.builderAssistant = builderAssistant;
     this.context = context;
-    this.requiredDatabaseId = databaseId;
+    this.databaseId = databaseId;
     log.warn("构造函数 202001071544：configuration 地址：" + configuration);
-    log.warn("构造函数 202001071544：XNode 地址：" + context.hashCode());
+//    log.warn("构造函数 202001071544：XNode 地址：" + context.hashCode());
   }
 
   /**
@@ -59,9 +59,9 @@ public class XMLStatementBuilder extends BaseBuilder {
     // SQL语句Id selectWithOptions
     String id = context.getStringAttribute("id");
     // <C|R|U|D>标签中的databaseId属性  数据库厂商标识
-    String databaseId = context.getStringAttribute("databaseId");
-    // 验证databaseId是否与<environment>标签中配置的数据库是否匹配，不符合则直接返回
-    if (!databaseIdMatchesCurrent(id, databaseId, requiredDatabaseId))  return;
+    String sqlDatabaseId = context.getStringAttribute("databaseId");
+    // 验证当前sql的databaseId是否与<environment>标签中配置的数据库是否匹配，不符合则直接返回
+    if (!databaseIdMatchesCurrent(id, sqlDatabaseId, databaseId))  return;
     // 获取标签名称 select
     String nodeName = context.getNode().getNodeName();
     // 通过标签名称 解析出对应的枚举类型  SELECT
@@ -117,7 +117,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     String keyColumn = context.getStringAttribute("keyColumn");
     String resultSets = context.getStringAttribute("resultSets");
     // 通过buildAssistant将解析得到的参数设置构造成 MappedStatement 对象
-    builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum, flushCache, useCache, resultOrdered, keyGenerator, keyProperty, keyColumn, databaseId, langDriver, resultSets);
+    builderAssistant.addMappedStatement(id, sqlSource, statementType, sqlCommandType,fetchSize, timeout, parameterMap, parameterTypeClass, resultMap, resultTypeClass, resultSetTypeEnum, flushCache, useCache, resultOrdered, keyGenerator, keyProperty, keyColumn, sqlDatabaseId, langDriver, resultSets);
   }
 
   private void processSelectKeyNodes(String id, Class<?> parameterTypeClass, LanguageDriver langDriver) {
@@ -164,9 +164,17 @@ public class XMLStatementBuilder extends BaseBuilder {
     }
   }
 
-  private boolean databaseIdMatchesCurrent(String id, String databaseId, String requiredDatabaseId) {
-    if (requiredDatabaseId != null)  return requiredDatabaseId.equals(databaseId);
-    if (databaseId != null) return false;
+  /**
+   * 判断当前sql中的databaseId属性 是否匹配 当前连接的数据库的databaseId 属性
+   * @param id
+   * @param sqlDatabaseId - <CRUD> 标签中的 databaseId 属性
+   * @param databaseId -  <environment> 标签中 从数据源中获取的 databaseId 属性
+   * @return true 匹配  false 不匹配
+   * -modify
+   */
+  public boolean databaseIdMatchesCurrent(String id, String sqlDatabaseId, String databaseId) {
+    if (databaseId != null)  return databaseId.equals(sqlDatabaseId);
+    if (sqlDatabaseId != null) return false;
     id = builderAssistant.applyCurrentNamespace(id, false);
     if (!configuration.hasStatement(id, false)) {
       return true;
