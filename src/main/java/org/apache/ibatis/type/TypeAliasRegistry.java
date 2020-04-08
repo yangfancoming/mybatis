@@ -20,7 +20,7 @@ import org.apache.ibatis.io.Resources;
 
 /**
  TypeAliasRegistry（类型别名注册器）
- 在类型别名注册器类TypeAliasRegistry的无参构造器中进行了大量的基础类型别名的注册（设置），涉及到的有：
+ 在类型别名注册器类TypeAliasRegistry的无参构造器中进行了大量的基础类型别名的注册，涉及到的有：
  　　　　1.字符串类型（别名类似string）
  　　　　2.基本类型包装器类型及其数组类型（别名类似byte、byte[]）
  　　　　3.基本类型及其数组类型（别名类似_byte、_byte[]）
@@ -29,14 +29,11 @@ import org.apache.ibatis.io.Resources;
  　　　　6.Object类型及其数组类型（别名类似object、object[]）
  　　　　7.集合类型（别名类似collection、map、list、hsahmap、arraylist、iterator）
  　　　　8.ResultSet结果集类型（别名为ResultSet）
- 　注意：这并不是全部的MyBatis内置的类型别名，还有一部分类型别名是在创建Configuration实例的时候在其无参构造器中进行注册的，这里暂不介绍。
- getTypeAliases
- registerAlias
- registerAliases
- resolveAlias
+ 　注意：这并不是全部的MyBatis内置的类型别名，还有一部分类型别名是在创建Configuration实例的时候在其无参构造器中进行注册的
 */
 public class TypeAliasRegistry {
-  //这就是核心所在啊， 原来别名就仅仅通过一个HashMap来实现， key为别名， value就是别名对应的类型（class对象）
+
+  // key为别名， value就是别名对应的类型（class对象）
   private final Map<String, Class<?>> typeAliases = new HashMap<>();
 
   // 注册系统内置的类型别名
@@ -101,11 +98,11 @@ public class TypeAliasRegistry {
     registerAlias("ResultSet", ResultSet.class);
   }
 
-  //取出 已经注册的类型别名
+  // throws class cast exception as well if types cannot be assigned
   @SuppressWarnings("unchecked")
-  public <T> Class<T> resolveAlias(String string) {  // throws class cast exception as well if types cannot be assigned
+  public <T> Class<T> resolveAlias(String string) {
+    if (string == null) return null;
     try {
-      if (string == null) return null;
       // issue #748
       /**
        先转成小写再解析 这里转个小写也有bug？见748号bug(在google code上)
@@ -154,8 +151,8 @@ public class TypeAliasRegistry {
     String alias = type.getSimpleName();
     // 判断 @Alias("what")
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
+    // 面试题  mybatis 配置别名的三种方式中 优先级最高的为 @Alias("what") 注解！
     if (aliasAnnotation != null) {
-      // 面试题  mybatis 配置别名的三种方式中 优先级最高的为 @Alias("what") 注解！
       alias = aliasAnnotation.value();
     }
     registerAlias(alias, type);

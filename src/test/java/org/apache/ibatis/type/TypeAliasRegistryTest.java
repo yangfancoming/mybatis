@@ -15,8 +15,10 @@ class TypeAliasRegistryTest {
 
   @Test
   void test() {
+    // 注册 Integer.class
     typeAliasRegistry.registerAlias("int","java.lang.Integer");
-    typeAliasRegistry.registerAlias("long[]","[Ljava.lang.Long;");//    注意类名左边的[L和右边的分号（；）。这表示一个你指定类型的对象的数组。
+    // 注册 Long[].class 注意类名左边的[L和右边的分号（；）。这表示一个你指定类型的对象的数组
+    typeAliasRegistry.registerAlias("long[]","[Ljava.lang.Long;");
     System.out.println(byte.class);
     System.out.println(Integer.class);
   }
@@ -29,6 +31,7 @@ class TypeAliasRegistryTest {
     assertEquals("org.apache.ibatis.domain.misc.RichType", rich.getName());
   }
 
+  // 测试 解析数组别名
   @Test
   void shouldFetchArrayType() {
     Class<Object> objectClass = typeAliasRegistry.resolveAlias("byte[]");
@@ -39,7 +42,7 @@ class TypeAliasRegistryTest {
   @Test
   void shouldBeAbleToRegisterSameAliasWithSameTypeAgain() {
     assertEquals(50,typeAliasRegistry.getTypeAliases().size());
-    // 能够再次注册相同类型的别名     其中 alias 参数 无论大小写 都会被转成小写存储  map会自动覆盖
+    // 能够再次注册相同类型的别名。 其中 alias 参数 无论大小写 都会被转成小写存储  map会自动覆盖
     typeAliasRegistry.registerAlias("String", String.class);
     typeAliasRegistry.registerAlias("string", String.class);
     assertEquals(50,typeAliasRegistry.getTypeAliases().size());
