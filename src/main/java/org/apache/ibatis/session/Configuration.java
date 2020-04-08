@@ -723,23 +723,30 @@ public class Configuration {
     return parameterMaps.containsKey(id);
   }
 
+  /**
+   * 全局入口  唯一put的地方
+   * key: xml局部配置文件的 命名空间 + crud标签id
+   * value: MappedStatement
+   */
   public void addMappedStatement(MappedStatement ms) {
-    /**
-     * 全局入口  唯一put的地方
-     * key: xml局部配置文件的 命名空间 + crud标签id
-     * value: MappedStatement
-    */
     mappedStatements.put(ms.getId(), ms);
   }
 
+  // 获取 Map<String, MappedStatement> 的所有key集合
   public Collection<String> getMappedStatementNames() {
     buildAllStatements();
     return mappedStatements.keySet();
   }
 
+  // 获取 Map<String, MappedStatement> 的所有value集合
   public Collection<MappedStatement> getMappedStatements() {
     buildAllStatements();
     return mappedStatements.values();
+  }
+
+  // -add
+  public Map<String, MappedStatement> getMappedStatement(){
+    return mappedStatements;
   }
 
   public Collection<XMLStatementBuilder> getIncompleteStatements() {

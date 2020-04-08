@@ -3,9 +3,6 @@
 
 <mapper namespace="com.goat.test.namespace">
 
-  <!-- databaseId="mysql"> -->
-  <!-- databaseId="hsqldb"> -->
-  <!-- databaseId="oracle"> -->
 
   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.model.Foo" databaseId="mysql">
     select * from foo where id = #{id}

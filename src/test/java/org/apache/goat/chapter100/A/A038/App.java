@@ -4,12 +4,14 @@ import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 class App extends MyBaseDataTest {
@@ -43,20 +45,32 @@ class App extends MyBaseDataTest {
   MapperBuilderAssistant assistant = new MapperBuilderAssistant(configuration,"");
   XMLStatementBuilder xmlStatementBuilder = new XMLStatementBuilder(configuration,assistant,null);
 
+  // 改成public后 直接访问测试
+  @Test
+  void databaseIdMatchesCurrentTest1() {
+    boolean mark = xmlStatementBuilder.databaseIdMatchesCurrent("", "", "");
+    System.out.println(mark);
+  }
 
   // 通过反射 测试 private 方法  databaseIdMatchesCurrent()
   @Test
-  void test2() throws Exception{
+  void databaseIdMatchesCurrentTest2() throws Exception{
     Method testNoParamMethod = xmlStatementBuilder.getClass().getDeclaredMethod("databaseIdMatchesCurrent", String.class,String.class,String.class);
     testNoParamMethod.setAccessible(true);
-    //调用 databaseIdMatchesCurrent() 方法
+    //通过反射调用 databaseIdMatchesCurrent() 方法
     Object result = testNoParamMethod.invoke(xmlStatementBuilder, "","","");
     System.out.println(result);
   }
 
+  /**
+   * doit 这里的 mappedStatement 为什么是这样？？？
+   * com.goat.test.namespace.selectById -> {MappedStatement@3170}
+   * selectById -> {MappedStatement@3170}
+  */
   @Test
-  void test3() {
-    boolean mark = xmlStatementBuilder.databaseIdMatchesCurrent("", "", "");
-    System.out.println(mark);
+  void test() {
+    Map<String, MappedStatement> mappedStatement = configuration.getMappedStatement();
+    System.out.println(mappedStatement);
+
   }
 }
