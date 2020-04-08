@@ -16,11 +16,7 @@ public class RichType {
 
   private Map richMap = new HashMap();
 
-  private List richList = new ArrayList() {
-    {
-      add("bar");
-    }
-  };
+  private List richList = new ArrayList() {{ add("bar");} };
 
   public RichType getRichType() {
     return richType;

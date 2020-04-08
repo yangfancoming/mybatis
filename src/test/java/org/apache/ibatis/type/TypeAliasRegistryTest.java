@@ -4,12 +4,22 @@ package org.apache.ibatis.type;
 import org.apache.ibatis.domain.misc.RichType;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TypeAliasRegistryTest {
 
   TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
+
+  @Test
+  void test() {
+    typeAliasRegistry.registerAlias("int","java.lang.Integer");
+    typeAliasRegistry.registerAlias("long[]","[Ljava.lang.Long;");//    注意类名左边的[L和右边的分号（；）。这表示一个你指定类型的对象的数组。
+    System.out.println(byte.class);
+    System.out.println(Integer.class);
+  }
 
   //  通过 全限定名串的方式注册别名
   @Test
