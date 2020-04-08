@@ -1,39 +1,31 @@
 
 package org.apache.ibatis.submitted.xml_external_ref;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.IOException;
-import java.io.Reader;
-
-import org.apache.ibatis.io.Resources;
+import org.apache.common.MyBaseXmlConfig;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class ShortNameTest {
-    @Test
-    void getStatementByShortName() throws Exception {
-        Configuration configuration = getConfiguration();
-        // statement can be referenced by its short name.
+
+class ShortNameTest extends MyBaseXmlConfig {
+
+  ShortNameTest() throws IOException {}
+
+  Configuration configuration = getConfiguration("org/apache/ibatis/submitted/xml_external_ref/MapperConfig.xml");
+
+  // statement can be referenced by its short name.
+  @Test
+    void getStatementByShortName() {
         MappedStatement selectPet = configuration.getMappedStatement("selectPet");
         assertNotNull(selectPet);
     }
 
+  // ambiguous short name should throw an exception.
     @Test
-    void ambiguousShortNameShouldFail() throws Exception {
-        Configuration configuration = getConfiguration();
-        // ambiguous short name should throw an exception.
+    void ambiguousShortNameShouldFail() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> configuration.getMappedStatement("select"));
     }
 
-    private Configuration getConfiguration() throws IOException {
-        try (Reader configReader = Resources.getResourceAsReader("org/apache/ibatis/submitted/xml_external_ref/MapperConfig.xml")) {
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configReader);
-            return sqlSessionFactory.getConfiguration();
-        }
-    }
 }

@@ -1,34 +1,25 @@
 
 package org.apache.ibatis.submitted.parametrizedlist;
 
-import java.io.Reader;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.BaseDataTest;
+import org.apache.common.MyBaseDataTest;
 import org.junit.jupiter.api.Assertions;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ParametrizedListTest {
+import java.util.List;
+import java.util.Map;
 
-  private SqlSessionFactory sqlSessionFactory;
-  private static SqlSession sqlSession;
-  private static Mapper mapper;
+class ParametrizedListTest extends MyBaseDataTest {
+
+  public static final String XMLPATH = "org/apache/ibatis/submitted/parametrizedlist/Config.xml";
+  public static final String DBSQL = "org/apache/ibatis/submitted/parametrizedlist/CreateDB.sql";
+
+  Mapper mapper;
 
   @BeforeEach
   void setUp() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/parametrizedlist/Config.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-      sqlSession = sqlSessionFactory.openSession();
-      mapper = sqlSession.getMapper(Mapper.class);
-    }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/parametrizedlist/CreateDB.sql");
+    setUpByReader(XMLPATH,DBSQL);
+    mapper = sqlSession.getMapper(Mapper.class);
   }
 
   @Test

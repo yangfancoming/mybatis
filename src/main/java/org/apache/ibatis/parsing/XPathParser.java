@@ -208,9 +208,7 @@ public class XPathParser {
   /* 返回单个节点*/
   public XNode evalNode(Object root, String expression) {
     Node node = (Node) evaluate(expression, root, XPathConstants.NODE);
-    if (node == null) {
-      return null;
-    }
+    if (node == null) return null;
     return new XNode(this, node, variables);
   }
 

@@ -16,11 +16,10 @@ import java.util.Objects;
  */
 public class App extends MyBaseJavaMapperConfig {
 
-  String resource = "org/apache/goat/chapter400/Foo.xml";
 
   @Test
   public void test() throws IOException {
-    Configuration configuration = getConfiguration(resource);
+    Configuration configuration = getConfiguration("org/apache/goat/chapter400/Foo.xml");
     System.out.println(configuration);
   }
 
