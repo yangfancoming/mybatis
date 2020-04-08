@@ -461,8 +461,8 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
     Environment environment = configuration.getEnvironment();
     if (environment != null && databaseIdProvider != null) {
+      // <databaseIdProvider> 标签的 databaseId属性的全局唯一入口
       String databaseId = databaseIdProvider.getDatabaseId(environment.getDataSource());
-      // databaseId属性的全局唯一入口
       configuration.setDatabaseId(databaseId);
     }
   }
