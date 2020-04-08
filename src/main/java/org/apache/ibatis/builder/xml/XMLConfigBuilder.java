@@ -53,7 +53,8 @@ public class XMLConfigBuilder extends BaseBuilder {
     this(reader, environment, null);
   }
 
-  /** sos 构造函数报错
+  /**
+   *  sos 构造函数报错
    *  报错：  Constructor call must be the first statement in a constructor
    *  这个问题其实就是  在构造函数写其他构造函数的时候 只能写在代码块的第一行  不能写在第二行及其以后的行
    *  原因：
@@ -95,6 +96,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * 最终构造函数
    *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，
    *  并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的 typeAliasRegistry 容器中
    */
@@ -262,8 +264,7 @@ public class XMLConfigBuilder extends BaseBuilder {
           } else {
             typeAliasRegistry.registerAlias(alias, clazz);
           }
-        } catch (ClassNotFoundException e) {
-          //4.其他类型直接报错
+        } catch (ClassNotFoundException e) { //4.其他类型直接报错
           throw new BuilderException("Error registering typeAlias for '" + alias + "'. Cause: " + e, e);
         }
       }

@@ -370,29 +370,10 @@ public class MapperAnnotationBuilder {
         resultMapId = parseResultMap(method);
       }
       //最终生成MappedStatement执行对象
-      assistant.addMappedStatement(
-          mappedStatementId,
-          sqlSource,
-          statementType,
-          sqlCommandType,
-          fetchSize,
-          timeout,
-          // ParameterMapID
-          null,
-          parameterTypeClass,
-          resultMapId,
-          getReturnType(method),
-          resultSetType,
-          flushCache,
-          useCache,
+      assistant.addMappedStatement(mappedStatementId,sqlSource,statementType,sqlCommandType,fetchSize,timeout,null,parameterTypeClass, resultMapId,getReturnType(method),resultSetType,flushCache,useCache,
           // TODO gcode issue #577
           false,
-          keyGenerator,
-          keyProperty,
-          keyColumn,
-          // DatabaseID
-          null,
-          languageDriver,
+          keyGenerator,keyProperty, keyColumn,null,languageDriver,
           // ResultSets
           options != null ? nullOrEmpty(options.resultSets()) : null);
     }
@@ -552,19 +533,11 @@ public class MapperAnnotationBuilder {
       }
       @SuppressWarnings("unchecked")
       Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>) ((result.typeHandler() == UnknownTypeHandler.class) ? null : result.typeHandler());
-
-      ResultMapping resultMapping = assistant.buildResultMapping(
-          resultType,
-          nullOrEmpty(result.property()),
-          nullOrEmpty(result.column()),
+      ResultMapping resultMapping = assistant.buildResultMapping(resultType,
+          nullOrEmpty(result.property()), nullOrEmpty(result.column()),
           result.javaType() == void.class ? null : result.javaType(),
           result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
-          hasNestedSelect(result) ? nestedSelectId(result) : null,
-          null,null,null,
-          typeHandler,
-          flags,
-          null,null,
-          isLazy(result));
+          hasNestedSelect(result) ? nestedSelectId(result) : null,null,null,null,typeHandler,flags,null,null,isLazy(result));
       resultMappings.add(resultMapping);
     }
   }
@@ -616,10 +589,7 @@ public class MapperAnnotationBuilder {
           nullOrEmpty(arg.resultMap()),
           null,
           nullOrEmpty(arg.columnPrefix()),
-          typeHandler,
-          flags,
-          null,null,
-          false);
+          typeHandler,flags,null,null,false);
       resultMappings.add(resultMapping);
     }
   }

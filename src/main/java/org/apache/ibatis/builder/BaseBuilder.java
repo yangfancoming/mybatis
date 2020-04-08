@@ -143,11 +143,9 @@ public abstract class BaseBuilder {
     // javaType ignored for injected handlers see issue #746 for full detail
     //从类型处理器注册器中获取typeHandlerType类实例对应的TypeHandler对象
     TypeHandler<?> handler = typeHandlerRegistry.getMappingTypeHandler(typeHandlerType);
-    if (handler == null) {
-      //如果handler对象为null，从类型处理器注册器中获取以javaType为构造参数来构造的typeHandlerType的实例对象
-      // not in registry, create a new one
-      handler = typeHandlerRegistry.getInstance(javaType, typeHandlerType);
-    }
+    //如果handler对象为null，从类型处理器注册器中获取以javaType为构造参数来构造的typeHandlerType的实例对象
+    // not in registry, create a new one
+    if (handler == null) handler = typeHandlerRegistry.getInstance(javaType, typeHandlerType);
     return handler;
   }
 

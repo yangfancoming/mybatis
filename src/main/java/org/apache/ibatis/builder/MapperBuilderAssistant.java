@@ -36,7 +36,7 @@ import org.apache.ibatis.type.TypeHandler;
 
 
 /**
- *  MapperBuilderAssistant 对象为MapperBuilder的协助者
+ *  MapperBuilderAssistant 为MapperBuilder的协助者
 */
 public class MapperBuilderAssistant extends BaseBuilder {
 
@@ -128,24 +128,14 @@ public class MapperBuilderAssistant extends BaseBuilder {
     // Class parameterType = parameterMapBuilder.type();
     Class<?> javaTypeClass = resolveParameterJavaType(parameterType, property, javaType, jdbcType);
     TypeHandler<?> typeHandlerInstance = resolveTypeHandler(javaTypeClass, typeHandler);
-
-    return new ParameterMapping.Builder(configuration, property, javaTypeClass)
-        .jdbcType(jdbcType)
-        .resultMapId(resultMap)
-        .mode(parameterMode)
-        .numericScale(numericScale)
-        .typeHandler(typeHandlerInstance)
-        .build();
+    return new ParameterMapping.Builder(configuration, property, javaTypeClass).jdbcType(jdbcType).resultMapId(resultMap).mode(parameterMode).numericScale(numericScale).typeHandler(typeHandlerInstance).build();
   }
 
   public ResultMap addResultMap(String id,Class<?> type, String extend, Discriminator discriminator,List<ResultMapping> resultMappings, Boolean autoMapping) {
     id = applyCurrentNamespace(id, false);
     extend = applyCurrentNamespace(extend, true);
-
     if (extend != null) {
-      if (!configuration.hasResultMap(extend)) {
-        throw new IncompleteElementException("Could not find a parent resultmap with id '" + extend + "'");
-      }
+      if (!configuration.hasResultMap(extend)) throw new IncompleteElementException("Could not find a parent resultmap with id '" + extend + "'");
       ResultMap resultMap = configuration.getResultMap(extend);
       List<ResultMapping> extendedResultMappings = new ArrayList<>(resultMap.getResultMappings());
       extendedResultMappings.removeAll(resultMappings);
@@ -251,8 +241,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
         .flags(flags == null ? new ArrayList<>() : flags)
         .composites(composites)
         .notNullColumns(parseMultipleColumnNames(notNullColumn))
-        .columnPrefix(columnPrefix).foreignColumn(foreignColumn).lazy(lazy)
-        .build();
+        .columnPrefix(columnPrefix).foreignColumn(foreignColumn).lazy(lazy).build();
   }
 
   private Set<String> parseMultipleColumnNames(String columnName) {

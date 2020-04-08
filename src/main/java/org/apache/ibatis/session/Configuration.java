@@ -158,8 +158,7 @@ public class Configuration {
   // 全局数据库厂商标识 对应 局部配置文件 <CRUD> 标签中的databaseId="hsqldb"属性
   protected String databaseId;
   /**
-   * Configuration factory class.
-   * Used to create Configuration for loading deserialized unread properties.
+   * Configuration factory class.Used to create Configuration for loading deserialized unread properties.
    * @see <a href='https://code.google.com/p/mybatis/issues/detail?id=300'>Issue 300 (google code)</a>
    * 指定一个提供Configuration实例的类. 这个被返回的Configuration实例是用来加载被反序列化对象的懒加载属性值.
    * 这个类必须包含一个签名方法static Configuration getConfiguration(). (从 3.2.3 版本开始)
@@ -387,9 +386,7 @@ public class Configuration {
   }
 
   public void setProxyFactory(ProxyFactory proxyFactory) {
-    if (proxyFactory == null) {
-      proxyFactory = new JavassistProxyFactory();
-    }
+    if (proxyFactory == null) proxyFactory = new JavassistProxyFactory();
     this.proxyFactory = proxyFactory;
   }
 
@@ -728,11 +725,11 @@ public class Configuration {
 
   public void addMappedStatement(MappedStatement ms) {
     /**
-     * 源码中唯一 put的地方
+     * 全局入口  唯一put的地方
      * key: xml局部配置文件的 命名空间 + crud标签id
      * value: MappedStatement
     */
-    mappedStatements.put(ms.getId(), ms); // key:d
+    mappedStatements.put(ms.getId(), ms);
   }
 
   public Collection<String> getMappedStatementNames() {
@@ -785,7 +782,7 @@ public class Configuration {
     if (validateIncompleteStatements) {
       buildAllStatements();
     }
-    // 源码中唯一 get 的地方 (MappedStatement 唯一出口) eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
+    // 全局唯一出口 eg: id = org.apache.goat.chapter100.E.E064.UserMapper.updateByIdSelective
     return mappedStatements.get(id);
   }
 
@@ -821,7 +818,7 @@ public class Configuration {
   public boolean hasStatement(String statementName) {
     return hasStatement(statementName, true);
   }
-  // org.apache.goat.chapter100.A.A002.FooMapper.selectById
+
   public boolean hasStatement(String statementName, boolean validateIncompleteStatements) {
     if (validateIncompleteStatements) {
       buildAllStatements();
@@ -992,14 +989,14 @@ public class Configuration {
       return super.put(key, value);
     }
 
+  /**
+   *   name： Mapped Statements collection
+   *   key ： org.apache.goat.chapter100.A044.FooMapper.selectById
+  */
     @Override
     public V get(Object key) {
       V value = super.get(key);
-      if (value == null) {
-        // name： Mapped Statements collection
-        // key ： org.apache.goat.chapter100.A044.FooMapper.selectById
-        throw new IllegalArgumentException(name + " does not contain value for " + key);
-      }
+      if (value == null) throw new IllegalArgumentException(name + " does not contain value for " + key);
       if (value instanceof Ambiguity) {
         throw new IllegalArgumentException(((Ambiguity) value).getSubject() + " is ambiguous in " + name  + " (try using the full name including the namespace, or rename one of the entries)");
       }

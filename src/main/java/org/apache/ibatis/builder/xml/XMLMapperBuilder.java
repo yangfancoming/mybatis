@@ -49,7 +49,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   private final MapperBuilderAssistant builderAssistant;
   // 保存SQL节点
   private final Map<String, XNode> sqlFragments;
-  // <mapper resource="org/apache/goat/chapter100/A/A040/Foo.xml" /> 标签中的resource属性值
+  // <mapper resource="org/apache/goat/chapter100/A/A040/Foo.xml" /> 标签中的resource属性
   private final String resource;
 
   @Deprecated
