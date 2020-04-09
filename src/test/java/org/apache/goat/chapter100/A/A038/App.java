@@ -18,6 +18,7 @@ class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A038/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
+  public static final String NAME_SPACE = "com.goat.test.namespace.A038.selectById";
 
   @BeforeAll
   static void setUp() throws Exception {
@@ -37,7 +38,7 @@ class App extends MyBaseDataTest {
   */
   @Test
   void test1() {
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
+    Foo foo = sqlSession.selectOne(NAME_SPACE,1);
     Assert.assertEquals(1,foo.getId());
   }
 
@@ -55,7 +56,7 @@ class App extends MyBaseDataTest {
   // 通过反射 测试 private 方法  databaseIdMatchesCurrent()
   @Test
   void databaseIdMatchesCurrentTest2() throws Exception{
-    Method testNoParamMethod = xmlStatementBuilder.getClass().getDeclaredMethod("databaseIdMatchesCurrent", String.class,String.class,String.class);
+    Method testNoParamMethod = xmlStatementBuilder.getClass().getDeclaredMethod(NAME_SPACE, String.class,String.class,String.class);
     testNoParamMethod.setAccessible(true);
     //通过反射调用 databaseIdMatchesCurrent() 方法
     Object result = testNoParamMethod.invoke(xmlStatementBuilder, "","","");
@@ -64,13 +65,14 @@ class App extends MyBaseDataTest {
 
   /**
    * doit 这里的 mappedStatement 为什么是这样？？？
-   * com.goat.test.namespace.selectById -> {MappedStatement@3170}
+   * com.goat.test.namespace.A038.selectById -> {MappedStatement@3170}
    * selectById -> {MappedStatement@3170}
   */
   @Test
   void test() {
     Map<String, MappedStatement> mappedStatement = configuration.getMappedStatement();
-    System.out.println(mappedStatement);
+    System.out.println(mappedStatement.get("selectById").getDatabaseId());
+    System.out.println(mappedStatement.get(NAME_SPACE).getDatabaseId());
 
   }
 }

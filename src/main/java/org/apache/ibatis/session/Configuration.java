@@ -976,8 +976,9 @@ public class Configuration {
     }
 
     /**
-     * 通过代码可以看出，重写put方法重要是为了，当key值有重复时，抛出异常。
-     * 而不像原生map那样 直接覆盖掉之前的键值
+     * 通过代码可以看出，重写put方法重要是为了，当key值有重复时，抛出异常。（原生Map 直接覆盖）
+     * 会将key的全名和简写名 同时put 。 即： 同一个<CRUD>标签的id 会被保存2个(1个全名 1个简写名)
+     * 这也是为什么 我们可以使用简写名的原因。
     */
     @Override
     @SuppressWarnings("unchecked")
@@ -985,6 +986,7 @@ public class Configuration {
       if (containsKey(key)) { //  #101
         throw new IllegalArgumentException(name + " already contains value for " + key + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
       }
+      // put 简写名称key   【selectById -> {MappedStatement@3170}】
       if (key.contains(".")) {
         final String shortKey = getShortName(key);
         if (super.get(shortKey) == null) {
@@ -993,13 +995,10 @@ public class Configuration {
           super.put(shortKey, (V) new Ambiguity(shortKey));
         }
       }
+      // put 正常名称key  【com.goat.test.namespace.A038.selectById -> {MappedStatement@3170}】
       return super.put(key, value);
     }
 
-  /**
-   *   name： Mapped Statements collection
-   *   key ： org.apache.goat.chapter100.A044.FooMapper.selectById
-  */
     @Override
     public V get(Object key) {
       V value = super.get(key);
@@ -1023,8 +1022,16 @@ public class Configuration {
       }
     }
 
+    /**ShortNameTest
+     * 取出最后一个 "." 分隔的元素
+     * @param key - the resource to find  eg: com.goat.test.namespace.A038.selectById
+     * @return  selectById
+     * @see org.apache.ibatis.submitted.xml_external_ref.ShortNameTest#getStatementByShortName
+     */
     private String getShortName(String key) {
+      // 将key按"."字符分隔为数组
       final String[] keyParts = key.split("\\.");
+      // 取出数组中的最后一个元素
       return keyParts[keyParts.length - 1];
     }
   }
