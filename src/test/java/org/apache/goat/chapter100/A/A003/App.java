@@ -15,8 +15,8 @@ class App extends MyBaseDataTest {
   void selectById() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
     FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
-    Foo foo = fooMapper.selectById(1);
-    System.out.println(foo);
+//    Foo foo = fooMapper.selectById(1);
+//    System.out.println(foo);
 
     Foo foo2 = fooMapper.selectById("2");
     System.out.println(foo2);

@@ -32,6 +32,13 @@ public class MapperRegistry {
     this.config = config;
   }
 
+  /**
+   * @since 3.2.2
+   */
+  public Collection<Class<?>> getMappers() {
+    return Collections.unmodifiableCollection(knownMappers.keySet());
+  }
+
   //返回代理类
   @SuppressWarnings("unchecked")
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
@@ -53,7 +60,42 @@ public class MapperRegistry {
   }
 
   /**
-   * @Description: 包装
+   * @since 3.2.2
+   * 查找包下所有类
+   * @param packageName org.apache.goat.chapter100.A044
+   */
+  public void addMappers(String packageName) {
+    addMappers(packageName, Object.class);
+  }
+
+  /**
+   * @since 3.2.2
+   * @param packageName  org.apache.goat.chapter100.A.A044
+   * @param superType    Object.class
+   * 根据注解生成mappedstatemnet：
+   * configuration会把工作委托给MapperRegistry去做，MapperRegistry会持有所有被解析的接口（运行时生成动态代理用），
+   * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
+   */
+  public void addMappers(String packageName, Class<?> superType) {
+    //查找包下所有是superType的类
+    ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
+    // 给 ResolverUtil类的 matches 赋值
+    resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
+    // 从 ResolverUtil类的 matches 中获取
+    Set<Class<? extends Class<?>>> mapperSet = resolverUtil.getClasses();
+    /**
+     * mapperSet 集合：
+     * interface org.apache.goat.chapter100.A044.ZooMapper
+     * class org.apache.goat.chapter100.A044.App
+     * interface org.apache.goat.chapter100.A044.FooMapper
+    */
+    for (Class<?> mapperClass : mapperSet) {
+      addMapper(mapperClass);
+    }
+  }
+
+  /**
+   * @Description: 最终调用 addMapper
    * @date 2019年10月27日21:11:26
    * @param type interface org.apache.goat.chapter100.C010.EmployeeMapper
    * @return
@@ -91,48 +133,6 @@ public class MapperRegistry {
       if (!loadCompleted) {
         knownMappers.remove(type);
       }
-    }
-  }
-
-  /**
-   * @since 3.2.2
-   */
-  public Collection<Class<?>> getMappers() {
-    return Collections.unmodifiableCollection(knownMappers.keySet());
-  }
-
-  /**
-   * @since 3.2.2
-   * 查找包下所有类
-   * @param packageName org.apache.goat.chapter100.A044
-   */
-  public void addMappers(String packageName) {
-    addMappers(packageName, Object.class);
-  }
-
-  /**
-   * @since 3.2.2
-   * @param packageName  org.apache.goat.chapter100.A.A044
-   * @param superType    Object.class
-   * 根据注解生成mappedstatemnet：
-   * configuration会把工作委托给MapperRegistry去做，MapperRegistry会持有所有被解析的接口（运行时生成动态代理用），
-   * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
-   */
-  public void addMappers(String packageName, Class<?> superType) {
-    //查找包下所有是superType的类
-    ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
-    // 给 ResolverUtil类的 matches 赋值
-    resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
-    // 从 ResolverUtil类的 matches 中获取
-    Set<Class<? extends Class<?>>> mapperSet = resolverUtil.getClasses();
-    /**
-     * mapperSet 集合：
-     * interface org.apache.goat.chapter100.A044.ZooMapper
-     * class org.apache.goat.chapter100.A044.App
-     * interface org.apache.goat.chapter100.A044.FooMapper
-    */
-    for (Class<?> mapperClass : mapperSet) {
-      addMapper(mapperClass);
     }
   }
 
