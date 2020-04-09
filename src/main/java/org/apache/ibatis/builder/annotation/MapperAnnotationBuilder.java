@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.CacheNamespace;
@@ -80,25 +82,13 @@ import org.apache.ibatis.type.UnknownTypeHandler;
 
 public class MapperAnnotationBuilder {
 
-  private static final Set<Class<? extends Annotation>> SQL_ANNOTATION_TYPES = new HashSet<>();
-  private static final Set<Class<? extends Annotation>> SQL_PROVIDER_ANNOTATION_TYPES = new HashSet<>();
+  // -modify
+  private static final Set<Class<? extends Annotation>> SQL_ANNOTATION_TYPES = Stream.of(Select.class,Insert.class,Update.class,Delete.class).collect(Collectors.toCollection(HashSet::new));
+  private static final Set<Class<? extends Annotation>> SQL_PROVIDER_ANNOTATION_TYPES = Stream.of(SelectProvider.class,InsertProvider.class,UpdateProvider.class,DeleteProvider.class).collect(Collectors.toCollection(HashSet::new));
 
   private final Configuration configuration;
   private final MapperBuilderAssistant assistant;
   private final Class<?> type;
-
-  static {
-    //从这里看出我们熟悉的CRUD注解了，它这里先预存到sqlAnnotationTypes集合中
-    SQL_ANNOTATION_TYPES.add(Select.class);
-    SQL_ANNOTATION_TYPES.add(Insert.class);
-    SQL_ANNOTATION_TYPES.add(Update.class);
-    SQL_ANNOTATION_TYPES.add(Delete.class);
-
-    SQL_PROVIDER_ANNOTATION_TYPES.add(SelectProvider.class);
-    SQL_PROVIDER_ANNOTATION_TYPES.add(InsertProvider.class);
-    SQL_PROVIDER_ANNOTATION_TYPES.add(UpdateProvider.class);
-    SQL_PROVIDER_ANNOTATION_TYPES.add(DeleteProvider.class);
-  }
 
   // 注意type参数代表MapperInterface接口类    org.apache.goat.chapter100.A.A044.FooMapper
   public MapperAnnotationBuilder(Configuration configuration, Class<?> type) {
@@ -299,16 +289,17 @@ public class MapperAnnotationBuilder {
    该函数 表露了 如果相应的接口dao类定义了类似@Select/@Delete的注解方式，其会覆盖XML方式加载的同id的MappedStatement
    */
   void parseStatement(Method method) {
-    //获得为ParamMap，ibatis内部实现了HashMap
+    // 获得为ParamMap，ibatis内部实现了HashMap
     Class<?> parameterTypeClass = getParameterType(method);
-    //脚本驱动器
+    // 脚本驱动器
     LanguageDriver languageDriver = getLanguageDriver(method);
-    //寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回null
+    // 寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回null
     SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
+    // 如果方法上没有注解 则直接返回 若是局部xml已有对应sql实现配置则 会被注解sql实现配置覆盖。
     if (sqlSource == null) return; // -modify
-    //查看方法头有无@Option注解
+    // 查看方法头有无@Option注解
     Options options = method.getAnnotation(Options.class);
-    //注解方式的mapperStatementId为 ${Class全名}.${方法名}
+    // 注解方式的mapperStatementId为 ${Class全名}.${方法名}
     /**
      * 这里可以看到，Id是类名加上方法名，这里就有一个问题，当类中的方法被重载时，mybatis会认为有问题的，
      * 可以看到，虽然方法被重载，mappedStatementId依然是同一个，所以mybatis中sql的接口是不能重载的。
@@ -316,10 +307,10 @@ public class MapperAnnotationBuilder {
     final String mappedStatementId = type.getName() + "." + method.getName();
     Integer fetchSize = null;
     Integer timeout = null;
-    //默认使用预处理方式
+    // 默认使用预处理方式
     StatementType statementType = StatementType.PREPARED;
     ResultSetType resultSetType = null;
-    //获取方法的@Select/@Update之类的SQL执行类型
+    // 获取方法的@Select/@Update之类的SQL执行类型
     SqlCommandType sqlCommandType = getSqlCommandType(method);
     boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
     boolean flushCache = !isSelect;
@@ -344,7 +335,7 @@ public class MapperAnnotationBuilder {
     } else {
       keyGenerator = NoKeyGenerator.INSTANCE;
     }
-    //加载自定义的@Option的属性
+    // 加载自定义的@Option的属性
     if (options != null) {
       if (FlushCachePolicy.TRUE.equals(options.flushCache())) {
         flushCache = true;
@@ -359,16 +350,16 @@ public class MapperAnnotationBuilder {
     }
 
     String resultMapId = null;
-    //读取返回类型@ResultMap注解，形式为@ResultMap(value="modelMap")，则必须存在class文件对应的sql XML配置文件，其中的value是sql xml配置中的<resultMap id="modelMap" />
+    // 读取返回类型@ResultMap注解，形式为@ResultMap(value="modelMap")，则必须存在class文件对应的sql XML配置文件，其中的value是sql xml配置中的<resultMap id="modelMap" />
     ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
-    //如果存在@ResultMap注解，则使用其中的value作为返回集合id
+    // 如果存在@ResultMap注解，则使用其中的value作为返回集合id
     if (resultMapAnnotation != null) {
       resultMapId = String.join(",", resultMapAnnotation.value());
     } else if (isSelect) {
-      //如果是查询式注解则采用另外方式生成,最后格式为${class类全名}.${methodName}-${-methodParameterType1-methodParamterType2-...}
+      // 如果是查询式注解则采用另外方式生成,最后格式为${class类全名}.${methodName}-${-methodParameterType1-methodParamterType2-...}
       resultMapId = parseResultMap(method);
     }
-    //最终生成MappedStatement执行对象
+    // 最终生成MappedStatement执行对象
     assistant.addMappedStatement(mappedStatementId,sqlSource,statementType,sqlCommandType,fetchSize,timeout,null,parameterTypeClass, resultMapId,getReturnType(method),resultSetType,flushCache,useCache,
       // TODO gcode issue #577
       false,keyGenerator,keyProperty, keyColumn,null,languageDriver,
