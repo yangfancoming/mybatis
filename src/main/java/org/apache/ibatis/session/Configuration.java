@@ -744,7 +744,7 @@ public class Configuration {
     return mappedStatements.values();
   }
 
-  // -add
+  // -modify add
   public Map<String, MappedStatement> getMappedStatement(){
     return mappedStatements;
   }
@@ -935,7 +935,8 @@ public class Configuration {
     }
   }
 
-  protected static class StrictMap<V> extends HashMap<String, V> {
+  // -modify Modifier
+  public static class StrictMap<V> extends HashMap<String, V> {
 
     private static final long serialVersionUID = -4950446264854982944L;
     private final String name;
@@ -1022,13 +1023,14 @@ public class Configuration {
       }
     }
 
-    /**ShortNameTest
+    /**
+     * -modify Modifier
      * 取出最后一个 "." 分隔的元素
      * @param key - the resource to find  eg: com.goat.test.namespace.A038.selectById
      * @return  selectById
      * @see org.apache.ibatis.submitted.xml_external_ref.ShortNameTest#getStatementByShortName
      */
-    private String getShortName(String key) {
+    public static String getShortName(String key) {
       // 将key按"."字符分隔为数组
       final String[] keyParts = key.split("\\.");
       // 取出数组中的最后一个元素

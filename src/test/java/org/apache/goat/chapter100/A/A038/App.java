@@ -64,15 +64,18 @@ class App extends MyBaseDataTest {
   }
 
   /**
-   * doit 这里的 mappedStatement 为什么是这样？？？
+   * 测试 MappedStatement 会通过 StrictMap 将一个<CRUD> 标签同时put 2个到mappedStatements中
    * com.goat.test.namespace.A038.selectById -> {MappedStatement@3170}
    * selectById -> {MappedStatement@3170}
   */
   @Test
   void test() {
     Map<String, MappedStatement> mappedStatement = configuration.getMappedStatement();
-    System.out.println(mappedStatement.get("selectById").getDatabaseId());
-    System.out.println(mappedStatement.get(NAME_SPACE).getDatabaseId());
+    Assert.assertEquals("hsqldb",mappedStatement.get(Configuration.StrictMap.getShortName(NAME_SPACE)).getDatabaseId());
+    Assert.assertEquals("hsqldb",mappedStatement.get(NAME_SPACE).getDatabaseId());
 
+    // 从 MappedStatement 中获取sql文本
+//    mappedStatement.get(NAME_SPACE).getBoundSql()
   }
+
 }
