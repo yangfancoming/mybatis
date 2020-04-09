@@ -26,7 +26,7 @@ import java.util.List;
  *   映射配置文件中定义的SQL节点会被解析成 MappedStatement 对象
  *   其中的 SQL 语句会被解析成 SqlSource 对象 ， SQL 语句中定义的动态 SQL节点、文本节点等，则由sqlNode 接口的相应实现表示。
 */
-public final class MappedStatement implements SqlSource{ // -modify implements
+public final class MappedStatement {
 
   private static final Log log = LogFactory.getLog(MappedStatement.class);
 
@@ -306,7 +306,10 @@ public final class MappedStatement implements SqlSource{ // -modify implements
     return resultSets;
   }
 
-  // doit 这里的 getBoundSql() 方法为啥不去实现 SqlSource 接口呢？？？
+  /**
+   *  这里的 getBoundSql() 方法为啥不去实现 SqlSource 接口呢？？？
+   *  因为 MappedStatement 持有 SqlSource 接口引用 可以直接使用 MappedStatement.getSqlSource().getBoundSql()
+  */
   public BoundSql getBoundSql(Object parameterObject) {
     log.warn("#getBoundSql() sqlSource 实现类：" + sqlSource.getClass());
     // 通过SqlSource获取BoundSql对象

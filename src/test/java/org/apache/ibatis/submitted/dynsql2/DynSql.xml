@@ -12,9 +12,9 @@
     select * from ibtest.names
     <where>
       <foreach collection="names" item="name" separator="or">
-        (firstName = #{name,typeHandler=org.apache.ibatis.submitted.dynsql2.FirstNameTypeHandler}) and
-        (lastName = #{name,typeHandler=org.apache.ibatis.submitted.dynsql2.LastNameTypeHandler})
+        (firstName = #{name,typeHandler=org.apache.ibatis.submitted.dynsql2.FirstNameTypeHandler}) and (lastName = #{name,typeHandler=org.apache.ibatis.submitted.dynsql2.LastNameTypeHandler})
       </foreach>
     </where>
   </select>
+
 </mapper>
