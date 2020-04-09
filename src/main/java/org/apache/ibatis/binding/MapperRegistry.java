@@ -24,7 +24,8 @@ public class MapperRegistry {
 
   /**
    * 记录了 Mapper 接口与对应 MapperProxyFactory 之间的关系
-   * 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象，可以为 Mapper 接口创建代理对象
+   * key   ：Mapper 接口对应的 Class 对象，
+   * value ：MapperProxyFactory 工厂对象，可以为 Mapper 接口创建代理对象
   */
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
@@ -44,9 +45,8 @@ public class MapperRegistry {
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
     // 从 knownMappers 中获取与 type 对应的 MapperProxyFactory
     final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
-    if (mapperProxyFactory == null) { //说明这个Mapper接口没有注册
-      throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
-    }
+    //说明这个Mapper接口没有注册 抛出异常
+    if (mapperProxyFactory == null) throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
     try {
       //生成一个MapperProxy对象
       return mapperProxyFactory.newInstance(sqlSession);
@@ -110,15 +110,10 @@ public class MapperRegistry {
     if (hasMapper(type)) throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     boolean loadCompleted = false;
     try {
-      //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper
+      //将mapper接口包装成mapper代理
       MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
       // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
       knownMappers.put(type, tMapperProxyFactory);
-      /**  验证 两个对象相同
-       Class<T> mapperInterface = tMapperProxyFactory.getMapperInterface();
-       System.out.println(type == mapperInterface); // true
-       System.out.println(type.equals(mapperInterface) ); // true
-       */
       /**
        It's important that the type is added before the parser is run otherwise the binding may automatically be attempted by the mapper parser. If the type is already known, it won't try.
        在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试。

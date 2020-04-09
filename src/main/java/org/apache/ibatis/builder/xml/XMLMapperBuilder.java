@@ -90,15 +90,11 @@ public class XMLMapperBuilder extends BaseBuilder {
   // 开始解析局部xml  若当前的Mapper.xml尚未被解析，则开始解析
   public void parse() {
     log.warn(  "parse() ：configuration 地址：" + configuration);
-    /**
-     * 判断是否已经加载过资源：若<mappers>节点下有相同的<mapper>节点，就无需再次解析了
-     *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>
-     *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>  遇到相同的<mapper>节点 不会再次解析
-     */
+    // 防止局部xml被重复解析
     if (!configuration.isResourceLoaded(resource)) {
       // 从<mapper> 根节点开始解析
       configurationElement(parser.evalNode("/mapper"));
-      // 将该Mapper.xml添加至configuration的LoadedResource(已解析资源集合)中
+      // 当前局部xml解析完成后 将该Mapper.xml添加至configuration的LoadedResource(已解析资源集合)中 防止被重复解析
       configuration.addLoadedResource(resource);
       // 将当前上级循环中解析的mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定

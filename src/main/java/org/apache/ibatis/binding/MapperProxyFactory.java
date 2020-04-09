@@ -8,7 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.ibatis.session.SqlSession;
 
-
+/**
+ * MapperProxyFactory 对应一个 局部xml文件
+*/
 public class MapperProxyFactory<T> {
 
   //mapperInterface就是Mapper接口类(interface org.apache.ibatis.zgoat.A03.FooMapper)  被代理类

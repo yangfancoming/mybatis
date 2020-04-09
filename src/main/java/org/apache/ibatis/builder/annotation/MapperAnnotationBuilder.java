@@ -295,9 +295,9 @@ public class MapperAnnotationBuilder {
     return null;
   }
 
-/**
- 该函数 表露了 如果相应的接口dao类定义了类似@Select/@Delete的注解方式，其会覆盖XML方式加载的同id的MappedStatement
-*/
+  /**
+   该函数 表露了 如果相应的接口dao类定义了类似@Select/@Delete的注解方式，其会覆盖XML方式加载的同id的MappedStatement
+   */
   void parseStatement(Method method) {
     //获得为ParamMap，ibatis内部实现了HashMap
     Class<?> parameterTypeClass = getParameterType(method);
@@ -305,76 +305,75 @@ public class MapperAnnotationBuilder {
     LanguageDriver languageDriver = getLanguageDriver(method);
     //寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回null
     SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
-    if (sqlSource != null) {
-      //查看方法头有无@Option注解
-      Options options = method.getAnnotation(Options.class);
-      //注解方式的mapperStatementId为 ${Class全名}.${方法名}
-      /**
-       * 这里可以看到，Id是类名加上方法名，这里就有一个问题，当类中的方法被重载时，mybatis会认为有问题的，
-       * 可以看到，虽然方法被重载，mappedStatementId依然是同一个，所以mybatis中sql的接口是不能重载的。
-      */
-      final String mappedStatementId = type.getName() + "." + method.getName();
-      Integer fetchSize = null;
-      Integer timeout = null;
-      //默认使用预处理方式
-      StatementType statementType = StatementType.PREPARED;
-      ResultSetType resultSetType = null;
-      //获取方法的@Select/@Update之类的SQL执行类型
-      SqlCommandType sqlCommandType = getSqlCommandType(method);
-      boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
-      boolean flushCache = !isSelect;
-      boolean useCache = isSelect;
+    if (sqlSource == null) return; // -modify
+    //查看方法头有无@Option注解
+    Options options = method.getAnnotation(Options.class);
+    //注解方式的mapperStatementId为 ${Class全名}.${方法名}
+    /**
+     * 这里可以看到，Id是类名加上方法名，这里就有一个问题，当类中的方法被重载时，mybatis会认为有问题的，
+     * 可以看到，虽然方法被重载，mappedStatementId依然是同一个，所以mybatis中sql的接口是不能重载的。
+     */
+    final String mappedStatementId = type.getName() + "." + method.getName();
+    Integer fetchSize = null;
+    Integer timeout = null;
+    //默认使用预处理方式
+    StatementType statementType = StatementType.PREPARED;
+    ResultSetType resultSetType = null;
+    //获取方法的@Select/@Update之类的SQL执行类型
+    SqlCommandType sqlCommandType = getSqlCommandType(method);
+    boolean isSelect = sqlCommandType == SqlCommandType.SELECT;
+    boolean flushCache = !isSelect;
+    boolean useCache = isSelect;
 
-      KeyGenerator keyGenerator;
-      String keyProperty = null;
-      String keyColumn = null;
-      if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
-        // first check for SelectKey annotation - that overrides everything else
-        SelectKey selectKey = method.getAnnotation(SelectKey.class);
-        if (selectKey != null) {
-          keyGenerator = handleSelectKeyAnnotation(selectKey, mappedStatementId, getParameterType(method), languageDriver);
-          keyProperty = selectKey.keyProperty();
-        } else if (options == null) {
-          keyGenerator = configuration.isUseGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
-        } else {
-          keyGenerator = options.useGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
-          keyProperty = options.keyProperty();
-          keyColumn = options.keyColumn();
-        }
+    KeyGenerator keyGenerator;
+    String keyProperty = null;
+    String keyColumn = null;
+    if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
+      // first check for SelectKey annotation - that overrides everything else
+      SelectKey selectKey = method.getAnnotation(SelectKey.class);
+      if (selectKey != null) {
+        keyGenerator = handleSelectKeyAnnotation(selectKey, mappedStatementId, getParameterType(method), languageDriver);
+        keyProperty = selectKey.keyProperty();
+      } else if (options == null) {
+        keyGenerator = configuration.isUseGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
       } else {
-        keyGenerator = NoKeyGenerator.INSTANCE;
+        keyGenerator = options.useGeneratedKeys() ? Jdbc3KeyGenerator.INSTANCE : NoKeyGenerator.INSTANCE;
+        keyProperty = options.keyProperty();
+        keyColumn = options.keyColumn();
       }
-      //加载自定义的@Option的属性
-      if (options != null) {
-        if (FlushCachePolicy.TRUE.equals(options.flushCache())) {
-          flushCache = true;
-        } else if (FlushCachePolicy.FALSE.equals(options.flushCache())) {
-          flushCache = false;
-        }
-        useCache = options.useCache();
-        fetchSize = options.fetchSize() > -1 || options.fetchSize() == Integer.MIN_VALUE ? options.fetchSize() : null; //issue #348
-        timeout = options.timeout() > -1 ? options.timeout() : null;
-        statementType = options.statementType();
-        resultSetType = options.resultSetType();
-      }
-
-      String resultMapId = null;
-      //读取返回类型@ResultMap注解，形式为@ResultMap(value="modelMap")，则必须存在class文件对应的sql XML配置文件，其中的value是sql xml配置中的<resultMap id="modelMap" />
-      ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
-      //如果存在@ResultMap注解，则使用其中的value作为返回集合id
-      if (resultMapAnnotation != null) {
-        resultMapId = String.join(",", resultMapAnnotation.value());
-      } else if (isSelect) {
-        //如果是查询式注解则采用另外方式生成,最后格式为${class类全名}.${methodName}-${-methodParameterType1-methodParamterType2-...}
-        resultMapId = parseResultMap(method);
-      }
-      //最终生成MappedStatement执行对象
-      assistant.addMappedStatement(mappedStatementId,sqlSource,statementType,sqlCommandType,fetchSize,timeout,null,parameterTypeClass, resultMapId,getReturnType(method),resultSetType,flushCache,useCache,
-          // TODO gcode issue #577
-          false,keyGenerator,keyProperty, keyColumn,null,languageDriver,
-          // ResultSets
-          options != null ? nullOrEmpty(options.resultSets()) : null);
+    } else {
+      keyGenerator = NoKeyGenerator.INSTANCE;
     }
+    //加载自定义的@Option的属性
+    if (options != null) {
+      if (FlushCachePolicy.TRUE.equals(options.flushCache())) {
+        flushCache = true;
+      } else if (FlushCachePolicy.FALSE.equals(options.flushCache())) {
+        flushCache = false;
+      }
+      useCache = options.useCache();
+      fetchSize = options.fetchSize() > -1 || options.fetchSize() == Integer.MIN_VALUE ? options.fetchSize() : null; //issue #348
+      timeout = options.timeout() > -1 ? options.timeout() : null;
+      statementType = options.statementType();
+      resultSetType = options.resultSetType();
+    }
+
+    String resultMapId = null;
+    //读取返回类型@ResultMap注解，形式为@ResultMap(value="modelMap")，则必须存在class文件对应的sql XML配置文件，其中的value是sql xml配置中的<resultMap id="modelMap" />
+    ResultMap resultMapAnnotation = method.getAnnotation(ResultMap.class);
+    //如果存在@ResultMap注解，则使用其中的value作为返回集合id
+    if (resultMapAnnotation != null) {
+      resultMapId = String.join(",", resultMapAnnotation.value());
+    } else if (isSelect) {
+      //如果是查询式注解则采用另外方式生成,最后格式为${class类全名}.${methodName}-${-methodParameterType1-methodParamterType2-...}
+      resultMapId = parseResultMap(method);
+    }
+    //最终生成MappedStatement执行对象
+    assistant.addMappedStatement(mappedStatementId,sqlSource,statementType,sqlCommandType,fetchSize,timeout,null,parameterTypeClass, resultMapId,getReturnType(method),resultSetType,flushCache,useCache,
+      // TODO gcode issue #577
+      false,keyGenerator,keyProperty, keyColumn,null,languageDriver,
+      // ResultSets
+      options != null ? nullOrEmpty(options.resultSets()) : null);
   }
 
   private LanguageDriver getLanguageDriver(Method method) {

@@ -297,9 +297,7 @@ public class DefaultSqlSession implements SqlSession {
   }
 
   private <T> void registerCursor(Cursor<T> cursor) {
-    if (cursorList == null) {
-      cursorList = new ArrayList<>();
-    }
+    if (cursorList == null) cursorList = new ArrayList<>();
     cursorList.add(cursor);
   }
 
