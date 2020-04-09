@@ -29,6 +29,13 @@ public abstract class MyBaseJavaMapperConfig {
     return mappedStatement;
   }
 
+  public XMLMapperBuilder getMapperBuilder(Configuration configuration,String localXml) throws IOException {
+    InputStream inputStream = Resources.getResourceAsStream(localXml);
+    XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, localXml, configuration.getSqlFragments());
+    builder.parse();
+    return builder;
+  }
+
   // 再空配置的Configuration基础上获取 MappedStatement
   public MappedStatement getMappedStatement(String localXml,String statementId) throws IOException {
     Configuration configuration = getConfiguration(localXml);

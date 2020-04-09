@@ -40,7 +40,7 @@ import org.apache.ibatis.type.TypeHandler;
 */
 public class MapperBuilderAssistant extends BaseBuilder {
 
-  // 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 org.apache.ibatis.domain.blog.mappers.BlogMapper
+  // 对应 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 namespace 属性
   private String currentNamespace;
   private final String resource;
   private Cache currentCache;
@@ -57,6 +57,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
   }
 
   public void setCurrentNamespace(String currentNamespace) {
+    // 因为该方法不止一个地方调用，所以这里必须增加null的判断
     if (currentNamespace == null) throw new BuilderException("The mapper element requires a namespace attribute to be specified.");
     if (this.currentNamespace != null && !this.currentNamespace.equals(currentNamespace)) throw new BuilderException("Wrong namespace. Expected '" + this.currentNamespace + "' but found '" + currentNamespace + "'.");
     this.currentNamespace = currentNamespace;

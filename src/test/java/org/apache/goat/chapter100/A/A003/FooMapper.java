@@ -9,4 +9,6 @@ public interface FooMapper {
 
   Foo selectById(Integer id);
 
+  Foo selectById(String id);
+
 }

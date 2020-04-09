@@ -17,6 +17,7 @@ import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.ResultMapResolver;
+import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
 import org.apache.ibatis.builder.annotation.MethodResolver;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
 import org.apache.ibatis.cache.Cache;
@@ -176,7 +177,7 @@ public class Configuration {
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
   //对应Mapper.xml里配置的Statement  //mapper文件中增删改查操作的注册中心
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection").conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
-  //对应Mapper.xml里配置的cache  //mapper文件中配置cache节点的 二级缓存
+  //对应Mapper.xml里的<cache>标签  //mapper文件中配置cache节点的 二级缓存
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
   //对应Mapper.xml里配置的所有resultMap对象  key为命名空间+ID
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
@@ -184,7 +185,10 @@ public class Configuration {
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
   //主键生成器 //mapper文件中配置KeyGenerator的insert和update节点，key为命名空间+ID
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
-  // 存储已经加载过所有的mapper xml资源，见MapperAnnotationBuilder#loadXmlResource
+  /**
+   * 存储已经加载过所有的mapper xml资源，防止重复加载
+   * @see MapperAnnotationBuilder#loadXmlResource
+  */
   protected final Set<String> loadedResources = new HashSet<>();
   //存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");

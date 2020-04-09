@@ -35,7 +35,7 @@ class MapperTypeParameterTest {
     PersonMapper mapper = sqlSession.getMapper(PersonMapper.class);
     Person person = mapper.select(new Person(1));
     assertEquals("Jane", person.getName());
-}
+  }
 
   @Test
   void shouldResolveListTypeParam() {

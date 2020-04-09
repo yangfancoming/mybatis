@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.builder.CacheRefResolver;
@@ -84,7 +85,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     log.warn("构造函数 202001071500：configuration 地址：" + configuration);
   }
 
-  // 若当前的Mapper.xml尚未被解析，则开始解析  解析局部xml配置文件
+  // 开始解析局部xml  若当前的Mapper.xml尚未被解析，则开始解析
   public void parse() {
     log.warn(  "parse() ：configuration 地址：" + configuration);
     /**
@@ -100,7 +101,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       configuration.addLoadedResource(resource);
       // 将当前上级循环中解析的mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定
-      bindMapperForNamespace();
+      bindMapperForNamespace(builderAssistant.getCurrentNamespace());
     }
     //将resultMap映射信息转换成ResultMap对象
     parsePendingResultMaps();
@@ -129,8 +130,8 @@ public class XMLMapperBuilder extends BaseBuilder {
       log.warn("开始解析局部xml配置文件的 <mapper> 标签  XNode 地址：" + context.hashCode());
       // 获取<mapper>节点上的namespace属性，该属性必须存在，表示当前局部xml文件对应的mapper接口是谁
       String namespace = context.getStringAttribute("namespace");
-      if (namespace == null || namespace.equals(""))  throw new BuilderException("Mapper's namespace cannot be empty");
-      // 记录当前命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
+      if (StringUtils.isEmpty(namespace))  throw new BuilderException("Mapper's namespace cannot be empty"); // -modify
+      // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
       builderAssistant.setCurrentNamespace(namespace);
       // 解析<cache-ref>节点
       cacheRefElement(context.evalNode("cache-ref"));
@@ -142,7 +143,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       resultMapElements(context.evalNodes("/mapper/resultMap"));
       // 解析<SQL>节点，SQL节点可以使一些SQL片段被复用
       sqlElement(context.evalNodes("/mapper/sql"));
-      // 解析sql语句 （select|insert|update|delete节点） // 解析 statement
+      // 解析<CRUD>标签 （select|insert|update|delete节点） // 解析 statement
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
     } catch (Exception e) {
       throw new BuilderException("Error parsing Mapper XML. The XML location is '" + resource + "'. Cause: " + e, e);
@@ -484,14 +485,15 @@ public class XMLMapperBuilder extends BaseBuilder {
     }
   }
 
-
-  private void bindMapperForNamespace() {
-    // org.apache.goat.chapter100.C.C070.FooMapper
-    String namespace = builderAssistant.getCurrentNamespace();
+  /**
+   *  通过局部xml中的namespace属性 将对应的mapper接口与该局部xml进行绑定
+   * @param namespace -  对应 当前局部xml配置文件中命名空间 <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 namespace 属性
+   */
+  public void bindMapperForNamespace(String namespace) { // -modify
     if (namespace == null) return; //-modify
     Class<?> boundType = null;
     try {
-      // 通过全限定类路径反射获取对应的class对象 eg：interface org.apache.goat.chapter100.C.C070.FooMapper
+      // 通过全限定名反射获取对应的Mapper接口对象
       boundType = Resources.classForName(namespace);
     } catch (ClassNotFoundException e) {
       //ignore, bound type is not required

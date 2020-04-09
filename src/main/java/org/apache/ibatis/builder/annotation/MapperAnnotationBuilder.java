@@ -116,7 +116,7 @@ public class MapperAnnotationBuilder {
       //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
       loadXmlResource();
       configuration.addLoadedResource(resource);
-      //工作空间为当前类全名
+      // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
       assistant.setCurrentNamespace(type.getName());
       parseCache();
       parseCacheRef();
