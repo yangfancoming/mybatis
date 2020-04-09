@@ -2,6 +2,7 @@
     A000 mybatis  读取 xml 的三种方式 
     A001 mybatis  无mapper接口 入门示例
     A002 mybatis  有mapper接口 入门示例
+    A003 mybatis  mapper接口 方法重载问题 示例
 # 全局 xml 
     A010 全局xml 配置之 <settings> 之  mapUnderscoreToCamelCase
     A012 全局xml 配置之 <settings> 之  defaultExecutorType
