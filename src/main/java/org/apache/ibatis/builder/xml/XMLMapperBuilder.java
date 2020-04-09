@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
@@ -19,6 +20,7 @@ import org.apache.ibatis.builder.CacheRefResolver;
 import org.apache.ibatis.builder.IncompleteElementException;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.builder.ResultMapResolver;
+import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.io.Resources;
@@ -92,12 +94,11 @@ public class XMLMapperBuilder extends BaseBuilder {
      * 判断是否已经加载过资源：若<mappers>节点下有相同的<mapper>节点，就无需再次解析了
      *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>
      *     <mapper resource="org/apache/goat/chapter100/A/A000/Foo.xml"/>  遇到相同的<mapper>节点 不会再次解析
-    */
+     */
     if (!configuration.isResourceLoaded(resource)) {
       // 从<mapper> 根节点开始解析
       configurationElement(parser.evalNode("/mapper"));
-      // 将该Mapper.xml添加至configuration的LoadedResource容器中，下回无需再解 。 添加资源路径到“已解析资源集合”中
-      // 将该资源添加到为已经加载过的缓存中
+      // 将该Mapper.xml添加至configuration的LoadedResource(已解析资源集合)中
       configuration.addLoadedResource(resource);
       // 将当前上级循环中解析的mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定
@@ -116,15 +117,9 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   /**
-   * 解析局部xml
+   * 解析局部xml <!ELEMENT mapper (cache-ref | cache | resultMap* | parameterMap* | sql* | insert* | update* | delete* | select* )+>
    * @param context
-   *  <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper">
-   *    <cache eviction="FIFO" size="512" flushInterval="60000"  readOnly="true"/>
-   *    <select id="selectAllPosts" resultType="hashmap">
-   *        select * from post order by id
-   *    </select>
-   *  </mapper>
-  */
+   */
   private void configurationElement(XNode context) {
     try {
       log.warn("开始解析局部xml配置文件的 <mapper> 标签  XNode 地址：" + context.hashCode());
@@ -304,7 +299,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   /**
    该函数用于解析映射文件中所有的<resultMap>节点，这些节点会被解析成ResultMap对象，存储在Configuration对象的resultMaps容器中
-  */
+   */
   private void resultMapElements(List<XNode> list) throws Exception {
     for (XNode resultMapNode : list) {
       try {
@@ -495,18 +490,13 @@ public class XMLMapperBuilder extends BaseBuilder {
     try {
       // 通过全限定名反射获取对应的Mapper接口对象
       boundType = Resources.classForName(namespace);
-    } catch (ClassNotFoundException e) {
-      //ignore, bound type is not required
-    }
+    } catch (ClassNotFoundException e) { } // ignore, bound type is not required
     if (boundType == null || configuration.hasMapper(boundType)) return; // -modify
-    // Spring may not know the real resource name so we set a flag to prevent loading again this resource from the mapper interface
-    // look at MapperAnnotationBuilder#loadXmlResource
-    configuration.addLoadedResource("namespace:" + namespace);
     /**
-     *  boundType ： org.apache.goat.chapter100.C010.EmployeeMapper
-     * key：全限定类路径名 eg: interface org.apache.goat.chapter100.A044.ZooMapper
-     * value：MapperProxyFactory
+     * Spring may not know the real resource name so we set a flag to prevent loading again this resource from the mapper interface
+     * @see MapperAnnotationBuilder#loadXmlResource
      */
+    configuration.addLoadedResource("namespace:" + namespace);
     configuration.addMapper(boundType);
   }
 

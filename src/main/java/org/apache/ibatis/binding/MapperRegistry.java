@@ -56,8 +56,6 @@ public class MapperRegistry {
    * @Description: 包装
    * @date 2019年10月27日21:11:26
    * @param type interface org.apache.goat.chapter100.C010.EmployeeMapper
-   * @param type interface org.apache.goat.chapter100.A044.ZooMapper
-   * @param type class org.apache.goat.chapter100.A044.App
    * @return
    * 这里同样是扫描指定包路径地下的所有类，并且根据filter（new ResolverUtil.IsA(superType)），
    * 挑选出满足条件的类，这里的条件是Object.class，所以包底下的所有类都会被装进来，
@@ -67,9 +65,7 @@ public class MapperRegistry {
     // 忽略掉所有非接口类，mapper必须是接口类 interface才会被添加！
     if (!type.isInterface()) return; // -modify
     //检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
-    if (hasMapper(type)) {
-      throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
-    }
+    if (hasMapper(type)) throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     boolean loadCompleted = false;
     try {
       //将mapper接口包装成mapper代理 interface org.apache.ibatis.zgoat.A03.FooMapper

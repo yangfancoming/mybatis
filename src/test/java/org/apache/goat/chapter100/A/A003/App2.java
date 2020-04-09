@@ -17,7 +17,7 @@ class App2 extends MyBaseJavaMapperConfig {
     XMLMapperBuilder mapperBuilder = getMapperBuilder(configuration, XMLPATH_LOCAL);
     Assert.assertNotNull(mapperBuilder);
 
-//    mapperBuilder.bindMapperForNamespace("org.apache.goat.chapter100.A.A003.FooMapper");
+    mapperBuilder.bindMapperForNamespace("org.apache.goat.chapter100.A.A003.FooMapper");
   }
 
   @Test

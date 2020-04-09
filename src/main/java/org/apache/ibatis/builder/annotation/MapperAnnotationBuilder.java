@@ -112,26 +112,25 @@ public class MapperAnnotationBuilder {
   public void parse() {
     //获取接口类的名字，比如com.jing.test.TestMapper的输出为class com.jing.test.TestMapper
     String resource = type.toString(); // interface org.apache.goat.chapter100.A.A044.FooMapper
-    if (!configuration.isResourceLoaded(resource)) {
-      //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
-      loadXmlResource();
-      configuration.addLoadedResource(resource);
-      // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
-      assistant.setCurrentNamespace(type.getName());
-      parseCache();
-      parseCacheRef();
-      //获得class类中的方法
-      Method[] methods = type.getMethods();
-      for (Method method : methods) {
-        try {
-          // issue #237
-          if (!method.isBridge()) {
-            //解析方法上的注解式sql语句
-            parseStatement(method);
-          }
-        } catch (IncompleteElementException e) {
-          configuration.addIncompleteMethod(new MethodResolver(this, method));
+    if (configuration.isResourceLoaded(resource)) return; // -modify 如果已经解析过了 则直接返回
+    //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
+    loadXmlResource();
+    configuration.addLoadedResource(resource);
+    // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
+    assistant.setCurrentNamespace(type.getName());
+    parseCache();
+    parseCacheRef();
+    //获得class类中的方法
+    Method[] methods = type.getMethods();
+    for (Method method : methods) {
+      try {
+        // issue #237
+        if (!method.isBridge()) {
+          //解析方法上的注解式sql语句
+          parseStatement(method);
         }
+      } catch (IncompleteElementException e) {
+        configuration.addIncompleteMethod(new MethodResolver(this, method));
       }
     }
     parsePendingMethods();
@@ -372,8 +371,7 @@ public class MapperAnnotationBuilder {
       //最终生成MappedStatement执行对象
       assistant.addMappedStatement(mappedStatementId,sqlSource,statementType,sqlCommandType,fetchSize,timeout,null,parameterTypeClass, resultMapId,getReturnType(method),resultSetType,flushCache,useCache,
           // TODO gcode issue #577
-          false,
-          keyGenerator,keyProperty, keyColumn,null,languageDriver,
+          false,keyGenerator,keyProperty, keyColumn,null,languageDriver,
           // ResultSets
           options != null ? nullOrEmpty(options.resultSets()) : null);
     }

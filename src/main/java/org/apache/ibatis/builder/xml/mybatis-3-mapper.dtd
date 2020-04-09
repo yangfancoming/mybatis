@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!ELEMENT mapper (cache-ref | cache | resultMap* | parameterMap* | sql* | insert* | update* | delete* | select* )+>
-<!ATTLIST mapper
-namespace CDATA #IMPLIED
->
+<!ATTLIST mapper namespace CDATA #IMPLIED>
 
 <!ELEMENT cache-ref EMPTY>
-<!ATTLIST cache-ref
-namespace CDATA #REQUIRED
->
+<!ATTLIST cache-ref namespace CDATA #REQUIRED>
 
 <!ELEMENT cache (property*)>
 <!ATTLIST cache
@@ -225,9 +221,8 @@ lang CDATA #IMPLIED
 <!-- Dynamic -->
 
 <!ELEMENT include (property+)?>
-<!ATTLIST include
-refid CDATA #REQUIRED
->
+<!ATTLIST include refid CDATA #REQUIRED>
+
 
 <!ELEMENT bind EMPTY>
 <!ATTLIST bind
@@ -264,14 +259,12 @@ separator CDATA #IMPLIED
 
 <!ELEMENT choose (when* , otherwise?)>
 <!ELEMENT when (#PCDATA | include | trim | where | set | foreach | choose | if | bind)*>
-<!ATTLIST when
-test CDATA #REQUIRED
->
+<!ATTLIST when test CDATA #REQUIRED >
+
 <!ELEMENT otherwise (#PCDATA | include | trim | where | set | foreach | choose | if | bind)*>
 
 <!ELEMENT if (#PCDATA | include | trim | where | set | foreach | choose | if | bind)*>
-<!ATTLIST if
-test CDATA #REQUIRED
->
+<!ATTLIST if test CDATA #REQUIRED >
+
 
 

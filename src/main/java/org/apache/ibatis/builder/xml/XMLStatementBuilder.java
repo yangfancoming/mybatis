@@ -43,7 +43,6 @@ public class XMLStatementBuilder extends BaseBuilder {
     this.context = context;
     this.databaseId = databaseId;
     log.warn("构造函数 202001071544：configuration 地址：" + configuration);
-//    log.warn("构造函数 202001071544：XNode 地址：" + context.hashCode());
   }
 
   /**
