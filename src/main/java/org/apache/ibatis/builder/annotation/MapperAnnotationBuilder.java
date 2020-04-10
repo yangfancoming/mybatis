@@ -293,7 +293,7 @@ public class MapperAnnotationBuilder {
     Class<?> parameterTypeClass = getParameterType(method);
     // 脚本驱动器
     LanguageDriver languageDriver = getLanguageDriver(method);
-    // 寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回null
+    // 寻找方法名头上是否含有@Select/@Update/@Delete/@Insert注解，没有则返回
     SqlSource sqlSource = getSqlSourceFromAnnotations(method, parameterTypeClass, languageDriver);
     // 如果方法上没有注解 则直接返回 若是局部xml已有对应sql实现配置则 会被注解sql实现配置覆盖。
     if (sqlSource == null) return; // -modify
