@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ArrayTypeHandler extends BaseTypeHandler<Object> {
 
   private static final ConcurrentHashMap<Class<?>, String> STANDARD_MAPPING;
+
   static {
     STANDARD_MAPPING = new ConcurrentHashMap<>();
     STANDARD_MAPPING.put(BigDecimal.class, JdbcType.NUMERIC.name());
@@ -99,9 +100,7 @@ public class ArrayTypeHandler extends BaseTypeHandler<Object> {
   }
 
   protected Object extractArray(Array array) throws SQLException {
-    if (array == null) {
-      return null;
-    }
+    if (array == null) return null;
     Object result = array.getArray();
     array.free();
     return result;
