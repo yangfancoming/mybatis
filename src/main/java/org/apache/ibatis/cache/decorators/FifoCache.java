@@ -38,6 +38,20 @@ public class FifoCache implements Cache {
     this.size = 1024;
   }
 
+  private void cycleKeyList(Object key) {
+    //新添加的key需要保存到keyList里面
+    keyList.addLast(key);
+    //判断是否到了最大长度，到了的话需要移除头部最旧的key，同时把缓存中对应的key也删除掉
+    if (keyList.size() > size) {
+      Object oldestKey = keyList.removeFirst();
+      delegate.removeObject(oldestKey);
+    }
+  }
+
+  public void setSize(int size) {
+    this.size = size;
+  }
+
   @Override
   public String getId() {
     return delegate.getId();
@@ -46,10 +60,6 @@ public class FifoCache implements Cache {
   @Override
   public int getSize() {
     return delegate.getSize();
-  }
-
-  public void setSize(int size) {
-    this.size = size;
   }
 
   @Override
@@ -74,16 +84,6 @@ public class FifoCache implements Cache {
     //清理操作时，将FIFO队列也清除
     delegate.clear();
     keyList.clear();
-  }
-
-  private void cycleKeyList(Object key) {
-    //新添加的key需要保存到keyList里面
-    keyList.addLast(key);
-    //判断是否到了最大长度，到了的话需要移除头部最旧的key，同时把缓存中对应的key也删除掉
-    if (keyList.size() > size) {
-      Object oldestKey = keyList.removeFirst();
-      delegate.removeObject(oldestKey);
-    }
   }
 
 }

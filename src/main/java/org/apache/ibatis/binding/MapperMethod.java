@@ -82,7 +82,7 @@ public class MapperMethod {
         } else if (method.returnsCursor()) {
           result = executeForCursor(sqlSession, args);
         } else {
-          //否则就是查询单个对象   //否则就是一条记录
+          //否则就是查询单个对象  一条记录
           Object param = method.convertArgsToSqlCommandParam(args); // doit  这行代码 四种情况都会用到为啥不拿出来放在本函数的第一行？？？
           result = sqlSession.selectOne(command.getName(), param);
           if (method.returnsOptional() && (result == null || !method.getReturnType().equals(result.getClass()))) {

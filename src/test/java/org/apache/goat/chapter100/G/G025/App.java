@@ -31,7 +31,7 @@ class App extends MyBaseDataTest {
    * 			不同namespace查出的数据会放在自己对应的map缓存中
    * 			效果：数据会从二级缓存中获取 查出的数据都会被默认先放在一级缓存中。 只有会话提交或者关闭以后，一级缓存中的数据才会转移到二级缓存中
    *
-   * 		使用步骤：
+   * 		使用步骤： 开启二级缓存 开启mybatis二级缓存
    * 			1）、开启全局二级缓存配置：<setting name="cacheEnabled" value="true"/>
    * 			2）、去mapper.xml中配置使用二级缓存： <cache></cache> 或 <cache/>
    * 			3）、我们的 实体类 需要实现序列化接口

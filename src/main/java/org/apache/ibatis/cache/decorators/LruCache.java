@@ -34,14 +34,17 @@ public class LruCache implements Cache {
     setSize(1024);
   }
 
-  @Override
-  public String getId() {
-    return delegate.getId();
-  }
-
-  @Override
-  public int getSize() {
-    return delegate.getSize();
+  //将key放到LRU队列尾部，并判断是否有最旧的key需要删除
+  private void cycleKeyList(Object key) {
+    //1.这一步就会将key放到LRU队列的尾部，为什么是尾部，参考LinkedHashMap.afterNodeAccess
+    keyMap.put(key, key);
+    //2.如果有最旧的key需要删除，就删掉
+    //LinkedHashMap删除key是在LinkedHashMap#afterNodeInsertion中调用的，这只是把LRU队列的key删除了，但是真正的缓存队列还没有删除key，
+    //但是会把key赋值给eldestKey，每一次放进缓存的时候都会来检查，发现有eldestKey，就把他从真正的缓存队列里面清除，并把eldestKey置null
+    if (eldestKey != null) {
+      delegate.removeObject(eldestKey);
+      eldestKey = null;
+    }
   }
 
   //4.初始化LRU队列
@@ -104,17 +107,14 @@ public class LruCache implements Cache {
     keyMap.clear();
   }
 
-  //将key放到LRU队列尾部，并判断是否有最旧的key需要删除
-  private void cycleKeyList(Object key) {
-    //1.这一步就会将key放到LRU队列的尾部，为什么是尾部，参考LinkedHashMap.afterNodeAccess
-    keyMap.put(key, key);
-    //2.如果有最旧的key需要删除，就删掉
-    //LinkedHashMap删除key是在LinkedHashMap#afterNodeInsertion中调用的，这只是把LRU队列的key删除了，但是真正的缓存队列还没有删除key，
-    //但是会把key赋值给eldestKey，每一次放进缓存的时候都会来检查，发现有eldestKey，就把他从真正的缓存队列里面清除，并把eldestKey置null
-    if (eldestKey != null) {
-      delegate.removeObject(eldestKey);
-      eldestKey = null;
-    }
+  @Override
+  public String getId() {
+    return delegate.getId();
+  }
+
+  @Override
+  public int getSize() {
+    return delegate.getSize();
   }
 
 }

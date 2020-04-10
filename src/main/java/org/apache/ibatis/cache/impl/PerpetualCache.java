@@ -57,12 +57,8 @@ public class PerpetualCache implements Cache {
 
   @Override
   public boolean equals(Object o) {
-    if (getId() == null) {
-      throw new CacheException("Cache instances require an ID.");
-    }
-    if (this == o) {
-      return true;
-    }
+    if (getId() == null)  throw new CacheException("Cache instances require an ID.");
+    if (this == o) return true;
     if (!(o instanceof Cache)) {
       return false;
     }
@@ -72,9 +68,7 @@ public class PerpetualCache implements Cache {
 
   @Override
   public int hashCode() {
-    if (getId() == null) {
-      throw new CacheException("Cache instances require an ID.");
-    }
+    if (getId() == null) throw new CacheException("Cache instances require an ID.");
     return getId().hashCode();
   }
 

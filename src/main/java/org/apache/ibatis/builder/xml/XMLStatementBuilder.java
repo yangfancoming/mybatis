@@ -132,6 +132,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     for (XNode nodeToHandle : list) {
       String id = parentId + SelectKeyGenerator.SELECT_KEY_SUFFIX;
       String databaseId = nodeToHandle.getStringAttribute("databaseId");
+      // 验证当前sql的databaseId是否与<environment>标签中配置的数据库是否匹配
       if (databaseIdMatchesCurrent(id, databaseId, skRequiredDatabaseId)) {
         parseSelectKeyNode(id, nodeToHandle, parameterTypeClass, langDriver, databaseId);
       }
