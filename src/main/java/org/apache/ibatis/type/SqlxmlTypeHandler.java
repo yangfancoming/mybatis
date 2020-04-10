@@ -40,9 +40,7 @@ public class SqlxmlTypeHandler extends BaseTypeHandler<String> {
   }
 
   protected String sqlxmlToString(SQLXML sqlxml) throws SQLException {
-    if (sqlxml == null) {
-      return null;
-    }
+    if (sqlxml == null)  return null;
     try {
       return sqlxml.getString();
     } finally {

@@ -55,7 +55,7 @@ public class XMLStatementBuilder extends BaseBuilder {
    */
   public void parseStatementNode() {
     log.warn("0.解析当前节点 <select|insert|update|delete> XNode 地址：" + context.hashCode());
-    // SQL语句Id selectWithOptions
+    // <C|R|U|D>标签中的id属性
     String id = context.getStringAttribute("id");
     // <C|R|U|D>标签中的databaseId属性  数据库厂商标识
     String sqlDatabaseId = context.getStringAttribute("databaseId");

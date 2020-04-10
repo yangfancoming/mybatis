@@ -68,9 +68,7 @@ public class ArrayTypeHandler extends BaseTypeHandler<Object> {
       ps.setArray(i, (Array) parameter);
     } else {
       if (!parameter.getClass().isArray()) {
-        throw new TypeException(
-            "ArrayType Handler requires SQL array or java array parameter and does not support type "
-                + parameter.getClass());
+        throw new TypeException("ArrayType Handler requires SQL array or java array parameter and does not support type " + parameter.getClass());
       }
       Class<?> componentType = parameter.getClass().getComponentType();
       String arrayTypeName = resolveTypeName(componentType);

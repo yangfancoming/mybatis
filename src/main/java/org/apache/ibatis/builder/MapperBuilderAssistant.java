@@ -59,6 +59,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
   public void setCurrentNamespace(String currentNamespace) {
     // 因为该方法不止一个地方调用，所以这里必须增加null的判断
     if (currentNamespace == null) throw new BuilderException("The mapper element requires a namespace attribute to be specified.");
+    // 如果 局部xml命名空间已经注册并且已经注册的命名空间值与当前命名空间值不相同的话  则抛出异常
     if (this.currentNamespace != null && !this.currentNamespace.equals(currentNamespace)) throw new BuilderException("Wrong namespace. Expected '" + this.currentNamespace + "' but found '" + currentNamespace + "'.");
     this.currentNamespace = currentNamespace;
   }
@@ -171,8 +172,10 @@ public class MapperBuilderAssistant extends BaseBuilder {
 
   public MappedStatement addMappedStatement(String id,SqlSource sqlSource, StatementType statementType,SqlCommandType sqlCommandType,Integer fetchSize,Integer timeout, String parameterMap,Class<?> parameterType, String resultMap,Class<?> resultType, ResultSetType resultSetType, boolean flushCache,boolean useCache,boolean resultOrdered,KeyGenerator keyGenerator,String keyProperty, String keyColumn,String databaseId,LanguageDriver lang, String resultSets) {
     if (unresolvedCacheRef) throw new IncompleteElementException("Cache-ref not yet resolved");
+    // 操作前 deleteById  操作后 org.apache.goat.chapter100.B.B062.FooMapper.deleteById
     id = applyCurrentNamespace(id, false);
     boolean isSelect = (sqlCommandType == SqlCommandType.SELECT);
+    // 全局唯一入口 创建 MappedStatement.Builder
     MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, id, sqlSource, sqlCommandType)
         .resource(resource).fetchSize(fetchSize).timeout(timeout).statementType(statementType)
         .keyGenerator(keyGenerator).keyProperty(keyProperty).keyColumn(keyColumn)
