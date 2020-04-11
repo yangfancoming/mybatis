@@ -45,6 +45,7 @@ public class PerpetualCache implements Cache {
     return cache.get(key);
   }
 
+
   @Override
   public Object removeObject(Object key) {
     return cache.remove(key);
