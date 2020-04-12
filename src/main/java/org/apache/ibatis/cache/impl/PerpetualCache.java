@@ -67,7 +67,6 @@ public class PerpetualCache implements Cache {
     return getId().equals(otherCache.getId());
   }
 
-
   @Override
   public int hashCode() {
     if (getId() == null) throw new CacheException("Cache instances require an ID.");
