@@ -23,6 +23,13 @@ public class LoggingCache implements Cache {
     this.log = LogFactory.getLog(getId());
   }
 
+  private double getHitRatio() {
+    return (double) hits / (double) requests;
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -58,6 +65,10 @@ public class LoggingCache implements Cache {
     delegate.clear();
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
+
   @Override
   public int hashCode() {
     return delegate.hashCode();
@@ -66,10 +77,6 @@ public class LoggingCache implements Cache {
   @Override
   public boolean equals(Object obj) {
     return delegate.equals(obj);
-  }
-
-  private double getHitRatio() {
-    return (double) hits / (double) requests;
   }
 
 }

@@ -25,6 +25,17 @@ public class ScheduledCache implements Cache {
     this.clearInterval = clearInterval;
   }
 
+  private boolean clearWhenStale() {
+    if (System.currentTimeMillis() - lastClear > clearInterval) {
+      clear();
+      return true;
+    }
+    return false;
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -59,6 +70,9 @@ public class ScheduledCache implements Cache {
     delegate.clear();
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
   @Override
   public int hashCode() {
     return delegate.hashCode();
@@ -67,14 +81,6 @@ public class ScheduledCache implements Cache {
   @Override
   public boolean equals(Object obj) {
     return delegate.equals(obj);
-  }
-
-  private boolean clearWhenStale() {
-    if (System.currentTimeMillis() - lastClear > clearInterval) {
-      clear();
-      return true;
-    }
-    return false;
   }
 
 }

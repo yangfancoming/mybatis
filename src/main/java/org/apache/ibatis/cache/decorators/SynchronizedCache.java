@@ -16,6 +16,10 @@ public class SynchronizedCache implements Cache {
     this.delegate = delegate;
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
+
   @Override
   public String getId() {
     return delegate.getId();
@@ -46,6 +50,10 @@ public class SynchronizedCache implements Cache {
     delegate.clear();
   }
 
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
   @Override
   public int hashCode() {
     return delegate.hashCode();

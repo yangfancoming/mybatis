@@ -26,6 +26,20 @@ public class SoftCache implements Cache {
     this.queueOfGarbageCollectedEntries = new ReferenceQueue<>();
   }
 
+  public void setSize(int size) {
+    this.numberOfHardLinks = size;
+  }
+
+  private void removeGarbageCollectedItems() {
+    SoftEntry sv;
+    while ((sv = (SoftEntry) queueOfGarbageCollectedEntries.poll()) != null) {
+      delegate.removeObject(sv.key);
+    }
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -35,11 +49,6 @@ public class SoftCache implements Cache {
   public int getSize() {
     removeGarbageCollectedItems();
     return delegate.getSize();
-  }
-
-
-  public void setSize(int size) {
-    this.numberOfHardLinks = size;
   }
 
   @Override
@@ -83,13 +92,6 @@ public class SoftCache implements Cache {
     }
     removeGarbageCollectedItems();
     delegate.clear();
-  }
-
-  private void removeGarbageCollectedItems() {
-    SoftEntry sv;
-    while ((sv = (SoftEntry) queueOfGarbageCollectedEntries.poll()) != null) {
-      delegate.removeObject(sv.key);
-    }
   }
 
   private static class SoftEntry extends SoftReference<Object> {

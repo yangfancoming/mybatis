@@ -79,6 +79,9 @@ public class LruCache implements Cache {
     };
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public void putObject(Object key, Object value) {
     //1.put进来一个缓存之后，将这个key放到LRU队列尾部，并判断是否有最旧的元素需要删除。逻辑都在cycleKeyList里面实现

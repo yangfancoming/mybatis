@@ -52,6 +52,9 @@ public class FifoCache implements Cache {
     this.size = size;
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();

@@ -37,6 +37,52 @@ public class TransactionalCache implements Cache {
     this.entriesMissedInCache = new HashSet<>();
   }
 
+  // 提交事务，
+  public void commit() {
+    if (clearOnCommit) {
+      delegate.clear();
+    }
+    flushPendingEntries();
+    reset();
+  }
+  // 把未命中缓存的数据清除掉
+  public void rollback() {
+    unlockMissedEntries();
+    reset();
+  }
+
+  private void reset() {
+    clearOnCommit = false;
+    entriesToAddOnCommit.clear();
+    entriesMissedInCache.clear();
+  }
+
+  // 把 entriesToAddOnCommit  集合中的数据放入到二级缓存中
+  private void flushPendingEntries() {
+    for (Map.Entry<Object, Object> entry : entriesToAddOnCommit.entrySet()) {
+      // 放入到二级缓存中
+      delegate.putObject(entry.getKey(), entry.getValue());
+    }
+    for (Object entry : entriesMissedInCache) {
+      if (!entriesToAddOnCommit.containsKey(entry)) {
+        delegate.putObject(entry, null);
+      }
+    }
+  }
+
+  private void unlockMissedEntries() {
+    for (Object entry : entriesMissedInCache) {
+      try {
+        delegate.removeObject(entry);
+      } catch (Exception e) {
+        log.warn("Unexpected exception while notifiying a rollback to the cache adapter. Consider upgrading your cache adapter to the latest version.  Cause: " + e);
+      }
+    }
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -77,47 +123,6 @@ public class TransactionalCache implements Cache {
   public void clear() {
     clearOnCommit = true;
     entriesToAddOnCommit.clear();
-  }
-  // 提交事务，
-  public void commit() {
-    if (clearOnCommit) {
-      delegate.clear();
-    }
-    flushPendingEntries();
-    reset();
-  }
-  // 把未命中缓存的数据清除掉
-  public void rollback() {
-    unlockMissedEntries();
-    reset();
-  }
-
-  private void reset() {
-    clearOnCommit = false;
-    entriesToAddOnCommit.clear();
-    entriesMissedInCache.clear();
-  }
-  // 把 entriesToAddOnCommit  集合中的数据放入到二级缓存中
-  private void flushPendingEntries() {
-    for (Map.Entry<Object, Object> entry : entriesToAddOnCommit.entrySet()) {
-      // 放入到二级缓存中
-      delegate.putObject(entry.getKey(), entry.getValue());
-    }
-    for (Object entry : entriesMissedInCache) {
-      if (!entriesToAddOnCommit.containsKey(entry)) {
-        delegate.putObject(entry, null);
-      }
-    }
-  }
-
-  private void unlockMissedEntries() {
-    for (Object entry : entriesMissedInCache) {
-      try {
-        delegate.removeObject(entry);
-      } catch (Exception e) {
-        log.warn("Unexpected exception while notifiying a rollback to the cache adapter. Consider upgrading your cache adapter to the latest version.  Cause: " + e);
-      }
-    }
   }
 
 }

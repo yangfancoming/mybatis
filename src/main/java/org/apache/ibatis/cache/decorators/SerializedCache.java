@@ -27,6 +27,30 @@ public class SerializedCache implements Cache {
     this.delegate = delegate;
   }
 
+  private byte[] serialize(Serializable value) {
+    try (ByteArrayOutputStream bos = new ByteArrayOutputStream();ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+      oos.writeObject(value);
+      oos.flush();
+      return bos.toByteArray();
+    } catch (Exception e) {
+      throw new CacheException("Error serializing object.  Cause: " + e, e);
+    }
+  }
+
+  private Serializable deserialize(byte[] value) {
+    Serializable result;
+    try (ByteArrayInputStream bis = new ByteArrayInputStream(value);
+         ObjectInputStream ois = new CustomObjectInputStream(bis)) {
+      result = (Serializable) ois.readObject();
+    } catch (Exception e) {
+      throw new CacheException("Error deserializing object.  Cause: " + e, e);
+    }
+    return result;
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -62,6 +86,9 @@ public class SerializedCache implements Cache {
     delegate.clear();
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
   @Override
   public int hashCode() {
     return delegate.hashCode();
@@ -72,25 +99,6 @@ public class SerializedCache implements Cache {
     return delegate.equals(obj);
   }
 
-  private byte[] serialize(Serializable value) {
-    try (ByteArrayOutputStream bos = new ByteArrayOutputStream();ObjectOutputStream oos = new ObjectOutputStream(bos)) {
-      oos.writeObject(value);
-      oos.flush();
-      return bos.toByteArray();
-    } catch (Exception e) {
-      throw new CacheException("Error serializing object.  Cause: " + e, e);
-    }
-  }
-
-  private Serializable deserialize(byte[] value) {
-    Serializable result;
-    try (ByteArrayInputStream bis = new ByteArrayInputStream(value);ObjectInputStream ois = new CustomObjectInputStream(bis)) {
-      result = (Serializable) ois.readObject();
-    } catch (Exception e) {
-      throw new CacheException("Error deserializing object.  Cause: " + e, e);
-    }
-    return result;
-  }
 
   public static class CustomObjectInputStream extends ObjectInputStream {
 

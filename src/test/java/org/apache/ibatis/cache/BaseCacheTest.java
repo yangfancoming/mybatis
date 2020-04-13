@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-// doit 为什么 他们的 Equals And HashCode 都是相同的？？？
+// 以下五种缓存，他们的 Equals And HashCode结果都相同，是因为他们重写了Object类的 hashCode和equals方法。。。
 class BaseCacheTest {
 
   PerpetualCache cache = new PerpetualCache("test_cache");
@@ -57,7 +57,6 @@ class BaseCacheTest {
   public void test2(){
     assertTrue(synchronizedCache.equals(serializedCache));
     assertTrue(serializedCache.equals(scheduledCache));
-
   }
 
   // set 集合特点： 不能重复

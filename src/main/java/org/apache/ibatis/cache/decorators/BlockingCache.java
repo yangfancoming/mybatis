@@ -27,6 +27,50 @@ public class BlockingCache implements Cache {
     this.locks = new ConcurrentHashMap<>();
   }
 
+
+
+  private ReentrantLock getLockForKey(Object key) {
+    return locks.computeIfAbsent(key, k -> new ReentrantLock());
+  }
+
+  private void acquireLock(Object key) {
+    // 获取ReentrantLock 对象
+    Lock lock = getLockForKey(key);
+    if (timeout > 0) {
+      try {
+        // 指定的时间内是否能够获取锁
+        boolean acquired = lock.tryLock(timeout, TimeUnit.MILLISECONDS);
+        // 超时抛出异常
+        if (!acquired) {
+          throw new CacheException("Couldn't get a lock in " + timeout + " for the key " +  key + " at the cache " + delegate.getId());
+        }
+      } catch (InterruptedException e) {
+        throw new CacheException("Got interrupted while trying to acquire lock for key " + key, e);
+      }
+    } else {
+      // 如果timeout<=0 既没有时间设置，直接获取锁
+      lock.lock();
+    }
+  }
+
+  private void releaseLock(Object key) {
+    ReentrantLock lock = locks.get(key);
+    if (lock.isHeldByCurrentThread()) {
+      lock.unlock();
+    }
+  }
+
+  public long getTimeout() {
+    return timeout;
+  }
+
+  public void setTimeout(long timeout) {
+    this.timeout = timeout;
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
   @Override
   public String getId() {
     return delegate.getId();
@@ -66,44 +110,5 @@ public class BlockingCache implements Cache {
   @Override
   public void clear() {
     delegate.clear();
-  }
-
-  private ReentrantLock getLockForKey(Object key) {
-    return locks.computeIfAbsent(key, k -> new ReentrantLock());
-  }
-
-  private void acquireLock(Object key) {
-    // 获取ReentrantLock 对象
-    Lock lock = getLockForKey(key);
-    if (timeout > 0) {
-      try {
-        // 指定的时间内是否能够获取锁
-        boolean acquired = lock.tryLock(timeout, TimeUnit.MILLISECONDS);
-        // 超时抛出异常
-        if (!acquired) {
-          throw new CacheException("Couldn't get a lock in " + timeout + " for the key " +  key + " at the cache " + delegate.getId());
-        }
-      } catch (InterruptedException e) {
-        throw new CacheException("Got interrupted while trying to acquire lock for key " + key, e);
-      }
-    } else {
-      // 如果timeout<=0 既没有时间设置，直接获取锁
-      lock.lock();
-    }
-  }
-
-  private void releaseLock(Object key) {
-    ReentrantLock lock = locks.get(key);
-    if (lock.isHeldByCurrentThread()) {
-      lock.unlock();
-    }
-  }
-
-  public long getTimeout() {
-    return timeout;
-  }
-
-  public void setTimeout(long timeout) {
-    this.timeout = timeout;
   }
 }

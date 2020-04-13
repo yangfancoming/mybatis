@@ -11,20 +11,21 @@ class PerpetualCacheTest {
 
   Cache cache = new PerpetualCache("default");
 
+  // 测试缓存 存储
   @Test
   void shouldDemonstrateHowAllObjectsAreKept() {
     cache = new SynchronizedCache(cache);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 100; i++) {
       cache.putObject(i, i);
       assertEquals(i, cache.getObject(i));
     }
-    assertEquals(100000, cache.getSize());
+    assertEquals(100, cache.getSize());
   }
 
   @Test
   void shouldDemonstrateCopiesAreEqual() {
     cache = new SerializedCache(cache);
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 10; i++) {
       cache.putObject(i, i);
       assertEquals(i, cache.getObject(i));
     }
