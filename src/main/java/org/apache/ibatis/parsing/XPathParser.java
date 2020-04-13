@@ -255,7 +255,7 @@ public class XPathParser {
       //1.在系统环境变量中(System.getProperties())中查找 key=javax.xml.parsers.DocumentBuilderFactory
       //2.如果1没有找到，则找java.home/lib/jaxp.properties 文件，如果文件存在，在文件中查找key=javax.xml.parsers.DocumentBuilderFactory
       //3.如果2没有找到,则在classpath中的所有的jar包中查找META-INF/services /javax.xml.parsers.DocumentBuilderFactory 文件
-      //  全都没找到，则返回null
+      //4.全都没找到，则返回null
       //如果上面都没有找到，那么就使用JDK自带的实现类：
       //com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
       //在创建DocumentBuilder实例的时候，是根据DocumentBuilderFactoryImpl的不同有不同的实现。

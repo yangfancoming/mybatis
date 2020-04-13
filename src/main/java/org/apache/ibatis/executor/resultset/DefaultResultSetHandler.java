@@ -135,9 +135,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   }
 
   private void handleRefCursorOutputParameter(ResultSet rs, ParameterMapping parameterMapping, MetaObject metaParam) throws SQLException {
-    if (rs == null) {
-      return;
-    }
+    if (rs == null)  return;
     try {
       final String resultMapId = parameterMapping.getResultMapId();
       final ResultMap resultMap = configuration.getResultMap(resultMapId);
@@ -205,7 +203,6 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     if (resultMapCount != 1) {
       throw new ExecutorException("Cursor results cannot be mapped to multiple resultMaps");
     }
-
     ResultMap resultMap = resultMaps.get(0);
     return new DefaultCursor<>(this, resultMap, rsw, rowBounds);
   }
@@ -640,10 +637,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   }
 
   private Constructor<?> findDefaultConstructor(final Constructor<?>[] constructors) {
-    if (constructors.length == 1) {
-      return constructors[0];
-    }
-
+    if (constructors.length == 1) return constructors[0];
     for (final Constructor<?> constructor : constructors) {
       if (constructor.isAnnotationPresent(AutomapConstructor.class)) {
         return constructor;

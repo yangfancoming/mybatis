@@ -286,9 +286,7 @@ public class Reflector {
 
   /** 从两个 setter 方法中选择一个更为合适方法 */
   private Method pickBetterSetter(Method setter1, Method setter2, String property) {
-    if (setter1 == null) {
-      return setter2;
-    }
+    if (setter1 == null) return setter2;
     Class<?> paramType1 = setter1.getParameterTypes()[0];
     Class<?> paramType2 = setter2.getParameterTypes()[0];
     // 如果参数 2 可赋值给参数 1，即参数 2 是参数 1 的子类，则认为参数 2 对应的 setter 方法更为合适
@@ -326,9 +324,7 @@ public class Reflector {
         result = Array.newInstance(componentClass, 0).getClass();
       }
     }
-    if (result == null) {
-      result = Object.class;
-    }
+    if (result == null) result = Object.class;
     return result;
   }
 
@@ -500,9 +496,7 @@ public class Reflector {
   // 获取所有可读属性的 Invoker
   public Invoker getGetInvoker(String propertyName) {
     Invoker method = getMethods.get(propertyName);
-    if (method == null) {
-      throw new ReflectionException("There is no getter for property named '" + propertyName + "' in '" + type + "'");
-    }
+    if (method == null) throw new ReflectionException("There is no getter for property named '" + propertyName + "' in '" + type + "'");
     return method;
   }
 
@@ -514,9 +508,7 @@ public class Reflector {
    */
   public Class<?> getSetterType(String propertyName) {
     Class<?> clazz = setTypes.get(propertyName);
-    if (clazz == null) {
-      throw new ReflectionException("There is no setter for property named '" + propertyName + "' in '" + type + "'");
-    }
+    if (clazz == null) throw new ReflectionException("There is no setter for property named '" + propertyName + "' in '" + type + "'");
     return clazz;
   }
 
@@ -528,9 +520,7 @@ public class Reflector {
    */
   public Class<?> getGetterType(String propertyName) {
     Class<?> clazz = getTypes.get(propertyName);
-    if (clazz == null) {
-      throw new ReflectionException("There is no getter for property named '" + propertyName + "' in '" + type + "'");
-    }
+    if (clazz == null)  throw new ReflectionException("There is no getter for property named '" + propertyName + "' in '" + type + "'");
     return clazz;
   }
 

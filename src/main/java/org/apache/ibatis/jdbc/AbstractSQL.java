@@ -537,12 +537,8 @@ public abstract class AbstractSQL<T> {
 
     public String sql(Appendable a) {
       SafeAppendable builder = new SafeAppendable(a);
-      if (statementType == null) {
-        return null;
-      }
-
+      if (statementType == null) return null;
       String answer;
-
       switch (statementType) {
         case DELETE:
           answer = deleteSQL(builder);

@@ -237,9 +237,7 @@ public class TypeParameterResolver {
 
   static class ParameterizedTypeImpl implements ParameterizedType {
     private Class<?> rawType;
-
     private Type ownerType;
-
     private Type[] actualTypeArguments;
 
     public ParameterizedTypeImpl(Class<?> rawType, Type ownerType, Type[] actualTypeArguments) {

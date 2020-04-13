@@ -58,17 +58,13 @@ public class ManagedTransaction implements Transaction {
   @Override
   public void close() throws SQLException {
     if (closeConnection && connection != null) {
-      if (log.isDebugEnabled()) {
-        log.debug("Closing JDBC Connection [" + connection + "]");
-      }
+      if (log.isDebugEnabled()) log.debug("Closing JDBC Connection [" + connection + "]");
       connection.close();
     }
   }
 
   protected void openConnection() throws SQLException {
-    if (log.isDebugEnabled()) {
-      log.debug("Opening JDBC Connection");
-    }
+    if (log.isDebugEnabled()) log.debug("Opening JDBC Connection");
     connection = dataSource.getConnection();
     if (level != null) {
       connection.setTransactionIsolation(level.getLevel());

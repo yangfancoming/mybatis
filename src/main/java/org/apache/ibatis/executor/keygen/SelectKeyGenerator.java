@@ -94,15 +94,11 @@ public class SelectKeyGenerator implements KeyGenerator {
   //---------------------------------------------------------------------
   @Override
   public void processBefore(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
-    if (executeBefore) {
-      processGeneratedKeys(executor, ms, parameter);
-    }
+    if (executeBefore)  processGeneratedKeys(executor, ms, parameter);
   }
 
   @Override
   public void processAfter(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
-    if (!executeBefore) {
-      processGeneratedKeys(executor, ms, parameter);
-    }
+    if (!executeBefore) processGeneratedKeys(executor, ms, parameter);
   }
 }

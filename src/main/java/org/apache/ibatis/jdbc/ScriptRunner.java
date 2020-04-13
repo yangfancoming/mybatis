@@ -101,7 +101,6 @@ public class ScriptRunner {
   public void runScript(Reader reader) {
     // 设置事务是否自动提交
     setAutoCommit();
-
     try {
       if (sendFullScript) {
         // 一次性 执行脚本文件中的所有SQL语句
