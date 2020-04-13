@@ -35,7 +35,7 @@ import org.apache.ibatis.transaction.Transaction;
 public class CachingExecutor implements Executor {
 
   //  装饰者(CachingExecutor)持有被装饰者(SimpleExecutor)的引用！！！
-  private final Executor delegate; // SimpleExecutor
+  public final Executor delegate; // SimpleExecutor -modify
   private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
   public CachingExecutor(Executor delegate) {

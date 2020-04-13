@@ -55,8 +55,8 @@ public abstract class BaseExecutor implements Executor {
   protected Executor wrapper;
   // 延迟加载队列 / 线程安全队列
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
-  // 一级缓存，用于缓存查询结果
-  protected PerpetualCache localCache;
+  // 一级缓存，用于缓存查询结果 -modify
+  public PerpetualCache localCache;
   // 一级缓存，用于缓存输出类型参数（存储过程）
   protected PerpetualCache localOutputParameterCache;
   protected Configuration configuration;
@@ -126,7 +126,7 @@ public abstract class BaseExecutor implements Executor {
       // 首先从一级缓存中进行查询  //根据cachekey从localCache去查
       list = (resultHandler == null) ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
-        // 如果命中缓存，则处理存储过程 //如果查到localCache缓存，处理localOutputParameterCache
+        // 如果命中缓存，则处理存储过程 // 如果查到localCache缓存，处理localOutputParameterCache
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
       } else {
         // 如果缓存中没有对应的数据，则查数据库中查询数据
@@ -140,7 +140,7 @@ public abstract class BaseExecutor implements Executor {
       for (DeferredLoad deferredLoad : deferredLoads) {
         deferredLoad.load();
       }
-      // issue #601  //清空延迟加载队列
+      // issue #601  // 清空延迟加载队列
       deferredLoads.clear();
       if (configuration.getLocalCacheScope() == LocalCacheScope.STATEMENT) {
         // issue #482  //如果是statement，清本地缓存
@@ -268,17 +268,16 @@ public abstract class BaseExecutor implements Executor {
   }
 
   private void handleLocallyCachedOutputParameters(MappedStatement ms, CacheKey key, Object parameter, BoundSql boundSql) {
-    if (ms.getStatementType() == StatementType.CALLABLE) {
-      final Object cachedParameter = localOutputParameterCache.getObject(key);
-      if (cachedParameter != null && parameter != null) {
-        final MetaObject metaCachedParameter = configuration.newMetaObject(cachedParameter);
-        final MetaObject metaParameter = configuration.newMetaObject(parameter);
-        for (ParameterMapping parameterMapping : boundSql.getParameterMappings()) {
-          if (parameterMapping.getMode() != ParameterMode.IN) {
-            final String parameterName = parameterMapping.getProperty();
-            final Object cachedValue = metaCachedParameter.getValue(parameterName);
-            metaParameter.setValue(parameterName, cachedValue);
-          }
+    if (ms.getStatementType() != StatementType.CALLABLE) return; // -modify
+    final Object cachedParameter = localOutputParameterCache.getObject(key);
+    if (cachedParameter != null && parameter != null) {
+      final MetaObject metaCachedParameter = configuration.newMetaObject(cachedParameter);
+      final MetaObject metaParameter = configuration.newMetaObject(parameter);
+      for (ParameterMapping parameterMapping : boundSql.getParameterMappings()) {
+        if (parameterMapping.getMode() != ParameterMode.IN) {
+          final String parameterName = parameterMapping.getProperty();
+          final Object cachedValue = metaCachedParameter.getValue(parameterName);
+          metaParameter.setValue(parameterName, cachedValue);
         }
       }
     }

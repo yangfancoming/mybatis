@@ -2,7 +2,11 @@
 package org.apache.ibatis.submitted.force_flush_on_select;
 
 import org.apache.common.MyBaseDataTest;
+import org.apache.ibatis.executor.CachingExecutor;
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.SimpleExecutor;
 import org.apache.ibatis.session.LocalCacheScope;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,37 +25,46 @@ class ForceFlushOnSelectTest extends MyBaseDataTest {
   public static final String DBSQL = "org/apache/ibatis/submitted/force_flush_on_select/CreateDB.sql";
 
   PersonMapper personMapper;
+  Executor executor ;
 
   @BeforeEach
   public void beforeAll() throws Exception {
     setUpByInputStream(XMLPATH,DBSQL);
     personMapper = sqlSession.getMapper(PersonMapper.class);
+    DefaultSqlSession defaultSqlSession =  (DefaultSqlSession)sqlSession;
+     executor = defaultSqlSession.executor;
   }
 
   /**
+   * 源码搜索串：
+   *     <select id="selectByIdNoFlush" resultMap="personMap" parameterType="int">
+   *       SELECT id, firstName, lastName FROM person WHERE id = #{id}
+   *     </select>
+   */
+  @Test
+  void testShouldNotFlushLocalSessionCacheOnQuery() throws SQLException {
+    personMapper.selectByIdNoFlush(1); // 查库
+    assertEquals(1, ((SimpleExecutor) ((CachingExecutor) executor).delegate).localCache.getSize());
+    updateDatabase(sqlSession.getConnection());
+    Person updatedPerson = personMapper.selectByIdNoFlush(1); // 走缓存
+    assertEquals(1, ((SimpleExecutor) ((CachingExecutor) executor).delegate).localCache.getSize());
+    assertEquals("John", updatedPerson.getFirstName());
+  }
+
+  /**
+   * 源码搜索串：
    *     <select id="selectByIdFlush" resultMap="personMap" parameterType="int" flushCache="true">
    *         SELECT id, firstName, lastName FROM person WHERE id = #{id}
    *     </select>
   */
   @Test
   void testShouldFlushLocalSessionCacheOnQuery() throws SQLException {
-    personMapper.selectByIdFlush(1);
+    personMapper.selectByIdFlush(1); // 查库
+    assertEquals(1, ((SimpleExecutor) ((CachingExecutor) executor).delegate).localCache.getSize());
     updateDatabase(sqlSession.getConnection());
-    Person updatedPerson = personMapper.selectByIdFlush(1);
+    assertEquals(1, ((SimpleExecutor) ((CachingExecutor) executor).delegate).localCache.getSize());
+    Person updatedPerson = personMapper.selectByIdFlush(1); // 查库
     assertEquals("Simone", updatedPerson.getFirstName());
-  }
-
-  /**
-   *     <select id="selectByIdNoFlush" resultMap="personMap" parameterType="int">
-   *       SELECT id, firstName, lastName FROM person WHERE id = #{id}
-   *     </select>
-  */
-  @Test
-  void testShouldNotFlushLocalSessionCacheOnQuery() throws SQLException {
-    personMapper.selectByIdNoFlush(1);
-    updateDatabase(sqlSession.getConnection());
-    Person updatedPerson = personMapper.selectByIdNoFlush(1);
-    assertEquals("John", updatedPerson.getFirstName());
   }
 
   @Test
