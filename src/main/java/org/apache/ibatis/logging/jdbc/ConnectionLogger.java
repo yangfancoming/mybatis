@@ -77,7 +77,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
   public static Connection newInstance(Connection conn, Log statementLog, int queryStack) {
     InvocationHandler handler = new ConnectionLogger(conn, statementLog, queryStack);
     ClassLoader cl = Connection.class.getClassLoader();
-    // 使用 JDK 动态代理的方式创建代理对象
+    // 使用JDK动态代理的方式创建代理对象
     return (Connection) Proxy.newProxyInstance(cl, new Class[]{Connection.class}, handler);
   }
 

@@ -28,7 +28,6 @@ public class DefaultParameterHandler implements ParameterHandler {
 
   // 1.类型处理器注册中心 记录Mybatis中全部的TypeHandler对象，用于参数类型转换（JdbcType -> JavaType 或 JavaType -> JbdcType）。
   private final TypeHandlerRegistry typeHandlerRegistry;
-
   // 记录SQL节点相应的配置信息 2.MappedStatement是保存sql语句的数据结构
   private final MappedStatement mappedStatement;
   // 3.传入的参数对象

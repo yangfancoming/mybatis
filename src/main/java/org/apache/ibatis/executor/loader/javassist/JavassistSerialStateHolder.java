@@ -26,8 +26,7 @@ class JavassistSerialStateHolder extends AbstractSerialStateHolder {
   }
 
   @Override
-  protected Object createDeserializationProxy(Object target, Map<String, ResultLoaderMap.LoadPair> unloadedProperties, ObjectFactory objectFactory,
-          List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
+  protected Object createDeserializationProxy(Object target, Map<String, ResultLoaderMap.LoadPair> unloadedProperties, ObjectFactory objectFactory,List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     return new JavassistProxyFactory().createDeserializationProxy(target, unloadedProperties, objectFactory, constructorArgTypes, constructorArgs);
   }
 }

@@ -160,15 +160,11 @@ public class ResultLoaderMap {
         if (this.mappedParameter == null) {
           throw new ExecutorException("Property [" + this.property + "] cannot be loaded because " + "required parameter of mapped statement [" + this.mappedStatement + "] is not serializable.");
         }
-
         final Configuration config = this.getConfiguration();
         final MappedStatement ms = config.getMappedStatement(this.mappedStatement);
         if (ms == null) {
-          throw new ExecutorException("Cannot lazy load property [" + this.property
-                  + "] of deserialized object [" + userObject.getClass()
-                  + "] because configuration does not contain statement [" + this.mappedStatement + "]");
+          throw new ExecutorException("Cannot lazy load property [" + this.property + "] of deserialized object [" + userObject.getClass()  + "] because configuration does not contain statement [" + this.mappedStatement + "]");
         }
-
         this.metaResultObject = config.newMetaObject(userObject);
         this.resultLoader = new ResultLoader(config, new ClosedExecutor(), ms, this.mappedParameter, metaResultObject.getSetterType(this.property), null, null);
       }
@@ -215,17 +211,14 @@ public class ResultLoaderMap {
       }
 
       if (!(configurationObject instanceof Configuration)) {
-        throw new ExecutorException("Cannot get Configuration as factory method ["+ this.configurationFactory + "]#["
-                + FACTORY_METHOD + "] didn't return [" + Configuration.class + "] but ["
+        throw new ExecutorException("Cannot get Configuration as factory method ["+ this.configurationFactory + "]#[" + FACTORY_METHOD + "] didn't return [" + Configuration.class + "] but ["
                 + (configurationObject == null ? "null" : configurationObject.getClass()) + "].");
       }
       return Configuration.class.cast(configurationObject);
     }
 
     private Log getLogger() {
-      if (this.log == null) {
-        this.log = LogFactory.getLog(this.getClass());
-      }
+      if (this.log == null) this.log = LogFactory.getLog(this.getClass());
       return this.log;
     }
   }
