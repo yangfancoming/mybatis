@@ -62,6 +62,9 @@ public class CacheKey implements Cloneable, Serializable {
     }
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
   /**
    * CacheKey#equals
    *  缓存key的设计包含命名空间，分页信息，sql语句 ，参数值的信息，在BaseExecutor#createCacheKey这里是创建cacheKey的方法，包含了上面的四个要素。
@@ -76,25 +79,17 @@ public class CacheKey implements Cloneable, Serializable {
    */
   @Override
   public boolean equals(Object object) {
-    if (this == object) {
-      return true;
-    }
+    if (this == object) return true;
     if (!(object instanceof CacheKey)) {
       return false;
     }
 
     final CacheKey cacheKey = (CacheKey) object;
 
-    if (hashcode != cacheKey.hashcode) {
-      return false;
-    }
-    if (checksum != cacheKey.checksum) {
-      return false;
-    }
-    if (count != cacheKey.count) {
-      return false;
-    }
-
+    if (hashcode != cacheKey.hashcode) return false;
+    if (checksum != cacheKey.checksum) return false;
+    if (count != cacheKey.count)       return false;
+    // 如果前几项都不满足，则循环遍历 updateList 集合，判断每一项是否相等，如果有一项不相等则这两个CacheKey不相等
     for (int i = 0; i < updateList.size(); i++) {
       Object thisObject = updateList.get(i);
       Object thatObject = cacheKey.updateList.get(i);

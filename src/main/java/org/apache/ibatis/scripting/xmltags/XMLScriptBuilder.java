@@ -115,9 +115,7 @@ public class XMLScriptBuilder extends BaseBuilder {
         log.warn("发现节点类型节点，节点名称：" + nodeName );
         // 策略模式： 获取对应 initNodeHandlerMap() 填充的节点处理器策略
         NodeHandler handler = nodeHandlerMap.get(nodeName);
-        if (handler == null) {
-          throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
-        }
+        if (handler == null) throw new BuilderException("Unknown element <" + nodeName + "> in SQL statement.");
         // 调用同一接口实现解析生成SqlNode对象并统一存入List<SqlNode>集合中
         // 这里就相当于递归了！！！
         handler.handleNode(child, contents);

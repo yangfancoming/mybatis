@@ -33,16 +33,18 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
  * BaseExecutor 是一个抽象类，实现了 Executor 接口，并提供了大部分方法的实现，
- * 只有 4 个基本方法：doUpdate,  doQuery,  doQueryCursor,  doFlushStatement 没有实现，
- * 还是一个抽象方法，由子类实现，这 4 个方法相当于模板方法中变化的那部分。
- * Mybatis 的一级缓存就是在该类中实现的。
+ * 只有 4 个基本抽象方法：doUpdate,  doQuery,  doQueryCursor,  doFlushStatement 没有实现，
+ * 由子类实现，这 4 个方法相当于模板方法中变化的那部分。Mybatis 的一级缓存就是在该类中实现的。
  *
- *  具体实现类有抽象类BaseExecutor、实现类CachingExecutor、实现类BatchExecutor、实现类ReuseExecutor和实现类SimpleExecutor。
- *  具体选用哪个子类SimpleExecutor、ReuseExecutor和BatchExecutor实现，可以在Mybatis的配置文件中进行配，配置如下：
+ *  具体实现类有四个 BaseExecutor、 CachingExecutor、 BatchExecutor、 ReuseExecutor和SimpleExecutor。
+ *  具体选用哪个实现，可以在Mybatis的配置文件中进行配，配置如下：
  * <settings>
  *     <setting name="defaultExecutorType" value="REUSE"/>   SIMPLE、REUSE、BATCH
  * </settings>
- * 配置之后在 Configuration 类中的 newExecutor()   函数会选择具体使用的子类。
+ * 配置之后在 Configuration 类中的 newExecutor() 函数会选择具体使用的子类。
+ *
+ * 执行update类型的语句的时候会清空缓存，且执行结果不需要进行缓存，
+ * 执行select类型的语句的时候会对数据进行缓存
  */
 public abstract class BaseExecutor implements Executor {
 
@@ -72,47 +74,14 @@ public abstract class BaseExecutor implements Executor {
     this.wrapper = this;
   }
 
-  @Override
-  public Transaction getTransaction() {
-    if (closed) throw new ExecutorException("Executor was closed.");
-    return transaction;
-  }
-
-  @Override
-  public void close(boolean forceRollback) {
-    try {
-      try {
-        rollback(forceRollback);
-      } finally {
-        if (transaction != null) {
-          transaction.close();
-        }
-      }
-    } catch (SQLException e) {
-      // Ignore.  There's nothing that can be done at this point.
-      log.warn("Unexpected exception on closing transaction.  Cause: " + e);
-    } finally {
-      transaction = null;
-      deferredLoads = null;
-      localCache = null;
-      localOutputParameterCache = null;
-      closed = true;
-    }
-  }
-
-  @Override
-  public boolean isClosed() {
-    return closed;
-  }
-
   // 执行 insert | update | delete 语句，调用 doUpdate 方法实现,在执行这些语句的时候，会清空缓存
   @Override
   public int update(MappedStatement ms, Object parameter) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing an update").object(ms.getId());
     if (closed) throw new ExecutorException("Executor was closed.");
-    //先清局部缓存，再更新，如何更新由子类实现，模板方法模式
+    // 先清局部缓存
     clearLocalCache();
-    // 执行SQL语句
+    // 执行SQL语句 由子类实现，模板方法模式
     return doUpdate(ms, parameter);
   }
 
@@ -122,6 +91,7 @@ public abstract class BaseExecutor implements Executor {
     return flushStatements(false);
   }
 
+  // 刷新批处理语句，且执行缓存中还没执行的SQL语句
   public List<BatchResult> flushStatements(boolean isRollBack) throws SQLException {
     if (closed) throw new ExecutorException("Executor was closed.");
     // doFlushStatements 的 isRollBack 参数表示是否执行缓存中的SQL语句，false表示执行，true表示不执行
@@ -131,11 +101,12 @@ public abstract class BaseExecutor implements Executor {
   //SqlSession.selectList会调用此方法
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
-    // 1.根据具体传入的参数，动态地生成需要执行的SQL语句，用BoundSql对象表示
+    // 获取查询SQL   1.根据具体传入的参数，动态地生成需要执行的SQL语句，用BoundSql对象表示
     BoundSql boundSql = ms.getBoundSql(parameter);
-    // 2.为当前的查询创建一个缓存Key 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
+    //创建缓存的key  2.为当前的查询创建一个缓存Key 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
     CacheKey key = createCacheKey(ms, parameter, rowBounds, boundSql);
-    return query(ms, parameter, rowBounds, resultHandler, key, boundSql);// 执行查询
+    // 执行查询
+    return query(ms, parameter, rowBounds, resultHandler, key, boundSql);
   }
 
   // 它封装了缓存逻辑，如果缓存中无法找到，则从数据库中查询，而具体的查询实现doQuery被延迟到了子类来实现
@@ -179,6 +150,7 @@ public abstract class BaseExecutor implements Executor {
     return list;
   }
 
+  // 查询存储过程
   @Override
   public <E> Cursor<E> queryCursor(MappedStatement ms, Object parameter, RowBounds rowBounds) throws SQLException {
     BoundSql boundSql = ms.getBoundSql(parameter);
@@ -201,10 +173,11 @@ public abstract class BaseExecutor implements Executor {
   public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
     if (closed) throw new ExecutorException("Executor was closed.");
     CacheKey cacheKey = new CacheKey();
+    // 向 updateList 存入id
     cacheKey.update(ms.getId());
-    cacheKey.update(rowBounds.getOffset());
-    cacheKey.update(rowBounds.getLimit());
-    cacheKey.update(boundSql.getSql());
+    cacheKey.update(rowBounds.getOffset());// 存入offset
+    cacheKey.update(rowBounds.getLimit()); // 存入limit
+    cacheKey.update(boundSql.getSql()); // 存入sql
     List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
     TypeHandlerRegistry typeHandlerRegistry = ms.getConfiguration().getTypeHandlerRegistry();
     // mimic DefaultParameterHandler logic
@@ -222,11 +195,12 @@ public abstract class BaseExecutor implements Executor {
           MetaObject metaObject = configuration.newMetaObject(parameterObject);
           value = metaObject.getValue(propertyName);
         }
+        // 存入每一个参数
         cacheKey.update(value);
       }
     }
     if (configuration.getEnvironment() != null) {
-      // issue #176
+      // issue #176  // 存入 environmentId
       cacheKey.update(configuration.getEnvironment().getId());
     }
     return cacheKey;
@@ -243,9 +217,7 @@ public abstract class BaseExecutor implements Executor {
     if (closed) throw new ExecutorException("Cannot commit, transaction is already closed");
     clearLocalCache();// 清空缓存
     flushStatements();// 刷新批处理语句，且执行缓存中的QL语句
-    if (required) {
-      transaction.commit();
-    }
+    if (required)  transaction.commit();
   }
 
   @Override
@@ -255,9 +227,7 @@ public abstract class BaseExecutor implements Executor {
         clearLocalCache(); // 清空缓存
         flushStatements(true);// 刷新批处理语句，且不执行缓存中的SQL
       } finally {
-        if (required) {
-          transaction.rollback();
-        }
+        if (required) transaction.rollback();
       }
     }
   }
@@ -343,6 +313,37 @@ public abstract class BaseExecutor implements Executor {
     } else {
       return connection;
     }
+  }
+
+  @Override
+  public Transaction getTransaction() {
+    if (closed) throw new ExecutorException("Executor was closed.");
+    return transaction;
+  }
+
+  @Override
+  public void close(boolean forceRollback) {
+    try {
+      try {
+        rollback(forceRollback);
+      } finally {
+        if (transaction != null)  transaction.close();
+      }
+    } catch (SQLException e) {
+      // Ignore.  There's nothing that can be done at this point.
+      log.warn("Unexpected exception on closing transaction.  Cause: " + e);
+    } finally {
+      transaction = null;
+      deferredLoads = null;
+      localCache = null;
+      localOutputParameterCache = null;
+      closed = true;
+    }
+  }
+
+  @Override
+  public boolean isClosed() {
+    return closed;
   }
 
   @Override

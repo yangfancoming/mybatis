@@ -8,10 +8,8 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
 /**
- Mybatis 为 Cache 接口提供的唯一一个实现类就是 PerpetualCache，
- 因为 PerpetualCache 类中并没有   private final Cache delegate;  成员变量
- 这个唯一并不是说 Cache 只有一个实现类，只是缓存的处理逻辑，
- Cache 还有其他的实现类，但是只是作为装饰器存在，只是对 Cache 进行包装而已。
+ Mybatis 为 Cache 接口提供的唯一一个实现类就是 PerpetualCache， 因为 PerpetualCache 类中并没有 private final Cache delegate;
+ 这个唯一并不是说 Cache 只有一个实现类，只是缓存的处理逻辑， Cache 还有其他的实现类，但是只是作为装饰器存在，只是对 Cache 进行包装而已。
 */
 public class PerpetualCache implements Cache {
 
@@ -24,6 +22,10 @@ public class PerpetualCache implements Cache {
   public PerpetualCache(String id) {
     this.id = id;
   }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【Cache】 interface
+  //---------------------------------------------------------------------
 
   @Override
   public String getId() {
@@ -45,7 +47,6 @@ public class PerpetualCache implements Cache {
     return cache.get(key);
   }
 
-
   @Override
   public Object removeObject(Object key) {
     return cache.remove(key);
@@ -56,6 +57,9 @@ public class PerpetualCache implements Cache {
     cache.clear();
   }
 
+  //---------------------------------------------------------------------
+  // Implementation of 【Object】 class
+  //---------------------------------------------------------------------
   @Override
   public boolean equals(Object o) {
     if (getId() == null)  throw new CacheException("Cache instances require an ID.");

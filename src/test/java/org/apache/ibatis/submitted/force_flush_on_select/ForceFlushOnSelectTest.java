@@ -1,84 +1,63 @@
 
 package org.apache.ibatis.submitted.force_flush_on_select;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.common.MyBaseDataTest;
+import org.apache.ibatis.session.LocalCacheScope;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.LocalCacheScope;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
-class ForceFlushOnSelectTest {
+class ForceFlushOnSelectTest extends MyBaseDataTest {
 
-  private static SqlSessionFactory sqlSessionFactory;
+
+  public static final String XMLPATH = "org/apache/ibatis/submitted/force_flush_on_select/ibatisConfig.xml";
+  public static final String DBSQL = "org/apache/ibatis/submitted/force_flush_on_select/CreateDB.sql";
+
+  PersonMapper personMapper;
 
   @BeforeEach
-  void initDatabase() throws Exception {
-    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/force_flush_on_select/ibatisConfig.xml")) {
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-    }
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/force_flush_on_select/CreateDB.sql");
+  public void beforeAll() throws Exception {
+    setUpByInputStream(XMLPATH,DBSQL);
+    personMapper = sqlSession.getMapper(PersonMapper.class);
   }
 
   @Test
   void testShouldFlushLocalSessionCacheOnQuery() throws SQLException {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      personMapper.selectByIdFlush(1);
-      updateDatabase(sqlSession.getConnection());
-      Person updatedPerson = personMapper.selectByIdFlush(1);
-      assertEquals("Simone", updatedPerson.getFirstName());
-      sqlSession.commit();
-    }
+    personMapper.selectByIdFlush(1);
+    updateDatabase(sqlSession.getConnection());
+    Person updatedPerson = personMapper.selectByIdFlush(1);
+    assertEquals("Simone", updatedPerson.getFirstName());
   }
 
   @Test
   void testShouldNotFlushLocalSessionCacheOnQuery() throws SQLException {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      personMapper.selectByIdNoFlush(1);
-      updateDatabase(sqlSession.getConnection());
-      Person updatedPerson = personMapper.selectByIdNoFlush(1);
-      assertEquals("John", updatedPerson.getFirstName());
-      sqlSession.commit();
-    }
+    personMapper.selectByIdNoFlush(1);
+    updateDatabase(sqlSession.getConnection());
+    Person updatedPerson = personMapper.selectByIdNoFlush(1);
+    assertEquals("John", updatedPerson.getFirstName());
   }
 
   @Test
   void testShouldFlushLocalSessionCacheOnQueryForList() throws SQLException {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      List<Person> people = personMapper.selectAllFlush();
-      updateDatabase(sqlSession.getConnection());
-      people = personMapper.selectAllFlush();
-      assertEquals("Simone", people.get(0).getFirstName());
-      sqlSession.commit();
-    }
+    List<Person> people = personMapper.selectAllFlush();
+    updateDatabase(sqlSession.getConnection());
+    people = personMapper.selectAllFlush();
+    assertEquals("Simone", people.get(0).getFirstName());
   }
 
   @Test
   void testShouldNotFlushLocalSessionCacheOnQueryForList() throws SQLException {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      List<Person> people = personMapper.selectAllNoFlush();
-      updateDatabase(sqlSession.getConnection());
-      people = personMapper.selectAllNoFlush();
-      assertEquals("John", people.get(0).getFirstName());
-      sqlSession.commit();
-    }
+    List<Person> people = personMapper.selectAllNoFlush();
+    updateDatabase(sqlSession.getConnection());
+    people = personMapper.selectAllNoFlush();
+    assertEquals("John", people.get(0).getFirstName());
   }
 
   private void updateDatabase(Connection conn) throws SQLException {
@@ -89,29 +68,22 @@ class ForceFlushOnSelectTest {
 
   @Test
   void testUpdateShouldFlushLocalCache() {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      Person person = personMapper.selectByIdNoFlush(1);
-      person.setLastName("Perez"); // it is ignored in update
-      personMapper.update(person);
-      Person updatedPerson = personMapper.selectByIdNoFlush(1);
-      assertEquals("Smith", updatedPerson.getLastName());
-      assertNotSame(person, updatedPerson);
-      sqlSession.commit();
-    }
+    Person person = personMapper.selectByIdNoFlush(1);
+    person.setLastName("Perez"); // it is ignored in update
+    personMapper.update(person);
+    Person updatedPerson = personMapper.selectByIdNoFlush(1);
+    assertEquals("Smith", updatedPerson.getLastName());
+    assertNotSame(person, updatedPerson);
   }
 
   @Test
   void testSelectShouldFlushLocalCacheIfFlushLocalCacheAtferEachStatementIsTrue() throws SQLException {
     sqlSessionFactory.getConfiguration().setLocalCacheScope(LocalCacheScope.STATEMENT);
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.SIMPLE)) {
-      PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
-      List<Person> people = personMapper.selectAllNoFlush();
-      updateDatabase(sqlSession.getConnection());
-      people = personMapper.selectAllFlush();
-      assertEquals("Simone", people.get(0).getFirstName());
-      sqlSession.commit();
-    }
+    PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
+    List<Person> people = personMapper.selectAllNoFlush();
+    updateDatabase(sqlSession.getConnection());
+    people = personMapper.selectAllFlush();
+    assertEquals("Simone", people.get(0).getFirstName());
   }
 
 }

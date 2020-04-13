@@ -24,6 +24,7 @@ public interface Executor {
 
   ResultHandler NO_RESULT_HANDLER = null;
 
+  // insert | update | delete 的操作方法
   int update(MappedStatement ms, Object parameter) throws SQLException;
 
   // 查询，带分页，带缓存

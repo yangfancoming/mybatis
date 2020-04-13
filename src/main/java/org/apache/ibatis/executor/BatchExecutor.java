@@ -92,6 +92,7 @@ public class BatchExecutor extends BaseExecutor {
     handler.parameterize(stmt);
     return handler.queryCursor(stmt);
   }
+
   //刷新Statement，记录执行次数
   @Override
   public List<BatchResult> doFlushStatements(boolean isRollback) throws SQLException {

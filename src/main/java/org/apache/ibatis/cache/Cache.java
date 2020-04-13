@@ -71,8 +71,8 @@ public interface Cache {
    * Any locking needed by the cache must be provided internally by the cache provider.
    * @return A ReadWriteLock
    */
-  default ReadWriteLock getReadWriteLock() {
-    return null;
-  }
+//  default ReadWriteLock getReadWriteLock() {
+//    return null;
+//  }
 
 }

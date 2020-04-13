@@ -73,7 +73,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     boolean useCache = context.getBooleanAttribute("useCache", isSelect);
     // 根嵌套结果相关
     boolean resultOrdered = context.getBooleanAttribute("resultOrdered", false);
-    // Include Fragments before parsing 引入SQL片段
+    // Include Fragments before parsing 引入SQL片段  解析<include>标签
     XMLIncludeTransformer includeParser = new XMLIncludeTransformer(configuration, builderAssistant);
     includeParser.applyIncludes(context.getNode());
     // 参数类型；将会传入这条语句的参数类的完全限定名或别名。这个属性是可选的，因为 MyBatis 可以通过 TypeHandler 推断出具体传入语句的参数，默认值为 unset
