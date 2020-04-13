@@ -74,9 +74,7 @@ public abstract class BaseExecutor implements Executor {
 
   @Override
   public Transaction getTransaction() {
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     return transaction;
   }
 
@@ -111,9 +109,7 @@ public abstract class BaseExecutor implements Executor {
   @Override
   public int update(MappedStatement ms, Object parameter) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing an update").object(ms.getId());
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     //先清局部缓存，再更新，如何更新由子类实现，模板方法模式
     clearLocalCache();
     // 执行SQL语句
@@ -127,9 +123,7 @@ public abstract class BaseExecutor implements Executor {
   }
 
   public List<BatchResult> flushStatements(boolean isRollBack) throws SQLException {
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     // doFlushStatements 的 isRollBack 参数表示是否执行缓存中的SQL语句，false表示执行，true表示不执行
     return doFlushStatements(isRollBack);
   }
@@ -150,16 +144,14 @@ public abstract class BaseExecutor implements Executor {
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     if (queryStack == 0 && ms.isFlushCacheRequired()) {
       // 如果不是嵌套查询，且 <select> 的 flushCache=true 时才会清空缓存
       clearLocalCache();
     }
     List<E> list;
     try {
-      queryStack++;// 嵌套查询层数加1  //加一，这样递归调用到上面的时候就不会再清局部缓存了
+      queryStack++;// 嵌套查询层数加1 ，这样递归调用到上面的时候就不会再清局部缓存了
       // 首先从一级缓存中进行查询  //根据cachekey从localCache去查
       list = (resultHandler == null) ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
@@ -195,9 +187,7 @@ public abstract class BaseExecutor implements Executor {
 
   @Override
   public void deferLoad(MappedStatement ms, MetaObject resultObject, String property, CacheKey key, Class<?> targetType) {
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     DeferredLoad deferredLoad = new DeferredLoad(resultObject, property, key, localCache, configuration, targetType);
     if (deferredLoad.canLoad()) { //如果能加载则立即加载，否则加入到延迟加载队列中
       deferredLoad.load();
@@ -209,9 +199,7 @@ public abstract class BaseExecutor implements Executor {
   //创建缓存key
   @Override
   public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
-    if (closed) {
-      throw new ExecutorException("Executor was closed.");
-    }
+    if (closed) throw new ExecutorException("Executor was closed.");
     CacheKey cacheKey = new CacheKey();
     cacheKey.update(ms.getId());
     cacheKey.update(rowBounds.getOffset());
@@ -248,6 +236,7 @@ public abstract class BaseExecutor implements Executor {
   public boolean isCached(MappedStatement ms, CacheKey key) {
     return localCache.getObject(key) != null;
   }
+
   // 事务的提交和回滚
   @Override
   public void commit(boolean required) throws SQLException {
@@ -286,7 +275,6 @@ public abstract class BaseExecutor implements Executor {
   protected abstract List<BatchResult> doFlushStatements(boolean isRollback) throws SQLException;
   protected abstract <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException;
   protected abstract <E> Cursor<E> doQueryCursor(MappedStatement ms, Object parameter, RowBounds rowBounds, BoundSql boundSql) throws SQLException;
-
 
   protected void closeStatement(Statement statement) {
     if (statement != null) {
