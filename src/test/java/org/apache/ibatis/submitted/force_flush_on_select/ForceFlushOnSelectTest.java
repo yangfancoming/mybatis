@@ -28,6 +28,11 @@ class ForceFlushOnSelectTest extends MyBaseDataTest {
     personMapper = sqlSession.getMapper(PersonMapper.class);
   }
 
+  /**
+   *     <select id="selectByIdFlush" resultMap="personMap" parameterType="int" flushCache="true">
+   *         SELECT id, firstName, lastName FROM person WHERE id = #{id}
+   *     </select>
+  */
   @Test
   void testShouldFlushLocalSessionCacheOnQuery() throws SQLException {
     personMapper.selectByIdFlush(1);
@@ -36,6 +41,11 @@ class ForceFlushOnSelectTest extends MyBaseDataTest {
     assertEquals("Simone", updatedPerson.getFirstName());
   }
 
+  /**
+   *     <select id="selectByIdNoFlush" resultMap="personMap" parameterType="int">
+   *       SELECT id, firstName, lastName FROM person WHERE id = #{id}
+   *     </select>
+  */
   @Test
   void testShouldNotFlushLocalSessionCacheOnQuery() throws SQLException {
     personMapper.selectByIdNoFlush(1);

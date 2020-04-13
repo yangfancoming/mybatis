@@ -14,27 +14,19 @@
     </resultMap>
 
     <select id="selectByIdFlush" resultMap="personMap" parameterType="int" flushCache="true">
-        SELECT id, firstName, lastName
-        FROM person
-        WHERE id = #{id}
+        SELECT id, firstName, lastName FROM person WHERE id = #{id}
     </select>
 
     <select id="selectByIdNoFlush" resultMap="personMap" parameterType="int">
-        SELECT id, firstName, lastName
-        FROM person
-        WHERE id = #{id}
+      SELECT id, firstName, lastName FROM person WHERE id = #{id}
     </select>
 
     <select id="selectAllFlush" resultMap="personMap" flushCache="true">
-        SELECT id, firstName, lastName
-        FROM person
-        ORDER BY id
+        SELECT id, firstName, lastName FROM person ORDER BY id
     </select>
 
     <select id="selectAllNoFlush" resultMap="personMap">
-        SELECT id, firstName, lastName
-        FROM person
-        ORDER BY id
+      SELECT id, firstName, lastName FROM person ORDER BY id
     </select>
 
     <update id="update" parameterType="org.apache.ibatis.submitted.force_flush_on_select.Person">
