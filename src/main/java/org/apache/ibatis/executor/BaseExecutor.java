@@ -251,9 +251,7 @@ public abstract class BaseExecutor implements Executor {
   // 事务的提交和回滚
   @Override
   public void commit(boolean required) throws SQLException {
-    if (closed) {
-      throw new ExecutorException("Cannot commit, transaction is already closed");
-    }
+    if (closed) throw new ExecutorException("Cannot commit, transaction is already closed");
     clearLocalCache();// 清空缓存
     flushStatements();// 刷新批处理语句，且执行缓存中的QL语句
     if (required) {
