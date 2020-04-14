@@ -27,9 +27,7 @@ public class IbatisConfig {
   }
 
   public static SqlSession getSession() {
-    if (sqlSessionFactory == null) {
-      init();
-    }
+    if (sqlSessionFactory == null) init();
     return sqlSessionFactory.openSession();
   }
 

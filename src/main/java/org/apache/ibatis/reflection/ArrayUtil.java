@@ -14,10 +14,8 @@ public class ArrayUtil {
    * @return A hash code of {@code obj} or 0 if {@code obj} is <code>null</code>
    */
   public static int hashCode(Object obj) {
-    if (obj == null) {
-      // for consistency with Arrays#hashCode() and Objects#hashCode()
-      return 0;
-    }
+    // for consistency with Arrays#hashCode() and Objects#hashCode()
+    if (obj == null) return 0;
     final Class<?> clazz = obj.getClass();
     if (!clazz.isArray()) {
       return obj.hashCode();
@@ -97,9 +95,7 @@ public class ArrayUtil {
    * @return String representation of the {@code obj}.
    */
   public static String toString(Object obj) {
-    if (obj == null) {
-      return "null";
-    }
+    if (obj == null)  return "null";
     final Class<?> clazz = obj.getClass();
     if (!clazz.isArray()) {
       return obj.toString();

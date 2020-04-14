@@ -27,8 +27,6 @@ public class BlockingCache implements Cache {
     this.locks = new ConcurrentHashMap<>();
   }
 
-
-
   private ReentrantLock getLockForKey(Object key) {
     return locks.computeIfAbsent(key, k -> new ReentrantLock());
   }

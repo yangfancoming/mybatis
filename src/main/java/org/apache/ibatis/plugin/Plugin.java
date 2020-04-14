@@ -103,9 +103,7 @@ public class Plugin implements InvocationHandler {
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
     // issue #251
     // 如果Interceptor的类上没有定义Intercepts注解，则抛出异常，说明我们在自定义插件时，必须要有Intercepts注解
-    if (interceptsAnnotation == null) {
-      throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
-    }
+    if (interceptsAnnotation == null) throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
     //value是数组型，Signature的数组
     // 解析Interceptor的values属性（Signature[]）数组，然后存入HashMap<Class<?>, Set< Method>>容器内
     Signature[] sigs = interceptsAnnotation.value();

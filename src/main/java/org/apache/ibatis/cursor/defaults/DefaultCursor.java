@@ -63,12 +63,8 @@ public class DefaultCursor<T> implements Cursor<T> {
 
   @Override
   public Iterator<T> iterator() {
-    if (iteratorRetrieved) {
-      throw new IllegalStateException("Cannot open more than one iterator on a Cursor");
-    }
-    if (isClosed()) {
-      throw new IllegalStateException("A Cursor is already closed.");
-    }
+    if (iteratorRetrieved)  throw new IllegalStateException("Cannot open more than one iterator on a Cursor");
+    if (isClosed()) throw new IllegalStateException("A Cursor is already closed.");
     iteratorRetrieved = true;
     return cursorIterator;
   }
@@ -100,9 +96,7 @@ public class DefaultCursor<T> implements Cursor<T> {
   }
 
   protected T fetchNextObjectFromDatabase() {
-    if (isClosed()) {
-      return null;
-    }
+    if (isClosed()) return null;
 
     try {
       status = CursorStatus.OPEN;
@@ -157,9 +151,7 @@ public class DefaultCursor<T> implements Cursor<T> {
 
     @Override
     public boolean hasNext() {
-      if (object == null) {
-        object = fetchNextUsingRowBound();
-      }
+      if (object == null)  object = fetchNextUsingRowBound();
       return object != null;
     }
 
@@ -167,11 +159,7 @@ public class DefaultCursor<T> implements Cursor<T> {
     public T next() {
       // Fill next with object fetched from hasNext()
       T next = object;
-
-      if (next == null) {
-        next = fetchNextUsingRowBound();
-      }
-
+      if (next == null) next = fetchNextUsingRowBound();
       if (next != null) {
         object = null;
         iteratorIndex++;

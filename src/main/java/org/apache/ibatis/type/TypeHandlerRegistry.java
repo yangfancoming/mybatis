@@ -208,13 +208,8 @@ public final class TypeHandlerRegistry {
     TypeHandler<?> handler = null;
     if (jdbcHandlerMap != null) {
       handler = jdbcHandlerMap.get(jdbcType);
-      if (handler == null) {
-        handler = jdbcHandlerMap.get(null);
-      }
-      if (handler == null) {
-        // #591
-        handler = pickSoleHandler(jdbcHandlerMap);
-      }
+      if (handler == null) handler = jdbcHandlerMap.get(null);
+      if (handler == null) handler = pickSoleHandler(jdbcHandlerMap);// #591
     }
     // type drives generics here
     return (TypeHandler<T>) handler;

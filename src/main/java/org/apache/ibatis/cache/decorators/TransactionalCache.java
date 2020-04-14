@@ -97,9 +97,7 @@ public class TransactionalCache implements Cache {
   public Object getObject(Object key) {
     // issue #116
     Object object = delegate.getObject(key);
-    if (object == null) {
-      entriesMissedInCache.add(key);
-    }
+    if (object == null) entriesMissedInCache.add(key);
     // issue #146
     if (clearOnCommit) {
       return null;

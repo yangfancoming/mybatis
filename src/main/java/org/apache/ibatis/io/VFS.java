@@ -106,9 +106,7 @@ public abstract class VFS {
    *                       B.获取类中的方法
    */
   protected static Method getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
-    if (clazz == null) {
-      return null;
-    }
+    if (clazz == null) return null;
     try {
       return clazz.getMethod(methodName, parameterTypes);
     } catch (SecurityException e) {

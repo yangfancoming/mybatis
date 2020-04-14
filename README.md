@@ -32,7 +32,6 @@ Essentials
     源码调试，找到核心数据结构和关键类；
     勤练习，多折腾；
     
-    
 #Mybatis至少遇到了以下的设计模式的使用：
 
     Builder模式，例如SqlSessionFactoryBuilder、XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder、CacheBuilder；
@@ -44,6 +43,7 @@ Essentials
     适配器模式，例如Log的Mybatis接口和它对jdbc、log4j等各种日志框架的适配实现；
     装饰者模式，例如Cache包中的cache.decorators子包中等各个装饰者的实现；
     迭代器模式，例如迭代器模式PropertyTokenizer；
+    策略模式，例如： NodeHandler handler = nodeHandlerMap.get(nodeName);
     
 # Mapper动态代理开发（重点） 
     底层是通过接口，JDK动态代理，原生MybatisAPI来实现的

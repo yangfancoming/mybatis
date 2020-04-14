@@ -50,9 +50,7 @@ public class JndiDataSourceFactory implements DataSourceFactory {
       String key = (String) entry.getKey();
       String value = (String) entry.getValue();
       if (key.startsWith(PREFIX)) {
-        if (contextProperties == null) {
-          contextProperties = new Properties();
-        }
+        if (contextProperties == null) contextProperties = new Properties();
         contextProperties.put(key.substring(PREFIX.length()), value);
       }
     }

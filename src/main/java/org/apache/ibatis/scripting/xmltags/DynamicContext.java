@@ -82,10 +82,7 @@ public class DynamicContext {
         return super.get(strKey);
       }
       //如果不包含该key,从parameterMetaObject中查找对应属性
-      if (parameterMetaObject == null) {
-        return null;
-      }
-
+      if (parameterMetaObject == null)  return null;
       if (fallbackParameterObject && !parameterMetaObject.hasGetter(strKey)) {
         return parameterMetaObject.getOriginalObject();
       } else {

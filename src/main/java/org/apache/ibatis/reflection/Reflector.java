@@ -487,9 +487,7 @@ public class Reflector {
   // 获取所有可读属性的 Invoker
   public Invoker getSetInvoker(String propertyName) {
     Invoker method = setMethods.get(propertyName);
-    if (method == null) {
-      throw new ReflectionException("There is no setter for property named '" + propertyName + "' in '" + type + "'");
-    }
+    if (method == null) throw new ReflectionException("There is no setter for property named '" + propertyName + "' in '" + type + "'");
     return method;
   }
 
