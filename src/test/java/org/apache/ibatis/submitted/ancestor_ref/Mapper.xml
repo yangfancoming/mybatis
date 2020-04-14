@@ -35,8 +35,7 @@
     order by uf.id
   </select>
 
-  <resultMap type="org.apache.ibatis.submitted.ancestor_ref.Blog"
-    id="blogResult">
+  <resultMap type="org.apache.ibatis.submitted.ancestor_ref.Blog" id="blogResult">
     <id property="id" column="id" />
     <result property="title" column="title" />
     <association property="author" resultMap="authorResult"
@@ -45,8 +44,7 @@
       columnPrefix="co_author_" />
   </resultMap>
 
-  <resultMap type="org.apache.ibatis.submitted.ancestor_ref.Author"
-    id="authorResult">
+  <resultMap type="org.apache.ibatis.submitted.ancestor_ref.Author" id="authorResult">
     <id property="id" column="id" />
     <result property="name" column="name" />
     <association property="blog" resultMap="blogResult" />

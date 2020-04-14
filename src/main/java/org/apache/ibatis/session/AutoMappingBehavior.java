@@ -9,13 +9,7 @@ package org.apache.ibatis.session;
  * FULL ：自动映射任意复杂的结果集（无论是否嵌套）。
  */
 public enum AutoMappingBehavior {
-
-  // Disables auto-mapping.
-  NONE,
-
-  // Will only auto-map results with no nested result mappings defined inside.
-  PARTIAL,
-
-  // Will auto-map result mappings of any complexity (containing nested or otherwise).
-  FULL
+  NONE, // Disables auto-mapping.
+  PARTIAL,  // Will only auto-map results with no nested result mappings defined inside.
+  FULL  // Will auto-map result mappings of any complexity (containing nested or otherwise).
 }

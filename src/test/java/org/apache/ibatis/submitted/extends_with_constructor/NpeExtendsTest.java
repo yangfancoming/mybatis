@@ -35,6 +35,7 @@ class NpeExtendsTest {
         configuration.addMapper(TeacherMapper.class);
         configuration.getMappedStatementNames();
     }
+
     @Test
     void testWithConstructorConfiguration() {
         Configuration configuration = new Configuration();
@@ -43,24 +44,6 @@ class NpeExtendsTest {
         configuration.getMappedStatementNames();
     }
 
-    private static SqlSessionFactory getSqlSessionFactoryWithConstructor() {
-        UnpooledDataSourceFactory unpooledDataSourceFactory = new UnpooledDataSourceFactory();
-        Properties properties = new Properties();
-        properties.setProperty("driver", "org.hsqldb.jdbcDriver");
-        properties.setProperty("url", "jdbc:hsqldb:mem:extends_with_constructor");
-        properties.setProperty("username", "sa");
-        unpooledDataSourceFactory.setProperties(properties);
-        Environment environment = new Environment("extends_with_constructor", new JdbcTransactionFactory(), unpooledDataSourceFactory.getDataSource());
-
-        Configuration configuration = new Configuration();
-        configuration.setEnvironment(environment);
-        configuration.addMapper(StudentConstructorMapper.class);
-        configuration.addMapper(TeacherMapper.class);
-        configuration.getMappedStatementNames();
-        configuration.setAutoMappingBehavior(AutoMappingBehavior.NONE);
-
-        return new DefaultSqlSessionFactory(configuration);
-    }
     @Test
     void testSelectWithTeacher() {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactoryWithConstructor();
@@ -82,4 +65,21 @@ class NpeExtendsTest {
             assertNull(testStudent.getName());
         }
     }
+
+  private static SqlSessionFactory getSqlSessionFactoryWithConstructor() {
+    UnpooledDataSourceFactory unpooledDataSourceFactory = new UnpooledDataSourceFactory();
+    Properties properties = new Properties();
+    properties.setProperty("driver", "org.hsqldb.jdbcDriver");
+    properties.setProperty("url", "jdbc:hsqldb:mem:extends_with_constructor");
+    properties.setProperty("username", "sa");
+    unpooledDataSourceFactory.setProperties(properties);
+    Environment environment = new Environment("extends_with_constructor", new JdbcTransactionFactory(), unpooledDataSourceFactory.getDataSource());
+    Configuration configuration = new Configuration();
+    configuration.setEnvironment(environment);
+    configuration.addMapper(StudentConstructorMapper.class);
+    configuration.addMapper(TeacherMapper.class);
+    configuration.getMappedStatementNames();
+    configuration.setAutoMappingBehavior(AutoMappingBehavior.NONE);
+    return new DefaultSqlSessionFactory(configuration);
+  }
 }

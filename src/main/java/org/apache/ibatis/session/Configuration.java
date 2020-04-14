@@ -101,31 +101,31 @@ public class Configuration {
 
   // 对应全局 xml 文件中的 <environments default="development"> 标签
   protected Environment environment;
-  //允许在嵌套语句中使用分页（RowBounds）。如果允许使用则设置为false。
+  // 允许在嵌套语句中使用分页（RowBounds）。如果允许使用则设置为false。
   protected boolean safeRowBoundsEnabled;
-  //允许在嵌套语句中使用分页（ResultHandler）。如果允许使用则设置为false
+  // 允许在嵌套语句中使用分页（ResultHandler）。如果允许使用则设置为false
   protected boolean safeResultHandlerEnabled = true;
-  //是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。
+  // 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。
   protected boolean mapUnderscoreToCamelCase;
-  //当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考lazyLoadTriggerMethods).
+  // 当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考lazyLoadTriggerMethods).
   protected boolean aggressiveLazyLoading;
   // 是否允许单一语句返回多结果集（需要兼容驱动）
   protected boolean multipleResultSetsEnabled = true;
-  //允许 JDBC 支持自动生成主键，需要驱动兼容。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作（比如 Derby）。
+  // 允许 JDBC 支持自动生成主键，需要驱动兼容。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作（比如 Derby）。
   protected boolean useGeneratedKeys;
-  //使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
+  // 使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
   // 二级缓存开关  对应全局xml配置 <setting name="cacheEnabled" value="false"/> 标签  默认开启
   protected boolean cacheEnabled = true;
-  /*指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
+  /* 指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
   protected boolean callSettersOnNulls;
   // 允许使用方法签名中的名称作为语句参数名称。 为了使用该特性，你的项目必须采用 Java 8 编译，并且加上 -parameters 选项。（新增于 3.4.1）
   protected boolean useActualParamName = true;
   protected boolean returnInstanceForEmptyRow;
-  //指定 MyBatis 增加到日志名称的前缀。
+  // 指定 MyBatis 增加到日志名称的前缀。
   protected String logPrefix;
-  //指定 MyBatis 所用日志的具体实现，未指定时将自动查找
+  // 指定 MyBatis 所用日志的具体实现，未指定时将自动查找
   protected Class<? extends Log> logImpl;
   // 指定VFS的实现, VFS是mybatis提供的用于访问AS内资源的一个简便接口
   protected Class<? extends VFS> vfsImpl;
@@ -135,26 +135,29 @@ public class Configuration {
   protected LocalCacheScope localCacheScope = LocalCacheScope.SESSION;
   /*当没有为参数提供特定的 JDBC 类型时，为空值指定 JDBC 类型。 某些驱动需要指定列的 JDBC 类型，多数情况直接用一般类型即可，比如 NULL、VARCHAR 或 OTHER。*/
   protected JdbcType jdbcTypeForNull = JdbcType.OTHER;
-  //指定哪个对象的方法触发一次延迟加载。
+  // 指定哪个对象的方法触发一次延迟加载。
   protected Set<String> lazyLoadTriggerMethods = new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString"));
-  //设置超时时间，它决定驱动等待数据库响应的秒数。
+  // 设置超时时间，它决定驱动等待数据库响应的秒数。
   protected Integer defaultStatementTimeout;
   protected Integer defaultFetchSize;
   // 配置默认的执行器
   protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE; // 默认是 SimpleExecutor 实现类
-  // 设置mybatis 以哪种方式 自动映射结果集
+  // 对应全局xml <settings>标签中的 <setting name="autoMappingBehavior" value="NONE"/>
   protected AutoMappingBehavior autoMappingBehavior = AutoMappingBehavior.PARTIAL;
   protected AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior = AutoMappingUnknownColumnBehavior.NONE;
   // 对应全局 xml 文件中的 <properties> 标签  这里配置的属性可以在整个配置文件中使用 来替换需要动态配置的属性值
   protected Properties variables = new Properties();
   protected ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
-  //对象创建工厂，默认的实现类DefaultObjectFactory，用来创建对象，比如传入List.class，利用反射返回ArrayList的实例
+  // 对象创建工厂，默认的实现类DefaultObjectFactory，用来创建对象，比如传入List.class，利用反射返回ArrayList的实例
   protected ObjectFactory objectFactory = new DefaultObjectFactory();
-  //对象包装工厂，默认实现类是DefaultObjectWrapperFactory，包装Object实例
+  // 对象包装工厂，默认实现类是DefaultObjectWrapperFactory，包装Object实例
   protected ObjectWrapperFactory objectWrapperFactory = new DefaultObjectWrapperFactory();
-  //延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态。
+  /**
+   *  对应   <setting name="lazyLoadingEnabled" value="true"/>
+   *   延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态。
+   */
   protected boolean lazyLoadingEnabled = false;
-  //指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具
+  // 指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具
   protected ProxyFactory proxyFactory = new JavassistProxyFactory(); // #224 Using internal Javassist instead of OGNL
   // 全局数据库厂商标识(自己起的别名) 对应 从<environments>标签中获取的 databaseId
   protected String databaseId;
@@ -167,21 +170,21 @@ public class Configuration {
   protected Class<?> configurationFactory;
   // 对应全局xml文件中的 <mappers> 标签 mapper接口的动态代理注册中心
   protected final MapperRegistry mapperRegistry = new MapperRegistry(this);
-  //拦截器链
+  // 拦截器链
   protected final InterceptorChain interceptorChain = new InterceptorChain();
-  //对应全局xml文件中的 <typeHandlers> 标签  TypeHandler注册
+  // 对应全局xml文件中的 <typeHandlers> 标签  TypeHandler注册
   protected final TypeHandlerRegistry typeHandlerRegistry = new TypeHandlerRegistry();
   // 对应全局xml文件中的 <typeAliases> 标签 别名和具体类注册  //TypeAlias别名注册中心
   protected final TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
-  //这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
+  // 这个是指定解析的驱动，比如你可以使用velocity模板引擎来替代xml文件，默认是XMLLanguageDriver，也就是使用xml文件来写sql语句
   protected final LanguageDriverRegistry languageRegistry = new LanguageDriverRegistry();
-  //对应Mapper.xml里配置的Statement  //mapper文件中增删改查操作的注册中心
+  // 对应Mapper.xml里配置的Statement  //mapper文件中增删改查操作的注册中心
   protected final Map<String, MappedStatement> mappedStatements = new StrictMap<MappedStatement>("Mapped Statements collection").conflictMessageProducer((savedValue, targetValue) -> ". please check " + savedValue.getResource() + " and " + targetValue.getResource());
-  //对应Mapper.xml里的<cache>标签  //mapper文件中配置cache节点的 二级缓存
+  // 对应Mapper.xml里的<cache>标签  //mapper文件中配置cache节点的 二级缓存
   protected final Map<String, Cache> caches = new StrictMap<>("Caches collection");
-  //对应Mapper.xml里配置的所有resultMap对象  key为命名空间+ID
+  // 对应Mapper.xml里配置的所有resultMap对象  key为命名空间+ID
   protected final Map<String, ResultMap> resultMaps = new StrictMap<>("Result Maps collection");
-  //对应Mapper.xml里的ParameterMap
+  // 对应Mapper.xml里的ParameterMap
   protected final Map<String, ParameterMap> parameterMaps = new StrictMap<>("Parameter Maps collection");
   //主键生成器 //mapper文件中配置KeyGenerator的insert和update节点，key为命名空间+ID
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
@@ -190,13 +193,13 @@ public class Configuration {
    * @see MapperAnnotationBuilder#loadXmlResource
   */
   protected final Set<String> loadedResources = new HashSet<>();
-  //存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
+  // 存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
-  //存储所有未处理的
+  // 存储所有未处理的
   protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();
-  //存储所有未处理的缓存信息
+  // 存储所有未处理的缓存信息
   protected final Collection<CacheRefResolver> incompleteCacheRefs = new LinkedList<>();
-  //存储所有未处理ResultMap的映射信息
+  // 存储所有未处理ResultMap的映射信息
   protected final Collection<ResultMapResolver> incompleteResultMaps = new LinkedList<>();
   protected final Collection<MethodResolver> incompleteMethods = new LinkedList<>();
 
@@ -260,7 +263,6 @@ public class Configuration {
   public Class<? extends Log> getLogImpl() {
     return logImpl;
   }
-
 
   public void setLogImpl(Class<? extends Log> logImpl) {
     if (logImpl == null) return; // -modify
