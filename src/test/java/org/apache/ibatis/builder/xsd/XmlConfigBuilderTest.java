@@ -49,7 +49,7 @@ class XmlConfigBuilderTest {
       assertNotNull(config);
       assertEquals(AutoMappingBehavior.PARTIAL, config.getAutoMappingBehavior());
       assertEquals(AutoMappingUnknownColumnBehavior.NONE, config.getAutoMappingUnknownColumnBehavior());
-      assertTrue(config.isCacheEnabled());
+      assertTrue(config.cacheEnabled);
       assertTrue(config.getProxyFactory() instanceof JavassistProxyFactory);
       assertFalse(config.isLazyLoadingEnabled());
       assertFalse(config.isAggressiveLazyLoading());
@@ -85,7 +85,7 @@ class XmlConfigBuilderTest {
 
       assertEquals(AutoMappingBehavior.NONE, config.getAutoMappingBehavior());
       assertEquals(AutoMappingUnknownColumnBehavior.WARNING, config.getAutoMappingUnknownColumnBehavior());
-      assertFalse(config.isCacheEnabled());
+      assertFalse(config.cacheEnabled);
       assertTrue(config.getProxyFactory() instanceof CglibProxyFactory);
       assertTrue(config.isLazyLoadingEnabled());
       assertTrue(config.isAggressiveLazyLoading());
@@ -134,7 +134,7 @@ class XmlConfigBuilderTest {
       assertTrue(environment.getDataSource() instanceof UnpooledDataSource);
       assertTrue(environment.getTransactionFactory() instanceof JdbcTransactionFactory);
 
-      assertEquals("derby", config.getDatabaseId());
+      assertEquals("derby", config.databaseId);
 
       assertEquals(4, config.getMapperRegistry().getMappers().size());
       assertTrue(config.getMapperRegistry().hasMapper(CachedAuthorMapper.class));

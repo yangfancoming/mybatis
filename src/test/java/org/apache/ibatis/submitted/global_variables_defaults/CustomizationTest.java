@@ -39,7 +39,7 @@ class CustomizationTest {
     Assertions.assertThat(configuration.getJdbcTypeForNull()).isEqualTo(JdbcType.NULL);
     Assertions.assertThat(((UnpooledDataSource) configuration.getEnvironment().getDataSource()).getUrl())
         .isEqualTo("jdbc:hsqldb:mem:global_variables_defaults");
-    Assertions.assertThat(configuration.getDatabaseId()).isEqualTo("hsql");
+    Assertions.assertThat(configuration.databaseId).isEqualTo("hsql");
     Assertions.assertThat(((SupportClasses.CustomObjectFactory) configuration.getObjectFactory()).getProperties().getProperty("name"))
         .isEqualTo("default");
     Assertions.assertThat(cache.getName()).isEqualTo("default");
@@ -73,7 +73,7 @@ class CustomizationTest {
     Assertions.assertThat(configuration.getJdbcTypeForNull()).isEqualTo(JdbcType.CHAR);
     Assertions.assertThat(((UnpooledDataSource) configuration.getEnvironment().getDataSource()).getUrl())
         .isEqualTo("jdbc:hsqldb:mem:global_variables_defaults_custom");
-    Assertions.assertThat(configuration.getDatabaseId()).isNull();
+    Assertions.assertThat(configuration.databaseId).isNull();
     Assertions.assertThat(((SupportClasses.CustomObjectFactory) configuration.getObjectFactory()).getProperties().getProperty("name"))
          .isEqualTo("customObjectFactory");
     Assertions.assertThat(cache.getName()).isEqualTo("customCache");

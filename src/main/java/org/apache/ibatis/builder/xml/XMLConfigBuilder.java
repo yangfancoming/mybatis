@@ -376,7 +376,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(props.getProperty("autoMappingBehavior", "PARTIAL")));
     configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(props.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
     // 设置 cacheEnabled 属性，默认值为 true
-    configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));
+    configuration.cacheEnabled = booleanValueOf(props.getProperty("cacheEnabled"), true);
     configuration.setProxyFactory((ProxyFactory) createInstance(props.getProperty("proxyFactory")));
     configuration.setLazyLoadingEnabled(booleanValueOf(props.getProperty("lazyLoadingEnabled"), false));
     configuration.setAggressiveLazyLoading(booleanValueOf(props.getProperty("aggressiveLazyLoading"), false));
@@ -466,8 +466,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     Environment environment = configuration.getEnvironment();
     if (environment != null && databaseIdProvider != null) {
       // 从<environments>标签中获取的 databaseId  全局唯一入口
-      String databaseId = databaseIdProvider.getDatabaseId(environment.getDataSource());
-      configuration.setDatabaseId(databaseId);
+      configuration.databaseId = databaseIdProvider.getDatabaseId(environment.getDataSource());
     }
   }
 

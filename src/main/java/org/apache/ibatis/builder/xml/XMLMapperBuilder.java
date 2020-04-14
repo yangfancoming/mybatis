@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
@@ -142,7 +140,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private void buildStatementFromContext(List<XNode> list) {
-    String databaseId = (configuration.getDatabaseId() != null) ? configuration.getDatabaseId() :null; // -modify
+    String databaseId = (configuration.databaseId != null) ? configuration.databaseId :null; // -modify
     buildStatementFromContext(list, databaseId);
   }
 
@@ -399,8 +397,8 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private void sqlElement(List<XNode> list) {
-    if (configuration.getDatabaseId() != null) {
-      sqlElement(list, configuration.getDatabaseId());
+    if (configuration.databaseId != null) {
+      sqlElement(list, configuration.databaseId);
     }
     sqlElement(list, null);
   }

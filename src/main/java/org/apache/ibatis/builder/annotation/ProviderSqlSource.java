@@ -50,7 +50,7 @@ public class ProviderSqlSource implements SqlSource {
 
       if (providerMethodName.length() == 0 && ProviderMethodResolver.class.isAssignableFrom(this.providerType)) {
         this.providerMethod = ((ProviderMethodResolver) this.providerType.getDeclaredConstructor().newInstance())
-            .resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId()));
+            .resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.databaseId));
       }
       if (this.providerMethod == null) {
         providerMethodName = providerMethodName.length() == 0 ? "provideSql" : providerMethodName;
@@ -81,7 +81,7 @@ public class ProviderSqlSource implements SqlSource {
           throw new BuilderException("Error creating SqlSource for SqlProvider. ProviderContext found multiple in SqlProvider method ("
               + this.providerType.getName() + "." + providerMethod.getName() + "). ProviderContext can not define multiple in SqlProvider method argument.");
         }
-        this.providerContext = new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId());
+        this.providerContext = new ProviderContext(mapperType, mapperMethod, configuration.databaseId);
         this.providerContextIndex = i;
       }
     }

@@ -121,8 +121,8 @@ public class XMLStatementBuilder extends BaseBuilder {
 
   private void processSelectKeyNodes(String id, Class<?> parameterTypeClass, LanguageDriver langDriver) {
     List<XNode> selectKeyNodes = context.evalNodes("selectKey");
-    if (configuration.getDatabaseId() != null) {
-      parseSelectKeyNodes(id, selectKeyNodes, parameterTypeClass, langDriver, configuration.getDatabaseId());
+    if (configuration.databaseId != null) {
+      parseSelectKeyNodes(id, selectKeyNodes, parameterTypeClass, langDriver, configuration.databaseId);
     }
     parseSelectKeyNodes(id, selectKeyNodes, parameterTypeClass, langDriver, null);
     removeSelectKeyNodes(selectKeyNodes);

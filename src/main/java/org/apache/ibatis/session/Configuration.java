@@ -116,7 +116,7 @@ public class Configuration {
   // 使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。
   protected boolean useColumnLabel = true;
   // 二级缓存开关  对应全局xml配置 <setting name="cacheEnabled" value="false"/> 标签  默认开启
-  protected boolean cacheEnabled = true;
+  public boolean cacheEnabled = true;
   /* 指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法，这对于有 Map.keySet() 依赖或 null 值初始化的时候是有用的。
   注意基本类型（int、boolean等）是不能设置成 null 的。*/
   protected boolean callSettersOnNulls;
@@ -160,7 +160,7 @@ public class Configuration {
   // 指定 Mybatis 创建具有延迟加载能力的对象所用到的代理工具
   protected ProxyFactory proxyFactory = new JavassistProxyFactory(); // #224 Using internal Javassist instead of OGNL
   // 全局数据库厂商标识(自己起的别名) 对应 从<environments>标签中获取的 databaseId
-  protected String databaseId;
+  public String databaseId;
   /**
    * Configuration factory class.Used to create Configuration for loading deserialized unread properties.
    * @see <a href='https://code.google.com/p/mybatis/issues/detail?id=300'>Issue 300 (google code)</a>
@@ -304,14 +304,6 @@ public class Configuration {
     this.returnInstanceForEmptyRow = returnEmptyInstance;
   }
 
-  public String getDatabaseId() {
-    return databaseId;
-  }
-
-  public void setDatabaseId(String databaseId) {
-    this.databaseId = databaseId;
-  }
-
   public Class<?> getConfigurationFactory() {
     return configurationFactory;
   }
@@ -434,14 +426,6 @@ public class Configuration {
 
   public void setDefaultExecutorType(ExecutorType defaultExecutorType) {
     this.defaultExecutorType = defaultExecutorType;
-  }
-
-  public boolean isCacheEnabled() {
-    return cacheEnabled;
-  }
-
-  public void setCacheEnabled(boolean cacheEnabled) {
-    this.cacheEnabled = cacheEnabled;
   }
 
   public Integer getDefaultStatementTimeout() {
