@@ -59,7 +59,7 @@ class XmlConfigBuilderTest {
       assertEquals(ExecutorType.SIMPLE, config.getDefaultExecutorType());
       assertNull(config.getDefaultStatementTimeout());
       assertNull(config.getDefaultFetchSize());
-      assertFalse(config.isMapUnderscoreToCamelCase());
+      assertFalse(config.mapUnderscoreToCamelCase);
       assertFalse(config.isSafeRowBoundsEnabled());
       assertEquals(LocalCacheScope.SESSION, config.getLocalCacheScope());
       assertEquals(JdbcType.OTHER, config.getJdbcTypeForNull());
@@ -95,7 +95,7 @@ class XmlConfigBuilderTest {
       assertEquals(ExecutorType.BATCH, config.getDefaultExecutorType());
       assertEquals(Integer.valueOf(10), config.getDefaultStatementTimeout());
       assertEquals(Integer.valueOf(100), config.getDefaultFetchSize());
-      assertTrue(config.isMapUnderscoreToCamelCase());
+      assertTrue(config.mapUnderscoreToCamelCase);
       assertTrue(config.isSafeRowBoundsEnabled());
       assertEquals(LocalCacheScope.STATEMENT, config.getLocalCacheScope());
       assertEquals(JdbcType.NULL, config.getJdbcTypeForNull());

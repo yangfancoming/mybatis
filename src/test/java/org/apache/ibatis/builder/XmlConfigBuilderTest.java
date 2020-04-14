@@ -60,7 +60,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
     assertThat(config.getDefaultExecutorType()).isEqualTo(ExecutorType.SIMPLE);
     assertNull(config.getDefaultStatementTimeout());
     assertNull(config.getDefaultFetchSize());
-    assertThat(config.isMapUnderscoreToCamelCase()).isFalse();
+    assertThat(config.mapUnderscoreToCamelCase).isFalse();
     assertThat(config.isSafeRowBoundsEnabled()).isFalse();
     assertEquals(LocalCacheScope.SESSION,config.getLocalCacheScope());
 
@@ -106,7 +106,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
       assertThat(config.getDefaultExecutorType()).isEqualTo(ExecutorType.BATCH);
       assertThat(config.getDefaultStatementTimeout()).isEqualTo(10);
       assertThat(config.getDefaultFetchSize()).isEqualTo(100);
-      assertThat(config.isMapUnderscoreToCamelCase()).isTrue();
+      assertThat(config.mapUnderscoreToCamelCase).isTrue();
       assertThat(config.isSafeRowBoundsEnabled()).isTrue();
       assertThat(config.getLocalCacheScope()).isEqualTo(LocalCacheScope.STATEMENT);
       assertThat(config.getJdbcTypeForNull()).isEqualTo(JdbcType.NULL);

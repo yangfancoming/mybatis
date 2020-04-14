@@ -106,7 +106,7 @@ public class Configuration {
   // 允许在嵌套语句中使用分页（ResultHandler）。如果允许使用则设置为false
   protected boolean safeResultHandlerEnabled = true;
   // 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射。
-  protected boolean mapUnderscoreToCamelCase;
+  public boolean mapUnderscoreToCamelCase;
   // 当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考lazyLoadTriggerMethods).
   protected boolean aggressiveLazyLoading;
   // 是否允许单一语句返回多结果集（需要兼容驱动）
@@ -328,13 +328,6 @@ public class Configuration {
     this.safeRowBoundsEnabled = safeRowBoundsEnabled;
   }
 
-  public boolean isMapUnderscoreToCamelCase() {
-    return mapUnderscoreToCamelCase;
-  }
-
-  public void setMapUnderscoreToCamelCase(boolean mapUnderscoreToCamelCase) {
-    this.mapUnderscoreToCamelCase = mapUnderscoreToCamelCase;
-  }
   // org/apache/goat/chapter100/C/C070/FooMapper.xml
   // namespace:org.apache.goat.chapter100.C.C070.FooMapper
   public void addLoadedResource(String resource) {
