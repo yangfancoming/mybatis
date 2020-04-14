@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-// 以下五种缓存，他们的 Equals And HashCode结果都相同，是因为他们重写了Object类的 hashCode和equals方法。。。
 class BaseCacheTest {
 
+  // 以下五种缓存，他们的 Equals And HashCode结果都相同，是因为他们重写了Object类的 hashCode和equals方法。。。
   PerpetualCache cache = new PerpetualCache("test_cache");
   SynchronizedCache synchronizedCache = new SynchronizedCache(cache);
   SerializedCache serializedCache = new SerializedCache(cache);
@@ -27,11 +27,9 @@ class BaseCacheTest {
   // 证明：对于不同的实现类型 他们的 Equals And HashCode 都是相同的
   @Test
   void shouldDemonstrateEqualsAndHashCodeForVariousCacheTypes() {
-    assertEquals(cache, cache);
-
-    // 如果两个对象的equals方法相等，那么hashcode方法也一定相等
-    // 反之 如果两个对象的hashcode方法相当，那么equals方法却不一定相等
+    // 如果两个对象的equals方法相等，那么hashcode方法也一定相等，反之 如果两个对象的hashcode方法相当，那么equals方法却不一定相等
     // 对比 Equals
+    assertEquals(cache, cache);
     assertEquals(cache,synchronizedCache);
     assertEquals(cache, serializedCache);
     assertEquals(cache, loggingCache);
@@ -44,6 +42,14 @@ class BaseCacheTest {
     assertEquals(cache.hashCode(), scheduledCache.hashCode());
   }
 
+  /**
+   * 五个地址都是一样的！
+   * org.apache.ibatis.cache.impl.PerpetualCache@7a7e2195
+   * org.apache.ibatis.cache.decorators.SynchronizedCache@7a7e2195
+   * org.apache.ibatis.cache.decorators.SerializedCache@7a7e2195
+   * org.apache.ibatis.cache.decorators.LoggingCache@7a7e2195
+   * org.apache.ibatis.cache.decorators.ScheduledCache@7a7e2195
+  */
   @Test
   public void test1(){
     System.out.println(cache);

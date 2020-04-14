@@ -15,17 +15,22 @@ import java.util.Date;
 
 class CacheKeyTest {
 
+  // 测试两个 CacheKey 相同
   @Test
   void shouldTestCacheKeysEqual() {
     Date date = new Date();
+    System.out.println(date.getTime()); // t1
     CacheKey key1 = new CacheKey(new Object[] { 1, "hello", null, new Date(date.getTime()) });
     CacheKey key2 = new CacheKey(new Object[] { 1, "hello", null, new Date(date.getTime()) });
     assertEquals(key1, key2);
     assertEquals(key2, key1);
     assertEquals(key1.hashCode(), key2.hashCode());
     assertEquals(key1.toString(), key2.toString());
+    System.out.println(date.getTime()); // t2
+    // 结果 t1 = t2
   }
 
+  // 测试 由于Date时间不同导致的两个CacheKey 不同
   @Test
   void shouldTestCacheKeysNotEqualDueToDateDifference() throws Exception {
     CacheKey key1 = new CacheKey(new Object[] { 1, "hello", null, new Date() });
@@ -37,10 +42,10 @@ class CacheKeyTest {
     assertNotEquals(key1.toString(), key2.toString());
   }
 
+  // 测试由于 参数顺序不同 导致两个CacheKey不同
   @Test
-  void shouldTestCacheKeysNotEqualDueToOrder() throws Exception {
+  void shouldTestCacheKeysNotEqualDueToOrder() {
     CacheKey key1 = new CacheKey(new Object[] { 1, "hello", null });
-    Thread.sleep(1000);
     CacheKey key2 = new CacheKey(new Object[] { 1, null, "hello" });
     assertNotEquals(key1, key2);
     assertNotEquals(key2, key1);
@@ -48,22 +53,21 @@ class CacheKeyTest {
     assertNotEquals(key1.toString(), key2.toString());
   }
 
+  // 测试 空和null的多个CacheKey 都是相同的
   @Test
   void shouldDemonstrateEmptyAndNullKeysAreEqual() {
     CacheKey key1 = new CacheKey();
     CacheKey key2 = new CacheKey();
     assertEquals(key1, key2);
     assertEquals(key2, key1);
-    key1.update(null);
-    key2.update(null);
-    assertEquals(key1, key2);
-    assertEquals(key2, key1);
+
     key1.update(null);
     key2.update(null);
     assertEquals(key1, key2);
     assertEquals(key2, key1);
   }
 
+  // 测试 使用字节数组生成 缓存key
   @Test
   void shouldTestCacheKeysWithBinaryArrays() {
     byte[] array1 = new byte[] { 1 };
@@ -77,9 +81,7 @@ class CacheKeyTest {
   void serializationExceptionTest() {
     CacheKey cacheKey = new CacheKey();
     cacheKey.update(new Object());
-    Assertions.assertThrows(NotSerializableException.class, () -> {
-      serialize(cacheKey);
-    });
+    Assertions.assertThrows(NotSerializableException.class, () -> serialize(cacheKey));
   }
 
   @Test

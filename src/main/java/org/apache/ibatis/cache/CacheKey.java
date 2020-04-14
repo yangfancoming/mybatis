@@ -83,9 +83,7 @@ public class CacheKey implements Cloneable, Serializable {
     if (!(object instanceof CacheKey)) {
       return false;
     }
-
     final CacheKey cacheKey = (CacheKey) object;
-
     if (hashcode != cacheKey.hashcode) return false;
     if (checksum != cacheKey.checksum) return false;
     if (count != cacheKey.count)       return false;

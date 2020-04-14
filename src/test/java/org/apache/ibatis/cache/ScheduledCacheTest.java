@@ -25,8 +25,6 @@ class ScheduledCacheTest {
     assertNull(cache.getObject(key));
   }
 
-
-
   /*  演示如何根据时间清空所有对象  */
   @Test
   void shouldDemonstrateHowAllObjectsAreFlushedAfterBasedOnTime() throws Exception {
