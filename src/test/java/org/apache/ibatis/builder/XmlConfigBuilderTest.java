@@ -48,7 +48,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
     Configuration config = getConfiguration("org/apache/ibatis/builder/MinimalMapperConfig.xml");
     assertEquals(AutoMappingBehavior.PARTIAL,config.getAutoMappingBehavior());
     assertEquals(AutoMappingUnknownColumnBehavior.NONE,config.getAutoMappingUnknownColumnBehavior());
-    assertEquals(true,config.cacheEnabled);
+    assertEquals(true,config.isCacheEnabled());
 
     assertThat(config.getProxyFactory()).isInstanceOf(JavassistProxyFactory.class);
     assertEquals(false,config.isLazyLoadingEnabled());
@@ -96,7 +96,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
 
       assertThat(config.getAutoMappingBehavior()).isEqualTo(AutoMappingBehavior.NONE);
       assertThat(config.getAutoMappingUnknownColumnBehavior()).isEqualTo(AutoMappingUnknownColumnBehavior.WARNING);
-      assertThat(config.cacheEnabled).isFalse();
+      assertThat(config.isCacheEnabled()).isFalse();
       assertThat(config.getProxyFactory()).isInstanceOf(CglibProxyFactory.class);
       assertThat(config.isLazyLoadingEnabled()).isTrue();
       assertThat(config.isAggressiveLazyLoading()).isTrue();
@@ -146,7 +146,7 @@ class XmlConfigBuilderTest extends MyBaseXmlConfig {
       assertThat(environment.getDataSource()).isInstanceOf(UnpooledDataSource.class);
       assertThat(environment.getTransactionFactory()).isInstanceOf(JdbcTransactionFactory.class);
 
-      assertThat(config.databaseId).isEqualTo("derby");
+      assertThat(config.getDatabaseId()).isEqualTo("derby");
 
       assertThat(config.getMapperRegistry().getMappers().size()).isEqualTo(4);
       assertThat(config.getMapperRegistry().hasMapper(CachedAuthorMapper.class)).isTrue();

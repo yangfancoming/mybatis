@@ -39,7 +39,7 @@ public class DynamicContext {
       bindings = new ContextMap(null, false);
     }
     bindings.put(PARAMETER_OBJECT_KEY, parameterObject);
-    bindings.put(DATABASE_ID_KEY, configuration.databaseId);
+    bindings.put(DATABASE_ID_KEY, configuration.getDatabaseId());
   }
 
   public Map<String, Object> getBindings() {

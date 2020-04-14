@@ -22,7 +22,7 @@ public class App extends MyBaseJavaMapperConfig {
   @Test
   public void mappedStatementWithOptions() throws Exception {
     // 配置
-    configuration.databaseId = "mysql";
+    configuration.setDatabaseId("mysql");
     MappedStatement mappedStatement = getMappedStatement(configuration,resource,statementId);
     // 使用
     Assertions.assertEquals(Integer.valueOf(200), mappedStatement.getFetchSize());

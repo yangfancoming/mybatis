@@ -18,7 +18,7 @@ class ProviderTest {
     Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/multidb/MultiDbConfig.xml");
     DefaultSqlSessionFactory sqlSessionFactory = (DefaultSqlSessionFactory) new SqlSessionFactoryBuilder().build(reader);
     Configuration c = sqlSessionFactory.getConfiguration();
-    assertEquals("hsql", c.databaseId);
+    assertEquals("hsql", c.getDatabaseId());
   }
 
   @Test
@@ -26,6 +26,6 @@ class ProviderTest {
     Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/multidb/ProviderConfig.xml");
     DefaultSqlSessionFactory sqlSessionFactory = (DefaultSqlSessionFactory) new SqlSessionFactoryBuilder().build(reader);
     Configuration c = sqlSessionFactory.getConfiguration();
-    assertEquals("translated", c.databaseId);
+    assertEquals("translated", c.getDatabaseId());
   }
 }

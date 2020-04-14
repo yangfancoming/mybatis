@@ -69,7 +69,7 @@ public class VelocitySqlSource implements SqlSource {
   public static Map<String, Object> createBindings(Object parameterObject, Configuration configuration) {
     Map<String, Object> bindings = new HashMap<>();
     bindings.put(PARAMETER_OBJECT_KEY, parameterObject);
-    bindings.put(DATABASE_ID_KEY, configuration.databaseId);
+    bindings.put(DATABASE_ID_KEY, configuration.getDatabaseId());
     bindings.put("it", new IteratorParameter(bindings));
     return bindings;
   }
