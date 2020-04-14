@@ -457,7 +457,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
             continue;
           }
         }
-        final String property = metaObject.findProperty(propertyName, configuration.mapUnderscoreToCamelCase);
+        final String property = metaObject.findProperty(propertyName, configuration.isMapUnderscoreToCamelCase());
         if (property != null && metaObject.hasSetter(property)) {
           if (resultMap.getMappedProperties().contains(property)) {
             continue;
@@ -1022,7 +1022,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
           continue;
         }
       }
-      if (metaType.findProperty(property, configuration.mapUnderscoreToCamelCase) != null) {
+      if (metaType.findProperty(property, configuration.isMapUnderscoreToCamelCase()) != null) {
         String value = rsw.getResultSet().getString(column);
         if (value != null) {
           cacheKey.update(column);

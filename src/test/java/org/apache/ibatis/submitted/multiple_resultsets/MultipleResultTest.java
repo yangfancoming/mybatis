@@ -29,12 +29,15 @@ class MultipleResultTest {
   @BeforeAll
   static void setUp() throws Exception {
     Configuration configuration = new Configuration();
-    Environment environment = new Environment("development", new JdbcTransactionFactory(),PgContainer.getUnpooledDataSource());
+    Environment environment = new Environment("development", new JdbcTransactionFactory(),
+        PgContainer.getUnpooledDataSource());
     configuration.setEnvironment(environment);
-    configuration.mapUnderscoreToCamelCase = true;
+    configuration.setMapUnderscoreToCamelCase(true);
     configuration.addMapper(Mapper.class);
     sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/multiple_resultsets/CreateDB.sql");
+
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
+        "org/apache/ibatis/submitted/multiple_resultsets/CreateDB.sql");
   }
 
   @Test
