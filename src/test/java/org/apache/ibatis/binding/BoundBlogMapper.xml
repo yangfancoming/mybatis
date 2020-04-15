@@ -80,8 +80,7 @@
            a.email as author_email,
            a.bio as author_bio,
            a.favourite_section
-    from Blog b join Author a
-                     on b.author_id = a.id
+    from Blog b join Author a on b.author_id = a.id
     where b.id = #{id}
   </select>
 
@@ -93,8 +92,7 @@
            a.email as author_email,
            a.bio as author_bio,
            a.favourite_section
-    from Blog b join Author a
-                     on b.author_id = a.id
+    from Blog b join Author a on b.author_id = a.id
     where b.id = #{id}
   </select>
 

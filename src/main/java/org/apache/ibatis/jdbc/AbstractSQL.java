@@ -310,7 +310,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the fetch first rows value.
-   *
    * @param value a fetch first rows value
    * @return a self instance
    * @see #OFFSET_ROWS(long)
@@ -335,7 +334,6 @@ public abstract class AbstractSQL<T> {
 
   /**
    * Set the offset rows value.
-   *
    * @param value an offset rows value
    * @return a self instance
    * @see #FETCH_FIRST_ROWS_ONLY(int)
@@ -347,7 +345,6 @@ public abstract class AbstractSQL<T> {
 
   /*
    * used to add a new inserted row while do multi-row insert.
-   *
    * @since 3.5.2
    */
   public T ADD_ROW() {
@@ -414,28 +411,19 @@ public abstract class AbstractSQL<T> {
       ISO {
         @Override
         protected void appendClause(SafeAppendable builder, String offset, String limit) {
-          if (offset != null) {
-            builder.append(" OFFSET ").append(offset).append(" ROWS");
-          }
-          if (limit != null) {
-            builder.append(" FETCH FIRST ").append(limit).append(" ROWS ONLY");
-          }
+          if (offset != null) builder.append(" OFFSET ").append(offset).append(" ROWS");
+          if (limit != null) builder.append(" FETCH FIRST ").append(limit).append(" ROWS ONLY");
         }
       },
       OFFSET_LIMIT {
         @Override
         protected void appendClause(SafeAppendable builder, String offset, String limit) {
-          if (limit != null) {
-            builder.append(" LIMIT ").append(limit);
-          }
-          if (offset != null) {
-            builder.append(" OFFSET ").append(offset);
-          }
+          if (limit != null)  builder.append(" LIMIT ").append(limit);
+          if (offset != null) builder.append(" OFFSET ").append(offset);
         }
       };
 
       protected abstract void appendClause(SafeAppendable builder, String offset, String limit);
-
     }
 
     StatementType statementType;
@@ -540,18 +528,10 @@ public abstract class AbstractSQL<T> {
       if (statementType == null) return null;
       String answer;
       switch (statementType) {
-        case DELETE:
-          answer = deleteSQL(builder);
-          break;
-        case INSERT:
-          answer = insertSQL(builder);
-          break;
-        case SELECT:
-          answer = selectSQL(builder);
-          break;
-        case UPDATE:
-          answer = updateSQL(builder);
-          break;
+        case DELETE: answer = deleteSQL(builder);break;
+        case INSERT: answer = insertSQL(builder);break;
+        case SELECT: answer = selectSQL(builder);break;
+        case UPDATE: answer = updateSQL(builder);break;
         default:
           answer = null;
       }

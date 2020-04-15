@@ -44,7 +44,6 @@ public interface BoundBlogMapper {
   @ResultType(Blog.class)
   void collectRangeBlogs(ResultHandler<Object> blog, RowBounds rowBounds);
 
-
   @Select({ "SELECT * FROM blog ORDER BY id" })
   Cursor<Blog> openRangeBlogs(RowBounds rowBounds);
 
@@ -81,15 +80,12 @@ public interface BoundBlogMapper {
   @TypeDiscriminator(
       column = "draft",
       javaType = int.class,
-      cases = {@Case(value = "1", type = DraftPost.class,
-          results = {@Result(id = true, property = "id", column = "id")})}
+      cases = {@Case(value = "1", type = DraftPost.class, results = {@Result(id = true, property = "id", column = "id")})}
   )
   List<Post> selectPostsWithResultMap();
 
-
   @Select("SELECT * FROM blog WHERE id = #{id}")
   Blog selectBlog(int id);
-
 
   @Select("SELECT * FROM blog WHERE id = #{id}")
   @ConstructorArgs({

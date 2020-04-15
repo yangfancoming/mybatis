@@ -241,7 +241,6 @@ class BindingTest {
     assertEquals(1, posts.size());
   }
 
-
   @Test
   void shouldExecuteBoundSelectOneBlogStatement() {
     Blog blog = blogMapper.selectBlog(1);
@@ -432,9 +431,9 @@ class BindingTest {
   @Test
   void shouldCacheMapperMethod() throws Exception {
     // Create another mapper instance with a method cache we can test against:
-    final MapperProxyFactory<BoundBlogMapper> mapperProxyFactory = new MapperProxyFactory<>(BoundBlogMapper.class);
+    MapperProxyFactory<BoundBlogMapper> mapperProxyFactory = new MapperProxyFactory<>(BoundBlogMapper.class);
     assertEquals(BoundBlogMapper.class, mapperProxyFactory.getMapperInterface());
-    final BoundBlogMapper mapper = mapperProxyFactory.newInstance(session);
+    BoundBlogMapper mapper = mapperProxyFactory.newInstance(session);
     assertNotSame(mapper, mapperProxyFactory.newInstance(session));
     assertTrue(mapperProxyFactory.getMethodCache().isEmpty());
 
