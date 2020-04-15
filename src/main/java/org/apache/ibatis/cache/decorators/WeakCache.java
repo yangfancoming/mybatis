@@ -37,6 +37,15 @@ public class WeakCache implements Cache {
     }
   }
 
+  private static class WeakEntry extends WeakReference<Object> {
+    private final Object key;
+
+    private WeakEntry(Object key, Object value, ReferenceQueue<Object> garbageCollectionQueue) {
+      super(value, garbageCollectionQueue);
+      this.key = key;
+    }
+  }
+
   //---------------------------------------------------------------------
   // Implementation of 【Cache】 interface
   //---------------------------------------------------------------------
@@ -87,15 +96,6 @@ public class WeakCache implements Cache {
     hardLinksToAvoidGarbageCollection.clear();
     removeGarbageCollectedItems();
     delegate.clear();
-  }
-
-  private static class WeakEntry extends WeakReference<Object> {
-    private final Object key;
-
-    private WeakEntry(Object key, Object value, ReferenceQueue<Object> garbageCollectionQueue) {
-      super(value, garbageCollectionQueue);
-      this.key = key;
-    }
   }
 
 }

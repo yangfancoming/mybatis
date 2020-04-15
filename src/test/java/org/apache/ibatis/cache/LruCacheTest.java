@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 //Least Recently Used  最少使用频率
 class LruCacheTest {
 
-  PerpetualCache perpetualCache = new PerpetualCache("default");
+  Cache cache = new LruCache(new PerpetualCache("default"));
 
   @Test
   void shouldRemoveLeastRecentlyUsedItemInBeyondFiveEntries() {
-    LruCache cache = new LruCache(perpetualCache);
+    LruCache cache = new LruCache(new PerpetualCache("default"));
     cache.setSize(5);
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);
@@ -28,7 +28,6 @@ class LruCacheTest {
 
   @Test
   void shouldRemoveItemOnDemand() {
-    Cache cache = new LruCache(perpetualCache);
     cache.putObject(0, 0);
     assertNotNull(cache.getObject(0));
     cache.removeObject(0);
@@ -37,7 +36,6 @@ class LruCacheTest {
 
   @Test
   void shouldFlushAllItemsOnDemand() {
-    Cache cache = new LruCache(perpetualCache);
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);
     }

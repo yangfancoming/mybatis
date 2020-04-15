@@ -11,7 +11,7 @@ class PerpetualCacheTest {
 
   Cache cache = new PerpetualCache("default");
 
-  // 测试缓存 存储
+  // 测试SynchronizedCache缓存
   @Test
   void shouldDemonstrateHowAllObjectsAreKept() {
     cache = new SynchronizedCache(cache);

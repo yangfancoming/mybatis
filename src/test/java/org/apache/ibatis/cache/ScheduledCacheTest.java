@@ -11,13 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 class ScheduledCacheTest {
 
-  Cache cache = new PerpetualCache("DefaultCache");
+  Cache cache = new ScheduledCache(new PerpetualCache("DefaultCache")); // 装饰定时清理
 
   @Test
   public void tst() throws InterruptedException {
     String key = "goat";
     String value = "heihei";
-    cache = new ScheduledCache(cache); // 装饰定时清理
     ((ScheduledCache) cache).setClearInterval(2500); // 设定2.5秒 后清除缓存
     cache.putObject(key,value);
     assertEquals(value, cache.getObject(key));
@@ -28,7 +27,6 @@ class ScheduledCacheTest {
   /*  演示如何根据时间清空所有对象  */
   @Test
   void shouldDemonstrateHowAllObjectsAreFlushedAfterBasedOnTime() throws Exception {
-    cache = new ScheduledCache(cache); // 装饰定时清理
     ((ScheduledCache) cache).setClearInterval(2500); // 设定2.5秒 后清除缓存
     cache = new LoggingCache(cache); // 装饰日志打印
     for (int i = 0; i < 100; i++) {
@@ -41,8 +39,7 @@ class ScheduledCacheTest {
 
   @Test
   void shouldRemoveItemOnDemand() {
-    cache = new ScheduledCache(cache);
-    ((ScheduledCache) cache).setClearInterval(60000);
+    ((ScheduledCache) cache).setClearInterval(60);
     cache = new LoggingCache(cache);
     cache.putObject(0, 0);
     assertNotNull(cache.getObject(0));
@@ -52,8 +49,7 @@ class ScheduledCacheTest {
 
   @Test
   void shouldFlushAllItemsOnDemand() {
-    cache = new ScheduledCache(cache);
-    ((ScheduledCache) cache).setClearInterval(60000);
+    ((ScheduledCache) cache).setClearInterval(60);
     cache = new LoggingCache(cache);
     for (int i = 0; i < 5; i++) {
       cache.putObject(i, i);

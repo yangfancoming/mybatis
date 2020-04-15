@@ -9,11 +9,12 @@ import org.junit.jupiter.api.Test;
 // 先进先出
 class FifoCacheTest {
 
-  FifoCache cache = new FifoCache(new PerpetualCache("default"));
+  Cache cache = new FifoCache(new PerpetualCache("default"));
 
   /* 超出5个元素后 将删除最先进来元素 */
   @Test
   void shouldRemoveFirstItemInBeyondFiveEntries() {
+    FifoCache cache = new FifoCache(new PerpetualCache("default"));
     // 设置缓存队列容量
     cache.setSize(5);
     // 按顺序 从0到4放入数据到缓存队列中
