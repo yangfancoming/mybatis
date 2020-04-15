@@ -44,6 +44,7 @@ Essentials
     装饰者模式，例如Cache包中的cache.decorators子包中等各个装饰者的实现；
     迭代器模式，例如迭代器模式PropertyTokenizer；
     策略模式，例如： NodeHandler handler = nodeHandlerMap.get(nodeName);
+    动态代理+责任链模式： mybatis 插件
     
 # Mapper动态代理开发（重点） 
     底层是通过接口，JDK动态代理，原生MybatisAPI来实现的

@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 /**
  * Created by 64274 on 2019/10/29.
  *
- * @ Description: TODO
+ * @ Description: 自定义代理需要实现InvocationHandler接口
  * @ author  山羊来了
  * @ date 2019/10/29---19:31
  */
@@ -27,7 +27,7 @@ public class TargetProxy implements InvocationHandler {
     System.out.println(" TargetProxy 前。。。");
     Object result = null;
     if (target != null){
-      System.out.println("反射调用被代理对象的业务方法 方法名为："+ method.getName());
+      System.out.println("反射调用被代理对象的业务方法 方法名为："+ method.getName() + "参数为：" + args);
       result = method.invoke(target, args);
     }else {
       System.out.println("被代理对象为空，不做反射调用！");

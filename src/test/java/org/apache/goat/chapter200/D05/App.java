@@ -15,30 +15,25 @@ public class App {
 
   Target target = new TargetImpl();
 
+  // 无参构造函数 导致 没有对象被代理
   @Test
   public void test1(){
-    // TargetProxy中的 invoke 是钩子函数
     InvocationHandler targetProxy = new TargetProxy();
-    // hook 是被钩对象
-    Target hook = (Target) Proxy.newProxyInstance(Target.class.getClassLoader(), new Class[]{Target.class}, targetProxy);
-    // 被钩对象执行时 先去执行钩子函数逻辑（TargetProxy#invoke）
-    hook.execute("goat");
+    common(targetProxy);
   }
 
-
-  /**
-   * 对比 test1() 示例：
-   * 只不过是在执行钩子函数时 多了一步调用
-   * invoke 函数中 又调用了其内部对象的方法
-  */
+  // 有参构造函数 有对象被代理
   @Test
   public void test2(){
-    // TargetProxy中的invoke 是钩子函数
     InvocationHandler targetProxy = new TargetProxy(target);
+    common(targetProxy);
+  }
+
+  public void common(InvocationHandler targetProxy){
     // hook 是被钩对象
     Target hook = (Target) Proxy.newProxyInstance(Target.class.getClassLoader(), new Class[]{Target.class}, targetProxy);
     // 被钩对象执行时 先去执行钩子函数逻辑（TargetProxy#invoke）
-    hook.execute("goat");
+    System.out.println(hook.execute("goat"));
   }
 
   @Test
