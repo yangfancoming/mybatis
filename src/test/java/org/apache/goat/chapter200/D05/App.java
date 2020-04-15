@@ -15,31 +15,30 @@ public class App {
 
   Target target = new TargetImpl();
 
-  // 无参构造函数 导致 没有对象被代理
+  // newProxyInstance 参数为接口
   @Test
   public void test1(){
-    InvocationHandler targetProxy = new TargetProxy();
+    InvocationHandler targetProxy = new TargetProxy(target);
     // hook 是被钩对象
     Target hook = (Target) Proxy.newProxyInstance(Target.class.getClassLoader(), new Class[]{Target.class}, targetProxy);
     // 被钩对象执行时 先去执行钩子函数逻辑（TargetProxy#invoke）
-    System.out.println(hook.execute("goat"));
+    System.out.println("返回值为：" + hook.execute("goat"));
   }
 
-  // 有参构造函数 有对象被代理
+  // newProxyInstance 参数为实现类
   @Test
   public void test2(){
     InvocationHandler targetProxy = new TargetProxy(target);
     Target hook = (Target) Proxy.newProxyInstance(TargetImpl.class.getClassLoader(), TargetImpl.class.getInterfaces(), targetProxy);
-    System.out.println(hook.execute("goat"));
+    System.out.println("返回值为：" + hook.execute("goat"));
   }
 
   @Test
   public void test4(){
-    //返回的是代理对象，实现了Target接口，
-    //实际调用方法的时候，是调用TargetProxy的invoke()方法
-    Target hook = (Target) TargetProxy.wrap(target);
-    // 调用顺序：TargetProxy#invoke(Object proxy, Method method, Object[] args)  ---> Target#String execute(String name);
-    hook.execute(" HelloWord ");
+    // 实际调用方法的时候，是调用TargetProxy的invoke()方法
+    TargetProxy targetProxy = new TargetProxy(target);
+    Target hook = (Target) targetProxy.wrap();
+    System.out.println("返回值为：" + hook.execute(" HelloWord "));
   }
 
 }

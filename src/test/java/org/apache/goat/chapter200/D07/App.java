@@ -19,7 +19,6 @@ public class App {
   @Test
   public void test1(){
     Interceptor transactionInterceptor = new TransactionInterceptor();
-//    Interceptor logInterceptor = new LogInterceptor();
     Target targetProxy = (Target) TargetProxy.wrap(target,transactionInterceptor);
     targetProxy.execute(" HelloWord ");
   }

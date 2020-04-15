@@ -15,29 +15,25 @@ public class TargetProxy implements InvocationHandler {
 
   private Object target;
 
-  public TargetProxy() {
-  }
-
   public TargetProxy(Object target) {
     this.target = target;
   }
 
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    System.out.println(" TargetProxy 前。。。");
+    System.out.println(" 前置处理。。。");
     Object result = null;
     if (target != null){
-      System.out.println("反射调用被代理对象的业务方法 方法名为："+ method.getName() + "参数为：" + args);
+      System.out.println("jdk动态代理调用 方法名为："+ method.getName() + "参数为：" + args);
       result = method.invoke(target, args);
     }else {
       System.out.println("被代理对象为空，不做反射调用！");
     }
-    System.out.println(" TargetProxy 后。。。");
+    System.out.println(" 后置处理。。。");
     return result;
   }
 
-  public static Object wrap(Object target) {
-    InvocationHandler targetProxy = new TargetProxy(target);
-    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),targetProxy);
+  public Object wrap() {
+    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),this);
   }
 }

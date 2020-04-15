@@ -14,14 +14,23 @@ import org.junit.Test;
 public class App {
 
   Target target = new TargetImpl();
+  InterceptorChain interceptorChain = new InterceptorChain();
 
+  // 注意执行顺序一
   @Test
   public void test1(){
-
-    InterceptorChain interceptorChain = new InterceptorChain();
     interceptorChain.addInterceptor(new TransactionInterceptor()).addInterceptor(new LogInterceptor());
-//    interceptorChain.addInterceptor(new LogInterceptor()).addInterceptor(new TransactionInterceptor());
+    common(interceptorChain);
+  }
 
+  // 注意执行顺序二
+  @Test
+  public void test2(){
+    interceptorChain.addInterceptor(new LogInterceptor()).addInterceptor(new TransactionInterceptor());
+    common(interceptorChain);
+  }
+
+  public void common(InterceptorChain interceptorChain){
     target = (Target) interceptorChain.pluginAll(target);
     target.execute("111111");
   }

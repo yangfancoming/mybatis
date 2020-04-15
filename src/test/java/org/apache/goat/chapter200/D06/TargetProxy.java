@@ -27,11 +27,6 @@ public class TargetProxy implements InvocationHandler {
     this.interceptorList = interceptorList;
   }
 
-  public static Object wrap(Object target,List<Interceptor> interceptorList) {
-    InvocationHandler targetProxy = new TargetProxy(target, interceptorList);
-    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),targetProxy);
-  }
-
   /**
    * @Description: 包装
    * @date 2019年10月27日21:11:26
@@ -52,5 +47,9 @@ public class TargetProxy implements InvocationHandler {
     return method.invoke(target, args);
   }
 
+  public static Object wrap(Object target,List<Interceptor> interceptorList) {
+    InvocationHandler targetProxy = new TargetProxy(target, interceptorList);
+    return Proxy.newProxyInstance(target.getClass().getClassLoader(),target.getClass().getInterfaces(),targetProxy);
+  }
 
 }
