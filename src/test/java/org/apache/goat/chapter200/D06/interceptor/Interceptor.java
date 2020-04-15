@@ -1,4 +1,4 @@
-package org.apache.goat.chapter200.D06;
+package org.apache.goat.chapter200.D06.interceptor;
 
 /**
  * Created by 64274 on 2019/10/29.

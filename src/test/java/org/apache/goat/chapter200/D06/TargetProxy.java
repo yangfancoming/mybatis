@@ -1,5 +1,7 @@
 package org.apache.goat.chapter200.D06;
 
+import org.apache.goat.chapter200.D06.interceptor.Interceptor;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -14,6 +16,7 @@ import java.util.List;
  */
 public class TargetProxy implements InvocationHandler {
 
+  // 存放 被代理的接口实现类
   private Object target;
 
   // 存放 所有实现Interceptor接口的实现类集合
@@ -45,9 +48,7 @@ public class TargetProxy implements InvocationHandler {
     for (Interceptor interceptor : interceptorList) {
       interceptor.intercept();
     }
-
     //通过反射来执行某个的对象的目标方法：总是获取先获取Method(对象的目标方法)，然后传入对应的Class实例对象和传入参数 来执行方法！
-    // target 为接口实现类
     return method.invoke(target, args);
   }
 

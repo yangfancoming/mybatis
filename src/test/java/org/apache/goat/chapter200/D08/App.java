@@ -11,6 +11,7 @@ import org.junit.Test;
 public class App {
 
   Target target = new TargetImpl();
+
   @Test
   public void test1(){
     Interceptor transactionInterceptor = new TransactionInterceptor();
@@ -21,12 +22,11 @@ public class App {
 
   @Test
   public void test2(){
-
     Interceptor transactionInterceptor = new TransactionInterceptor();
     target = (Target) transactionInterceptor.plugin(target);
     target.execute(" 11111 ");
-
-    LogInterceptor logInterceptor = new LogInterceptor();
+    System.out.println("-----------------------");
+    Interceptor logInterceptor = new LogInterceptor();
     target = (Target)logInterceptor.plugin(target);
     target.execute(" 222222 ");
   }
