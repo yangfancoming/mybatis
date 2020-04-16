@@ -10,5 +10,6 @@ package org.apache.ibatis.plugin;
 public abstract class BaseTest {
 
   AlwaysMapPlugin alwaysMapPlugin = new AlwaysMapPlugin();
+  MorePlugin morePlugin = new MorePlugin();
 
 }

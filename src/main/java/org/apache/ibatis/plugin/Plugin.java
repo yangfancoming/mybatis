@@ -71,12 +71,14 @@ public class Plugin implements InvocationHandler {
     return target;
   }
 
-  // 取得签名Map
+  /**
+   *
+   * @see org.apache.ibatis.builder.ExamplePlugin
+   */
   public static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) { //  -modify
-    //1.首先从Interceptor的类上获取Intercepts注解 //取Intercepts注解，例子可参见ExamplePlugin.java
+    // 1.首先从Interceptor的类上获取Intercepts注解
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
     // issue #251
-    // 如果Interceptor的类上没有定义Intercepts注解，则抛出异常，说明我们在自定义插件时，必须要有Intercepts注解
     if (interceptsAnnotation == null) throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
     // value是数组型，Signature的数组
     // 解析Interceptor的values属性（Signature[]）数组，然后存入HashMap<Class<?>, Set< Method>>容器内

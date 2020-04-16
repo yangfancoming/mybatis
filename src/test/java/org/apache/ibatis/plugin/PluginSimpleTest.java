@@ -17,7 +17,7 @@ public class PluginSimpleTest extends BaseTest {
 
   @Test
   public void testGetSignatureMap(){
-    Map<Class<?>, Set<Method>> signatureMap = Plugin.getSignatureMap(alwaysMapPlugin);
+    Map<Class<?>, Set<Method>> signatureMap = Plugin.getSignatureMap(morePlugin);
     System.out.println(signatureMap);
   }
 }

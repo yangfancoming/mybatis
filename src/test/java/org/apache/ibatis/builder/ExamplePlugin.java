@@ -3,10 +3,8 @@ package org.apache.ibatis.builder;
 
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
-
 import java.util.Properties;
-//MapperConfig.xml
-//@Intercepts({})
+
 @Intercepts({
     @Signature(type= StatementHandler.class,method="parameterize",args=java.sql.Statement.class)
   })
