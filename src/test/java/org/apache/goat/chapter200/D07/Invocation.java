@@ -10,16 +10,12 @@ import java.lang.reflect.Method;
  * @ date 2019/10/30---19:46
  */
 public class Invocation {
-
-  // 目标对象
-  private Object target;
-
-  // 执行的方法
-  private Method method;
-
+  // 调用的对象
+  private final Object target;
+  // 调用的方法
+  private final Method method;
   //方法的参数
-  private Object[] args;
-
+  private final Object[] args;
 
   public Invocation(Object target, Method method, Object[] args) {
     this.target = target;
