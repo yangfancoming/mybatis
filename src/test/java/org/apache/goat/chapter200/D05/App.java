@@ -41,4 +41,10 @@ public class App {
     System.out.println("返回值为：" + hook.execute(" HelloWord "));
   }
 
+  @Test
+  public void test5(){
+    TargetProxy targetProxy = new TargetProxy(target);
+    Target hook = (Target) targetProxy.wrap();
+    System.out.println("返回值为：" + hook.test(" HelloWord "));
+  }
 }

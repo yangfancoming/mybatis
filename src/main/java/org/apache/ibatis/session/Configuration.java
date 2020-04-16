@@ -583,9 +583,9 @@ public class Configuration {
   /**  Mybatis 四大对象  四大组件
    * 执行顺序：Executor  StatementHandler  ParameterHandler  ResultSetHandler
    *  final Executor executor = configuration.newExecutor(tx, execType);
-   *  newStatementHandler
    *  newParameterHandler
    *  newResultSetHandler
+   *  newStatementHandler
    */
 
   /**对Executor 进行拦截**/

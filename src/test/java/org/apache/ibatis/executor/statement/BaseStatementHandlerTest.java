@@ -60,10 +60,8 @@ class BaseStatementHandlerTest {
     @Test
     void specifyDefaultTimeoutOnly() throws SQLException {
         doReturn(20).when(configuration).getDefaultStatementTimeout();
-
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, null);
-
         verify(statement).setQueryTimeout(20); // apply a default timeout
     }
 
@@ -71,7 +69,6 @@ class BaseStatementHandlerTest {
     void specifyTransactionTimeout() throws SQLException {
         BaseStatementHandler handler = new SimpleStatementHandler(null, mappedStatementBuilder.build(), null, null, null, null);
         handler.setStatementTimeout(statement, 5);
-
         verify(statement).setQueryTimeout(5); // apply a transaction timeout
     }
 

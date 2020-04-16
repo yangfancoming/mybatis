@@ -9,4 +9,5 @@ package org.apache.goat.chapter200.D05;
  */
 public interface Target {
   String execute(String name);
+  String test(String name);
 }

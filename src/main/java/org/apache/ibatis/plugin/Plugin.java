@@ -129,15 +129,15 @@ public class Plugin implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     try {
-      // 看看如何拦截
-      Set<Method> methods = signatureMap.get(method.getDeclaringClass());
-      // 看哪些方法需要拦截 //获取当前执行方法所属的类，并获取需要被拦截的方法集合
+      // 通过当前执行方法 反射获取 其所属的类，
+      Class<?> declaringClass = method.getDeclaringClass();
+      // 再将类作为key 取出该类下 需要被拦截的方法集合
+      Set<Method> methods = signatureMap.get(declaringClass);
+      // 判断当前执行的方式 是否存在于需要被拦截的方法集合中，如果需被拦截的方法集合包含当前执行的方法，则执行拦截器的interceptor方法
       if (methods != null && methods.contains(method)) {
-        // 调用Interceptor.intercept，也即插入了我们自己的逻辑
-        // 如果需被拦截的方法集合包含当前执行的方法，则执行拦截器的interceptor方法
         return interceptor.intercept(new Invocation(target, method, args));
       }
-      // 最后还是执行原来逻辑 // 如果不是，则直接调用目标方法的Invoke方法
+      // 最后还是执行原来逻辑
       return method.invoke(target, args);
     } catch (Exception e) {
       throw ExceptionUtil.unwrapThrowable(e);

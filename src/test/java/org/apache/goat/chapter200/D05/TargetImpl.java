@@ -14,4 +14,10 @@ public class TargetImpl implements Target {
     System.out.println("普通业务方法执行 ----- execute()  接收参数为："+ name);
     return name;
   }
+
+  @Override
+  public String test(String name) {
+    System.out.println("普通业务方法执行 ----- test()  接收参数为："+ name);
+    return name;
+  }
 }
