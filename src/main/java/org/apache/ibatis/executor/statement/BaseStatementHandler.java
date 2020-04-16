@@ -114,12 +114,8 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
   protected void closeStatement(Statement statement) {
     try {
-      if (statement != null) {
-        statement.close();
-      }
-    } catch (SQLException e) {
-      //ignore
-    }
+      if (statement != null) statement.close();
+    } catch (SQLException e) { }
   }
 
   protected void generateKeys(Object parameter) {

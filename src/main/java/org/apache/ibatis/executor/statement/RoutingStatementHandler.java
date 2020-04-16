@@ -26,18 +26,19 @@ public class RoutingStatementHandler implements StatementHandler {
   public RoutingStatementHandler(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     switch (ms.getStatementType()) {
       case STATEMENT:
-        delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
-        break;
+        delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql); break;
       case PREPARED: // 默认
-        delegate = new PreparedStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
-        break;
+        delegate = new PreparedStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql); break;
       case CALLABLE:
-        delegate = new CallableStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
-        break;
+        delegate = new CallableStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql); break;
       default:
         throw new ExecutorException("Unknown statement type: " + ms.getStatementType());
     }
   }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【StatementHandler】 interface
+  //---------------------------------------------------------------------
 
   @Override
   public Statement prepare(Connection connection, Integer transactionTimeout) throws SQLException {

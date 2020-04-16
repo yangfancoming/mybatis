@@ -12,12 +12,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 
-
 /**
  * {@link Transaction} that makes use of the JDBC commit and rollback facilities directly.
  * It relies on the connection retrieved from the dataSource to manage the scope of the transaction.
- * Delays connection retrieval until getConnection() is called.
- * Ignores commit or rollback requests when autocommit is on.
+ * Delays connection retrieval until getConnection() is called. Ignores commit or rollback requests when autocommit is on.
  * @see JdbcTransactionFactory
  */
 public class JdbcTransaction implements Transaction {
@@ -58,8 +56,7 @@ public class JdbcTransaction implements Transaction {
         /**
          *    MyBatis does not call commit/rollback on a connection if just selects were performed.
          *    Some databases start transactions with select statements and they mandate a commit/rollback before closing the connection.
-         *    A workaround is setting the autocommit to true before closing the connection.
-         *    Sybase throws an exception here.
+         *    A workaround is setting the autocommit to true before closing the connection.Sybase throws an exception here.
         */
         if (log.isDebugEnabled()) log.debug("Resetting autocommit to true on JDBC Connection [" + connection + "]");
         connection.setAutoCommit(true);
@@ -70,9 +67,7 @@ public class JdbcTransaction implements Transaction {
   }
 
   protected void openConnection() throws SQLException {
-    if (log.isDebugEnabled()) {
-      log.debug("Opening JDBC Connection");
-    }
+    if (log.isDebugEnabled())  log.debug("Opening JDBC Connection");
     connection = dataSource.getConnection();
     if (level != null) {
       connection.setTransactionIsolation(level.getLevel());
@@ -85,23 +80,20 @@ public class JdbcTransaction implements Transaction {
   //---------------------------------------------------------------------
 
   @Override
-  public Integer getTimeout() throws SQLException {
+  public Integer getTimeout() {
     return null;
   }
+
   @Override
   public Connection getConnection() throws SQLException {
-    if (connection == null) {
-      openConnection();
-    }
+    if (connection == null) openConnection();
     return connection;
   }
 
   @Override
   public void commit() throws SQLException {
     if (connection != null && !connection.getAutoCommit()) {
-      if (log.isDebugEnabled()) {
-        log.debug("Committing JDBC Connection [" + connection + "]");
-      }
+      if (log.isDebugEnabled()) log.debug("Committing JDBC Connection [" + connection + "]");
       connection.commit();
     }
   }
@@ -109,9 +101,7 @@ public class JdbcTransaction implements Transaction {
   @Override
   public void rollback() throws SQLException {
     if (connection != null && !connection.getAutoCommit()) {
-      if (log.isDebugEnabled()) {
-        log.debug("Rolling back JDBC Connection [" + connection + "]");
-      }
+      if (log.isDebugEnabled()) log.debug("Rolling back JDBC Connection [" + connection + "]");
       connection.rollback();
     }
   }
@@ -120,9 +110,7 @@ public class JdbcTransaction implements Transaction {
   public void close() throws SQLException {
     if (connection == null) return; // -modify
     resetAutoCommit();
-    if (log.isDebugEnabled()) {
-      log.debug("Closing JDBC Connection [" + connection + "]");
-    }
+    if (log.isDebugEnabled()) log.debug("Closing JDBC Connection [" + connection + "]");
     connection.close();
   }
 }

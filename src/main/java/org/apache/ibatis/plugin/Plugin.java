@@ -72,7 +72,10 @@ public class Plugin implements InvocationHandler {
   }
 
   /**
+   *  就是将 @Intercepts 内容转换为 Map<Class<?>, Set<Method>>
+   * @param interceptor   带有@Intercepts注解的Interceptor接口实现类
    * @see org.apache.ibatis.builder.ExamplePlugin
+   * @return 填充好的 Map<Class<?>, Set<Method>> signatureMap
    */
   public static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) { //  -modify
     // 获取Interceptor类上的 @Intercepts 注解

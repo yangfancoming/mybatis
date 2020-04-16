@@ -613,12 +613,9 @@ public class Configuration {
     } else { //4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
-    //5.如果开启了二级缓存，就装饰一下。(二级缓存默认是开启的)
-    if (cacheEnabled) {
-      executor = new CachingExecutor(executor);// 装饰器模式 装饰模式
-    }
-    //6.处理插件  责任链模式 使用每一个拦截器重新包装 executor 并返回
-    // 使用InterceptorChain.pluginAll(executor)进行拆件化处理
+    //5.如果开启了二级缓存，就装饰一下。(默认开启) 装饰器模式 装饰模式
+    if (cacheEnabled)  executor = new CachingExecutor(executor);
+    //6.插件化处理  责任链模式 使用每一个拦截器重新包装 executor 并返回
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

@@ -55,6 +55,59 @@ public class DefaultSqlSession implements SqlSession {
     this(configuration, executor, false);
   }
 
+  private void closeCursors() {
+    if (cursorList != null && cursorList.size() != 0) {
+      for (Cursor<?> cursor : cursorList) {
+        try {
+          cursor.close();
+        } catch (IOException e) {
+          throw ExceptionFactory.wrapException("Error closing cursor.  Cause: " + e, e);
+        }
+      }
+      cursorList.clear();
+    }
+  }
+
+  private <T> void registerCursor(Cursor<T> cursor) {
+    if (cursorList == null) cursorList = new ArrayList<>();
+    cursorList.add(cursor);
+  }
+
+  private boolean isCommitOrRollbackRequired(boolean force) {
+    return (!autoCommit && dirty) || force;
+  }
+
+  private Object wrapCollection(final Object object) {
+    if (object instanceof Collection) {
+      StrictMap<Object> map = new StrictMap<>();
+      map.put("collection", object);
+      if (object instanceof List) {
+        map.put("list", object);
+      }
+      return map;
+    } else if (object != null && object.getClass().isArray()) {
+      StrictMap<Object> map = new StrictMap<>();
+      map.put("array", object);
+      return map;
+    }
+    return object;
+  }
+
+  public static class StrictMap<V> extends HashMap<String, V> {
+    private static final long serialVersionUID = -5741767162221585340L;
+    @Override
+    public V get(Object key) {
+      if (!super.containsKey(key)) {
+        throw new BindingException("Parameter '" + key + "' not found. Available parameters are " + this.keySet());
+      }
+      return super.get(key);
+    }
+  }
+
+  //---------------------------------------------------------------------
+  // Implementation of 【SqlSession】 interface
+  //---------------------------------------------------------------------
+
   @Override
   public <T> T selectOne(String statement) {
     return selectOne(statement, null);
@@ -259,19 +312,6 @@ public class DefaultSqlSession implements SqlSession {
     }
   }
 
-  private void closeCursors() {
-    if (cursorList != null && cursorList.size() != 0) {
-      for (Cursor<?> cursor : cursorList) {
-        try {
-          cursor.close();
-        } catch (IOException e) {
-          throw ExceptionFactory.wrapException("Error closing cursor.  Cause: " + e, e);
-        }
-      }
-      cursorList.clear();
-    }
-  }
-
   @Override
   public Configuration getConfiguration() {
     return configuration;
@@ -294,45 +334,6 @@ public class DefaultSqlSession implements SqlSession {
   @Override
   public void clearCache() {
     executor.clearLocalCache();
-  }
-
-  private <T> void registerCursor(Cursor<T> cursor) {
-    if (cursorList == null) cursorList = new ArrayList<>();
-    cursorList.add(cursor);
-  }
-
-  private boolean isCommitOrRollbackRequired(boolean force) {
-    return (!autoCommit && dirty) || force;
-  }
-
-  private Object wrapCollection(final Object object) {
-    if (object instanceof Collection) {
-      StrictMap<Object> map = new StrictMap<>();
-      map.put("collection", object);
-      if (object instanceof List) {
-        map.put("list", object);
-      }
-      return map;
-    } else if (object != null && object.getClass().isArray()) {
-      StrictMap<Object> map = new StrictMap<>();
-      map.put("array", object);
-      return map;
-    }
-    return object;
-  }
-
-  public static class StrictMap<V> extends HashMap<String, V> {
-
-    private static final long serialVersionUID = -5741767162221585340L;
-
-    @Override
-    public V get(Object key) {
-      if (!super.containsKey(key)) {
-        throw new BindingException("Parameter '" + key + "' not found. Available parameters are " + this.keySet());
-      }
-      return super.get(key);
-    }
-
   }
 
 }
