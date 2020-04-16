@@ -17,7 +17,7 @@ import java.util.Properties;
 		{
 			@Signature(type= StatementHandler.class,method="parameterize",args=java.sql.Statement.class)
 		})
-public class MyMybatisPlugin implements Interceptor {
+public class MyFirstPlugin implements Interceptor {
 
 	/**
 	 * intercept：拦截：拦截目标对象的目标方法的执行

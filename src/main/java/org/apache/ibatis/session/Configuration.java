@@ -588,30 +588,6 @@ public class Configuration {
    *  newResultSetHandler
    */
 
-  /**对ParameterHandler 进行拦截**/
-  public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
-    ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
-    parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
-    return parameterHandler;
-  }
-
-  /**对ResultSetHandler 进行拦截**/
-  public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,ResultHandler resultHandler, BoundSql boundSql) {
-    ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
-    resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
-    return resultSetHandler;
-  }
-
-  /**对StatementHandler 进行拦截  （StatementHandler 出口） **/
-  public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
-    /** 在MyBatis中，Configuration对象会采用new RoutingStatementHandler()来生成StatementHandler对象：
-     * 然后它会根据Executor的类型去创建对应具体的statementHandler对象（SimpleStatementHandler，PreparedStatementHandler和CallableStatementHandler）。*/
-    StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
-    // 对statementHandler 插入所有的Interceptor以便进行拦截，InterceptorChain里保存了所有的拦截器，它在Configuration 对象被构造出来的时候创建。
-    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
-    return statementHandler;
-  }
-
   /**对Executor 进行拦截**/
   public Executor newExecutor(Transaction transaction) {
     return newExecutor(transaction, defaultExecutorType);
@@ -645,6 +621,30 @@ public class Configuration {
     // 使用InterceptorChain.pluginAll(executor)进行拆件化处理
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
+  }
+
+  /**对StatementHandler 进行拦截  （StatementHandler 出口） **/
+  public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    /** 在MyBatis中，Configuration对象会采用new RoutingStatementHandler()来生成StatementHandler对象：
+     * 然后它会根据Executor的类型去创建对应具体的statementHandler对象（SimpleStatementHandler，PreparedStatementHandler和CallableStatementHandler）。*/
+    StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
+    // 对statementHandler 插入所有的Interceptor以便进行拦截，InterceptorChain里保存了所有的拦截器，它在Configuration 对象被构造出来的时候创建。
+    statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+    return statementHandler;
+  }
+
+  /**对ParameterHandler 进行拦截**/
+  public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+    ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
+    parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
+    return parameterHandler;
+  }
+
+  /**对ResultSetHandler 进行拦截**/
+  public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,ResultHandler resultHandler, BoundSql boundSql) {
+    ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
+    resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
+    return resultSetHandler;
   }
 
   public void addKeyGenerator(String id, KeyGenerator keyGenerator) {

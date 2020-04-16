@@ -1,6 +1,7 @@
 package org.apache.goat.chapter200.D10;
 
 import org.apache.common.MyBaseDataTest;
+import org.apache.goat.common.model.Foo;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -17,14 +18,21 @@ import org.junit.jupiter.api.Test;
 
 public class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter200/D10/mybatis-config.xml";
+  public static final String CONFIG1 = "org/apache/goat/chapter200/D10/config1.xml";
+  public static final String CONFIG2 = "org/apache/goat/chapter200/D10/config2.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
   @Test
-  void Reader() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);
-//    Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.selectById",2);
-//    System.out.println(foo1);
+  void test1() throws Exception {
+    setUpByReader(CONFIG1,DBSQL);
+    Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.selectById",2);
+    System.out.println(foo1);
   }
 
+  @Test
+  void test2() throws Exception {
+    setUpByReader(CONFIG2,DBSQL);
+    Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.selectById",2);
+    System.out.println(foo1);
+  }
 }

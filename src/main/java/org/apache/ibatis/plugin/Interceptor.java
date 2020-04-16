@@ -22,7 +22,13 @@ public interface Interceptor {
     return Plugin.wrap(target, this);
   }
 
-  //设置属性 //设置plugin配置的属性
+  /**
+   * 设置 <plugin> 标签下的所有 <property> 标签
+   *     <plugin interceptor="org.apache.goat.chapter200.D10.MyFirstPlugin">
+   *       <property name="username" value="goat"/>
+   *       <property name="password" value="123654"/>
+   *     </plugin>
+  */
   default void setProperties(Properties properties) {
     // NOP
   }

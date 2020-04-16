@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * 拦截器链
- *
  * Executor (update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)
  * ParameterHandler (getParameterObject, setParameters)
  * ResultSetHandler (handleResultSets, handleOutputParameters)
@@ -33,19 +32,19 @@ public class InterceptorChain {
    * @return 成功包装后的对象
    */
   public Object pluginAll(Object target) {
-    //遍历InterceptorChain的拦截器链，分别调用Intercpetor对象的Plugin进行拦截
+    // 遍历InterceptorChain的拦截器链，分别调用Intercpetor对象的Plugin进行拦截
     for (Interceptor interceptor : interceptors) {
       target = interceptor.plugin(target);
     }
     return target;
   }
 
-  //增加拦截器链
+  // 增加拦截器链
   public void addInterceptor(Interceptor interceptor) {
     interceptors.add(interceptor);
   }
 
-  //获取拦截器链
+  // 获取拦截器链
   public List<Interceptor> getInterceptors() {
     return Collections.unmodifiableList(interceptors);
   }

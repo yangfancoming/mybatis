@@ -3,14 +3,11 @@ package org.apache.ibatis.plugin;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PluginTest extends BaseTest {
-
-  Map map = new HashMap();
 
   @Test
   void test() {

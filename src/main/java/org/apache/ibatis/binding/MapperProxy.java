@@ -74,16 +74,6 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
    *    private final Map<Method, MapperMethod> methodCache;
    *    Mapper接口中的每个方法都会生成一个MapperMethod对象, methodCache维护着他们的对应关系
    *    获取方法对象来获取接口方法mapperMethod
-   *
-   *    老版本代码
-   *   private MapperMethod cachedMapperMethod(Method method) {
-   *     MapperMethod mapperMethod = methodCache.get(method);
-   *     if (mapperMethod == null) {
-   *       mapperMethod = new MapperMethod(mapperInterface, method, sqlSession.getConfiguration());
-   *       methodCache.put(method, mapperMethod);
-   *     }
-   *     return mapperMethod;
-   *   }
    *   若key对应的value为空，会将第二个参数的返回值存入并返回
   */
   private MapperMethod cachedMapperMethod(Method method) {

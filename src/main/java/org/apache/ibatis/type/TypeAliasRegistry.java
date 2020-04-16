@@ -111,11 +111,11 @@ public class TypeAliasRegistry {
       */
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
-      //原理就很简单了，从HashMap里找对应的键值，找到则返回类型别名对应的Class
+      // 原理就很简单了，从HashMap里找对应的键值，找到则返回类型别名对应的Class
       if (typeAliases.containsKey(key)) {
         value = (Class<T>) typeAliases.get(key);
       } else {
-        //找不到，再试着将String直接转成Class(这样怪不得我们也可以直接用java.lang.Integer的方式定义，也可以就int这么定义)
+        // 找不到，就再试着 反射创建类的实例 (这样怪不得我们也可以直接用java.lang.Integer的方式定义，也可以就int这么定义)
         value = (Class<T>) Resources.classForName(string);
       }
       return value;

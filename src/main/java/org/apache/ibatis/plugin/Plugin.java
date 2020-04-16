@@ -72,24 +72,24 @@ public class Plugin implements InvocationHandler {
   }
 
   /**
-   *
    * @see org.apache.ibatis.builder.ExamplePlugin
    */
   public static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) { //  -modify
-    // 1.首先从Interceptor的类上获取Intercepts注解
+    // 获取Interceptor类上的 @Intercepts 注解
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
     // issue #251
     if (interceptsAnnotation == null) throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
-    // value是数组型，Signature的数组
     // 解析Interceptor的values属性（Signature[]）数组，然后存入HashMap<Class<?>, Set< Method>>容器内
     Signature[] sigs = interceptsAnnotation.value();
     // 每个class里有多个Method需要被拦截,所以这么定义
     Map<Class<?>, Set<Method>> signatureMap = new HashMap<>();
     for (Signature sig : sigs) {
+      // 1.先创建
       Set<Method> methods = signatureMap.computeIfAbsent(sig.type(), k -> new HashSet<>());
       try {
+        // 通过方法名和参数  反射获取类中的指定方法
         Method method = sig.type().getMethod(sig.method(), sig.args());
-        methods.add(method);
+        methods.add(method); // 2.再赋值
       } catch (NoSuchMethodException e) {
         throw new PluginException("Could not find method on " + sig.type() + " named " + sig.method() + ". Cause: " + e, e);
       }

@@ -97,6 +97,7 @@ public class SimpleExecutor extends BaseExecutor {
     /* 准备Statement */  //2.使用StatementHandler，利用connection创建（prepare）Statement //NOTE: 创建Statement
     Statement stmt = handler.prepare(connection, transaction.getTimeout());
     /* 准备Statement */  //3.使用StatementHandler处理占位符  //NOTE: 参数设置
+    // 			@Signature(type= StatementHandler.class,method="parameterize",args=java.sql.Statement.class)
     handler.parameterize(stmt);
     return stmt;
   }
