@@ -15,7 +15,8 @@ public interface Interceptor {
   /**
    * @Description: 包装
    * @date 2019年10月27日21:11:26
-   * @param target 目标对象，需要被代理的对象
+   * @param target 目标对象，需要被代理的对象  eg：RoutingStatementHandler
+   * @param this   MyThirdPlugin
    * @return 成功包装后的对象
    */
   default Object plugin(Object target) {

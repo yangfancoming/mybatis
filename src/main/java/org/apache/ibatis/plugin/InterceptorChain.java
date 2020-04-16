@@ -20,7 +20,7 @@ public class InterceptorChain {
   /**
    * @Description: 包装
    * @date 2019年10月27日21:11:26
-   * @param target 目标对象，需要被代理的对象
+   * @param target 目标对象，需要被代理的对象  eg：RoutingStatementHandler
    *               这个是Executor、ParameterHandler、ResultSetHandler、StatementHandler接口的实现类，
    *               换句话说，plugin方法是要为Executor、ParameterHandler、ResultSetHandler、StatementHandler的实现类生成代理，
    *               从而在调用这几个类的方法的时候，其实调用的是InvocationHandler的invoke方法

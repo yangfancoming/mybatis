@@ -50,21 +50,19 @@ public class Plugin implements InvocationHandler {
   /**
    * @Description: 包装
    * @date 2019年10月27日21:11:26
-   * @param target 要包装的目标对象
+   * @param target 要包装的目标对象 eg：RoutingStatementHandler
    * @param interceptor 指定要用哪个拦截器进行包装
    * @return 成功包装后的对象
    */
   public static Object wrap(Object target, Interceptor interceptor) {
-    // 从拦截器的注解中获取拦截的类名和方法信息  //取得签名Map
+    // 解析插件类上的 @Intercepts 注解
     Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
     // 取得要改变行为的类(ParameterHandler|ResultSetHandler|StatementHandler|Executor)
     // 取得要包装的目标对象的类型
     Class<?> type = target.getClass();
-    // 取得要包装的目标对象的类型所有要实现的接口
-    // 解析被拦截对象的所有接口（注意是接口）    //取得接口
-    // 获取需要代理的对象的Class上声明的所有接口
+    // 将target类所实现的所有接口的集合 与 @Intercepts中配置的 @Signature(type= StatementHandler.class)的集合 取出交集！
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
-    //使用JDK内置的Proxy创建代理对象
+    // 使用jdk代理 代理接口的实现类，注意：一旦代理了 那么那些接口下的所有方法的调用都将会走 invoke方法
     if (interfaces.length > 0) {
       return Proxy.newProxyInstance(type.getClassLoader(),interfaces,new Plugin(target, interceptor, signatureMap));
     }
