@@ -53,7 +53,7 @@ public abstract class BaseExecutor implements Executor {
   protected Transaction transaction;
   // 底层的 Executor 包装对象 (CachingExecutor)
   protected Executor wrapper;
-  // 延迟加载队列 / 线程安全队列
+  // 延迟加载队列 (线程安全队列)
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
   // 一级缓存，用于缓存查询结果 -modify
   public PerpetualCache localCache;

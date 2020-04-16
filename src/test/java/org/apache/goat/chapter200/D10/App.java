@@ -20,6 +20,7 @@ public class App extends MyBaseDataTest {
 
   public static final String CONFIG1 = "org/apache/goat/chapter200/D10/config1.xml";
   public static final String CONFIG2 = "org/apache/goat/chapter200/D10/config2.xml";
+  public static final String CONFIG3 = "org/apache/goat/chapter200/D10/config3.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
   @Test
@@ -32,6 +33,13 @@ public class App extends MyBaseDataTest {
   @Test
   void test2() throws Exception {
     setUpByReader(CONFIG2,DBSQL);
+    Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.selectById",2);
+    System.out.println(foo1);
+  }
+
+  @Test
+  void test3() throws Exception {
+    setUpByReader(CONFIG3,DBSQL);
     Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.selectById",2);
     System.out.println(foo1);
   }

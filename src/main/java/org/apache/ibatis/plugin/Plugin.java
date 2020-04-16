@@ -80,7 +80,7 @@ public class Plugin implements InvocationHandler {
   public static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) { //  -modify
     // 获取Interceptor类上的 @Intercepts 注解
     Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
-    // issue #251
+    // issue #251 如果没有定义@Intercepts注解，抛出异常，这意味着使用MyBatis的插件，必须使用注解方式。
     if (interceptsAnnotation == null) throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
     // 解析Interceptor的values属性（Signature[]）数组，然后存入HashMap<Class<?>, Set< Method>>容器内
     Signature[] sigs = interceptsAnnotation.value();
