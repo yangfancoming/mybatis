@@ -8,10 +8,10 @@ import java.util.Properties;
 */
 public interface Interceptor {
 
-  //拦截 // 这个方法是拦截器的业务方法 就是实现要增强的功能；
+  // 这个方法是拦截器的业务方法 就是实现要增强的功能；
   Object intercept(Invocation invocation) throws Throwable;
 
-  //插入 // 这个方法是对拦截器的包装， 如果不包装的话它是不会被加入到拦截器链中 其实就是生成代理对象；
+  // 这个方法是对拦截器的包装， 如果不包装的话它是不会被加入到拦截器链中 其实就是生成代理对象；
   /**
    * @Description: 包装
    * @date 2019年10月27日21:11:26

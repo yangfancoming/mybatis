@@ -13,14 +13,14 @@ public class MySecondPlugin implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		System.out.println("MySecondPlugin...intercept:"+invocation.getMethod());
+		System.out.println("MySecondPlugin...intercept:" + invocation.getMethod());
 		return invocation.proceed();
 	}
 
 	@Override
 	public Object plugin(Object target) {
 		// TODO Auto-generated method stub
-		System.out.println("MySecondPlugin...plugin:"+target);
+		System.out.println("MySecondPlugin...plugin:" + target);
 		return Plugin.wrap(target, this);
 	}
 
