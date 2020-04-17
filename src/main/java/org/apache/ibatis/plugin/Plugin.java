@@ -132,10 +132,11 @@ public class Plugin implements InvocationHandler {
       // 再将类作为key 取出该类下 需要被拦截的方法集合
       Set<Method> methods = signatureMap.get(declaringClass);
       // 判断当前执行的方式 是否存在于需要被拦截的方法集合中，如果需被拦截的方法集合包含当前执行的方法，则执行拦截器的interceptor方法
+      // 注意：这里是 return  就是说如果是进入拦截方法，那么将不会再执行后面的invoke ，因为拦截器中使用 Invocation#proceed() 进行的原生的调用
       if (methods != null && methods.contains(method)) {
         return interceptor.intercept(new Invocation(target, method, args));
       }
-      // 最后还是执行原来逻辑
+      // 如果不是，则直接调用目标方法的Invoke方法
       return method.invoke(target, args);
     } catch (Exception e) {
       throw ExceptionUtil.unwrapThrowable(e);

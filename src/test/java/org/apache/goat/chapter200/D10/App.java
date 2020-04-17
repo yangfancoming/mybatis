@@ -5,11 +5,6 @@ import org.apache.goat.common.model.Foo;
 import org.junit.jupiter.api.Test;
 
 /**
- * ParameterHandler
- * ResultSetHandler
- * StatementHandler
- *
- *
  * 插件编写：
  * 1、编写Interceptor的实现类
  * 2、使用@Intercepts注解完成插件签名
