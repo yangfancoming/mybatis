@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
  */
 public class PreparedStatementTest {
 
-  String url = "jdbc:mysql://192.168.211.128:3306/jdbc";
+  String url = "jdbc:mysql://47.98.148.84:3306/jdbc";
   String user = "root";
   String password = "12345";
 
@@ -48,7 +48,6 @@ public class PreparedStatementTest {
     ps.setObject(2, 18);
     ps.execute();
   }
-
 
   //通用的增删改操作
   public void update(String sql,Object ...args) throws SQLException {//sql中占位符的个数与可变形参的长度相同！
