@@ -3,10 +3,6 @@
 
 <mapper namespace="org.apache.goat.chapter100.E.E072.UserMapper">
 
-<!--
-
-
--->
 
   <insert id="insertList" useGeneratedKeys="true" keyProperty="id">
     insert into sys_user(

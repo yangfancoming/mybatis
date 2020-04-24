@@ -26,7 +26,7 @@ public final class OgnlCache {
 
   public static Object getValue(String expression, Object root) {
     try {
-      //创建OgnlContext对象
+      // 创建OgnlContext对象
       Map context = Ognl.createDefaultContext(root, MEMBER_ACCESS, CLASS_RESOLVER, null);
       // 使用 OGNL 执行 expression 表达式
       return Ognl.getValue(parseExpression(expression), context, root);

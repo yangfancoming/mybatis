@@ -13,7 +13,12 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/E/E072/mybatis-config.xml";
 
   @Test
-  void deleteById1() throws Exception  {
+  void test() throws Exception  {
+    setUpByReader(XMLPATH);
+  }
+
+  @Test
+  void test1() throws Exception  {
     setUpByReader(XMLPATH);
     UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
     List<SysUser> userList = new ArrayList<>();
