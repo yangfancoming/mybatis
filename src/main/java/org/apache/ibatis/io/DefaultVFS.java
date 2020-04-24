@@ -77,17 +77,13 @@ public class DefaultVFS extends VFS {
                 break;
               }
             }
-
             if (!lines.isEmpty()) {
               if (log.isDebugEnabled()) log.debug("Listing " + url);
               children.addAll(lines);
             }
           }
         } catch (FileNotFoundException e) {
-          /*
-           * For file URLs the openStream() call might fail, depending on the servlet container,
-           * because directories can't be opened for reading. If that happens,then list the directory directly instead.
-           */
+          // For file URLs the openStream() call might fail, depending on the servlet container, because directories can't be opened for reading. If that happens,then list the directory directly instead.
           if ("file".equals(url.getProtocol())) {
             File file = new File(url.getFile());
             if (log.isDebugEnabled()) log.debug("Listing directory " + file.getAbsolutePath());

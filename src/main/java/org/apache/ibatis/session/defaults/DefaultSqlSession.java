@@ -77,6 +77,10 @@ public class DefaultSqlSession implements SqlSession {
     return (!autoCommit && dirty) || force;
   }
 
+  /**
+   * 对应 insert 标签中 collection 属性的值
+   * <foreach collection="list" item="user" separator=",">
+  */
   private Object wrapCollection(final Object object) {
     if (object instanceof Collection) {
       StrictMap<Object> map = new StrictMap<>();

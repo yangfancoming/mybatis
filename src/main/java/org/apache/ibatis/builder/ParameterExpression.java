@@ -34,9 +34,7 @@ public class ParameterExpression extends HashMap<String, String> {
 
   // -modify
   private static final Character JDBCTYPE = ':';
-
   private static final Character EXPRESSION = '(';
-
   private static final Character ATTRIBUTE = ',';
 
   public ParameterExpression(String expression) {

@@ -73,10 +73,8 @@ public class ForEachSqlNode implements SqlNode {
     Map<String, Object> bindings = context.getBindings();
     // 将参数上下文作为root传入OGNL解析出类似#{item.id}的原值后将迭代的集合表达式还原成集合本身
     final Iterable<?> iterable = evaluator.evaluateIterable(collectionExpression, bindings);
-    //如果集合没有数据，直接返回true
-    if (!iterable.iterator().hasNext()) {
-      return true;
-    }
+    // 如果集合没有数据，直接返回true
+    if (!iterable.iterator().hasNext()) return true;
     boolean first = true;
     // 在循环开始前处理要添加的字符SQL片段
     applyOpen(context);

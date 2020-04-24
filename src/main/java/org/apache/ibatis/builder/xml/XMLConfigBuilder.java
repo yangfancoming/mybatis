@@ -115,9 +115,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   public Configuration parse() {
     log.warn("开始解析全局xml配置文件");
     //1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
-    if (parsed) {
-      throw new BuilderException("Each XMLConfigBuilder can only be used once.");
-    }
+    if (parsed) throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     parsed = true;
     /**  解析 xml 全局配置文件
      注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 全局xml文件的 <configuration> 节点

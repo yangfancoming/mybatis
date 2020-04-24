@@ -94,7 +94,6 @@ public class SqlRunner {
     } else {
       ps = connection.prepareStatement(sql);
     }
-
     try {
       setParameters(ps, args);
       ps.executeUpdate();

@@ -86,10 +86,10 @@ public class SimpleExecutor extends BaseExecutor {
   }
 
   /**
-   * 创建Statement
-   * 首先获取数据库connection连接，
-   * 然后准备statement，然后就设置SQL查询中的参数值。
-   * 打开一个connection连接，在使用完后不会close，而是存储下来，当下次需要打开连接时就直接返回。
+   * 1.创建Statement
+   * 2.首先获取数据库connection连接，
+   * 3.然后准备statement，然后就设置SQL查询中的参数值。
+   * 4.打开一个connection连接，在使用完后不会close，而是存储下来，当下次需要打开连接时就直接返回。
    * */
   private Statement prepareStatement(StatementHandler handler, Log statementLog) throws SQLException {
     /* 获取Connection连接 *///1.获取connection对象的动态代理，添加日志能力；(这里参考日志模块的代理模式) // 使用底层的 jdbc 的代码 获取数据库连接  //NOTE: 获取数据库连接

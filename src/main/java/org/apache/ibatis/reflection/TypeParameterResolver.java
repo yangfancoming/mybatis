@@ -24,8 +24,7 @@ public class TypeParameterResolver {
 
   /**
    * 返回值类型
-   * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>
-   *         they will be resolved to the actual runtime {@link Type}s.
+   * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>  they will be resolved to the actual runtime {@link Type}s.
    */
   public static Type resolveReturnType(Method method, Type srcType) {
     Type returnType = method.getGenericReturnType();
@@ -232,8 +231,6 @@ public class TypeParameterResolver {
     }
     return noChange ? parentType : new ParameterizedTypeImpl((Class<?>)parentType.getRawType(), null, newParentArgs);
   }
-
-
 
   static class ParameterizedTypeImpl implements ParameterizedType {
     private Class<?> rawType;

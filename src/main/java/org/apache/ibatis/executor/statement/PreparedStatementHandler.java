@@ -20,7 +20,6 @@ import org.apache.ibatis.session.RowBounds;
 
 /**
  创建了一个PrepareStatement对象，parameterize()则委托给ParameterHandler去设置。
-
  PreparedStatementHandler等于下面三句话。
  PreparedStatement pstm = conn.prepareStatement(sql);
  pstm.setString(1, "Hello");

@@ -14,7 +14,6 @@ import org.apache.ibatis.session.Configuration;
  *         <parameter property="" resultMap="" javaType="" typeHandler="" jdbcType="" mode="" scale=""></parameter>
  *         <parameter property="" resultMap="" javaType="" typeHandler="" jdbcType="" mode="" scale=""></parameter>
  *     </parameterMap>
-
 */
 public class ParameterMap {
 

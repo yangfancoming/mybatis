@@ -21,11 +21,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
 /**
- * 建造者模式
+ * 建造者模式（该类就是构造者）
  * 其中CacheBilder为建造者角色，Cache对象是产品角色，可以看CacheBuilder的源码来理解：
 */
-
-// 该类就是构造者
 public class CacheBuilder {
 
   // 这几个属性就是为生成产品对象需要的字段
@@ -80,14 +78,14 @@ public class CacheBuilder {
     this.properties = properties;
     return this;
   }
-/**
- 1.设置默认的缓存类型及装饰器
- 2.应用装饰器到 PerpetualCache 对象上
-   遍历装饰器类型集合，并通过反射创建装饰器实例
-   将属性设置到实例中
- 3.应用一些标准的装饰器
- 4.对非 LoggingCache 类型的缓存应用 LoggingCache 装饰器
-*/
+  /**
+   1.设置默认的缓存类型及装饰器
+   2.应用装饰器到 PerpetualCache 对象上
+     遍历装饰器类型集合，并通过反射创建装饰器实例
+     将属性设置到实例中
+   3.应用一些标准的装饰器
+   4.对非 LoggingCache 类型的缓存应用 LoggingCache 装饰器
+  */
   // 构建缓存实例
   // 这个方法就是构造者生成产品的具体方法 返回的Cahce对象就是产品角色
   public Cache build() {

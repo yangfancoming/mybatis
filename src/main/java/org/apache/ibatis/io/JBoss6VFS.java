@@ -103,8 +103,7 @@ public class JBoss6VFS extends VFS {
    */
   protected static void checkReturnType(Method method, Class<?> expected) {
     if (method != null && !expected.isAssignableFrom(method.getReturnType())) {
-      log.error("Method " + method.getClass().getName() + "." + method.getName()
-          + "(..) should return " + expected.getName() + " but returns "+ method.getReturnType().getName() + " instead.");
+      log.error("Method " + method.getClass().getName() + "." + method.getName()  + "(..) should return " + expected.getName() + " but returns "+ method.getReturnType().getName() + " instead.");
       setInvalid();
     }
   }

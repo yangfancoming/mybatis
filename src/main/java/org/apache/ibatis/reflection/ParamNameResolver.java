@@ -71,11 +71,9 @@ public class ParamNameResolver {
         if (config.isUseActualParamName()) {
           name = getActualParamName(method, paramIndex);
         }
-        if (name == null) {
-          // use the parameter index as the name ("0", "1", ...)
-          // gcode issue #71
-          name = String.valueOf(map.size());
-        }
+        // use the parameter index as the name ("0", "1", ...)
+        // gcode issue #71
+        if (name == null)  name = String.valueOf(map.size());
       }
       // #存入参数  每次循环解析 都会给map中 添加 索引和
       map.put(paramIndex, name); // put 进去 0,arg0
@@ -99,9 +97,7 @@ public class ParamNameResolver {
     return RowBounds.class.isAssignableFrom(clazz) || ResultHandler.class.isAssignableFrom(clazz);
   }
 
-  /**
-   * Returns parameter names referenced by SQL providers. GOAT
-   */
+  //  Returns parameter names referenced by SQL providers. GOAT
   public String[] getNames() {
     return names.values().toArray(new String[0]);
   }
@@ -112,7 +108,6 @@ public class ParamNameResolver {
    * Multiple parameters are named using the naming rule.
    * 多个参数 使用命名规则命名
    * In addition to the default names, this method also adds the generic names (param1, param2,...).
-   *
    *   Author selectAuthForBlog(@Param("id") Integer id,@Param("name") String name );
    *   传入的参数是[1,"张三"]
    *   最后解析的map为{"id":"1","name":"张三"}
@@ -144,7 +139,6 @@ public class ParamNameResolver {
         final String genericParamName = GENERIC_NAME_PREFIX + (i + 1);// param1
         // ensure not to overwrite parameter named with @Param
         if (!names.containsValue(genericParamName)) {
-
           /**
            2.再加一个#{param1},#{param2}...参数
            你可以传递多个参数给一个映射器方法。如果你这样做了,

@@ -500,7 +500,7 @@ public class Reflector {
 
   /**
    * Gets the type for a property setter.
-   * // 获取对应属性的类型
+   * 获取对应属性的类型
    * @param propertyName - the name of the property
    * @return The Class of the property setter
    */
@@ -523,8 +523,7 @@ public class Reflector {
   }
 
   /**
-   * Gets an array of the readable properties for an object.
-   *  获取所有的可读属性
+   * Gets an array of the readable properties for an object.获取所有的可读属性
    * @return The array
    */
   public String[] getGetablePropertyNames() {
@@ -532,8 +531,7 @@ public class Reflector {
   }
 
   /**
-   * Gets an array of the writable properties for an object.
-   *  // 获取所有的可读属性
+   * Gets an array of the writable properties for an object.获取所有的可读属性
    * @return The array
    */
   public String[] getSetablePropertyNames() {
@@ -559,7 +557,7 @@ public class Reflector {
     return getMethods.keySet().contains(propertyName);
   }
 
-//  查找是否有相应的属性
+  //  查找是否有相应的属性
   public String findPropertyName(String name) {
     return caseInsensitivePropertyMap.get(name.toUpperCase(Locale.ENGLISH));
   }

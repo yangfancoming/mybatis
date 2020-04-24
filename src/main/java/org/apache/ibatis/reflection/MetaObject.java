@@ -173,5 +173,4 @@ public class MetaObject {
   public <E> void addAll(List<E> list) {
     objectWrapper.addAll(list);
   }
-
 }

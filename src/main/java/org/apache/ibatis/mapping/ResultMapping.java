@@ -238,19 +238,12 @@ public class ResultMapping {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     ResultMapping that = (ResultMapping) o;
-
     if (property == null || !property.equals(that.property)) {
       return false;
     }
-
     return true;
   }
 

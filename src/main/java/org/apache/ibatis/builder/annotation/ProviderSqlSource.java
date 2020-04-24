@@ -47,18 +47,15 @@ public class ProviderSqlSource implements SqlSource {
       this.languageDriver = configuration.getLanguageDriver(lang == null ? null : lang.value());
       this.providerType = getProviderType(provider, mapperMethod);
       providerMethodName = (String) provider.getClass().getMethod("method").invoke(provider);
-
       if (providerMethodName.length() == 0 && ProviderMethodResolver.class.isAssignableFrom(this.providerType)) {
-        this.providerMethod = ((ProviderMethodResolver) this.providerType.getDeclaredConstructor().newInstance())
-            .resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId()));
+        this.providerMethod = ((ProviderMethodResolver) this.providerType.getDeclaredConstructor().newInstance()).resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId()));
       }
       if (this.providerMethod == null) {
         providerMethodName = providerMethodName.length() == 0 ? "provideSql" : providerMethodName;
         for (Method m : this.providerType.getMethods()) {
           if (providerMethodName.equals(m.getName()) && CharSequence.class.isAssignableFrom(m.getReturnType())) {
             if (this.providerMethod != null) {
-              throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' is found multiple in SqlProvider '"
-                   + this.providerType.getName() + "'. Sql provider method can not overload.");
+              throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' is found multiple in SqlProvider '" + this.providerType.getName() + "'. Sql provider method can not overload.");
             }
             this.providerMethod = m;
           }

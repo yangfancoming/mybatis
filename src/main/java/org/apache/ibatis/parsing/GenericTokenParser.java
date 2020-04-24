@@ -81,7 +81,6 @@ public class GenericTokenParser {
             break;
           }
         }
-
         if (end == -1) {
           // close token was not found. // 找不到结束标记了
           builder.append(src, start, src.length - start);

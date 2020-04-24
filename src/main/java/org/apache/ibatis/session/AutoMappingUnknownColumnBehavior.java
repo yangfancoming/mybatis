@@ -17,9 +17,7 @@ public enum AutoMappingUnknownColumnBehavior {
     public void doAction(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {  /* do nothing */  }
   },
 
-  /**
-   * Output warning log. Note: The log level of {@code 'org.apache.ibatis.session.AutoMappingUnknownColumnBehavior'} must be set to {@code WARN}.
-   */
+  // Output warning log. Note: The log level of {@code 'org.apache.ibatis.session.AutoMappingUnknownColumnBehavior'} must be set to {@code WARN}.
   WARNING {
     @Override
     public void doAction(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {
@@ -46,9 +44,7 @@ public enum AutoMappingUnknownColumnBehavior {
      */
   public abstract void doAction(MappedStatement mappedStatement, String columnName, String propertyName, Class<?> propertyType);
 
-  /**
-   * build error message.
-   */
+  // build error message.
   private static String buildMessage(MappedStatement mappedStatement, String columnName, String property, Class<?> propertyType) {
     return new StringBuilder("Unknown column is detected on '")
       .append(mappedStatement.getId())
