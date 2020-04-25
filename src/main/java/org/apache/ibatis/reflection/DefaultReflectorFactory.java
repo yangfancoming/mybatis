@@ -33,10 +33,10 @@ public class DefaultReflectorFactory implements ReflectorFactory {
     // classCacheEnabled 默认为 true  //检查是否开启缓存
     if (classCacheEnabled) {
       // synchronized (type) removed see issue #461 doit  这里的 clazz参数是怎么传入的？？  public Reflector(Class<?> clazz) {
-      //类反射器是否存在，不存在实例化，存在则返回
+      // 类反射器是否存在，不存在实例化，存在则返回
       return reflectorMap.computeIfAbsent(type, Reflector::new);
     } else {
-      //没有开启缓存,直接创建Reflector对象并返回
+      // 没有开启缓存,直接创建Reflector对象并返回
       return new Reflector(type);
     }
   }

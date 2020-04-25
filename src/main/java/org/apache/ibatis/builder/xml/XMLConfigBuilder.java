@@ -36,22 +36,14 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   private static final Log log = LogFactory.getLog(XMLConfigBuilder.class);
 
-  // 标识是否已经解析过mybatis-config.xml配置文件
+  // 标识是否已经解析过全局xml配置文件
   private boolean parsed;
-  // 用于解析mybatis-config.xml配置文件的XPathParser对象
+  // 用于解析全局xml配置文件的XPathParser对象
   private final XPathParser parser;
   // 用于保存 <environments default="development"> 标签的default
   private String environment;
   // 反射工厂，用于创建和缓存反射对象
   private final ReflectorFactory localReflectorFactory = new DefaultReflectorFactory();
-
-  public XMLConfigBuilder(Reader reader) {
-    this(reader, null, null);
-  }
-
-  public XMLConfigBuilder(Reader reader, String environment) {
-    this(reader, environment, null);
-  }
 
   /**
    *  sos 构造函数报错
@@ -76,13 +68,22 @@ public class XMLConfigBuilder extends BaseBuilder {
    * 因为实例化一个对象运行两次super是不安全的。this放在第一行，也是因为要先初始化父类和this代表的构造函数先
    * 因为当前构造函数可能用到那些成员，所以那些成员得要先初始化。
    */
+
+  /* 【Reader 构造函数】 */
+  public XMLConfigBuilder(Reader reader) {
+    this(reader, null, null);
+  }
+
+  public XMLConfigBuilder(Reader reader, String environment) {
+    this(reader, environment, null);
+  }
+
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
     //    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
-    //  1. 通过 reader 创建出 Document
-    //  2. 创建出 Xpath = XPathFactory.newInstance().newXPath()
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
+  /* 【InputStream 构造函数】 */
   public XMLConfigBuilder(InputStream inputStream) {
     this(inputStream, null, null);
   }
@@ -106,9 +107,9 @@ public class XMLConfigBuilder extends BaseBuilder {
     this.parsed = false;
     this.parser = parser;
     this.environment = environment;
-    this.configuration.setVariables(props);
+    configuration.setVariables(props);
     log.warn(" 构造函数1736：XPathParser 地址：" + parser);
-    log.warn(" 构造函数1736：configuration 地址：" + this.configuration);
+    log.warn(" 构造函数1736：configuration 地址：" + configuration);
   }
 
   //外部调用此方法对mybatis的全局xml文件进行解析

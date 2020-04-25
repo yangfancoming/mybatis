@@ -24,18 +24,18 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * SqlSourceBuilder
  * XMLConfigBuilder ： 解析mybatis中configLocation属性中的全局xml文件，内部会使用XMLMapperBuilder解析各个xml文件。
  * XMLMapperBuilder ： 遍历mybatis中mapperLocations属性中的xml文件中每个节点的Builder，比如user.xml，内部会使用XMLStatementBuilder处理xml中的每个节点。
- * XMLScriptBuilder ： 解析xml中各个节点sql部分的Builder。
  * XMLStatementBuilder ： 解析xml文件中各个节点，比如select,insert,update,delete节点，内部会使用XMLScriptBuilder处理节点的sql部分，遍历产生的数据会丢到Configuration的mappedStatements中。
+ * XMLScriptBuilder ： 解析xml中各个节点sql部分的Builder。
 */
 public abstract class BaseBuilder {
 
   private static final Log log = LogFactory.getLog(BaseBuilder.class);
 
-  //Mybatis初始化过程的核心对象，Mybatis中几乎全部的配置信息会保存到该对象中。该对象在Mybatis初始化过程中创建且是全局唯一的
+  // Mybatis初始化过程的核心对象，Mybatis中几乎全部的配置信息会保存到该对象中。该对象在Mybatis初始化过程中创建且是全局唯一的
   protected final Configuration configuration;
-  //定义的别名都会记录在该对象中
+  // 定义的别名都会记录在该对象中
   protected final TypeAliasRegistry typeAliasRegistry;
-  //指定数据库类型与Java类型的转换器
+  // 指定数据库类型与Java类型的转换器
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
   public BaseBuilder(Configuration configuration) {

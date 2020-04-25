@@ -29,29 +29,29 @@ public class XPathParser {
 
   private static final Log log = LogFactory.getLog(XPathParser.class);
 
-  //Document对象通过createDocument方法得到
+  // Document对象通过createDocument方法得到
   private final Document document;
 
-  //是否开启验证
+  // 是否开启验证
   private boolean validation;
 
-  //用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
+  // 用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
   private EntityResolver entityResolver;
 
-  //mybatis-config.xml 中<propteries>标签定义的键值对集合
+  // mybatis-config.xml 中<propteries>标签定义的键值对集合
   private Properties variables;
 
-  //XPath对象
+  // XPath对象
   private XPath xpath;
 
   public XPathParser(String xml) {
     commonConstructor(false, null, null);
-    this.document = createDocument(new InputSource(new StringReader(xml)));
+    document = createDocument(new InputSource(new StringReader(xml)));
   }
 
   public XPathParser(Reader reader) {
     commonConstructor(false, null, null);
-    this.document = createDocument(new InputSource(reader));
+    document = createDocument(new InputSource(reader));
   }
 
   public XPathParser(InputStream inputStream) {
@@ -76,7 +76,7 @@ public class XPathParser {
 
   public XPathParser(InputStream inputStream, boolean validation) {
     commonConstructor(validation, null, null);
-    this.document = createDocument(new InputSource(inputStream));
+    document = createDocument(new InputSource(inputStream));
   }
 
   public XPathParser(Document document, boolean validation) {
@@ -86,17 +86,17 @@ public class XPathParser {
 
   public XPathParser(String xml, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
-    this.document = createDocument(new InputSource(new StringReader(xml)));
+    document = createDocument(new InputSource(new StringReader(xml)));
   }
 
   public XPathParser(Reader reader, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
-    this.document = createDocument(new InputSource(reader));
+    document = createDocument(new InputSource(reader));
   }
 
   public XPathParser(InputStream inputStream, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
-    this.document = createDocument(new InputSource(inputStream));
+    document = createDocument(new InputSource(inputStream));
   }
 
   public XPathParser(Document document, boolean validation, Properties variables) {
@@ -106,19 +106,21 @@ public class XPathParser {
 
   public XPathParser(String xml, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
-    this.document = createDocument(new InputSource(new StringReader(xml)));
+    document = createDocument(new InputSource(new StringReader(xml)));
   }
 
+  /* 【Reader 系列】 */
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
     log.warn(  " 构造函数1737：");
     commonConstructor(validation, variables, entityResolver);
-    this.document = createDocument(new InputSource(reader));
-    log.warn(  "createDocument 创建：XPathParser#Document 对象：" + this.document.hashCode());
+    document = createDocument(new InputSource(reader));
+    log.warn(  "createDocument 创建：XPathParser#Document 对象：" + document.hashCode());
   }
 
+  /* 【InputStream 系列】 */
   public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
-    this.document = createDocument(new InputSource(inputStream));
+    document = createDocument(new InputSource(inputStream));
   }
 
   public XPathParser(Document document, boolean validation, Properties variables, EntityResolver entityResolver) {
@@ -131,11 +133,11 @@ public class XPathParser {
   }
 
   /**
-   *evalXXX函数有两种多态形式： 一种是只有一个expression参数；
+   * evalXXX函数有两种多态形式： 一种是只有一个expression参数；
    * @param expression
    */
   public String evalString(String expression) {
-    //设置类中的document属性作为root，
+    // 设置类中的document属性作为root，
     return evalString(document, expression);
   }
 
@@ -250,15 +252,15 @@ public class XPathParser {
     // 如果在这两个属性没有设置前就调用这个函数，就可能会导致这个类内部属性冲突
     try {
       // 调用 DocumentBuilderFactory.newInstance() 方法得到创建 DOM 解析器的工厂
-      //创建document时用到了两个类：DocumentBuilderFactory和DocumentBuilder。
-      //DocumentBuilderFactory.newInstance()创建DocumentBuilderFactory实现类的对象，它会通过一下方式来查找实现类：
-      //1.在系统环境变量中(System.getProperties())中查找 key=javax.xml.parsers.DocumentBuilderFactory
-      //2.如果1没有找到，则找java.home/lib/jaxp.properties 文件，如果文件存在，在文件中查找key=javax.xml.parsers.DocumentBuilderFactory
-      //3.如果2没有找到,则在classpath中的所有的jar包中查找META-INF/services /javax.xml.parsers.DocumentBuilderFactory 文件
-      //4.全都没找到，则返回null
-      //如果上面都没有找到，那么就使用JDK自带的实现类：
-      //com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
-      //在创建DocumentBuilder实例的时候，是根据DocumentBuilderFactoryImpl的不同有不同的实现。
+      // 创建document时用到了两个类：DocumentBuilderFactory和DocumentBuilder。
+      // DocumentBuilderFactory.newInstance()创建DocumentBuilderFactory实现类的对象，它会通过一下方式来查找实现类：
+      // 1.在系统环境变量中(System.getProperties())中查找 key=javax.xml.parsers.DocumentBuilderFactory
+      // 2.如果1没有找到，则找java.home/lib/jaxp.properties 文件，如果文件存在，在文件中查找key=javax.xml.parsers.DocumentBuilderFactory
+      // 3.如果2没有找到,则在classpath中的所有的jar包中查找META-INF/services /javax.xml.parsers.DocumentBuilderFactory 文件
+      // 4.全都没找到，则返回null
+      // 如果上面都没有找到，那么就使用JDK自带的实现类：
+      // com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
+      // 在创建DocumentBuilder实例的时候，是根据DocumentBuilderFactoryImpl的不同有不同的实现。
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       factory.setValidating(validation);
       factory.setNamespaceAware(false);
@@ -267,10 +269,10 @@ public class XPathParser {
       factory.setCoalescing(false);
       factory.setExpandEntityReferences(true);
       // 调用工厂对象的 newDocumentBuilder 方法得到 DOM 解析器对象。
-      //XML配置定义文件DTD转换成XMLMapperEntityResolver对象，然后将二者封装到XpathParser对象中，
-      //XpathParser的作用是提供根据Xpath表达式获取基本的DOM节点Node信息的操作。
+      // XML配置定义文件DTD转换成XMLMapperEntityResolver对象，然后将二者封装到XpathParser对象中，
+      // XpathParser的作用是提供根据Xpath表达式获取基本的DOM节点Node信息的操作。
       DocumentBuilder builder = factory.newDocumentBuilder();
-      //为了在网络不可用的情况下，正常解析XML文件，我们可以在使用builder之前，设置EntityResolver
+      // 为了在网络不可用的情况下，正常解析XML文件，我们可以在使用builder之前，设置EntityResolver
       builder.setEntityResolver(entityResolver);
       builder.setErrorHandler(new MyErrorHandler());// -modify
       return builder.parse(inputSource);
@@ -280,12 +282,12 @@ public class XPathParser {
   }
 
   private void commonConstructor(boolean validation, Properties variables, EntityResolver entityResolver) {
-    //初始化这个类的基本属性
+    // 初始化这个类的基本属性
     this.validation = validation;
     this.entityResolver = entityResolver;
     this.variables = variables;
     //利用XPathFactory创建一个新的xpath对象
-    this.xpath = XPathFactory.newInstance().newXPath();
+    xpath = XPathFactory.newInstance().newXPath();
   }
 
 }
