@@ -200,17 +200,16 @@ public class XMLConfigBuilder extends BaseBuilder {
     return props;
   }
 
-  private void loadCustomVfs(Properties props) throws ClassNotFoundException {
-    String value = props.getProperty("vfsImpl");
-    if (value != null) {
-      String[] clazzes = value.split(",");
-      for (String clazz : clazzes) {
-        if (!clazz.isEmpty()) {
-          @SuppressWarnings("unchecked")
-          Class<? extends VFS> vfsImpl = (Class<? extends VFS>)Resources.classForName(clazz);
-          // 加载自定义的vfs
-          configuration.setVfsImpl(vfsImpl);
-        }
+  private void loadCustomVfs(Properties settings) throws ClassNotFoundException {
+    String value = settings.getProperty("vfsImpl");
+    if (value == null) return; // modify
+    String[] clazzes = value.split(",");
+    for (String clazz : clazzes) {
+      if (!clazz.isEmpty()) {
+        @SuppressWarnings("unchecked")
+        Class<? extends VFS> vfsImpl = (Class<? extends VFS>)Resources.classForName(clazz);
+        // 加载自定义的vfs
+        configuration.setVfsImpl(vfsImpl);
       }
     }
   }
@@ -223,8 +222,8 @@ public class XMLConfigBuilder extends BaseBuilder {
    这里 logImpl 对应的 value 值可以从 org.apache.ibatis.session.Configuration 的构造方法中找到
    注意 Log 类，这是 MyBatis 内部对日志对象的抽象
    */
-  private void loadCustomLogImpl(Properties props) {
-    Class<? extends Log> logImpl = resolveClass(props.getProperty("logImpl"));
+  private void loadCustomLogImpl(Properties settings) {
+    Class<? extends Log> logImpl = resolveClass(settings.getProperty("logImpl"));
     // 将查找到的 Class 对象设置到 Configuration 对象中
     configuration.setLogImpl(logImpl);
   }
@@ -366,37 +365,37 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn(  " propertiesElement()：解析<properties> 标签完毕 ：" +  defaults);
   }
 
-  private void settingsElement(Properties props) {
+  private void settingsElement(Properties settings) {
     // 设置 autoMappingBehavior 属性，默认值为 PARTIAL
-    configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(props.getProperty("autoMappingBehavior", "PARTIAL")));
-    configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(props.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
+    configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(settings.getProperty("autoMappingBehavior", "PARTIAL")));
+    configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(settings.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
     // 设置 cacheEnabled 属性，默认值为 true
-    configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));
-    configuration.setProxyFactory((ProxyFactory) createInstance(props.getProperty("proxyFactory")));
-    configuration.setLazyLoadingEnabled(booleanValueOf(props.getProperty("lazyLoadingEnabled"), false));
-    configuration.setAggressiveLazyLoading(booleanValueOf(props.getProperty("aggressiveLazyLoading"), false));
-    configuration.setMultipleResultSetsEnabled(booleanValueOf(props.getProperty("multipleResultSetsEnabled"), true));
-    configuration.setUseColumnLabel(booleanValueOf(props.getProperty("useColumnLabel"), true));
-    configuration.setUseGeneratedKeys(booleanValueOf(props.getProperty("useGeneratedKeys"), false));
-    String property = props.getProperty("defaultExecutorType", "SIMPLE");
+    configuration.setCacheEnabled(booleanValueOf(settings.getProperty("cacheEnabled"), true));
+    configuration.setProxyFactory((ProxyFactory) createInstance(settings.getProperty("proxyFactory")));
+    configuration.setLazyLoadingEnabled(booleanValueOf(settings.getProperty("lazyLoadingEnabled"), false));
+    configuration.setAggressiveLazyLoading(booleanValueOf(settings.getProperty("aggressiveLazyLoading"), false));
+    configuration.setMultipleResultSetsEnabled(booleanValueOf(settings.getProperty("multipleResultSetsEnabled"), true));
+    configuration.setUseColumnLabel(booleanValueOf(settings.getProperty("useColumnLabel"), true));
+    configuration.setUseGeneratedKeys(booleanValueOf(settings.getProperty("useGeneratedKeys"), false));
+    String property = settings.getProperty("defaultExecutorType", "SIMPLE");
     // 若全局配置 <setting name="defaultExecutorType" value="FUCK"/> 这里会抛出异常 No enum constant org.apache.ibatis.session.ExecutorType.FUCK    1
     configuration.setDefaultExecutorType(ExecutorType.valueOf(property));
-    configuration.setDefaultStatementTimeout(integerValueOf(props.getProperty("defaultStatementTimeout"), null));
-    configuration.setDefaultFetchSize(integerValueOf(props.getProperty("defaultFetchSize"), null));
-    configuration.setMapUnderscoreToCamelCase(booleanValueOf(props.getProperty("mapUnderscoreToCamelCase"), false));
-    configuration.setSafeRowBoundsEnabled(booleanValueOf(props.getProperty("safeRowBoundsEnabled"), false));
-    configuration.setLocalCacheScope(LocalCacheScope.valueOf(props.getProperty("localCacheScope", "SESSION")));
-    configuration.setJdbcTypeForNull(JdbcType.valueOf(props.getProperty("jdbcTypeForNull", "OTHER")));
-    configuration.setLazyLoadTriggerMethods(stringSetValueOf(props.getProperty("lazyLoadTriggerMethods"), "equals,clone,hashCode,toString"));
-    configuration.setSafeResultHandlerEnabled(booleanValueOf(props.getProperty("safeResultHandlerEnabled"), true));
-    configuration.setDefaultScriptingLanguage(resolveClass(props.getProperty("defaultScriptingLanguage")));
+    configuration.setDefaultStatementTimeout(integerValueOf(settings.getProperty("defaultStatementTimeout"), null));
+    configuration.setDefaultFetchSize(integerValueOf(settings.getProperty("defaultFetchSize"), null));
+    configuration.setMapUnderscoreToCamelCase(booleanValueOf(settings.getProperty("mapUnderscoreToCamelCase"), false));
+    configuration.setSafeRowBoundsEnabled(booleanValueOf(settings.getProperty("safeRowBoundsEnabled"), false));
+    configuration.setLocalCacheScope(LocalCacheScope.valueOf(settings.getProperty("localCacheScope", "SESSION")));
+    configuration.setJdbcTypeForNull(JdbcType.valueOf(settings.getProperty("jdbcTypeForNull", "OTHER")));
+    configuration.setLazyLoadTriggerMethods(stringSetValueOf(settings.getProperty("lazyLoadTriggerMethods"), "equals,clone,hashCode,toString"));
+    configuration.setSafeResultHandlerEnabled(booleanValueOf(settings.getProperty("safeResultHandlerEnabled"), true));
+    configuration.setDefaultScriptingLanguage(resolveClass(settings.getProperty("defaultScriptingLanguage")));
     // 解析默认的枚举处理器
-    configuration.setDefaultEnumTypeHandler(resolveClass(props.getProperty("defaultEnumTypeHandler")));
-    configuration.setCallSettersOnNulls(booleanValueOf(props.getProperty("callSettersOnNulls"), false));
-    configuration.setUseActualParamName(booleanValueOf(props.getProperty("useActualParamName"), true));
-    configuration.setReturnInstanceForEmptyRow(booleanValueOf(props.getProperty("returnInstanceForEmptyRow"), false));
-    configuration.setLogPrefix(props.getProperty("logPrefix"));
-    configuration.setConfigurationFactory(resolveClass(props.getProperty("configurationFactory")));
+    configuration.setDefaultEnumTypeHandler(resolveClass(settings.getProperty("defaultEnumTypeHandler")));
+    configuration.setCallSettersOnNulls(booleanValueOf(settings.getProperty("callSettersOnNulls"), false));
+    configuration.setUseActualParamName(booleanValueOf(settings.getProperty("useActualParamName"), true));
+    configuration.setReturnInstanceForEmptyRow(booleanValueOf(settings.getProperty("returnInstanceForEmptyRow"), false));
+    configuration.setLogPrefix(settings.getProperty("logPrefix"));
+    configuration.setConfigurationFactory(resolveClass(settings.getProperty("configurationFactory")));
   }
 
   private void environmentsElement(XNode context) throws Exception {
