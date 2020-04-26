@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.invoker.GetFieldInvoker;
 import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.invoker.MethodInvoker;
@@ -36,6 +38,8 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  3. setter 方法解析过程
  */
 public class Reflector {
+
+  private static final Log log = LogFactory.getLog(Reflector.class);
 
   // 记录 对应的 class 类型
   private final Class<?> type;
@@ -64,9 +68,9 @@ public class Reflector {
   public Reflector(Class<?> clazz) {
     type = clazz;
     addDefaultConstructor(clazz); // 解析目标类的默认构造方法，并赋值给 defaultConstructor 变量
-    addGetMethods(clazz); // 解析 getter 方法，并将解析结果放入 getMethods 中
-    addSetMethods(clazz); // 解析 setter 方法，并将解析结果放入 setMethods 中
-    addFields(clazz); // 解析属性字段，并将解析结果添加到 setMethods 或 getMethods 中
+    addGetMethods(clazz); // 解析目标类的 getter 方法，并将解析结果放入 getMethods 中
+    addSetMethods(clazz); // 解析目标类的 setter 方法，并将解析结果放入 setMethods 中
+    addFields(clazz); // 解析目标类的 属性字段，并将解析结果添加到 setMethods 或 getMethods 中
     // 从 getMethods 映射中获取可读属性名数组
     readablePropertyNames = getMethods.keySet().toArray(new String[getMethods.keySet().size()]);
     // 从 setMethods 映射中获取可写属性名数组
@@ -89,8 +93,11 @@ public class Reflector {
     // 取出所有构造函数 (public，protected，default(package)access和private)
     Constructor<?>[] consts = clazz.getDeclaredConstructors();
     for (Constructor<?> constructor : consts) {
-      // 将无参构造函数保存起来 (只有默认构造函数没有参数)
-      if (constructor.getParameterTypes().length == 0) defaultConstructor = constructor;
+      // 将无参构造函数保存起来 (只有默认构造函数没有参数 且只有一个！)
+      if (constructor.getParameterTypes().length == 0) {
+        defaultConstructor = constructor;
+        log.warn("保存无参构造函数的： 【" + defaultConstructor.getName() + "】");
+      }
     }
   }
 
@@ -372,10 +379,10 @@ public class Reflector {
     Map<String, Method> uniqueMethods = new HashMap<>();
     Class<?> currentClass = cls;
     while (currentClass != null && currentClass != Object.class) {
-      // 获取当前类中定义的所有方法
+      // 1.获取当前类中定义的所有方法
       Method[] declaredMethods = currentClass.getDeclaredMethods();
       addUniqueMethods(uniqueMethods, declaredMethods);
-      // we also need to look for interface methods - because the class may be abstract
+      // 2.we also need to look for interface methods - because the class may be abstract
       Class<?>[] interfaces = currentClass.getInterfaces();
       for (Class<?> anInterface : interfaces) {
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
@@ -394,21 +401,19 @@ public class Reflector {
    */
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
-      if (!currentMethod.isBridge()) {
-        // 得到方法签名 格式为：方法返回参数#方法名:参数名 ps：多个参数用,分割 签名样例:String#getName:User
-        String signature = getSignature(currentMethod);
-        // 如果签名存在，则不做处理，表示子类已经覆盖了该方法。
-        // 如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
-        if (!uniqueMethods.containsKey(signature)) {
-          uniqueMethods.put(signature, currentMethod);
-        }
+      if (currentMethod.isBridge()) continue; // -modify
+      // 得到方法签名
+      String signature = getSignature(currentMethod);
+      // 如果签名存在，则不做处理，表示子类已经覆盖了该方法。
+      // 如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
+      if (!uniqueMethods.containsKey(signature)) {
+        uniqueMethods.put(signature, currentMethod);
       }
     }
   }
 
   /**
-   *  给指定方法生成唯一签名  生成签名的规则是： 方法返回值#方法名#参数名
-   * @param method  待生成唯一签名的方法
+   *  给指定方法生成唯一签名  生成签名的规则是： 方法返回值类型名称#方法名#参数名
    * 输入示例：  Method eat = Human.class.getMethod("eat");
    * 输出结果：  Assert.assertEquals("void#eat", ReflectUtil.getSignature(eat));
    *
@@ -417,18 +422,21 @@ public class Reflector {
    *
    * 输入示例：  Method study = Human.class.getMethod("study",String.class,Integer.class);
    * 输出结果：  Assert.assertEquals("java.lang.String#study:java.lang.String,java.lang.Integer", ReflectUtil.getSignature(study));
+   * @param method  待生成唯一签名的方法
    */
   private String getSignature(Method method) {
     StringBuilder sb = new StringBuilder();
     Class<?> returnType = method.getReturnType();
+    // 追加方法返回值类型名称
     if (returnType != null) {
       sb.append(returnType.getName()).append('#');
     }
+    // 追加方法名称
     sb.append(method.getName());
     Class<?>[] parameters = method.getParameterTypes();
     for (int i = 0; i < parameters.length; i++) {
       sb.append((i == 0)? ':':','); // modify-
-      sb.append(parameters[i].getName());
+      sb.append(parameters[i].getName());   // 追加参数类型全限定名称
     }
     return sb.toString();
   }

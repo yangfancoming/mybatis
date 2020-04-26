@@ -24,43 +24,40 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ReflectorTest {
 
   ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
-  Reflector section_reflector = reflectorFactory.findForClass(Section.class);
-  Reflector reflector = reflectorFactory.findForClass(Child.class);
-
-
-  @Test
-  void testGetClassMethods() {
-    Method[] classMethods = reflector.getClassMethods(Child.class);
-    System.out.println(classMethods);
-  }
 
   @Test
   void testGetGetterType() {
+    Reflector section_reflector = reflectorFactory.findForClass(Section.class);
     Assertions.assertEquals(Long.class, section_reflector.getGetterType("id"));
   }
 
   @Test
   void testGetSetterType() {
+    Reflector section_reflector = reflectorFactory.findForClass(Section.class);
     Assertions.assertEquals(Long.class, section_reflector.getSetterType("id"));
   }
 
   @Test
   void shouldNotGetClass() {
+    Reflector section_reflector = reflectorFactory.findForClass(Section.class);
     Assertions.assertFalse(section_reflector.hasGetter("class"));
   }
 
   @Test
   void shouldResolveSetterParam() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(String.class, reflector.getSetterType("id"));
   }
 
   @Test
   void shouldResolveParameterizedSetterParam() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(List.class, reflector.getSetterType("list"));
   }
 
   @Test
   void shouldResolveArraySetterParam() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     Class<?> clazz = reflector.getSetterType("array");
     assertTrue(clazz.isArray());
     assertEquals(String.class, clazz.getComponentType());
@@ -68,26 +65,31 @@ class ReflectorTest {
 
   @Test
   void shouldResolveGetterType() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(String.class, reflector.getGetterType("id"));
   }
 
   @Test
   void shouldResolveSetterTypeFromPrivateField() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(String.class, reflector.getSetterType("fld"));
   }
 
   @Test
   void shouldResolveGetterTypeFromPublicField() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(String.class, reflector.getGetterType("pubFld"));
   }
 
   @Test
   void shouldResolveParameterizedGetterType() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     assertEquals(List.class, reflector.getGetterType("list"));
   }
 
   @Test
   void shouldResolveArrayGetterType() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
     Class<?> clazz = reflector.getGetterType("array");
     assertTrue(clazz.isArray());
     assertEquals(String.class, clazz.getComponentType());
@@ -132,6 +134,13 @@ class ReflectorTest {
     }
     Reflector reflector = reflectorFactory.findForClass(Bean.class);
     assertTrue((Boolean)reflector.getGetInvoker("bool").invoke(new Bean(), new Byte[0]));
+  }
+
+  @Test
+  void testGetClassMethods() {
+    Reflector reflector = reflectorFactory.findForClass(Child.class);
+    Method[] classMethods = reflector.getClassMethods(Child.class);
+    System.out.println(classMethods);
   }
 
   /**
