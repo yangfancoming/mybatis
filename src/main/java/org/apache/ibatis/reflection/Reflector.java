@@ -49,18 +49,14 @@ public class Reflector {
   private final Map<String, Invoker> getMethods = new HashMap<>();
   // 记录了属性相应的 setter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> setMethods = new HashMap<>();
-
-  // 可读属性的名称集合  即存在对应的 getter 方法的属性
-  private final String[] readablePropertyNames;
-  // 可写属性的名称集合  即存在对应的 setter 方法的属性
-  private final String[] writablePropertyNames;
-
+  // 可读属性的名称集合  即存在对应的 getter 方法的属性 -modify
+  public final String[] readablePropertyNames;
+  // 可写属性的名称集合  即存在对应的 setter 方法的属性 -modify
+  public final String[] writablePropertyNames;
   // 记录了 相应的 getter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();
-
   // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> setTypes = new HashMap<>();
-
   // 记录所有属性名称的集合
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
@@ -75,7 +71,6 @@ public class Reflector {
     readablePropertyNames = getMethods.keySet().toArray(new String[getMethods.keySet().size()]);
     // 从 setMethods 映射中获取可写属性名数组
     writablePropertyNames = setMethods.keySet().toArray(new String[setMethods.keySet().size()]);
-
     // 将所有属性名的大写形式作为键，属性名作为值，存入到 caseInsensitivePropertyMap 中  ，其中记录了所有大写的属性名称的集合
     for (String propName : readablePropertyNames) {
       caseInsensitivePropertyMap.put(propName.toUpperCase(Locale.ENGLISH), propName);
@@ -176,10 +171,7 @@ public class Reflector {
         // <1> 基于返回类型比较
         Class<?> winnerType = winner.getReturnType();
         Class<?> candidateType = candidate.getReturnType();
-        /*
-         * 两个方法的返回值类型一致，若两个方法返回值类型均为 boolean，
-         * 则选取 isXXX 方法为 winner。否则无法决定哪个方法更为合适，只能抛出异常
-         */
+        // 两个方法的返回值类型一致，若两个方法返回值类型均为 boolean，则选取 isXXX 方法为 winner。否则无法决定哪个方法更为合适，只能抛出异常
         // 类型相同
         if (candidateType.equals(winnerType)) {
           // 返回值类型相同，应该在 getClassMethods 方法中，已经合并。所以抛出 ReflectionException 异常
@@ -331,9 +323,8 @@ public class Reflector {
     Field[] fields = clazz.getDeclaredFields();
     for (Field field : fields) {
       if (!setMethods.containsKey(field.getName())) {
-        // issue #379 - removed the check for final because JDK 1.5 allows
-        // modification of final fields through reflection (JSR-133). (JGB)
-        // pr #16 - final static can only be set by the classloader
+        // issue #379 - removed the check for final because JDK 1.5 allows modification of final fields through reflection (JSR-133).
+        // (JGB)  pr #16 - final static can only be set by the classloader
         int modifiers = field.getModifiers();
         if (!(Modifier.isFinal(modifiers) && Modifier.isStatic(modifiers))) {
           addSetField(field);
@@ -442,8 +433,7 @@ public class Reflector {
   }
 
   /**
-   * Checks whether can control member accessible.
-   * 检查是否拥有了访问的权限：除了访问公有的变量， 还能访问 default , protected 和private 变量
+   * Checks whether can control member accessible. 检查是否拥有了访问的权限：除了访问公有的变量， 还能访问 default , protected 和private 变量
    * @return If can control member accessible, it return {@literal true}
    * @since 3.5.0
    */
@@ -515,18 +505,13 @@ public class Reflector {
     return clazz;
   }
 
-  /**
-   * Gets an array of the readable properties for an object.获取所有的可读属性
-   * @return The array
-   */
+
+  // Gets an array of the readable properties for an object.获取所有的可读属性
   public String[] getGetablePropertyNames() {
     return readablePropertyNames;
   }
 
-  /**
-   * Gets an array of the writable properties for an object.获取所有的可读属性
-   * @return The array
-   */
+  // Gets an array of the writable properties for an object.获取所有的可读属性
   public String[] getSetablePropertyNames() {
     return writablePropertyNames;
   }
@@ -541,8 +526,7 @@ public class Reflector {
   }
 
   /**
-   * Check to see if a class has a readable property by name.
-   * 对应属性是否有相应的getter
+   * Check to see if a class has a readable property by name.对应属性是否有相应的getter
    * @param propertyName - the name of the property to check
    * @return True if the object has a readable property by the name
    */

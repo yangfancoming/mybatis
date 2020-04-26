@@ -122,6 +122,7 @@ public class Configuration {
   protected boolean callSettersOnNulls;
   // 允许使用方法签名中的名称作为语句参数名称。 为了使用该特性，你的项目必须采用 Java 8 编译，并且加上 -parameters 选项。（新增于 3.4.1）
   protected boolean useActualParamName = true;
+  // 当返回行的所有列都是空时，MyBatis默认返回 null。 当开启这个设置时，MyBatis会返回一个空实例。 请注意，它也适用于嵌套的结果集（如集合或关联）。（新增于 3.4.2）
   protected boolean returnInstanceForEmptyRow;
   // 指定 MyBatis 增加到日志名称的前缀。
   protected String logPrefix;
@@ -139,6 +140,7 @@ public class Configuration {
   protected Set<String> lazyLoadTriggerMethods = new HashSet<>(Arrays.asList("equals", "clone", "hashCode", "toString"));
   // 设置超时时间，它决定驱动等待数据库响应的秒数。
   protected Integer defaultStatementTimeout;
+  // 为驱动的结果集获取数量（fetchSize）设置一个建议值。此参数只可以在查询设置中被覆盖。
   protected Integer defaultFetchSize;
   // 配置默认的执行器
   protected ExecutorType defaultExecutorType = ExecutorType.SIMPLE; // 默认是 SimpleExecutor 实现类

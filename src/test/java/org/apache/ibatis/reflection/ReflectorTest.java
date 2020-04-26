@@ -7,6 +7,7 @@ import org.apache.ibatis.reflection.invoker.Invoker;
 import org.apache.ibatis.reflection.model.BeanInterface;
 import org.apache.ibatis.reflection.model.Child;
 import org.apache.ibatis.reflection.model.Section;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.submitted.extends_with_constructor.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ReflectorTest {
 
   ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
+
+  @Test
+  void fuck() {
+    Class<Configuration> aClass = Configuration.class;
+    Reflector reflector = new Reflector(aClass);
+    Method[] classMethods = reflector.getClassMethods(aClass);
+    System.out.println(classMethods.length);
+  }
+
+  @Test
+  void testGetablePropertyNames() {
+    Reflector reflector = reflectorFactory.findForClass(Configuration.class);
+    System.out.println(reflector.hasSetter("阿道夫"));
+    System.out.println(reflector.hasSetter("mapUnderscoreToCamelCase"));
+  }
 
   @Test
   void testGetGetterType() {

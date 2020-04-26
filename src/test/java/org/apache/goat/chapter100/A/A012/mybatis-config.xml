@@ -6,8 +6,8 @@
 
   <!--全局配置-->
   <settings>
-    <setting name="defaultExecutorType" value="SIMPLE" />
-<!--    <setting name="defaultExecutorType" value="FUCK"/>-->
+<!--    <setting name="defaultExecutorType" value="SIMPLE" />-->
+    <setting name="defaultExecutorType" value="FUCK"/>
   </settings>
 
   <environments default="development">

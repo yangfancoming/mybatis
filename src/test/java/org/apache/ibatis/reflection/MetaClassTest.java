@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.domain.misc.RichType;
 import org.apache.ibatis.domain.misc.User;
 import org.apache.ibatis.domain.misc.generics.GenericConcrete;
+import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +16,13 @@ class MetaClassTest {
 
   ReflectorFactory reflectorFactory = new DefaultReflectorFactory();
   MetaClass meta = MetaClass.forClass(RichType.class, reflectorFactory);
+
+  @Test
+  void tes11t() {
+    MetaClass metaConfig = MetaClass.forClass(Configuration.class, reflectorFactory);
+    System.out.println(metaConfig.hasSetter("阿道夫"));
+    System.out.println(metaConfig.hasSetter("mapUnderscoreToCamelCase"));
+  }
 
   @Test
   void shouldTestDataTypeOfGenericMethod() {

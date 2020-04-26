@@ -172,20 +172,15 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   1. 解析 settings 节点的内容，并将解析结果转成 Properties 对象
-   2. 为 Configuration 创建元信息对象
-   3. 通过 MetaClass 检测 Configuration 中是否存在某个属性的 setter 方法，不存在则抛异常
-   4. 若通过 MetaClass 的检测，则返回 Properties 对象，方法逻辑结束
+   *  1.解析全局xml配置文件中的<settings>标签，并将解析结果转成 Properties 对象
+   *  2.转成 Properties 对象后 进行一次校检
+   * @param context <settings>标签
    */
   private Properties settingsAsProperties(XNode context) {
     if (context == null) return new Properties();
+
     /**
-     *  Check that all settings are known to the configuration class 检查Configuration配置类是否知道所有设置
-     *  创建Configuration对应的MetaClass “元信息” 对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
-     */
-    MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
-    /**
-     * 解析<Settings>的子节点<Setting>的name和value属性，并返回Properties对象
+     * 解析<settings>标签，并返回Properties对象，其中name属性为key ，value属性为value
      *   <settings>
      *     <setting name="mapUnderscoreToCamelCase" value="true"/>
      *     <setting name="cacheEnabled" value="true" />
@@ -194,6 +189,8 @@ public class XMLConfigBuilder extends BaseBuilder {
      * "cacheEnabled" -> "true"
      */
     Properties props = context.getChildrenAsProperties();
+    // Check that all settings are known to the configuration class 检查Configuration配置类是否知道 所有配置。
+    MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);
     for (Object key : props.keySet()) {
       // 检测 Configuration 中是否存在相关属性，不存在则抛出异常 (说白了就是判断 settings 标签中配置的name属性 必须得是mybatis内置的，不能是自己随便写的。)
       if (!metaConfig.hasSetter(String.valueOf(key))) {
@@ -381,8 +378,8 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setMultipleResultSetsEnabled(booleanValueOf(props.getProperty("multipleResultSetsEnabled"), true));
     configuration.setUseColumnLabel(booleanValueOf(props.getProperty("useColumnLabel"), true));
     configuration.setUseGeneratedKeys(booleanValueOf(props.getProperty("useGeneratedKeys"), false));
-    // 若全局配置 <setting name="defaultExecutorType" value="FUCK"/> 这里会抛出异常 No enum constant org.apache.ibatis.session.ExecutorType.FUCK    1
     String property = props.getProperty("defaultExecutorType", "SIMPLE");
+    // 若全局配置 <setting name="defaultExecutorType" value="FUCK"/> 这里会抛出异常 No enum constant org.apache.ibatis.session.ExecutorType.FUCK    1
     configuration.setDefaultExecutorType(ExecutorType.valueOf(property));
     configuration.setDefaultStatementTimeout(integerValueOf(props.getProperty("defaultStatementTimeout"), null));
     configuration.setDefaultFetchSize(integerValueOf(props.getProperty("defaultFetchSize"), null));

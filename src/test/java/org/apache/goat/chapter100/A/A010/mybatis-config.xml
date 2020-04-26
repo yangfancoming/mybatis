@@ -7,9 +7,9 @@
   <!--全局配置-->
   <settings>
     <!-- 驼峰命名法 eg: javabean中的属性 lastName  数据库表中的字段 last_name 则 last_name 会被映射为 lastName -->
-    <setting name="mapUnderscoreToCamelCase" value="true"/>
-    <setting name="cacheEnabled" value="true" />
-<!--    <setting name="阿道夫" value="gaga" />-->
+<!--    <setting name="mapUnderscoreToCamelCase" value="true"/>-->
+<!--    <setting name="cacheEnabled" value="true" />-->
+    <setting name="阿道夫" value="gaga" />
   </settings>
 
   <environments default="development">

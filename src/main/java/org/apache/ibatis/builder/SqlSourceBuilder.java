@@ -40,7 +40,7 @@ public class SqlSourceBuilder extends BaseBuilder {
   }
 
   private static class ParameterMappingTokenHandler extends BaseBuilder implements TokenHandler {
-    //记录所有占位符对应的ParameterMapping
+    // 记录所有占位符对应的ParameterMapping
     private List<ParameterMapping> parameterMappings = new ArrayList<>();
     private Class<?> parameterType;
     private MetaObject metaParameters;
@@ -54,7 +54,7 @@ public class SqlSourceBuilder extends BaseBuilder {
     public List<ParameterMapping> getParameterMappings() {
       return parameterMappings;
     }
-    //占位符替换
+    // 占位符替换
     @Override
     public String handleToken(String content) {
       parameterMappings.add(buildParameterMapping(content)); // $和#  星井组合

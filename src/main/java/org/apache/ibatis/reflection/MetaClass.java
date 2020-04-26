@@ -142,7 +142,7 @@ public class MetaClass {
       if (reflector.hasSetter(prop.getName())) {
         // 为属性创建创建 MetaClass
         MetaClass metaProp = metaClassForProperty(prop.getName());
-        // 再次调用 hasSetter
+        // 递归调用
         return metaProp.hasSetter(prop.getChildren());
       } else {
         return false;
