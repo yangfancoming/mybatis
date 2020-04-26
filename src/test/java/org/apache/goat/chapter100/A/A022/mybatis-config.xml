@@ -6,7 +6,6 @@
 
   <!--
   方式三 标签从外部配置文件和内部标签 混合读取
-
   propertiesElement 方法是先解析<properties>节点的子节点(<property>)内容，
   然后再从文件系统(resource)或者网络(url)读取属性配置，并将所有的属性及属性值都放入到 defaults 属性对象中。
   这会导致同名属性覆盖的问题，也就是从文件系统，或者网络上读取到的属性和属性值会覆盖掉<properties>子节点中同名的属性和值
@@ -38,7 +37,6 @@
       <transactionManager type="JDBC"/>
 
       <dataSource type="POOLED">
-
         <!-- driver 和 url 属性将会由 A022.properties 文件中对应的值来替换-->
         <property name="driver" value="${jdbc.driver}" />
         <property name="url" value="${jdbc.url}" />
@@ -52,11 +50,7 @@
       </dataSource>
 
     </environment>
-
   </environments>
 
-  <mappers>
-    <mapper resource="org/apache/goat/chapter100/A/A022/Foo.xml" />
-  </mappers>
 </configuration>
 

@@ -87,7 +87,7 @@ public class Resources {
 
   /**
    * Returns a resource on the classpath as a Properties object
-   * @param resource The resource to find
+   * @param resource The resource to find  eg：dbconfig.properties
    * @return The resource
    * @throws java.io.IOException If the resource cannot be found or read
    */

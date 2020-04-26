@@ -318,23 +318,16 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   首先读取<resources>节点下的所有<resource>节点，并将每个节点的name和value属性存入Properties中。
-   然后读取<resources>节点上的resource、url属性，并获取指定配置文件中的name和value，也存入Properties中。
-   （PS：由此可知，如果resource节点上定义的属性和properties文件中的属性重名，那么properties文件中的属性值会覆盖resource节点上定义的属性值。）
-   最终，携带所有属性的Properties对象会被存储在Configuration和XPathParser对象中。
+   * 1.首先读取在 properties 元素体中指定的属性；
+   * 2.其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；
+   * 3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
+   * 因此，通过方法参数传递的属性的优先级最高，resource 或 url 指定的属性优先级中等，在 properties 元素体中指定的属性优先级最低。
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
     log.warn("开始解析 <properties> 标签  XNode 地址：" + context.hashCode());
-    // 获取<properties>节点上的resource属性  eg: resource="dbconfig.properties"
-    String resource = context.getStringAttribute("resource");
-    // 获取<properties>节点上的url属性
-    String url = context.getStringAttribute("url");
-    // resource 和 url 两个属性不能同时存在
-    if (resource != null && url != null) {
-      throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
-    }
     /**
+     * 1.首先读取在 properties 元素体中指定的属性；
      * 获取<properties>节点的所有子节点 并将这些节点内容转换为Properties对象
      * 情况一： defaults =  size为0
      *  <properties resource="dbconfig.properties"/>
@@ -348,16 +341,24 @@ public class XMLConfigBuilder extends BaseBuilder {
      *   </properties>
      */
     Properties defaults = context.getChildrenAsProperties();
+    // 获取<properties>节点上的resource属性  eg: resource="dbconfig.properties"
+    String resource = context.getStringAttribute("resource");
+    // 获取<properties>节点上的url属性
+    String url = context.getStringAttribute("url");
+    // resource 和 url 两个属性不能同时存在
+    if (resource != null && url != null) {
+      throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
+    }
+    // 2.其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；
     if (resource != null) {
-      // 从dbconfig.properties配置中加载
-      Properties fileProperty = Resources.getResourceAsProperties(resource);
-      // 添加至defaults容器中 会产生覆盖操作 eg: 将文件中的键值对替换掉  xml标签中的对应的value <property name="jdbc.driver" value="1"/>
-      defaults.putAll(fileProperty);
+      // 将dbconfig.properties配置文件内容转换为Properties对象，添加至defaults容器中 会产生覆盖操作 eg: 将文件中的键值对替换掉  xml标签中的对应的value <property name="jdbc.driver" value="1"/>
+      defaults.putAll(Resources.getResourceAsProperties(resource));
     } else if (url != null) {
       // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
       defaults.putAll(Resources.getUrlAsProperties(url));
     }
-    // 获取configuration中原本的属性，并添加至defaults容器中
+    // 3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
+    // 入口搜索串：private XMLConfigBuilder(XPathParser parser, String environment, Properties props)
     Properties vars = configuration.getVariables();
     if (vars != null) defaults.putAll(vars);
     parser.setVariables(defaults);

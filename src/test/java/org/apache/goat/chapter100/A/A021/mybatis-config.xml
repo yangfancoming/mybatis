@@ -4,31 +4,12 @@
 
 <configuration>
 
-  <!--
-      方式二 标签从内部标签读取
-    -->
-
+  <!-- 方式二 标签从内部标签读取  -->
   <properties>
-    <property name="jdbc.driver" value="bar"/>
-    <property name="jdbc.url" value="foo"/>
-    <property name="jdbc.username" value="bar"/>
-    <property name="jdbc.password" value="foo"/>
+    <property name="jdbc.driver" value="11"/>
+    <property name="jdbc.url" value="22"/>
+    <property name="jdbc.username" value="33"/>
+    <property name="jdbc.password" value="44"/>
   </properties>
-
-  <environments default="development">
-
-    <environment id="development">
-
-      <transactionManager type="JDBC"></transactionManager>
-      <dataSource type="POOLED">
-        <property name="driver" value="${jdbc.driver}" />
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
-      </dataSource>
-
-    </environment>
-
-  </environments>
 
 </configuration>
