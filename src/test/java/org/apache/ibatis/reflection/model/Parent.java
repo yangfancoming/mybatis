@@ -45,4 +45,8 @@ public abstract class Parent<T extends Serializable> {
   public T getFld() {
     return fld;
   }
+
+  public void setFld(T fld) {
+    this.fld = fld;
+  }
 }

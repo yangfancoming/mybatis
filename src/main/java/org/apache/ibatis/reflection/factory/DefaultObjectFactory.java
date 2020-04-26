@@ -36,7 +36,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   @SuppressWarnings("unchecked")
   @Override
   public <T> T create(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
-    //解析出Type的具体类型
+    // 解析出Type的具体类型
     Class<?> classToCreate = resolveInterface(type);
     // we know types are assignable  // 实例化class
     return (T) instantiateClass(classToCreate, constructorArgTypes, constructorArgs);
@@ -46,7 +46,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   private <T> T instantiateClass(Class<T> type, List<Class<?>> constructorArgTypes, List<Object> constructorArgs) {
     try {
       Constructor<T> constructor;
-      //通过无参构造函数创建对象
+      // 通过无参构造函数创建对象
       if (constructorArgTypes == null || constructorArgs == null) {
         constructor = type.getDeclaredConstructor();
         try {
@@ -61,7 +61,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
           }
         }
       }
-      //根据参数列表查找合适的构造函数，并实例化对象
+      // 根据参数列表查找合适的构造函数，并实例化对象
       constructor = type.getDeclaredConstructor(constructorArgTypes.toArray(new Class[constructorArgTypes.size()]));
       try {
         return constructor.newInstance(constructorArgs.toArray(new Object[constructorArgs.size()]));
@@ -103,5 +103,4 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   public <T> boolean isCollection(Class<T> type) {
     return Collection.class.isAssignableFrom(type);
   }
-
 }

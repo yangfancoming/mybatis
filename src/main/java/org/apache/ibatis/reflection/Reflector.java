@@ -39,20 +39,24 @@ public class Reflector {
 
   // 记录 对应的 class 类型
   private final Class<?> type;
+  // 记录了 默认构造方法
+  private Constructor<?> defaultConstructor;
+  // 记录了属性相应的 getter 方法  key是属性的名称  value 是 Invoker 对象
+  private final Map<String, Invoker> getMethods = new HashMap<>();
+  // 记录了属性相应的 setter 方法  key是属性的名称  value 是 Invoker 对象
+  private final Map<String, Invoker> setMethods = new HashMap<>();
+
   // 可读属性的名称集合  即存在对应的 getter 方法的属性
   private final String[] readablePropertyNames;
   // 可写属性的名称集合  即存在对应的 setter 方法的属性
   private final String[] writablePropertyNames;
-  // 记录了属性相应的 setter 方法  key是属性的名称  value 是 Invoker 对象
-  private final Map<String, Invoker> setMethods = new HashMap<>();
-  // 记录了属性相应的 getter 方法  key是属性的名称  value 是 Invoker 对象
-  private final Map<String, Invoker> getMethods = new HashMap<>();
-  // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
-  private final Map<String, Class<?>> setTypes = new HashMap<>();
+
   // 记录了 相应的 getter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();
-  // 记录了 默认构造方法
-  private Constructor<?> defaultConstructor;
+
+  // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
+  private final Map<String, Class<?>> setTypes = new HashMap<>();
+
   // 记录所有属性名称的集合
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
@@ -86,9 +90,7 @@ public class Reflector {
     Constructor<?>[] consts = clazz.getDeclaredConstructors();
     for (Constructor<?> constructor : consts) {
       // 将无参构造函数保存起来 (只有默认构造函数没有参数)
-      if (constructor.getParameterTypes().length == 0) {
-        this.defaultConstructor = constructor;
-      }
+      if (constructor.getParameterTypes().length == 0) defaultConstructor = constructor;
     }
   }
 
@@ -103,7 +105,7 @@ public class Reflector {
    */
   private void addGetMethods(Class<?> cls) {
     Map<String, List<Method>> conflictingGetters = new HashMap<>();
-    // 获取当前类，接口，以及父类中的方法。该方法逻辑不是很复杂，这里就不展开了
+    // 获取当前类，接口，以及父类中的方法。
     // 获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
     Method[] methods = getClassMethods(cls);
     for (Method method : methods) {
@@ -361,35 +363,30 @@ public class Reflector {
 
   /**
    * This method returns an array containing all methods declared in this class and any superclass.
-   * We use this method, instead of the simpler <code>Class.getMethods()</code>,
-   * because we want to look for private methods as well.
-   * 此方法返回一个数组，该数组包含该类中声明的所有方法和任何超类
-   * 我们使用此方法不是为了代替 Class.getMethods(),因为我们想访问类中的私有方法.
+   * We use this method, instead of the simpler Class.getMethods(),because we want to look for private methods as well.
    * @param cls The class
-   * @return An array containing all methods in this class 包含该类中所有方法的数组
-   * //获取当前类以及父类中定义的所有方法的唯一签名以及相应的Method对象。
+   * @return An array containing all methods in this class
    */
-  private Method[] getClassMethods(Class<?> cls) {
-    //用于记录指定类中定义的全部方法的唯一签名以及对应的Method对象
+  public Method[] getClassMethods(Class<?> cls) { // -modify
+    // 用于记录指定类中定义的全部方法的唯一签名以及对应的Method对象
     Map<String, Method> uniqueMethods = new HashMap<>();
     Class<?> currentClass = cls;
     while (currentClass != null && currentClass != Object.class) {
-      //currentClass.getDeclaredMethods(),获取当前类中定义的所有方法
-      //addUniqueMethods 为每个方法生成唯一签名，并记录到uniqueMethods集合中
-      addUniqueMethods(uniqueMethods, currentClass.getDeclaredMethods());
+      // 获取当前类中定义的所有方法
+      Method[] declaredMethods = currentClass.getDeclaredMethods();
+      addUniqueMethods(uniqueMethods, declaredMethods);
       // we also need to look for interface methods - because the class may be abstract
-      // 获取当前类对象 实现的所有接口
       Class<?>[] interfaces = currentClass.getInterfaces();
       for (Class<?> anInterface : interfaces) {
-        //addUniqueMethods 为每个接口中的每个方法都生成唯一签名，并记录到uniqueMethods集合中
         addUniqueMethods(uniqueMethods, anInterface.getMethods());
       }
       // 当前类的父类，继续while循环  逐层递增直到遍历到Object对象
       currentClass = currentClass.getSuperclass();
     }
     Collection<Method> methods = uniqueMethods.values();
-    //转换成数组返回
-    return methods.toArray(new Method[methods.size()]);
+    // 转换成数组返回
+    Method[] result = new Method[methods.size()];
+    return methods.toArray(result);
   }
 
   /**
@@ -398,10 +395,10 @@ public class Reflector {
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
       if (!currentMethod.isBridge()) {
-        //得到方法签名 格式为：方法返回参数#方法名:参数名 ps：多个参数用,分割 签名样例:String#getName:User
+        // 得到方法签名 格式为：方法返回参数#方法名:参数名 ps：多个参数用,分割 签名样例:String#getName:User
         String signature = getSignature(currentMethod);
-        //如果签名存在，则不做处理，表示子类已经覆盖了该方法。
-        //如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
+        // 如果签名存在，则不做处理，表示子类已经覆盖了该方法。
+        // 如果签名不存在，则将签名作为Key,Method作为value 添加到uniqueMethods中
         if (!uniqueMethods.containsKey(signature)) {
           uniqueMethods.put(signature, currentMethod);
         }
@@ -489,8 +486,7 @@ public class Reflector {
   }
 
   /**
-   * Gets the type for a property setter.
-   * 获取对应属性的类型
+   * Gets the type for a property setter. 获取对应属性的类型
    * @param propertyName - the name of the property
    * @return The Class of the property setter
    */
@@ -501,8 +497,7 @@ public class Reflector {
   }
 
   /**
-   * Gets the type for a property getter.
-   *  获取对应属性的类型
+   * Gets the type for a property getter.获取对应属性的类型
    * @param propertyName - the name of the property
    * @return The Class of the property getter
    */

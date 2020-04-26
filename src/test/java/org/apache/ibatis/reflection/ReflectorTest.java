@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
@@ -26,30 +27,21 @@ class ReflectorTest {
   Reflector section_reflector = reflectorFactory.findForClass(Section.class);
   Reflector reflector = reflectorFactory.findForClass(Child.class);
 
-  /**
-   用默认构造方法，反射创建一个Student对象，反射获得studId属性并赋值为20，System.out输出studId的属性值。
-  */
-  @Test
-  void test() throws InvocationTargetException, IllegalAccessException {
-    ObjectFactory objectFactory = new DefaultObjectFactory();
-    Student student = objectFactory.create(Student.class);
-    Reflector reflector = new Reflector(Student.class);
-    Invoker invoker = reflector.getSetInvoker("id");
-    invoker.invoke(student, new Object[] { 20 });
-    invoker = reflector.getGetInvoker("id");
-    System.out.println("id=" + invoker.invoke(student, null));
-  }
 
   @Test
-  void testGetSetterType() {
-    System.out.println(section_reflector.getSetterType("id"));// class java.lang.Long
-    Assertions.assertEquals(Long.class, section_reflector.getSetterType("id"));
+  void testGetClassMethods() {
+    Method[] classMethods = reflector.getClassMethods(Child.class);
+    System.out.println(classMethods);
   }
 
   @Test
   void testGetGetterType() {
-    System.out.println(section_reflector.getGetterType("id"));// class java.lang.Long
     Assertions.assertEquals(Long.class, section_reflector.getGetterType("id"));
+  }
+
+  @Test
+  void testGetSetterType() {
+    Assertions.assertEquals(Long.class, section_reflector.getSetterType("id"));
   }
 
   @Test
@@ -142,6 +134,18 @@ class ReflectorTest {
     assertTrue((Boolean)reflector.getGetInvoker("bool").invoke(new Bean(), new Byte[0]));
   }
 
-
+  /**
+   * 用默认构造方法，反射创建一个Student对象，反射获得studId属性并赋值为20，System.out输出studId的属性值。
+   */
+  @Test
+  void test() throws InvocationTargetException, IllegalAccessException {
+    ObjectFactory objectFactory = new DefaultObjectFactory();
+    Student student = objectFactory.create(Student.class);
+    Reflector reflector = new Reflector(Student.class);
+    Invoker invoker = reflector.getSetInvoker("id");
+    invoker.invoke(student, new Object[] { 20 });
+    invoker = reflector.getGetInvoker("id");
+    System.out.println("id=" + invoker.invoke(student, null));
+  }
 
 }
