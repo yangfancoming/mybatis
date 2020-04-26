@@ -8,8 +8,8 @@
     A012 全局xml 配置之 <settings> 之  defaultExecutorType
     
     A020 全局xml 配置之 <properties>   方式一 标签从外部配置文件读取属性值 
-    A021 全局xml 配置之 <properties>   方式二 标签从内部标签读取
-    A022 全局xml 配置之 <properties>   方式三 标签从外部配置文件和内部标签 混合读取
+                                       方式二 标签从内部标签读取
+                                       方式三 标签从外部配置文件和内部标签 混合读取
     
     A025 全局xml 配置之 <typeHandlers>  方式一   
     

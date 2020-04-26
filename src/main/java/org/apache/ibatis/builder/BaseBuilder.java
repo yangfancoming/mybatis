@@ -41,8 +41,8 @@ public abstract class BaseBuilder {
   public BaseBuilder(Configuration configuration) {
     log.warn(  " 构造函数1740：this.configuration 地址：" + configuration);
     this.configuration = configuration;
-    this.typeAliasRegistry = this.configuration.getTypeAliasRegistry();
-    this.typeHandlerRegistry = this.configuration.getTypeHandlerRegistry();
+    this.typeAliasRegistry = configuration.getTypeAliasRegistry(); // -modify
+    this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();  // -modify
   }
 
   public Configuration getConfiguration() {

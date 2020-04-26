@@ -9,7 +9,6 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A030/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-
   /**
    * 别名方式一：  为单个类 起别名
    * 就是 全局xml 中配置  <typeAlias type="org.apache.goat.common.Foo" alias="Foo"/>  后
@@ -17,9 +16,7 @@ class App extends MyBaseDataTest {
   */
   @Test
   void test1() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);
+    setUpByReaderNoOpen(XMLPATH);
   }
-
-
 
 }

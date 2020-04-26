@@ -47,12 +47,27 @@ public abstract class MyBaseDataTest {
     }
   }
 
+  /** Reader 不使用数据库 */
+  public static void setUpByReaderNoOpen(String xmlPath) throws Exception {
+    try (Reader reader = Resources.getResourceAsReader(xmlPath)) {
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+    }
+  }
+
+
   /** InputStrea 使用真实数据库 */
   public static void setUpByInputStream(String xmlPath) throws Exception {
     try (InputStream inputStream = Resources.getResourceAsStream(xmlPath)) {
       //然后再通过 SqlSessionFactoryBuilder 对象的 build 方法 根据配置文件构建 SqlSessionFactory 对象
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
       sqlSession = sqlSessionFactory.openSession();
+    }
+  }
+
+  /** InputStrea 不使用数据库 */
+  public static void setUpByInputStreamNoOpen(String xmlPath) throws Exception {
+    try (Reader reader = Resources.getResourceAsReader(xmlPath)) {
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
   }
 
