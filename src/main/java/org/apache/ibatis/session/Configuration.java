@@ -189,7 +189,7 @@ public class Configuration {
   //主键生成器 //mapper文件中配置KeyGenerator的insert和update节点，key为命名空间+ID
   protected final Map<String, KeyGenerator> keyGenerators = new StrictMap<>("Key Generators collection");
   /**
-   * 存储已经加载过的所有的mapper xml资源，防止重复加载
+   * 存储已经加载过的所有的mapper xml资源名称，防止重复加载
    * @see MapperAnnotationBuilder#loadXmlResource
   */
   protected final Set<String> loadedResources = new HashSet<>();
@@ -233,7 +233,7 @@ public class Configuration {
     typeAliasRegistry.registerAlias("WEAK", WeakCache.class);
     // 数据库厂商相关
     typeAliasRegistry.registerAlias("DB_VENDOR", VendorDatabaseIdProvider.class);
-
+    // xml解析相关
     typeAliasRegistry.registerAlias("XML", XMLLanguageDriver.class);
     typeAliasRegistry.registerAlias("RAW", RawLanguageDriver.class);
     // 日志相关

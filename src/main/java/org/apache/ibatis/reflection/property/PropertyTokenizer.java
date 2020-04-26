@@ -13,7 +13,6 @@ import java.util.Iterator;
  同时还实现了 Iterator 接口，能够迭代解析表达式  该类会被reflection包中其他的类频繁的引用到。
  这个类实现了Iterator接口，在使用时经常被用到的是Iterator接口中的hasNext这个函数
 */
-
 public class PropertyTokenizer implements Iterator<PropertyTokenizer> {
   private String name;
   private final String indexedName;

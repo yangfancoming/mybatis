@@ -172,7 +172,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   1. 解析 settings 子节点的内容，并将解析结果转成 Properties 对象
+   1. 解析 settings 节点的内容，并将解析结果转成 Properties 对象
    2. 为 Configuration 创建元信息对象
    3. 通过 MetaClass 检测 Configuration 中是否存在某个属性的 setter 方法，不存在则抛异常
    4. 若通过 MetaClass 的检测，则返回 Properties 对象，方法逻辑结束
@@ -180,7 +180,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   private Properties settingsAsProperties(XNode context) {
     if (context == null) return new Properties();
     /**
-     *  Check that all settings are known to the configuration class 检查配置类是否知道所有设置
+     *  Check that all settings are known to the configuration class 检查Configuration配置类是否知道所有设置
      *  创建Configuration对应的MetaClass “元信息” 对象，MetaClass之前有说过是判断类实例是否有getter,setter属性的对象
      */
     MetaClass metaConfig = MetaClass.forClass(Configuration.class, localReflectorFactory);

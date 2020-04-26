@@ -289,5 +289,4 @@ public class XPathParser {
     //利用XPathFactory创建一个新的xpath对象
     xpath = XPathFactory.newInstance().newXPath();
   }
-
 }

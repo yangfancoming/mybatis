@@ -39,34 +39,24 @@ public class Reflector {
 
   // 记录 对应的 class 类型
   private final Class<?> type;
-
   // 可读属性的名称集合  即存在对应的 getter 方法的属性
   private final String[] readablePropertyNames;
-
   // 可写属性的名称集合  即存在对应的 setter 方法的属性
   private final String[] writablePropertyNames;
-
   // 记录了属性相应的 setter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> setMethods = new HashMap<>();
-
   // 记录了属性相应的 getter 方法  key是属性的名称  value 是 Invoker 对象
   private final Map<String, Invoker> getMethods = new HashMap<>();
-
   // 记录了 相应的 setter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> setTypes = new HashMap<>();
-
   // 记录了 相应的 getter 方法参数类型 key是属性名称  value 是参数类型
   private final Map<String, Class<?>> getTypes = new HashMap<>();
-
   // 记录了 默认构造方法
   private Constructor<?> defaultConstructor;
-
   // 记录所有属性名称的集合
   private Map<String, String> caseInsensitivePropertyMap = new HashMap<>();
 
-  /**
-   * 构造函数，对上述字段初始化
-   */
+  // 构造函数，对上述字段初始化
   public Reflector(Class<?> clazz) {
     type = clazz;
     addDefaultConstructor(clazz); // 解析目标类的默认构造方法，并赋值给 defaultConstructor 变量
@@ -102,7 +92,8 @@ public class Reflector {
     }
   }
 
-  /**   处理clazz 中的getter 方法，填充getMethods 集合和getTypes 集合
+  /**
+   * 处理clazz 中的getter 方法，填充getMethods 集合和getTypes 集合
    * 负责解析类中定义的getter方法
    1. 获取当前类，接口，以及父类中的方法
    2. 遍历上一步获取的方法数组，并过滤出以 get 和 is 开头的方法
@@ -205,9 +196,8 @@ public class Reflector {
     }
   }
 
-  /**
-   * 收集get方法
-   */
+
+  // 收集get方法
   private void addGetMethod(String name, Method method) {
     //检查属性名是否合法，检查条件方法名不以$开头，不等于serialVersionUID  不等于class
     if (isValidPropertyName(name)) {
@@ -218,9 +208,8 @@ public class Reflector {
       getTypes.put(name, typeToClass(returnType));
     }
   }
-  /**
-   * 收集set方法
-   */
+
+  // 收集set方法
   private void addSetMethods(Class<?> cls) {
     Map<String, List<Method>> conflictingSetters = new HashMap<>();
     // 获取当前类，接口，以及父类中的方法。该方法逻辑不是很复杂，这里就不展开了
@@ -245,6 +234,7 @@ public class Reflector {
     // 这里需要注意：add 操作的是已经put到 conflictingMethods Map集合中的list 并不是多余操作
     list.add(method);
   }
+
   /** 解决冲突
    * 关于 setter 方法冲突的解析规则，这里也总结一下吧。如下：
    * 1. 冲突方法的参数类型与 getter 的返回类型一致，则认为是最好的选择
