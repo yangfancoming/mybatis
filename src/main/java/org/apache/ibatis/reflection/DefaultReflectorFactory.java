@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 // DefaultReflectorFactory 用于创建 Reflector，同时兼有缓存的功能
 public class DefaultReflectorFactory implements ReflectorFactory {
 
-  /***  对Reflector对象的缓存 （默认开启 */
+  /***  对Reflector对象的缓存 （默认开启） */
   private boolean classCacheEnabled = true;
 
   /**
@@ -31,11 +31,17 @@ public class DefaultReflectorFactory implements ReflectorFactory {
   // 为指定的Class创建Reflector对象，并将Reflector对象缓存到reflectorMap中
   @Override
   public Reflector findForClass(Class<?> type) {
-    // classCacheEnabled 默认为 true  //检查是否开启缓存
     if (classCacheEnabled) {
-      // synchronized (type) removed see issue #461 doit  这里的 clazz参数是怎么传入的？？  public Reflector(Class<?> clazz) {
-      // 类反射器是否存在，不存在实例化，存在则返回
-      return reflectorMap.computeIfAbsent(type, Reflector::new);
+      /**
+       * synchronized (type) removed see issue #461
+       *  类反射器是否存在，不存在实例化，存在则返回
+       * System.out::println 可以看作 lambda表达式 e -> System.out.println(e) 的缩写形式。
+       * 因此下面两种写法是完全等价的：
+       * return reflectorMap.computeIfAbsent(type, Reflector::new);
+       * return reflectorMap.computeIfAbsent(type, e -> new Reflector(e));
+       * 其中的e变量是computeIfAbsent函数自动推导出来的
+      */
+      return reflectorMap.computeIfAbsent(type,Reflector::new);
     } else {
       // 没有开启缓存,直接创建Reflector对象并返回
       return new Reflector(type);
