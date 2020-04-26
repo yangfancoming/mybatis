@@ -112,10 +112,10 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn(" 构造函数1736：configuration 地址：" + configuration);
   }
 
-  //外部调用此方法对mybatis的全局xml文件进行解析
+  // 外部调用此方法对mybatis的全局xml文件进行解析
   public Configuration parse() {
     log.warn("开始解析全局xml配置文件");
-    //1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
+    // 1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
     if (parsed) throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     parsed = true;
     /**  解析 xml 全局配置文件
@@ -125,7 +125,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      */
     XNode xNode = parser.evalNode("/configuration");
     log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
-    //2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
+    // 2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
     return configuration;
   }
@@ -137,7 +137,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    * */
   private void parseConfiguration(XNode root) {
     try {
-      //issue #117 read properties first // 最先解析<properties>节点
+      // issue #117 read properties first // 最先解析<properties>节点
       XNode propertiesNode = root.evalNode("properties");
       propertiesElement(propertiesNode);
       // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似。最终，所有的setting属性都被存储在Configuration对象中。

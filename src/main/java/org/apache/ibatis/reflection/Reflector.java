@@ -392,7 +392,10 @@ public class Reflector {
    */
   private void addUniqueMethods(Map<String, Method> uniqueMethods, Method[] methods) {
     for (Method currentMethod : methods) {
-      if (currentMethod.isBridge()) continue; // -modify
+      if (currentMethod.isBridge()) {  // -modify
+        log.warn(" 发现桥接方法  【" + currentMethod.getName() + "】 予以忽略 ");
+        continue;
+      }
       // 得到方法签名
       String signature = getSignature(currentMethod);
       // 如果签名存在，则不做处理，表示子类已经覆盖了该方法。
