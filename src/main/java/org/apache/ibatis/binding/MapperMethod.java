@@ -40,7 +40,7 @@ public class MapperMethod {
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
     // 创建 SqlCommand 对象，该对象包含一些和 SQL 相关的信息
-    this.command = new SqlCommand(config, mapperInterface, method);
+    command = new SqlCommand(config, mapperInterface, method);
     // 创建 MethodSignature 对象， 由类名可知，该对象包含了被拦截方法的一些信息
     this.method = new MethodSignature(config, mapperInterface, method);
   }
@@ -311,29 +311,28 @@ public class MapperMethod {
       // 通过反射解析方法返回类型
       Type resolvedReturnType = TypeParameterResolver.resolveReturnType(method, mapperInterface);
       if (resolvedReturnType instanceof Class<?>) {
-        this.returnType = (Class<?>) resolvedReturnType;
+        returnType = (Class<?>) resolvedReturnType;
       } else if (resolvedReturnType instanceof ParameterizedType) {
-        this.returnType = (Class<?>) ((ParameterizedType) resolvedReturnType).getRawType();
+        returnType = (Class<?>) ((ParameterizedType) resolvedReturnType).getRawType();
       } else {
-        this.returnType = method.getReturnType();
+        returnType = method.getReturnType();
       }
       // 检测返回值类型是否是 void、集合或数组、 Cursor、 Map 等
-      this.returnsVoid = void.class.equals(this.returnType);
-      this.returnsMany = configuration.getObjectFactory().isCollection(this.returnType) || this.returnType.isArray();
-      this.returnsCursor = Cursor.class.equals(this.returnType);
-      this.returnsOptional = Optional.class.equals(this.returnType);
+      returnsVoid = void.class.equals(returnType);
+      returnsMany = configuration.getObjectFactory().isCollection(returnType) || returnType.isArray();
+      returnsCursor = Cursor.class.equals(returnType);
+      returnsOptional = Optional.class.equals(returnType);
       // 解析 @MapKey 注解，获取注解内容
-      this.mapKey = getMapKey(method);
-      this.returnsMap = this.mapKey != null;
+      mapKey = getMapKey(method);
+      returnsMap = mapKey != null;
       // 分页参数 // 获取 RowBounds 参数在参数列表中的位置，如果参数列表中包含多个 RowBounds 参数，此方法会抛出异常
-      this.rowBoundsIndex = getUniqueParamIndex(method, RowBounds.class);
+      rowBoundsIndex = getUniqueParamIndex(method, RowBounds.class);
       // 获取 ResultHandler 参数在参数列表中的位置  // 自定义ResultHandler
-      this.resultHandlerIndex = getUniqueParamIndex(method, ResultHandler.class);
-
+      resultHandlerIndex = getUniqueParamIndex(method, ResultHandler.class);
       /** 解析参数列表
        * sos 该种方式 只有在 接口 fooMapper.deleteById(2) 调用才走这里   传统 sqlSession.selectOne("selectById",2)  方式不走这里
       */
-      this.paramNameResolver = new ParamNameResolver(configuration, method);
+      paramNameResolver = new ParamNameResolver(configuration, method);
     }
 
     /**

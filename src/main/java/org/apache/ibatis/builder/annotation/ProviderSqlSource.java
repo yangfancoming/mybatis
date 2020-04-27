@@ -47,17 +47,17 @@ public class ProviderSqlSource implements SqlSource {
       this.languageDriver = configuration.getLanguageDriver(lang == null ? null : lang.value());
       this.providerType = getProviderType(provider, mapperMethod);
       providerMethodName = (String) provider.getClass().getMethod("method").invoke(provider);
-      if (providerMethodName.length() == 0 && ProviderMethodResolver.class.isAssignableFrom(this.providerType)) {
-        this.providerMethod = ((ProviderMethodResolver) this.providerType.getDeclaredConstructor().newInstance()).resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId()));
+      if (providerMethodName.length() == 0 && ProviderMethodResolver.class.isAssignableFrom(providerType)) {
+        providerMethod = ((ProviderMethodResolver) providerType.getDeclaredConstructor().newInstance()).resolveMethod(new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId()));
       }
-      if (this.providerMethod == null) {
+      if (providerMethod == null) {
         providerMethodName = providerMethodName.length() == 0 ? "provideSql" : providerMethodName;
-        for (Method m : this.providerType.getMethods()) {
+        for (Method m : providerType.getMethods()) {
           if (providerMethodName.equals(m.getName()) && CharSequence.class.isAssignableFrom(m.getReturnType())) {
-            if (this.providerMethod != null) {
-              throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' is found multiple in SqlProvider '" + this.providerType.getName() + "'. Sql provider method can not overload.");
+            if (providerMethod != null) {
+              throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' is found multiple in SqlProvider '" + providerType.getName() + "'. Sql provider method can not overload.");
             }
-            this.providerMethod = m;
+            providerMethod = m;
           }
         }
       }
@@ -66,20 +66,20 @@ public class ProviderSqlSource implements SqlSource {
     } catch (Exception e) {
       throw new BuilderException("Error creating SqlSource for SqlProvider.  Cause: " + e, e);
     }
-    if (this.providerMethod == null) {
-      throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' not found in SqlProvider '" + this.providerType.getName() + "'.");
+    if (providerMethod == null) {
+      throw new BuilderException("Error creating SqlSource for SqlProvider. Method '" + providerMethodName + "' not found in SqlProvider '" + providerType.getName() + "'.");
     }
-    this.providerMethodArgumentNames = new ParamNameResolver(configuration, this.providerMethod).getNames();
-    this.providerMethodParameterTypes = this.providerMethod.getParameterTypes();
-    for (int i = 0; i < this.providerMethodParameterTypes.length; i++) {
-      Class<?> parameterType = this.providerMethodParameterTypes[i];
+    providerMethodArgumentNames = new ParamNameResolver(configuration, providerMethod).getNames();
+    providerMethodParameterTypes = providerMethod.getParameterTypes();
+    for (int i = 0; i < providerMethodParameterTypes.length; i++) {
+      Class<?> parameterType = providerMethodParameterTypes[i];
       if (parameterType == ProviderContext.class) {
-        if (this.providerContext != null) {
+        if (providerContext != null) {
           throw new BuilderException("Error creating SqlSource for SqlProvider. ProviderContext found multiple in SqlProvider method ("
-              + this.providerType.getName() + "." + providerMethod.getName() + "). ProviderContext can not define multiple in SqlProvider method argument.");
+              + providerType.getName() + "." + providerMethod.getName() + "). ProviderContext can not define multiple in SqlProvider method argument.");
         }
-        this.providerContext = new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId());
-        this.providerContextIndex = i;
+        providerContext = new ProviderContext(mapperType, mapperMethod, configuration.getDatabaseId());
+        providerContextIndex = i;
       }
     }
   }

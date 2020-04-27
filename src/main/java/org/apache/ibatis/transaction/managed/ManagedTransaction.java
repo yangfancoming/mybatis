@@ -13,8 +13,7 @@ import org.apache.ibatis.transaction.Transaction;
 /**
  * {@link Transaction} that lets the container manage the full lifecycle of the transaction.
  * Delays connection retrieval until getConnection() is called.
- * Ignores all commit or rollback requests.
- * By default, it closes the connection but can be configured not to do it.
+ * Ignores all commit or rollback requests.By default, it closes the connection but can be configured not to do it.
  * @see ManagedTransactionFactory
  */
 public class ManagedTransaction implements Transaction {
@@ -42,9 +41,7 @@ public class ManagedTransaction implements Transaction {
 
   @Override
   public Connection getConnection() throws SQLException {
-    if (connection == null) {
-      openConnection();
-    }
+    if (connection == null) openConnection();
     return connection;
   }
 

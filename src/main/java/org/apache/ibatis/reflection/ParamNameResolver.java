@@ -37,7 +37,7 @@ public class ParamNameResolver {
    */
   // 存放参数的位置和对应的参数名 在本类的构造函数中被赋值
   private final SortedMap<Integer, String> names;
-  //是否使用 @param 注解
+  // 是否使用 @param 注解
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
@@ -50,9 +50,7 @@ public class ParamNameResolver {
     // get names from @Param annotations
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
       // 首先判断这个参数的类型是否是特殊类型,RowBounds ResultHandler，是的话跳过，咱不处理
-      if (isSpecialParameter(paramTypes[paramIndex])) {
-        continue;
-      }
+      if (isSpecialParameter(paramTypes[paramIndex]))  continue;
       String name = null;
       // 如果此次查询使用的是注解
       // 判断这个参数是否是用了@Param注解，如果使用的话name就是@Param注解的值，并把name放到map中，键为参数在方法中的位置，value为Param的值
@@ -79,12 +77,12 @@ public class ParamNameResolver {
       map.put(paramIndex, name); // put 进去 0,arg0
     }
     /**
-     * {@link org.apache.goat.chapter100.C010.App3} getEmpByIdAndLastName3    @Param 传参
+     * {@link org.apache.goat.chapter100.C.C010.App3} getEmpByIdAndLastName3    @Param 传参
      * "0" -> "id"   "1" -> "lastName"
-     * {@link org.apache.goat.chapter100.C010.App5} getEmpByIdAndLastName5    Map 传参
+     * {@link org.apache.goat.chapter100.C.C010.App5} getEmpByIdAndLastName5    Map 传参
      * "0" -> "arg0"
      */
-    names = Collections.unmodifiableSortedMap(map); //
+    names = Collections.unmodifiableSortedMap(map);
   }
 
   private String getActualParamName(Method method, int paramIndex) {

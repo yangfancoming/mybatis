@@ -157,9 +157,7 @@ public class TypeAliasRegistry {
     // 判断 @Alias("what")
     Alias aliasAnnotation = type.getAnnotation(Alias.class);
     // 面试题  mybatis 配置别名的三种方式中 优先级最高的为 @Alias("what") 注解！
-    if (aliasAnnotation != null) {
-      alias = aliasAnnotation.value();
-    }
+    if (aliasAnnotation != null)  alias = aliasAnnotation.value();
     registerAlias(alias, type);
   }
 
