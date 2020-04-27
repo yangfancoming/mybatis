@@ -1,15 +1,11 @@
 package org.apache.goat.chapter100.A.A032;
 
 import org.apache.common.MyBaseDataTest;
-import org.apache.goat.common.model.Foo;
 import org.junit.jupiter.api.Test;
-
 
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A032/mybatis-config.xml";
-  public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
-
 
   /**
    * 别名方式二：   批量起别名
@@ -21,29 +17,21 @@ class App extends MyBaseDataTest {
   */
   @Test
   void test1() throws Exception {
-    setUpByReader(XMLPATH,DBSQL); // Foo 可以
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
-    System.out.println(foo);
+    setUpByReaderNoOpen(XMLPATH); // Foo 可以
   }
 
   @Test
   void test2() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);  // foo 可以
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById2",1);
-    System.out.println(foo);
+    setUpByReaderNoOpen(XMLPATH);  // foo 可以
   }
 
   @Test
   void test3() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);  // FOO 可以
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById3",1);
-    System.out.println(foo);
+    setUpByReaderNoOpen(XMLPATH);  // FOO 可以
   }
 
   @Test
   void test4() throws Exception {
-    setUpByReader(XMLPATH,DBSQL);  // FOO1  报错！ 测试时记得 打开局部xml中的注释 否则 运行其他测试方法时会报错
-    Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById4",1);
-    System.out.println(foo);
+    setUpByReaderNoOpen(XMLPATH);  // FOO1  报错！ 测试时记得 打开局部xml中的注释 否则 运行其他测试方法时会报错
   }
 }

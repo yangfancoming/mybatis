@@ -98,7 +98,11 @@ public class TypeAliasRegistry {
     registerAlias("ResultSet", ResultSet.class);
   }
 
-  // throws class cast exception as well if types cannot be assigned
+  /**
+   * 解析别名   全局唯一出口
+   * @param string
+   * throws class cast exception as well if types cannot be assigned
+  */
   @SuppressWarnings("unchecked")
   public <T> Class<T> resolveAlias(String string) {
     if (string == null) return null;
@@ -125,6 +129,7 @@ public class TypeAliasRegistry {
   }
 
   /**
+   * 根据包名，批量注册别名
    * 使用Object.class作为父类  调用重载函数
    * @param packageName  <package name="org.apache.goat.common"/> 标签中的 org.apache.goat.common
   */

@@ -13,8 +13,6 @@
     <typeAlias type="org.apache.goat.common.model.Foo" alias="Foo0"/>
     <typeAlias type="org.apache.goat.common.model.Bar" alias="Bar0"/>
 
-<!--    <package name="org.apache.goat.common"/>-->
-<!--    <package name=""/>-->
   </typeAliases>
 
 </configuration>

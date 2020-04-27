@@ -17,13 +17,13 @@ class TypeAliasRegistryTest {
   void test() {
     // 注册 Integer.class
     typeAliasRegistry.registerAlias("int","java.lang.Integer");
-    // 注册 Long[].class 注意类名左边的[L和右边的分号（；）。这表示一个你指定类型的对象的数组
+    // 注册 Long[].class 注意类名左边的[L和右边的分号（;） 这表示一个你指定类型的对象的数组
     typeAliasRegistry.registerAlias("long[]","[Ljava.lang.Long;");
     System.out.println(byte.class);
     System.out.println(Integer.class);
   }
 
-  //  通过 全限定名串的方式注册别名
+  //  通过 全限定名串的方式注册别名   +  解析已注册的别名
   @Test
   void shouldRegisterAndResolveTypeAlias() {
     typeAliasRegistry.registerAlias("rich", "org.apache.ibatis.domain.misc.RichType");
@@ -34,11 +34,11 @@ class TypeAliasRegistryTest {
   // 测试 解析数组别名
   @Test
   void shouldFetchArrayType() {
-    Class<Object> objectClass = typeAliasRegistry.resolveAlias("byte[]");
+    Class<Byte[]> objectClass = typeAliasRegistry.resolveAlias("byte[]");
     assertEquals(Byte[].class, objectClass);
   }
 
-  //  通过 全限定名串的方式注册别名
+  //  别名相同 对应的类型也相同 则覆盖注册
   @Test
   void shouldBeAbleToRegisterSameAliasWithSameTypeAgain() {
     assertEquals(50,typeAliasRegistry.getTypeAliases().size());
@@ -51,6 +51,8 @@ class TypeAliasRegistryTest {
   //  别名相同 但对应的类型不同 则不能够注册
   @Test
   void shouldNotBeAbleToRegisterSameAliasWithDifferentType() {
+    Class<String> string = typeAliasRegistry.resolveAlias("string");
+    assertEquals(String.class, string);
     assertThrows(TypeException.class, () -> typeAliasRegistry.registerAlias("string", BigDecimal.class));
   }
 
