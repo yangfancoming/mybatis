@@ -34,10 +34,8 @@ public class DefaultSqlSession implements SqlSession {
 
   // 系统配置
   private final Configuration configuration;
-
   // 执行器接口 (CachingExecutor) -modify
   public final Executor executor;
-
   // 事务是否自动提交
   private final boolean autoCommit;
 

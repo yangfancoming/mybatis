@@ -228,7 +228,7 @@ public class MapperMethod {
     private final SqlCommandType type;
 
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
-      //拿到全名 比如 org.mybatis.example.UserMapper.selectByPrimaryKey
+      // 拿到全名 比如 org.mybatis.example.UserMapper.selectByPrimaryKey
       final String methodName = method.getName();
       final Class<?> declaringClass = method.getDeclaringClass();
       // 解析 MappedStatement  //MappedStatement对象,封装一个Mapper接口对应的sql操作

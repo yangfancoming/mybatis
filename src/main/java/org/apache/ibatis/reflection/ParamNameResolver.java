@@ -12,32 +12,26 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
 /**
- * ParamNameResolver 为sql语句参数解析器
- * 主要用来处理接口形式的参数，最后会把参数处放在一个map中
- * map的key为参数的位置，value为参数的名字
+ * ParamNameResolver 为sql语句的参数解析器
+ * 主要用来处理接口形式的参数，最后会把参数处放在一个map中，map的key为参数的位置，value为参数的名字
  */
 public class ParamNameResolver {
 
   private static final String GENERIC_NAME_PREFIX = "param";
 
   /**
-   * The key is the index and the value is the name of the parameter.<br />
-   * The name is obtained from {@link Param} if specified. When {@link Param} is not specified,
-   * the parameter index is used. Note that this index could be different from the actual index
-   * when the method has special parameters (i.e. {@link RowBounds} or {@link ResultHandler}).
-   * aMethod(@Param("M") int a, @Param("N") int b) -&gt; {{0, "M"}, {1, "N"}}</li>
-   * aMethod(int a, int b) -&gt; {{0, "0"}, {1, "1"}}</li>
-   * aMethod(int a, RowBounds rb, int b) -&gt; {{0, "0"}, {2, "1"}}</li>
-   *
-   * 对names字段的解释
+   * 存放参数的位置和对应的参数名 在本类的构造函数中被赋值
+   * The key is the index and the value is the name of the parameter.
+   * The name is obtained from {@link Param} if specified. When {@link Param} is not specified,the parameter index is used.
+   * Note that this index could be different from the actual index  when the method has special parameters (i.e. {@link RowBounds} or {@link ResultHandler}).
    * - Method(@Param("M") int a, @Param("N") int b)转化为map为{{0, "M"}, {1, "N"}}
    * - Method(int a, int b)转化为map为{{0, "0"}, {1, "1"}}
    * - aMethod(int a, RowBounds rb, int b)转化为map为{{0, "0"}, {2, "1"}}
-   *   public Employee getEmpByIdAndLastName3(@Param("id") Integer id, @Param("lastName") String lastName);  {Integer@2462}0 -> id     {Integer@2486}1 -> lastName
+   *   public Employee getEmpByIdAndLastName3(@Param("id") Integer id, @Param("lastName") String lastName);
+   *   {Integer@2462}0 -> id     {Integer@2486}1 -> lastName
    */
-  // 存放参数的位置和对应的参数名 在本类的构造函数中被赋值
   private final SortedMap<Integer, String> names;
-  // 是否使用 @param 注解
+  // 是否有 @param 注解
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
@@ -49,19 +43,18 @@ public class ParamNameResolver {
     int paramCount = paramAnnotations.length;
     // get names from @Param annotations
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
-      // 首先判断这个参数的类型是否是特殊类型,RowBounds ResultHandler，是的话跳过，咱不处理
+      // 首先判断这个参数的类型是否是特殊类型,RowBounds ResultHandler，是的话则直接跳过，不错处理
       if (isSpecialParameter(paramTypes[paramIndex]))  continue;
       String name = null;
       // 如果此次查询使用的是注解
       // 判断这个参数是否是用了@Param注解，如果使用的话name就是@Param注解的值，并把name放到map中，键为参数在方法中的位置，value为Param的值
       for (Annotation annotation : paramAnnotations[paramIndex]) {
-        if (annotation instanceof Param) {
+        if (!(annotation instanceof Param)) continue; // -modify  若不是@Param注解，则直接跳过。只处理@Param注解
           // 标记 此次查询方式 是使用的注解
           hasParamAnnotation = true;
           // 获取 @Param 注解内容
           name = ((Param) annotation).value();
           break;
-        }
       }
       // 如果此次查询方式 使用的不是注解 （ @Param was not specified.）
       // 如果没有使用Param注解,判断是否开启了UseActualParamName，如果开启了，则使用java8的反射得到方法的名字，此处容易造成异常
@@ -91,6 +84,10 @@ public class ParamNameResolver {
     return s;
   }
 
+  /**
+   * 判断这个参数的类型是否是特殊类型,RowBounds ResultHandler，是的话 跳过，咱不处理
+   * @param clazz - 要判断的参数   eg: "class java.lang.String"
+   */
   private static boolean isSpecialParameter(Class<?> clazz) {
     return RowBounds.class.isAssignableFrom(clazz) || ResultHandler.class.isAssignableFrom(clazz);
   }

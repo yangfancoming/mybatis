@@ -33,22 +33,20 @@ public class MapperRegistry {
     this.config = config;
   }
 
-  /**
-   * @since 3.2.2
-   */
+  // @since 3.2.2
   public Collection<Class<?>> getMappers() {
     return Collections.unmodifiableCollection(knownMappers.keySet());
   }
 
-  //返回代理类
+  // 返回mapper接口的代理类
   @SuppressWarnings("unchecked")
   public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
     // 从 knownMappers 中获取与 type 对应的 MapperProxyFactory
     final MapperProxyFactory<T> mapperProxyFactory = (MapperProxyFactory<T>) knownMappers.get(type);
-    //说明这个Mapper接口没有注册 抛出异常
+    // 说明这个Mapper接口没有注册 抛出异常
     if (mapperProxyFactory == null) throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
     try {
-      //生成一个MapperProxy对象
+      // 生成一个MapperProxy对象
       return mapperProxyFactory.newInstance(sqlSession);
     } catch (Exception e) {
       throw new BindingException("Error getting mapper instance. Cause: " + e, e);
@@ -110,7 +108,7 @@ public class MapperRegistry {
     if (hasMapper(type)) throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     boolean loadCompleted = false;
     try {
-      //将mapper接口包装成mapper代理
+      //将mapper接口包装成mapper代理  全局唯一入口
       MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
       // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
       knownMappers.put(type, tMapperProxyFactory);
