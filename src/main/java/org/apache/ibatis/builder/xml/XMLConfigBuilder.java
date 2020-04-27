@@ -249,7 +249,7 @@ public class XMLConfigBuilder extends BaseBuilder {
         String alias = child.getStringAttribute("alias");
         String type = child.getStringAttribute("type");
         try {
-          // 反射获取模板类
+          // 通过全限定类名 反射获取模板类
           Class<?> clazz = Resources.classForName(type);
           // 这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
           // 和<package> 一样会注册进configuration的typeAliasRegistry中的typeAliases

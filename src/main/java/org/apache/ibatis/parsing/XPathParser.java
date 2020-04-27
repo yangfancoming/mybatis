@@ -31,16 +31,12 @@ public class XPathParser {
 
   // Document对象通过createDocument方法得到
   private final Document document;
-
   // 是否开启验证
   private boolean validation;
-
   // 用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
   private EntityResolver entityResolver;
-
   // mybatis-config.xml 中<propteries>标签定义的键值对集合
   private Properties variables;
-
   // XPath对象
   private XPath xpath;
 

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 */
 class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/A/A030/mybatis-config.xml";
 
   /**
    * 别名方式一：  为单个类 起别名
@@ -17,6 +16,6 @@ class App extends MyBaseDataTest {
   */
   @Test
   void test1() throws Exception {
-    setUpByReaderNoOpen(XMLPATH);
+    setUpByReaderNoOpen("org/apache/goat/chapter100/A/A030/mybatis-config.xml");
   }
 }

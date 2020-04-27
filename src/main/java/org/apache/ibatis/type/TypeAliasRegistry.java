@@ -107,11 +107,11 @@ public class TypeAliasRegistry {
   public <T> Class<T> resolveAlias(String string) {
     if (string == null) return null;
     try {
-      // issue #748
       /**
-       先转成小写再解析 这里转个小写也有bug？见748号bug(在google code上)
-       https://code.google.com/p/mybatis/issues
-       比如 如果本地语言是Turkish，那i转成大写就不是I了，而是另外一个字符（İ）。这样土耳其的机器就用不了mybatis了！这是一个很大的bug，但是基本上每个人都会犯......
+       * issue #748
+       * 先转成小写再解析 这里转个小写也有bug？见748号bug(在google code上)
+       * https://code.google.com/p/mybatis/issues
+       * 比如 如果本地语言是Turkish，那i转成大写就不是I了，而是另外一个字符（İ）。这样土耳其的机器就用不了mybatis了！这是一个很大的bug，但是基本上每个人都会犯......
       */
       String key = string.toLowerCase(Locale.ENGLISH);
       Class<T> value;
