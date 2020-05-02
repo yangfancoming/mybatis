@@ -132,6 +132,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    * 解析核心配置文件的关键方法，
+   *
    * 读取节点的信息，并通过对应的方法去解析配置，解析到的配置全部会放在configuration里面
    * <!ELEMENT configuration (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?)>
    * */
