@@ -19,5 +19,4 @@
     left join authors on authors.id = author_id
     ]]>
   </select>
-
 </mapper>
