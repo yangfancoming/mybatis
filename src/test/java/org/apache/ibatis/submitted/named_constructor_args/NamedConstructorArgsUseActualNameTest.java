@@ -23,14 +23,11 @@ class NamedConstructorArgsUseActualNameTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/named_constructor_args/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
     sqlSessionFactory.getConfiguration().addMapper(UseActualNameMapper.class);
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
   }
 
+  // doit ？ 测试用例为啥报错？？？
   @Test
   void argsByActualNames() {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
@@ -50,5 +47,4 @@ class NamedConstructorArgsUseActualNameTest {
       assertEquals("User1", user.getName());
     }
   }
-
 }

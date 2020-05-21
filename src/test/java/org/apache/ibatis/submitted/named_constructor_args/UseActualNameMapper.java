@@ -15,5 +15,4 @@ public interface UseActualNameMapper {
   User mapConstructorWithoutParamAnnos(Integer id);
 
   User mapConstructorWithoutParamAnnosXml(Integer id);
-
 }

@@ -24,14 +24,11 @@ class NamedConstructorArgsTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/named_constructor_args/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
     Configuration configuration = sqlSessionFactory.getConfiguration();
     configuration.setUseActualParamName(false);
+    // 注册 局部mapper
     configuration.addMapper(Mapper.class);
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
   }
 
   @Test

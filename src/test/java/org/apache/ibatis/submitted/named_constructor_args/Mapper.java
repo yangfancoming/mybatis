@@ -16,5 +16,4 @@ public interface Mapper {
   User mapConstructorWithParamAnnos(Integer id);
 
   User mapConstructorWithParamAnnosXml(Integer id);
-
 }

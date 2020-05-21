@@ -25,14 +25,10 @@ class InvalidNamedConstructorArgsTest {
   @BeforeAll
   static void setUp() throws Exception {
     // create an SqlSessionFactory
-    try (Reader reader = Resources.getResourceAsReader(
-        "org/apache/ibatis/submitted/named_constructor_args/mybatis-config.xml")) {
+    try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/named_constructor_args/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/named_constructor_args/CreateDB.sql");
   }
 
   interface NoMatchingConstructorMapper {
@@ -47,17 +43,14 @@ class InvalidNamedConstructorArgsTest {
   void noMatchingConstructorArgName() {
     Configuration configuration = sqlSessionFactory.getConfiguration();
     when(configuration).addMapper(NoMatchingConstructorMapper.class);
-
     then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining(
-          "'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$NoMatchingConstructorMapper.select-void'")
+      .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$NoMatchingConstructorMapper.select-void'")
       .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.User'")
       .hasMessageContaining("[noSuchConstructorArg]");
   }
 
   interface ConstructorWithWrongJavaType {
-    // There is a constructor with arg name 'id', but
-    // its type is different from the specified javaType.
+    // There is a constructor with arg name 'id', but its type is different from the specified javaType.
     @ConstructorArgs({
         @Arg(column = "id", name = "id", javaType = Integer.class),
     })
@@ -70,15 +63,13 @@ class InvalidNamedConstructorArgsTest {
     Configuration configuration = sqlSessionFactory.getConfiguration();
     when(configuration).addMapper(ConstructorWithWrongJavaType.class);
     then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining(
-          "'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$ConstructorWithWrongJavaType.select-void'")
+      .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$ConstructorWithWrongJavaType.select-void'")
       .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.User'")
       .hasMessageContaining("[id]");
   }
 
   interface ConstructorMissingRequiresJavaType {
-    // There is a constructor with arg name 'id', but its type
-    // is different from the type of a property with the same name.
+    // There is a constructor with arg name 'id', but its type is different from the type of a property with the same name.
     // javaType is required in this case.
     // Debug log shows the detail of the matching error.
     @ConstructorArgs({
@@ -93,8 +84,7 @@ class InvalidNamedConstructorArgsTest {
     Configuration configuration = sqlSessionFactory.getConfiguration();
     when(configuration).addMapper(ConstructorMissingRequiresJavaType.class);
     then(caughtException()).isInstanceOf(BuilderException.class)
-      .hasMessageContaining(
-            "'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$ConstructorMissingRequiresJavaType.select-void'")
+      .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.InvalidNamedConstructorArgsTest$ConstructorMissingRequiresJavaType.select-void'")
       .hasMessageContaining("'org.apache.ibatis.submitted.named_constructor_args.User'")
       .hasMessageContaining("[id]");
   }
