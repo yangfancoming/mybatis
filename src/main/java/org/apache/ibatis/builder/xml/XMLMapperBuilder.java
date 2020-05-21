@@ -294,7 +294,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   /**
-   该函数用于解析映射文件中所有的<resultMap>节点，这些节点会被解析成ResultMap对象，存储在Configuration对象的resultMaps容器中
+   * 该函数用于解析映射文件中所有的<resultMap>节点，这些节点会被解析成ResultMap对象，存储在Configuration对象的resultMaps容器中
    */
   private void resultMapElements(List<XNode> list) throws Exception {
     for (XNode resultMapNode : list) {
@@ -311,6 +311,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings, Class<?> enclosingType) throws Exception {
+    // 保存当前上下文,用于异常信息回溯
     ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
     // 获取<ResultMap>上的type属性（即resultMap的返回值类型）
     String stringAttribute = resultMapNode.getStringAttribute("ofType", resultMapNode.getStringAttribute("resultType", resultMapNode.getStringAttribute("javaType")));

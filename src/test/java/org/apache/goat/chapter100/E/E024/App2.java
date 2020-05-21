@@ -2,13 +2,28 @@ package org.apache.goat.chapter100.E.E024;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Employee2;
+import org.apache.ibatis.builder.xml.XMLMapperBuilder;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Test;
+
+import java.io.InputStream;
 
 
 class App2 extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/E/E024/mybatis-config.xml";
 
+  Configuration configuration = new Configuration();
+
+  @Test
+  void test() throws Exception  {
+    String resource = "org/apache/goat/chapter100/E/E024/EmployeeMapper.xml";
+    try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
+      XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
+      builder.parse();
+    }
+  }
   /**
    *  association 分步查询&延迟加载
    *  运行结果可以看到  只执行了一次 sql

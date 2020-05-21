@@ -18,9 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class XmlMapperBuilderTest {
 
+  Configuration configuration = new Configuration();
+
   @Test
   void shouldSuccessfullyLoadXMLMapperFile() throws Exception {
-    Configuration configuration = new Configuration();
     String resource = "org/apache/ibatis/builder/AuthorMapper.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
@@ -30,12 +31,10 @@ class XmlMapperBuilderTest {
 
   @Test
   void mappedStatementWithOptions() throws Exception {
-    Configuration configuration = new Configuration();
     String resource = "org/apache/ibatis/builder/AuthorMapper.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
       builder.parse();
-
       MappedStatement mappedStatement = configuration.getMappedStatement("selectWithOptions");
       assertThat(mappedStatement.getFetchSize()).isEqualTo(200);
       assertThat(mappedStatement.getTimeout()).isEqualTo(10);
@@ -153,7 +152,6 @@ class XmlMapperBuilderTest {
 
   @Test
   void shouldFailedLoadXMLMapperFile() throws Exception {
-    Configuration configuration = new Configuration();
     String resource = "org/apache/ibatis/builder/ProblemMapper.xml";
     try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
       XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
@@ -164,7 +162,6 @@ class XmlMapperBuilderTest {
 
 //  @Test
 //  public void shouldNotLoadTheSameNamespaceFromTwoResourcesWithDifferentNames() throws Exception {
-//    Configuration configuration = new Configuration();
 //    String resource = "org/apache/ibatis/builder/AuthorMapper.xml";
 //    InputStream inputStream = Resources.getResourceAsStream(resource);
 //    XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, "name1", configuration.getSqlFragments());
@@ -176,7 +173,6 @@ class XmlMapperBuilderTest {
 
    @Test
    public void erorrResultMapLocation() throws Exception {
-     Configuration configuration = new Configuration();
      String resource = "org/apache/ibatis/builder/ProblemResultMapper.xml";
      try (InputStream inputStream = Resources.getResourceAsStream(resource)) {
        XMLMapperBuilder builder = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());

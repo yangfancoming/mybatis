@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="org.apache.goat.chapter100.E.E014.EmployeeMapper">
-
 
   <!--   联合查询：级联属性封装结果集
     场景一：
@@ -22,7 +20,6 @@
     <result property="dept.departmentName" column="dept_name" />
   </resultMap>
 
-
   <select id="getEmpAndDept" resultMap="MyDifEmp">
     select e.id as empId,e.email,e.last_name ,e.gender,
            d.id as deptId ,d.dept_name
@@ -30,10 +27,5 @@
     on e.d_id = d.id
     where e.id = #{id}
   </select>
-
-
-
-
-
 
 </mapper>

@@ -9,7 +9,6 @@
         2、根据查询员工信息中的d_id值去部门表查出部门信息
         3、将部门设置到员工中；
      -->
-
   <resultMap type="org.apache.goat.common.model.Employee2" id="MyEmpByStep">
     <id property="id" column="id" />
     <result property="lastName" column="last_name" />

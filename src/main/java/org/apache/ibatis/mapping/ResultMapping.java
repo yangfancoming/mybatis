@@ -279,5 +279,4 @@ public class ResultMapping {
     sb.append('}');
     return sb.toString();
   }
-
 }
