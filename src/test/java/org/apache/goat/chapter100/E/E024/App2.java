@@ -31,8 +31,6 @@ class App2 extends MyBaseDataTest {
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
     Employee2 employee = mapper.getEmpByIdStep(1);
     // 涉及到  dept 对象了  会查询2次  不能延时加载了
-    System.out.println(employee);
+    System.out.println(employee.getDept());
   }
-
-
 }
