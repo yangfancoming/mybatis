@@ -97,15 +97,24 @@ public class XNode {
 
   /**
    * 不明白是干什么的，反正是觉得应该是mybatis自己应用解析模式吧
+   *  生成元素节点的基础 id
+   *  如果是这样子的 XML <employee id="${id_var}">
+   *  我们调用     XNode node = parser.evalNode("/employee/height");
+   *               node.getValueBasedIdentifier();
+   *  则， 返回值应该是   employee[${id_var}]_height
    */
   public String getValueBasedIdentifier() {
     StringBuilder builder = new StringBuilder();
     XNode current = this;
+    // 当前的节点不为空
     while (current != null) {
+      // 如果节点不等于 this， 则在0之前插入 _ 符号， 因为是不断的获取父节点的， 因此是插在前面
       if (current != this) {
         builder.insert(0, "_");
       }
+      // 获取 id， id不存在则获取value, value不存在则获取 property。
       String value = current.getStringAttribute("id", current.getStringAttribute("value", current.getStringAttribute("property", null)));
+      // value 非空， 则将.替换为_， 并将value的值加上 []
       if (value != null) {
         value = value.replace('.', '_');
         // 注意StringBuilder使用的插入模式，好像这个是的动态的字符串，，可以随便的插入和删除操作，很方便
@@ -113,7 +122,9 @@ public class XNode {
         builder.insert(0,  value);
         builder.insert(0, "[");
       }
+      // 不管 value 是否存在， 前面都添加上节点的名称
       builder.insert(0, current.getName());
+      // 获取父节点
       current = current.getParent();
     }
     return builder.toString();

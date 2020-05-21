@@ -133,14 +133,28 @@ public class MapperBuilderAssistant extends BaseBuilder {
     return new ParameterMapping.Builder(configuration, property, javaTypeClass).jdbcType(jdbcType).resultMapId(resultMap).mode(parameterMode).numericScale(numericScale).typeHandler(typeHandlerInstance).build();
   }
 
+  /**
+   * 创建并添加 ResultMap 到 Configuration 对象中
+   * @param id id, 配置了 id 可以提高效率
+   * @param type 类型
+   * @param extend 继承
+   * @param discriminator 鉴别器
+   * @param resultMappings 列集
+   * @param autoMapping 是否自动映射
+   * @return 返回创建的 ResultMap 对象
+   */
   public ResultMap addResultMap(String id,Class<?> type, String extend, Discriminator discriminator,List<ResultMapping> resultMappings, Boolean autoMapping) {
     id = applyCurrentNamespace(id, false);
     extend = applyCurrentNamespace(extend, true);
     if (extend != null) {
       if (!configuration.hasResultMap(extend)) throw new IncompleteElementException("Could not find a parent resultmap with id '" + extend + "'");
+      // 从 configuration 中获取继承的结果集
       ResultMap resultMap = configuration.getResultMap(extend);
+      // 获取所集成结果集的所有 ResultMapping 集合
       List<ResultMapping> extendedResultMappings = new ArrayList<>(resultMap.getResultMappings());
+      // 移除需要覆盖的 ResultMapping 集合
       extendedResultMappings.removeAll(resultMappings);
+      // 如果该 resultMap 中定义了构造节点， 则移除其父节点的构造器
       // Remove parent constructor if this resultMap declares a constructor.
       boolean declaresConstructor = false;
       for (ResultMapping resultMapping : resultMappings) {
@@ -152,9 +166,12 @@ public class MapperBuilderAssistant extends BaseBuilder {
       if (declaresConstructor) {
         extendedResultMappings.removeIf(resultMapping -> resultMapping.getFlags().contains(ResultFlag.CONSTRUCTOR));
       }
+      // 添加需要被继承的 ResultMapping 集合
       resultMappings.addAll(extendedResultMappings);
     }
+    // 通过建造者模式创建 ResultMap 对象
     ResultMap resultMap = new ResultMap.Builder(configuration, id, type, resultMappings, autoMapping).discriminator(discriminator).build();
+    // 添加到 Configuration 对象中
     configuration.addResultMap(resultMap);
     return resultMap;
   }

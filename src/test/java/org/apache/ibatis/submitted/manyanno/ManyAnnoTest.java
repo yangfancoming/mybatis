@@ -26,8 +26,6 @@ class ManyAnnoTest extends BaseDataTest {
 
       PostMapper mapper = session.getMapper(PostMapper.class);
       List<AnnoPost> posts = mapper.getPosts(101);
-
-
       assertEquals(3, posts.size());
       assertEquals(3, posts.get(0).getTags().size());
       assertEquals(1, posts.get(1).getTags().size());
