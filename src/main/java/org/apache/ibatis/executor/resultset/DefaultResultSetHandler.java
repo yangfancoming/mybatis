@@ -164,6 +164,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     int resultMapCount = resultMaps.size();
     validateResultMapsCount(rsw, resultMapCount);
+    // 循环遍历剩下的结果集合
     while (rsw != null && resultMapCount > resultSetCount) {
       ResultMap resultMap = resultMaps.get(resultSetCount);
       //根据resultMap处理rsw生成java对象

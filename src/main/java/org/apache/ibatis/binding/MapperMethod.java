@@ -65,24 +65,24 @@ public class MapperMethod {
         result = rowCountResult(sqlSession.delete(command.getName(), param));
         break;
       }
-      //查询语句的各种情况应对
+      // 查询语句的各种情况应对
       case SELECT:
-        //如果返回void 并且参数有resultHandler  ,则调用 void select(String statement, Object parameter, ResultHandler handler);方法
+        // 如果返回void 并且参数有resultHandler  ,则调用 void select(String statement, Object parameter, ResultHandler handler);方法
         if (method.returnsVoid() && method.hasResultHandler()) {
-          //如果有结果处理器
+          // 如果有结果处理器
           executeWithResultHandler(sqlSession, args);
           result = null;
         } else if (method.returnsMany()) {
-          //如果返回多行结果,executeForMany这个方法调用 <E> List<E> selectList(String statement, Object parameter);
-          //如果结果有多条记录
+          // 如果返回多行结果,executeForMany这个方法调用 <E> List<E> selectList(String statement, Object parameter);
+          // 如果结果有多条记录
           result = executeForMany(sqlSession, args);
         } else if (method.returnsMap()) {
-          //如果返回类型是MAP 则调用executeForMap方法
+          // 如果返回类型是MAP 则调用executeForMap方法
           result = executeForMap(sqlSession, args);
         } else if (method.returnsCursor()) {
           result = executeForCursor(sqlSession, args);
         } else {
-          //否则就是查询单个对象  一条记录
+          // 否则就是查询单个对象  一条记录
           Object param = method.convertArgsToSqlCommandParam(args); // doit  这行代码 四种情况都会用到为啥不拿出来放在本函数的第一行？？？
           result = sqlSession.selectOne(command.getName(), param);
           if (method.returnsOptional() && (result == null || !method.getReturnType().equals(result.getClass()))) {
@@ -94,17 +94,17 @@ public class MapperMethod {
         result = sqlSession.flushStatements();
         break;
       default:
-        //接口方法没有和sql命令绑定
+        // 接口方法没有和sql命令绑定
         throw new BindingException("Unknown execution method for: " + command.getName());
     }
-    //如果返回值为空 并且方法返回值类型是基础类型 并且不是VOID 则抛出异常
+    // 如果返回值为空 并且方法返回值类型是基础类型 并且不是VOID 则抛出异常
     if (result == null && method.getReturnType().isPrimitive() && !method.returnsVoid()) {
       throw new BindingException("Mapper method '" + command.getName() + " attempted to return null from a method with a primitive return type (" + method.getReturnType() + ").");
     }
     return result;
   }
 
-  //这个方法对返回值的类型进行了一些检查，使得更安全
+  // 这个方法对返回值的类型进行了一些检查，使得更安全
   private Object rowCountResult(int rowCount) {
     final Object result;
     if (method.returnsVoid()) {

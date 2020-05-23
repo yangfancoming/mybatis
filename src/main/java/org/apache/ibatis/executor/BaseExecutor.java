@@ -98,12 +98,12 @@ public abstract class BaseExecutor implements Executor {
     return doFlushStatements(isRollBack);
   }
 
-  //SqlSession.selectList会调用此方法
+  // SqlSession.selectList会调用此方法
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     // 获取查询SQL   1.根据具体传入的参数，动态地生成需要执行的SQL语句，用BoundSql对象表示
     BoundSql boundSql = ms.getBoundSql(parameter);
-    //创建缓存的key  2.为当前的查询创建一个缓存Key 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
+    // 创建缓存的key  2.为当前的查询创建一个缓存Key 创建缓存的key，创建逻辑在 CacheKey中已经分析过了
     CacheKey key = createCacheKey(ms, parameter, rowBounds, boundSql);
     // 执行查询
     return query(ms, parameter, rowBounds, resultHandler, key, boundSql);
@@ -136,7 +136,7 @@ public abstract class BaseExecutor implements Executor {
       queryStack--;
     }
     if (queryStack == 0) {
-      //延迟加载队列中所有元素
+      // 延迟加载队列中所有元素
       for (DeferredLoad deferredLoad : deferredLoads) {
         deferredLoad.load();
       }
@@ -168,7 +168,7 @@ public abstract class BaseExecutor implements Executor {
     }
   }
 
-  //创建缓存key
+  // 创建缓存key
   @Override
   public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds, BoundSql boundSql) {
     if (closed) throw new ExecutorException("Executor was closed.");
@@ -382,7 +382,5 @@ public abstract class BaseExecutor implements Executor {
       Object value = resultExtractor.extractObjectFromList(list, targetType);
       resultObject.setValue(property, value);
     }
-
   }
-
 }

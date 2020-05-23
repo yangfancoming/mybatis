@@ -46,7 +46,6 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
      *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
      *  1.先判断执行的方法是不是Object类的方法，比如toString()，hashcode() 等方法，是的话则直接反射执行这些方法
      *  2.如果不是，从缓存中获取MapperMethod，如果为空则创建并加入缓存，然后执行sql语句
-     *  org.apache.goat.chapter100.E001.EmployeeMapper
      */
     try {
       if (Object.class.equals(method.getDeclaringClass())) { // 如果是Object中的方法 则直接放行 #测试用例 org.apache.goat.chapter700.A.App
