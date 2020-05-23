@@ -14,7 +14,7 @@ class App2 extends MyBaseDataTest {
   /**
    * 正常查询 可以看到 lastName='null'  因为 Employee实体类的lastName属性  与 数据库表中的 last_name字段  不对应，
    * 执行结果为： Employee{id=1, lastName='null', email='tom@qq.com', gender='0'}
-   * 但是加上：EmployeeMapper.xml 局部配置文件中的 <result property="lastName" column="last_name" />  后执行结果为：
+   * 但是在 EmployeeMapper.xml 局部配置文件中加上 <result property="lastName" column="last_name" />  后执行结果为：
    * Employee{id=1, lastName='tom', email='tom@qq.com', gender='0'}
    * @see XMLMapperBuilder#resultMapElements(java.util.List)
    */
@@ -25,5 +25,4 @@ class App2 extends MyBaseDataTest {
     Employee employee = mapper.getEmpById2(1);
     System.out.println(employee);
   }
-
 }
