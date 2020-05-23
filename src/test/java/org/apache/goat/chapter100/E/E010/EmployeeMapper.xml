@@ -38,12 +38,11 @@
   </resultMap>
 
   <!-- resultMap:自定义结果集映射规则；  -->
-  <!-- public Employee getEmpById(Integer id); -->
-  <select id="getEmpById"  resultMap="MySimpleEmp">
+  <select id="testWithResultMap"  resultMap="MySimpleEmp">
     select * from tbl_employee where id=#{id}
   </select>
 
-  <select id="getEmpById2" resultType="org.apache.goat.common.model.Employee">
+  <select id="testWithNoResultMap" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id}
   </select>
 </mapper>

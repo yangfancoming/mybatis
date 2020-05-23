@@ -5,7 +5,7 @@ import org.apache.goat.common.model.Employee;
 
 public interface EmployeeMapper {
 
-  public Employee getEmpById(Integer id);
+   Employee testWithResultMap(Integer id);
 
-  public Employee getEmpById2(Integer id);
+   Employee testWithNoResultMap(Integer id);
 }
