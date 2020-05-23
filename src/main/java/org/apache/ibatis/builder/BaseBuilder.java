@@ -126,13 +126,13 @@ public abstract class BaseBuilder {
 
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, String typeHandlerAlias) {
     if (typeHandlerAlias == null) return null;
-    //通过类型别名映射解析别名
+    // 通过类型别名映射解析别名
     Class<?> type = resolveClass(typeHandlerAlias);
-    //如果type不为null且type不为TypeHandler接口的实现类，抛出异常
+    // 如果type不为null且type不为TypeHandler接口的实现类，抛出异常
     if (type != null && !TypeHandler.class.isAssignableFrom(type)) {
       throw new BuilderException("Type " + type.getName() + " is not a valid TypeHandler because it does not implement TypeHandler interface");
     }
-    //将type强制转换成TypeHandler的实现类
+    // 将type强制转换成TypeHandler的实现类
     @SuppressWarnings("unchecked") // already verified it is a TypeHandler
     Class<? extends TypeHandler<?>> typeHandlerType = (Class<? extends TypeHandler<?>>) type;
     return resolveTypeHandler(javaType, typeHandlerType);
@@ -141,9 +141,9 @@ public abstract class BaseBuilder {
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, Class<? extends TypeHandler<?>> typeHandlerType) {
     if (typeHandlerType == null)  return null;
     // javaType ignored for injected handlers see issue #746 for full detail
-    //从类型处理器注册器中获取typeHandlerType类实例对应的TypeHandler对象
+    // 从类型处理器注册器中获取typeHandlerType类实例对应的TypeHandler对象
     TypeHandler<?> handler = typeHandlerRegistry.getMappingTypeHandler(typeHandlerType);
-    //如果handler对象为null，从类型处理器注册器中获取以javaType为构造参数来构造的typeHandlerType的实例对象
+    // 如果handler对象为null，从类型处理器注册器中获取以javaType为构造参数来构造的typeHandlerType的实例对象
     // not in registry, create a new one
     if (handler == null) handler = typeHandlerRegistry.getInstance(javaType, typeHandlerType);
     return handler;

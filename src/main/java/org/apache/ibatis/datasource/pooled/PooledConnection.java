@@ -14,21 +14,21 @@ class PooledConnection implements InvocationHandler {
   private static final Class<?>[] IFACES = new Class<?>[] { Connection.class };
 
   private final int hashCode;
-  //记录当前连接所在的数据源对象，本次连接是由这个数据源创建的，关闭后也是回到这个数据源；
+  // 记录当前连接所在的数据源对象，本次连接是由这个数据源创建的，关闭后也是回到这个数据源；
   private final PooledDataSource dataSource;
-  //真正的连接对象
+  // 真正的连接对象
   private final Connection realConnection;
-  //连接的代理对象
+  // 连接的代理对象
   private final Connection proxyConnection;
-  //从数据源取出来连接的时间戳
+  // 从数据源取出来连接的时间戳
   private long checkoutTimestamp;
-  //连接创建的的时间戳
+  // 连接创建的的时间戳
   private long createdTimestamp;
-  //连接最后一次使用的时间戳
+  // 连接最后一次使用的时间戳
   private long lastUsedTimestamp;
-  //根据数据库url、用户名、密码生成一个hash值，唯一标识一个连接池
+  // 根据数据库url、用户名、密码生成一个hash值，唯一标识一个连接池
   private int connectionTypeCode;
-  //连接是否有效
+  // 连接是否有效
   private boolean valid;
 
   /**
@@ -209,20 +209,20 @@ class PooledConnection implements InvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     String methodName = method.getName();
-    //1.对于PooledDataSource，如果realConnection调用了close方法，那么就回收该连接，并不是直接关闭
+    // 1.对于PooledDataSource，如果realConnection调用了close方法，那么就回收该连接，并不是直接关闭
     if (CLOSE.hashCode() == methodName.hashCode() && CLOSE.equals(methodName)) {
       dataSource.pushConnection(this);
       return null;
     }
     try {
-      //2.如果不是close方法，也不是Object类定义的方法，那么在执行这个方法之前检查下连接还是否合法，只通过valid检查，
-      //如果不合法的话，就跑出异常了，
+      // 2.如果不是close方法，也不是Object类定义的方法，那么在执行这个方法之前检查下连接还是否合法，只通过valid检查，
+      // 如果不合法的话，就跑出异常了，
       if (!Object.class.equals(method.getDeclaringClass())) {
         // issue #579 toString() should never fail
         // throw an SQLException instead of a Runtime
         checkConnection();
       }
-      //3.如果是Object类定义的方法，那么就直接执行，比如toString方法，不会检查valid，总会成功的。
+      // 3.如果是Object类定义的方法，那么就直接执行，比如toString方法，不会检查valid，总会成功的。
       return method.invoke(realConnection, args);
     } catch (Throwable t) {
       throw ExceptionUtil.unwrapThrowable(t);

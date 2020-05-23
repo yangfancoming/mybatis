@@ -100,17 +100,17 @@ public class MapperAnnotationBuilder {
   }
 
   public void parse() {
-    //获取接口类的名字，比如com.jing.test.TestMapper的输出为class com.jing.test.TestMapper
+    // 获取接口类的名字，比如com.jing.test.TestMapper的输出为class com.jing.test.TestMapper
     String resource = type.toString(); // interface org.apache.goat.chapter100.A.A044.FooMapper
     if (configuration.isResourceLoaded(resource)) return; // -modify 如果已经解析过了 则直接返回
-    //加载xml文件，这里可以看出是通过Class文件取寻找XML文件
+    // 加载xml文件，这里可以看出是通过Class文件取寻找XML文件
     loadXmlResource();
     configuration.addLoadedResource(resource);
     // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
     assistant.setCurrentNamespace(type.getName());
     parseCache();
     parseCacheRef();
-    //获得class类中的方法
+    // 获得class类中的方法
     Method[] methods = type.getMethods();
     for (Method method : methods) {
       try {
@@ -170,7 +170,7 @@ public class MapperAnnotationBuilder {
         }
       }
       if (inputStream != null) {
-        //解析相应的mapper xml // 解析局部配置文件 解析局部xml配置
+        // 解析相应的mapper xml // 解析局部配置文件 解析局部xml配置
         XMLMapperBuilder xmlParser = new XMLMapperBuilder(inputStream, assistant.getConfiguration(), xmlResource, configuration.getSqlFragments(), type.getName());
         xmlParser.parse();
       }

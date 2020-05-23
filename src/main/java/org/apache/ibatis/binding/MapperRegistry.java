@@ -75,7 +75,7 @@ public class MapperRegistry {
    * 而最终解析的产物：mappedstatement依然会被configuration实例持有放在mappedStatements的map中：
    */
   public void addMappers(String packageName, Class<?> superType) {
-    //查找包下所有是superType的类
+    // 查找包下所有是superType的类
     ResolverUtil<Class<?>> resolverUtil = new ResolverUtil<>();
     // 给 ResolverUtil类的 matches 赋值
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
@@ -104,11 +104,11 @@ public class MapperRegistry {
   public <T> void addMapper(Class<T> type) {
     // 忽略掉所有非接口类，mapper必须是接口类 interface才会被添加！
     if (!type.isInterface()) return; // -modify
-    //检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
+    // 检测是否已经加载过该接口，如果重复添加了，抛出绑定异常
     if (hasMapper(type)) throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     boolean loadCompleted = false;
     try {
-      //将mapper接口包装成mapper代理  全局唯一入口
+      // 将mapper接口包装成mapper代理  全局唯一入口
       MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
       // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
       knownMappers.put(type, tMapperProxyFactory);
@@ -117,12 +117,12 @@ public class MapperRegistry {
        在运行分析器之前添加类型很重要。 否则，绑定可能会被 映射器分析器。如果类型已知，则不会尝试。
        解析接口上的注解或者加载mapper配置文件生成mappedStatement
        */
-      //这里就是关键处理类了，对可能存在注解的MapperInterface接口进行处理
+      // 这里就是关键处理类了，对可能存在注解的MapperInterface接口进行处理
       MapperAnnotationBuilder parser = new MapperAnnotationBuilder(config, type);
       parser.parse();
       loadCompleted = true;
     } finally {
-      //如果加载过程中出现异常需要再将这个mapper从mybatis中删除,这种方式比较丑陋吧，难道是不得已而为之？
+      // 如果加载过程中出现异常需要再将这个mapper从mybatis中删除,这种方式比较丑陋吧，难道是不得已而为之？
       if (!loadCompleted) {
         knownMappers.remove(type);
       }

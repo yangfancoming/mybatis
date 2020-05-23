@@ -28,14 +28,14 @@ public class SqlSourceBuilder extends BaseBuilder {
   }
 
   public SqlSource parse(String originalSql, Class<?> parameterType, Map<String, Object> additionalParameters) {
-    // 对#{}这样的字符串内容的解析处理类 //创建TokenHandler，用来将原始Sql中的'#{}' 解析成'?'
+    // 对#{}这样的字符串内容的解析处理类 // 创建TokenHandler，用来将原始Sql中的'#{}' 解析成'?'
     ParameterMappingTokenHandler handler = new ParameterMappingTokenHandler(configuration, parameterType, additionalParameters);
-    //创建sql语句解析器   星井 # 在这里解析
+    // 创建sql语句解析器   星井 # 在这里解析
     GenericTokenParser parser = new GenericTokenParser("#{", "}", handler);
-    // 获取真实的可执行性的sql语句 //解析原始sql
+    // 获取真实的可执行性的sql语句 // 解析原始sql
     // select * from tbl_employee where id = #{id}   select * from tbl_employee where id = ?
     String sql = parser.parse(originalSql);
-    // 包装成StaticSqlSource返回   //创建出StaticSqlSource对象
+    // 包装成StaticSqlSource返回   // 创建出StaticSqlSource对象
     return new StaticSqlSource(configuration, sql, handler.getParameterMappings());
   }
 
@@ -62,12 +62,12 @@ public class SqlSourceBuilder extends BaseBuilder {
       // 将#{}替换为?，即一般包装成`select * form test where name=? and age=?`预表达式语句
       return "?";
     }
-    //构建ParameterMapping 包含每个占位符属性的信息，如：jdbcType、javaType、typeHandler、property等等
+    // 构建ParameterMapping 包含每个占位符属性的信息，如：jdbcType、javaType、typeHandler、property等等
     private ParameterMapping buildParameterMapping(String content) {
       Map<String, String> propertiesMap = parseParameterMapping(content);
       String property = propertiesMap.get("property");
       Class<?> propertyType;
-      //获取该字段或者属性的类型
+      // 获取该字段或者属性的类型
       if (metaParameters.hasGetter(property)) { // issue #448 get type from additional params
         propertyType = metaParameters.getGetterType(property);
       } else if (typeHandlerRegistry.hasTypeHandler(parameterType)) {
@@ -84,7 +84,7 @@ public class SqlSourceBuilder extends BaseBuilder {
           propertyType = Object.class;
         }
       }
-      //构建ParameterMapping
+      // 构建ParameterMapping
       ParameterMapping.Builder builder = new ParameterMapping.Builder(configuration, property, propertyType);
       Class<?> javaType = propertyType;
       String typeHandlerAlias = null;

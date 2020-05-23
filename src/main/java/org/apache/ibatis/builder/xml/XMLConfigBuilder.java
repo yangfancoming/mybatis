@@ -79,7 +79,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   public XMLConfigBuilder(Reader reader, String environment, Properties props) {
-    //    System.out.println(111); //   报错：  Constructor call must be the first statement in a constructor
+    // System.out.println(111); // 报错：  Constructor call must be the first statement in a constructor
     this(new XPathParser(reader, true, props, new XMLMapperEntityResolver()), environment, props);
   }
 
@@ -575,19 +575,19 @@ public class XMLConfigBuilder extends BaseBuilder {
         String resource = child.getStringAttribute("resource");
         String url = child.getStringAttribute("url");
         String mapperClass = child.getStringAttribute("class");
-        //1.4 按照resource属性实例化XMLMapperBuilder来解析xml配置文件
+        // 1.4 按照resource属性实例化XMLMapperBuilder来解析xml配置文件
         if (resource != null && url == null && mapperClass == null) { // 解析resource属性（Mapper.xml文件的路径）  <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
           log.warn("发现 <mapper> 节点 使用 resource 属性方式");
           ErrorContext.instance().resource(resource);
           InputStream inputStream = Resources.getResourceAsStream(resource); // 将Mapper.xml文件解析成输入流
           // 使用XMLMapperBuilder解析Mapper.xml，并将Mapper Class注册进configuration对象的mapperRegistry容器中
           XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
-          //1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
+          // 1.5解析配置，因为XMLMapperBuilder继承了BaseBuilder，BaseBuilder内部持有Configuration对象，因此XMLMapperBuilder解析之后直接把配置设置到Configuration对象
           // 第二部分：是解析xml配置，根据xml配置来生成mappedstatement
           mapperParser.parse();
         } else if (resource == null && url != null && mapperClass == null) {  // 解析url属性（Mapper.xml文件的路径） <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
           log.warn("发现 <mapper> 节点 使用 url 属性方式");
-          //1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件
+          // 1.6 按照url属性实例化XMLMapperBuilder来解析xml配置文件
           ErrorContext.instance().resource(url);
           InputStream inputStream = Resources.getUrlAsStream(url);
           // 通过读取resource或url属性得到xml的访问路径后，交给XMLMapperBuilder对象来解析
@@ -595,13 +595,13 @@ public class XMLConfigBuilder extends BaseBuilder {
           mapperParser.parse();
         } else if (resource == null && url == null && mapperClass != null) { // 解析class属性（Mapper Class的全限定名）  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
           log.warn("发现 <mapper> 节点 使用 class 属性方式");
-          //1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
+          // 1.7 按照class属性实例化XMLMapperBuilder来解析xml配置文件
           // 将Mapper Class的全限定名转化成Class对象
           Class<?> mapperInterface = Resources.classForName(mapperClass);
           // 注册进configuration对象的mapperRegistry容器中
           configuration.addMapper(mapperInterface);
         } else {
-          //resource、url和class三者是互斥的，配置了多个或者不配置都抛出异常
+          // resource、url和class三者是互斥的，配置了多个或者不配置都抛出异常
           throw new BuilderException("A mapper element may only specify a url, resource or class, but not more than one.");
         }
       }

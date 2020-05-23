@@ -33,9 +33,9 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class MapperMethod {
 
-  //一个内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
+  // 一个内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
   private final SqlCommand command;
-  //一个内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
+  // 一个内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -110,20 +110,20 @@ public class MapperMethod {
     if (method.returnsVoid()) {
       result = null;
     } else if (Integer.class.equals(method.getReturnType()) || Integer.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大int或小int
+      // 如果返回值是大int或小int
       result = rowCount;
     } else if (Long.class.equals(method.getReturnType()) || Long.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大long或小long
+      // 如果返回值是大long或小long
       result = (long)rowCount;
     } else if (Boolean.class.equals(method.getReturnType()) || Boolean.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大boolean或小boolean
+      // 如果返回值是大boolean或小boolean
       result = rowCount > 0;
     } else {
       throw new BindingException("Mapper method '" + command.getName() + "' has an unsupported return type: " + method.getReturnType());
     }
     return result;
   }
-  //结果处理器
+  // 结果处理器
   private void executeWithResultHandler(SqlSession sqlSession, Object[] args) {
     MappedStatement ms = sqlSession.getConfiguration().getMappedStatement(command.getName());
     if (!StatementType.CALLABLE.equals(ms.getStatementType()) && void.class.equals(ms.getResultMaps().get(0).getType())) {
@@ -151,17 +151,17 @@ public class MapperMethod {
     return result;
   }
 
-  //返回多行结果 调用sqlSession.selectList方法
+  // 返回多行结果 调用sqlSession.selectList方法
   private <E> Object executeForMany(SqlSession sqlSession, Object[] args) {
     List<E> result;
     // param： Employee{id=2, lastName='jane', email='jane@qq.com', gender='1'}
     Object param = method.convertArgsToSqlCommandParam(args);
     if (method.hasRowBounds()) {
-      //如果参数含有rowBounds则调用分页的查询
+      // 如果参数含有rowBounds则调用分页的查询
       RowBounds rowBounds = method.extractRowBounds(args);
       result = sqlSession.selectList(command.getName(), param, rowBounds);
     } else {
-      //没有分页则调用普通查询
+      // 没有分页则调用普通查询
       result = sqlSession.selectList(command.getName(), param);
     }
     // issue #510 Collections & arrays support
@@ -208,7 +208,7 @@ public class MapperMethod {
     }
   }
 
-  //参数map，静态内部类,更严格的get方法，如果没有相应的key，报错
+  // 参数map，静态内部类,更严格的get方法，如果没有相应的key，报错
   public static class ParamMap<V> extends HashMap<String, V> {
     private static final long serialVersionUID = -2212268410512043556L;
     @Override
@@ -247,7 +247,7 @@ public class MapperMethod {
       } else {
         // 设置 name 和 type 变量  //这个ms.getId，其实就是我们在mapper.xml配置文件中配置一条sql语句设置的id属性的值
         name = ms.getId();
-        //sql的类型（insert、update、delete、select）
+        // sql的类型（insert、update、delete、select）
         type = ms.getSqlCommandType();
         if (type == SqlCommandType.UNKNOWN) {
           //判断SQL标签类型 未知就抛异常
@@ -265,7 +265,7 @@ public class MapperMethod {
     }
 
     private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName, Class<?> declaringClass, Configuration configuration) {
-      //如果不是这个mapper接口的方法，再去查父类
+      // 如果不是这个mapper接口的方法，再去查父类
       String statementId = mapperInterface.getName() + "." + methodName;
       if (configuration.hasStatement(statementId)) {
         return configuration.getMappedStatement(statementId);
@@ -289,21 +289,21 @@ public class MapperMethod {
    * 方法签名,封装了接口当中方法的 参数类型 返回值类型 等信息
    */
   public static class MethodSignature {
-    //是否返回多条结果
+    // 是否返回多条结果
     private final boolean returnsMany;
-    //返回值是否是MAP
+    // 返回值是否是MAP
     private final boolean returnsMap;
-    //返回值是否是VOID
+    // 返回值是否是VOID
     private final boolean returnsVoid;
     private final boolean returnsCursor;
     private final boolean returnsOptional;
-    //返回值类型
+    // 返回值类型
     private final Class<?> returnType;
     private final String mapKey;
-    //记下ResultHandler是第几个参数 //resultHandler类型参数的位置
+    // 记下ResultHandler是第几个参数 //resultHandler类型参数的位置
     private final Integer resultHandlerIndex;
-    //以下重复循环2遍调用getUniqueParamIndex，是不是降低效率了
-    //记下RowBounds是第几个参数
+    // 以下重复循环2遍调用getUniqueParamIndex，是不是降低效率了
+    // 记下RowBounds是第几个参数
     private final Integer rowBoundsIndex; //rowBound类型参数的位置
     private final ParamNameResolver paramNameResolver; //用来存放参数信息
 

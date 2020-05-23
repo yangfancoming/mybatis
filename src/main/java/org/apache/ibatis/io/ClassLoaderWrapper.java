@@ -86,7 +86,7 @@ public class ClassLoaderWrapper {
    * @return the resource or null
    */
   InputStream getResourceAsStream(String resource, ClassLoader[] classLoader) {
-    //循环ClassLoader 数组
+      // 循环ClassLoader 数组
     for (ClassLoader cl : classLoader) {
       if (cl == null) continue; // -modify
       // try to find the resource as passed  // 根据入参resource，读取该路径下文件
@@ -94,7 +94,7 @@ public class ClassLoaderWrapper {
       // now, some class loaders want this leading "/", so we'll add it and try again if we didn't find the resource
       // 如果没有，加上“/”再尝试读取
       if (null == returnValue) returnValue = cl.getResourceAsStream("/" + resource);
-      //如果读取到，终止循环，返回结果
+      // 如果读取到，终止循环，返回结果
       if (null != returnValue) return returnValue;
     }
     return null;
@@ -108,7 +108,7 @@ public class ClassLoaderWrapper {
    */
   URL getResourceAsURL(String resource, ClassLoader[] classLoader) {
     URL url;
-    //循环ClassLoader，通过指定或者默认的ClassLoader读取文件
+    // 循环ClassLoader，通过指定或者默认的ClassLoader读取文件
     for (ClassLoader cl : classLoader) {
       if (cl == null) continue; // -modify
       // look for the resource as passed in...
@@ -147,9 +147,9 @@ public class ClassLoaderWrapper {
 
   ClassLoader[] getClassLoaders(ClassLoader classLoader) {
     return new ClassLoader[]{
-      classLoader,  //参数指定的类加载器
+      classLoader,  // 参数指定的类加载器
       defaultClassLoader, // 系统指定的默认加载器
-      Thread.currentThread().getContextClassLoader(),//当前线程绑定的类加载器
+      Thread.currentThread().getContextClassLoader(),// 当前线程绑定的类加载器
       getClass().getClassLoader(), // 当前类使用的类加载器
       systemClassLoader // System ClassLoader(App ClassLoader)
     };

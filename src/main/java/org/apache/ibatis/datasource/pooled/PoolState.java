@@ -11,25 +11,25 @@ import java.util.List;
 public class PoolState {
 
   protected PooledDataSource dataSource;
-  //空闲的连接池资源集合
+  // 空闲的连接池资源集合
   protected final List<PooledConnection> idleConnections = new ArrayList<>();
-  //活跃的连接池资源集合
+  // 活跃的连接池资源集合
   protected final List<PooledConnection> activeConnections = new ArrayList<>();
-  //请求的次数
+  // 请求的次数
   protected long requestCount = 0;
-  //累计的获得连接的时间
+  // 累计的获得连接的时间
   protected long accumulatedRequestTime = 0;
-  //累计的使用连接的时间。从连接取出到归还，算一次使用的时间；
+  // 累计的使用连接的时间。从连接取出到归还，算一次使用的时间；
   protected long accumulatedCheckoutTime = 0;
-  //使用连接超时的次数
+  // 使用连接超时的次数
   protected long claimedOverdueConnectionCount = 0;
-  //累计超时时间
+  // 累计超时时间
   protected long accumulatedCheckoutTimeOfOverdueConnections = 0;
-  //累计等待时间
+  // 累计等待时间
   protected long accumulatedWaitTime = 0;
-  //等待次数
+  // 等待次数
   protected long hadToWaitCount = 0;
-  //无效的连接次数
+  // 无效的连接次数
   protected long badConnectionCount = 0;
 
   public PoolState(PooledDataSource dataSource) {

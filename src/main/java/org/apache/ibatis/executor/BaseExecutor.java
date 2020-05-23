@@ -110,7 +110,7 @@ public abstract class BaseExecutor implements Executor {
   }
 
   // 它封装了缓存逻辑，如果缓存中无法找到，则从数据库中查询，而具体的查询实现doQuery被延迟到了子类来实现
-  //先清局部缓存，再查询，但仅仅查询堆栈为0才清，为了处理递归调用
+  // 先清局部缓存，再查询，但仅仅查询堆栈为0才清，为了处理递归调用
   @SuppressWarnings("unchecked")
   @Override
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
@@ -161,7 +161,7 @@ public abstract class BaseExecutor implements Executor {
   public void deferLoad(MappedStatement ms, MetaObject resultObject, String property, CacheKey key, Class<?> targetType) {
     if (closed) throw new ExecutorException("Executor was closed.");
     DeferredLoad deferredLoad = new DeferredLoad(resultObject, property, key, localCache, configuration, targetType);
-    if (deferredLoad.canLoad()) { //如果能加载则立即加载，否则加入到延迟加载队列中
+    if (deferredLoad.canLoad()) { // 如果能加载则立即加载，否则加入到延迟加载队列中
       deferredLoad.load();
     } else {
       deferredLoads.add(new DeferredLoad(resultObject, property, key, localCache, configuration, targetType));

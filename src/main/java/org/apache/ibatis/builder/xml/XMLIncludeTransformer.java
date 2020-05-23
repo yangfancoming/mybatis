@@ -48,12 +48,12 @@ public class XMLIncludeTransformer {
    * @param variablesContext Current context for static variables with values
    */
   private void applyIncludes(Node source, final Properties variablesContext, boolean included) {
-    //拿到SQL片段  走到这里，单独解析<include refid="userColumns"/>
+    // 拿到SQL片段  走到这里，单独解析<include refid="userColumns"/>
     if (source.getNodeName().equals("include")) {
       Node toInclude = findSqlFragment(getStringAttribute(source, "refid"), variablesContext);
-      //获取<include>标签中的<property>中的值:{tableName=author}
+      // 获取<include>标签中的<property>中的值:{tableName=author}
       Properties toIncludeContext = getVariablesContext(source, variablesContext);
-      //递归调用applyIncludes，会进入2中为 Node attr设置table_name,接着会进入4再次递归，这次递归进入3，为tableName设值author
+      // 递归调用applyIncludes，会进入2中为 Node attr设置table_name,接着会进入4再次递归，这次递归进入3，为tableName设值author
       applyIncludes(toInclude, toIncludeContext, true);
       if (toInclude.getOwnerDocument() != source.getOwnerDocument()) {
         toInclude = source.getOwnerDocument().importNode(toInclude, true);
@@ -86,9 +86,9 @@ public class XMLIncludeTransformer {
     refid = PropertyParser.parse(refid, variables);
     refid = builderAssistant.applyCurrentNamespace(refid, true);
     try {
-      //去之前存到内存map的SQL片段中寻找
+      // 去之前存到内存map的SQL片段中寻找
       XNode nodeToInclude = configuration.getSqlFragments().get(refid);
-      //clone一下，以防改写？
+      // clone一下，以防改写？
       return nodeToInclude.getNode().cloneNode(true);
     } catch (IllegalArgumentException e) {
       throw new IncompleteElementException("Could not find SQL statement to include with refid '" + refid + "'", e);

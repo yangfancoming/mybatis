@@ -22,37 +22,37 @@ import org.apache.ibatis.cache.Cache;
 public class LruCache implements Cache {
 
   private final Cache delegate;
-  //1.keyMap是一个LinkedHashMap，也是一个LRU队列，他是按照元素的访问顺序排队的，最久未被访问的元素排在
-  //队头，最近访问的元素排在队尾(value和key是一样的，其实就是一个有序的链表)
+  // 1.keyMap是一个LinkedHashMap，也是一个LRU队列，他是按照元素的访问顺序排队的，最久未被访问的元素排在
+  // 队头，最近访问的元素排在队尾(value和key是一样的，其实就是一个有序的链表)
   private Map<Object, Object> keyMap;
-  //2.记录最老的key
+  // 2.记录最老的key
   private Object eldestKey;
 
-  //3.构造方法初始化LRU队列长度为1024
+  // 3.构造方法初始化LRU队列长度为1024
   public LruCache(Cache delegate) {
     this.delegate = delegate;
     setSize(1024);
   }
 
-  //将key放到LRU队列尾部，并判断是否有最旧的key需要删除
+  // 将key放到LRU队列尾部，并判断是否有最旧的key需要删除
   private void cycleKeyList(Object key) {
-    //1.这一步就会将key放到LRU队列的尾部，为什么是尾部，参考LinkedHashMap.afterNodeAccess
+    // 1.这一步就会将key放到LRU队列的尾部，为什么是尾部，参考LinkedHashMap.afterNodeAccess
     keyMap.put(key, key);
-    //2.如果有最旧的key需要删除，就删掉
-    //LinkedHashMap删除key是在LinkedHashMap#afterNodeInsertion中调用的，这只是把LRU队列的key删除了，但是真正的缓存队列还没有删除key，
-    //但是会把key赋值给eldestKey，每一次放进缓存的时候都会来检查，发现有eldestKey，就把他从真正的缓存队列里面清除，并把eldestKey置null
+    // 2.如果有最旧的key需要删除，就删掉
+    // LinkedHashMap删除key是在LinkedHashMap#afterNodeInsertion中调用的，这只是把LRU队列的key删除了，但是真正的缓存队列还没有删除key，
+    // 但是会把key赋值给eldestKey，每一次放进缓存的时候都会来检查，发现有eldestKey，就把他从真正的缓存队列里面清除，并把eldestKey置null
     if (eldestKey != null) {
       delegate.removeObject(eldestKey);
       eldestKey = null;
     }
   }
 
-  //4.初始化LRU队列
+  // 4.初始化LRU队列
   public void setSize(final int size) {
-    //1.LinkedHashMap的元素是有序的，可以按照插入顺序或者按访问顺序(调用get方法)。构造方法的第三个参数可以指定使用哪一种顺序排序
-    //true按照访问顺序排序，
-    //false按照插入顺序排序
-    //这里是按照访问顺序排序，符合LRU思想
+    // 1.LinkedHashMap的元素是有序的，可以按照插入顺序或者按访问顺序(调用get方法)。构造方法的第三个参数可以指定使用哪一种顺序排序
+    // true按照访问顺序排序，
+    // false按照插入顺序排序
+    // 这里是按照访问顺序排序，符合LRU思想
     keyMap = new LinkedHashMap<Object, Object>(size, .75F, true) {
       private static final long serialVersionUID = 4267176411845948333L;
       /**
@@ -84,16 +84,16 @@ public class LruCache implements Cache {
   //---------------------------------------------------------------------
   @Override
   public void putObject(Object key, Object value) {
-    //1.put进来一个缓存之后，将这个key放到LRU队列尾部，并判断是否有最旧的元素需要删除。逻辑都在cycleKeyList里面实现
+    // 1.put进来一个缓存之后，将这个key放到LRU队列尾部，并判断是否有最旧的元素需要删除。逻辑都在cycleKeyList里面实现
     delegate.putObject(key, value);
     cycleKeyList(key);
   }
 
   @Override
   public Object getObject(Object key) {
-    //1.这里访问get方法就是为了让这个访问的key放到队列的尾部，因此keyMap是按照访问顺序排序的，最久未被
-    //问的会放在队列的前面,这里访问该key，就会把置于队尾，实现LRU
-    //可以参考LinkedHashMap.get和LinkedHashMap.afterNodeAccess
+    // 1.这里访问get方法就是为了让这个访问的key放到队列的尾部，因此keyMap是按照访问顺序排序的，最久未被
+    // 问的会放在队列的前面,这里访问该key，就会把置于队尾，实现LRU
+    // 可以参考LinkedHashMap.get和LinkedHashMap.afterNodeAccess
     keyMap.get(key); //touch
     return delegate.getObject(key);
   }
@@ -105,7 +105,7 @@ public class LruCache implements Cache {
 
   @Override
   public void clear() {
-    //清理缓存的时候也要清理key集合
+    // 清理缓存的时候也要清理key集合
     delegate.clear();
     keyMap.clear();
   }

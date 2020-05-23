@@ -72,7 +72,7 @@ public class CachingExecutor implements Executor {
   @Override
   public void close(boolean forceRollback) {
     try {
-      //issues #499, #524 and #573
+      // issues #499, #524 and #573
       if (forceRollback) {
         tcm.rollback();
       } else {
@@ -90,8 +90,8 @@ public class CachingExecutor implements Executor {
 
   @Override
   public int update(MappedStatement ms, Object parameterObject) throws SQLException {
-    flushCacheIfRequired(ms);//是否需要更缓存
-    return delegate.update(ms, parameterObject);//更新数据
+    flushCacheIfRequired(ms);// 是否需要更缓存
+    return delegate.update(ms, parameterObject);// 更新数据
   }
 
   @Override

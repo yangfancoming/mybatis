@@ -159,7 +159,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     ErrorContext.instance().activity("handling results").object(mappedStatement.getId());
     final List<Object> multipleResults = new ArrayList<>();
     int resultSetCount = 0;
-    //结果集的第一个结果
+    // 结果集的第一个结果
     ResultSetWrapper rsw = getFirstResultSet(stmt);
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
     int resultMapCount = resultMaps.size();
@@ -167,9 +167,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     // 循环遍历剩下的结果集合
     while (rsw != null && resultMapCount > resultSetCount) {
       ResultMap resultMap = resultMaps.get(resultSetCount);
-      //根据resultMap处理rsw生成java对象
+      // 根据resultMap处理rsw生成java对象
       handleResultSet(rsw, resultMap, multipleResults, null);
-      //获取结果集的下一个结果
+      // 获取结果集的下一个结果
       rsw = getNextResultSet(stmt);
       cleanUpAfterHandlingResultSet();
       resultSetCount++;
@@ -177,7 +177,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
     String[] resultSets = mappedStatement.getResultSets();
     if (resultSets != null) {
-      //和resultMaps的遍历处理类似
+      // 和resultMaps的遍历处理类似
       while (rsw != null && resultSetCount < resultSets.length) {
         ResultMapping parentMapping = nextResultMaps.get(resultSets[resultSetCount]);
         if (parentMapping != null) {
@@ -190,7 +190,7 @@ public class DefaultResultSetHandler implements ResultSetHandler {
         resultSetCount++;
       }
     }
-    //当list长度为1，表示该list的元素就是list类型的，返回元素即可。
+    // 当list长度为1，表示该list的元素就是list类型的，返回元素即可。
     return collapseSingleResultList(multipleResults);
   }
 
@@ -318,9 +318,9 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   private void handleRowValuesForSimpleResultMap(ResultSetWrapper rsw, ResultMap resultMap, ResultHandler<?> resultHandler, RowBounds rowBounds, ResultMapping parentMapping) throws SQLException {
     DefaultResultContext<Object> resultContext = new DefaultResultContext<>();
     ResultSet resultSet = rsw.getResultSet();
-    //跳过RowBounds设置的offset值
+    // 跳过RowBounds设置的offset值
     skipRows(resultSet, rowBounds);
-    //判断数据是否小于limit，如果小于limit的话就不断的循环取值
+    // 判断数据是否小于limit，如果小于limit的话就不断的循环取值
     while (shouldProcessMoreRows(resultContext, rowBounds) && !resultSet.isClosed() && resultSet.next()) {
       ResultMap discriminatedResultMap = resolveDiscriminatedResultMap(resultSet, resultMap, null);
       Object rowValue = getRowValue(rsw, discriminatedResultMap, null);
@@ -343,11 +343,11 @@ public class DefaultResultSetHandler implements ResultSetHandler {
   }
 
   private boolean shouldProcessMoreRows(ResultContext<?> context, RowBounds rowBounds) {
-    //判断数据是否小于limit，小于返回true
+    // 判断数据是否小于limit，小于返回true
     return !context.isStopped() && context.getResultCount() < rowBounds.getLimit();
   }
 
-  //跳过不需要的行,应该就是rowbounds设置的limit和offset
+  // 跳过不需要的行,应该就是rowbounds设置的limit和offset
   private void skipRows(ResultSet rs, RowBounds rowBounds) throws SQLException {
     if (rs.getType() != ResultSet.TYPE_FORWARD_ONLY) {
       if (rowBounds.getOffset() != RowBounds.NO_ROW_OFFSET) {

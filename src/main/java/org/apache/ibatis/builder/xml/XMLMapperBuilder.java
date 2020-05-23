@@ -100,11 +100,11 @@ public class XMLMapperBuilder extends BaseBuilder {
       // 将解析的SQL和接口中的方法绑定
       bindMapperForNamespace(builderAssistant.getCurrentNamespace());
     }
-    //将resultMap映射信息转换成ResultMap对象
+    // 将resultMap映射信息转换成ResultMap对象
     parsePendingResultMaps();
-    //将cache映射信息转换成Cache对象
+    // 将cache映射信息转换成Cache对象
     parsePendingCacheRefs();
-    //将sql映射转换成MappedStatement
+    // 将sql映射转换成MappedStatement
     parsePendingStatements();
   }
 

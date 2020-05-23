@@ -40,11 +40,11 @@ public class SimpleExecutor extends BaseExecutor {
   public int doUpdate(MappedStatement ms, Object parameter) throws SQLException {
     Statement stmt = null;
     try {
-      Configuration configuration = ms.getConfiguration();//获得配置
-      //获得statementHandler里面有statement，来处理
+      Configuration configuration = ms.getConfiguration();// 获得配置
+      // 获得statementHandler里面有statement，来处理
       StatementHandler handler = configuration.newStatementHandler(this, ms, parameter, RowBounds.DEFAULT, null, null);
       stmt = prepareStatement(handler, ms.getStatementLog());
-      return handler.update(stmt);//最终是一个statement进行处理
+      return handler.update(stmt);// 最终是一个statement进行处理
     } finally {
       closeStatement(stmt);
     }
@@ -58,12 +58,12 @@ public class SimpleExecutor extends BaseExecutor {
     Statement stmt = null;
     try {
       Configuration configuration = ms.getConfiguration();
-      //1.创建StatementHandler的代理类  根据既有的参数，创建StatementHandler对象来执行查询操作
+      // 1.创建StatementHandler的代理类  根据既有的参数，创建StatementHandler对象来执行查询操作
       StatementHandler handler = configuration.newStatementHandler(wrapper, ms, parameter, rowBounds, resultHandler, boundSql);
-      //2.用StatementHandler对象创建stmt,并使用StatementHandler对占位符进行处理  创建java.Sql.Statement对象，传递给StatementHandler对象
+      // 2.用StatementHandler对象创建stmt,并使用StatementHandler对占位符进行处理  创建java.Sql.Statement对象，传递给StatementHandler对象
       /* 子流程1: SQL查询参数的设置 */
       stmt = prepareStatement(handler, ms.getStatementLog());
-      //3.通过statementHandler对象调用ResultSetHandler将结果集转化为指定对象返回
+      // 3.通过statementHandler对象调用ResultSetHandler将结果集转化为指定对象返回
       /* 子流程2: SQL查询操作和结果集封装 */
       return handler.query(stmt, resultHandler);
     } finally {
@@ -92,13 +92,13 @@ public class SimpleExecutor extends BaseExecutor {
    * 4.打开一个connection连接，在使用完后不会close，而是存储下来，当下次需要打开连接时就直接返回。
    * */
   private Statement prepareStatement(StatementHandler handler, Log statementLog) throws SQLException {
-    /* 获取Connection连接 *///1.获取connection对象的动态代理，添加日志能力；(这里参考日志模块的代理模式) // 使用底层的 jdbc 的代码 获取数据库连接  //NOTE: 获取数据库连接
+    /* 获取Connection连接 */// 1.获取connection对象的动态代理，添加日志能力；(这里参考日志模块的代理模式) // 使用底层的 jdbc 的代码 获取数据库连接  // NOTE: 获取数据库连接
     Connection connection = getConnection(statementLog);
-    /* 准备Statement */  //2.使用StatementHandler，利用connection创建（prepare）Statement //NOTE: 创建Statement
+    /* 准备Statement */  // 2.使用StatementHandler，利用connection创建（prepare）Statement // NOTE: 创建Statement
     // doit 这里为什么会进入到 org.apache.ibatis.plugin.Plugin.invoke 方法中？？？
     Statement stmt = handler.prepare(connection, transaction.getTimeout());
-    /* 准备Statement */  //3.使用StatementHandler处理占位符  //NOTE: 参数设置
-    // 			@Signature(type= StatementHandler.class,method="parameterize",args=java.sql.Statement.class)
+    /* 准备Statement */  // 3.使用StatementHandler处理占位符  // NOTE: 参数设置
+    // @Signature(type= StatementHandler.class,method="parameterize",args=java.sql.Statement.class)
     handler.parameterize(stmt);
     return stmt;
   }

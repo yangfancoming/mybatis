@@ -90,7 +90,7 @@ public class ParameterExpression extends HashMap<String, String> {
    */
   private int skipWS(String expression, int p) {
     for (int i = p; i < expression.length(); i++) {
-      //0x20表示空格，也就是ACSII打印字符的一个字符
+      // 0x20表示空格，也就是ACSII打印字符的一个字符
       if (expression.charAt(i) > 0x20) {
         return i;
       }
