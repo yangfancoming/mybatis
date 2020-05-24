@@ -1,22 +1,20 @@
 
 package org.apache.ibatis.executor;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.cache.TransactionalCacheManager;
 import org.apache.ibatis.cursor.Cursor;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMapping;
-import org.apache.ibatis.mapping.ParameterMode;
-import org.apache.ibatis.mapping.StatementType;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  CachingExecutor的构造函数需要一个Executor参数，然后CachingExecutor对这个executor做功能增强，
@@ -34,11 +32,14 @@ import org.apache.ibatis.transaction.Transaction;
 */
 public class CachingExecutor implements Executor {
 
+  private static final Log log = LogFactory.getLog(CachingExecutor.class);
+
   //  装饰者(CachingExecutor)持有被装饰者(SimpleExecutor)的引用！！！
   public final Executor delegate; // SimpleExecutor -modify
   private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
   public CachingExecutor(Executor delegate) {
+    log.warn("进入 【CachingExecutor】 构造函数 {}");
     this.delegate = delegate;
     delegate.setExecutorWrapper(this);
   }

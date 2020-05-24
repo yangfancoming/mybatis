@@ -232,5 +232,4 @@ public class ResultMap {
   public Boolean getAutoMapping() {
     return autoMapping;
   }
-
 }

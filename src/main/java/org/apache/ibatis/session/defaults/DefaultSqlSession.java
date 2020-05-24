@@ -1,15 +1,6 @@
 
 package org.apache.ibatis.session.defaults;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.binding.BindingException;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.exceptions.ExceptionFactory;
@@ -19,11 +10,18 @@ import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.result.DefaultMapResultHandler;
 import org.apache.ibatis.executor.result.DefaultResultContext;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * The default implementation for SqlSession . Note that this class is not Thread-Safe.
@@ -31,6 +29,8 @@ import org.apache.ibatis.session.SqlSession;
  * 我们使用mybatis不用获得Configuration和Executor的对象，仅需要和SqlSession这个门面打交道。
  */
 public class DefaultSqlSession implements SqlSession {
+
+  private static final Log log = LogFactory.getLog(DefaultSqlSession.class);
 
   // 系统配置
   private final Configuration configuration;
@@ -43,6 +43,7 @@ public class DefaultSqlSession implements SqlSession {
   private List<Cursor<?>> cursorList;
 
   public DefaultSqlSession(Configuration configuration, Executor executor, boolean autoCommit) {
+    log.warn("进入 【DefaultSqlSession】 构造函数 {}");
     this.configuration = configuration;
     this.executor = executor;
     this.dirty = false;
