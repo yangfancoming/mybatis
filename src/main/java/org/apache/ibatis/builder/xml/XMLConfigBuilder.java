@@ -110,14 +110,14 @@ public class XMLConfigBuilder extends BaseBuilder {
    * @param props 属性配置文件，那些属性可以用${propName}语法形式多次用在配置文件中
    */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
-    //新建一个Mybatis全局配置信息类对象
+    // 新建一个Mybatis全局配置信息类对象
     super(new Configuration());
-    //设置错误报文实例的资源引用
+    // 设置错误报文实例的资源引用
     ErrorContext.instance().resource("SQL Mapper Configuration");
-    this.parsed = false; //parse表示是否已经解析了
+    this.parsed = false; // parse表示是否已经解析了
     this.parser = parser;
     this.environment = environment;
-    configuration.setVariables(props); //设置属性文件的变量到配置类configuration
+    configuration.setVariables(props); // 设置属性文件的变量到配置类configuration
     log.warn(" 构造函数1736：XPathParser 地址：" + parser);
     log.warn(" 构造函数1736：configuration 地址：" + configuration);
   }
@@ -129,7 +129,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   public Configuration parse() {
     log.warn("开始解析全局xml配置文件");
-    // 1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析  //每个XMLConfig Builder只能使用一次;
+    // 1.判断是否已经解析过，不重复解析 // 判断是否已经完成对mybatis-config.xml配置文件的解析  // 每个XMLConfig Builder只能使用一次;
     if (parsed) throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     parsed = true;
     /**  解析 xml 全局配置文件
@@ -137,7 +137,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
      */
-    XNode xNode = parser.evalNode("/configuration");  //对应<configuation>节点
+    XNode xNode = parser.evalNode("/configuration");  // 对应<configuation>节点
     log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
     // 2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
@@ -691,5 +691,4 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
     return false;
   }
-
 }

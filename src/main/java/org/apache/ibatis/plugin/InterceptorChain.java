@@ -1,6 +1,9 @@
 
 package org.apache.ibatis.plugin;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,8 +17,14 @@ import java.util.List;
  */
 public class InterceptorChain {
 
+  private static final Log log = LogFactory.getLog(InterceptorChain.class);
+
   // 表示拦截器链中所有的拦截器
   private final List<Interceptor> interceptors = new ArrayList<>();
+
+  public InterceptorChain() {
+    log.warn("进入 【InterceptorChain】 无参构造函数 {}");
+  }
 
   /**
    * @Description: 包装
@@ -48,5 +57,4 @@ public class InterceptorChain {
   public List<Interceptor> getInterceptors() {
     return Collections.unmodifiableList(interceptors);
   }
-
 }

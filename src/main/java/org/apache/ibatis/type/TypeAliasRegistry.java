@@ -17,6 +17,8 @@ import java.util.Set;
 
 import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 
 /**
  TypeAliasRegistry（类型别名注册器）
@@ -33,11 +35,14 @@ import org.apache.ibatis.io.Resources;
 */
 public class TypeAliasRegistry {
 
+  private static final Log log = LogFactory.getLog(TypeAliasRegistry.class);
+
   // key为别名， value就是别名对应的类型（class对象）
   private final Map<String, Class<?>> typeAliases = new HashMap<>();
 
   // 注册系统内置的类型别名
   public TypeAliasRegistry() {
+    log.warn("进入 【TypeAliasRegistry】 无参构造函数 {}");
     // 字符串类型
     registerAlias("string", String.class);
     // 基本包装类型

@@ -1,15 +1,24 @@
 
 package org.apache.ibatis.scripting;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LanguageDriverRegistry {
 
+  private static final Log log = LogFactory.getLog(LanguageDriverRegistry.class);
+
   private final Map<Class<? extends LanguageDriver>, LanguageDriver> LANGUAGE_DRIVER_MAP = new HashMap<>();
 
   private Class<? extends LanguageDriver> defaultDriverClass;
+
+  public LanguageDriverRegistry() {
+    log.warn("进入 【LanguageDriverRegistry】 无参构造函数 {}");
+  }
 
   public void register(Class<? extends LanguageDriver> cls) {
     if (cls == null) throw new IllegalArgumentException("null is not a valid Language Driver");

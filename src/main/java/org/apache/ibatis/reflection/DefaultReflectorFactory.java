@@ -1,10 +1,15 @@
 
 package org.apache.ibatis.reflection;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 // DefaultReflectorFactory 用于创建 Reflector，同时兼有缓存的功能
 public class DefaultReflectorFactory implements ReflectorFactory {
+
+  private static final Log log = LogFactory.getLog(DefaultReflectorFactory.class);
 
   /***  对Reflector对象的缓存 （默认开启） */
   private boolean classCacheEnabled = true;
@@ -16,7 +21,9 @@ public class DefaultReflectorFactory implements ReflectorFactory {
   */
   private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 
-  public DefaultReflectorFactory() { }
+  public DefaultReflectorFactory() {
+    log.warn("进入 【DefaultReflectorFactory】 无参构造函数 {}");
+  }
 
   @Override
   public boolean isClassCacheEnabled() {

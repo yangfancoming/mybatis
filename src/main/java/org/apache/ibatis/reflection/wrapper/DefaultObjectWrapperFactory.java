@@ -16,5 +16,4 @@ public class DefaultObjectWrapperFactory implements ObjectWrapperFactory {
   public ObjectWrapper getWrapperFor(MetaObject metaObject, Object object) {
     throw new ReflectionException("The DefaultObjectWrapperFactory should never be called to provide an ObjectWrapper.");
   }
-
 }

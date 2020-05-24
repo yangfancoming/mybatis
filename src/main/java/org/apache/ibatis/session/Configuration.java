@@ -214,12 +214,13 @@ public class Configuration {
 
   public Configuration(Environment environment) {
     this();
+    log.warn("进入 【Configuration】 有参构造函数 {}");
     this.environment = environment;
   }
 
   //通过使用TypeAliasRegistry来注册一些类的别名
   public Configuration() {
-    log.warn(  " 构造函数1738：parser地址：" + this);
+    log.warn("进入 【Configuration】 无参构造函数 {}");
     // 事务相关
     typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
     typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
@@ -956,6 +957,7 @@ public class Configuration {
 
     public StrictMap(String name) {
       super();
+      log.warn("进入 【StrictMap】 单参构造函数 {} 用于：" + name);
       this.name = name;
     }
 

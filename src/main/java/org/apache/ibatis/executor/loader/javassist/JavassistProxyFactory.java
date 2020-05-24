@@ -27,10 +27,13 @@ import org.apache.ibatis.session.Configuration;
 
 public class JavassistProxyFactory implements org.apache.ibatis.executor.loader.ProxyFactory {
 
+  private static final Log log = LogFactory.getLog(JavassistProxyFactory.class);
+
   private static final String FINALIZE_METHOD = "finalize";
   private static final String WRITE_REPLACE_METHOD = "writeReplace";
 
   public JavassistProxyFactory() {
+    log.warn("进入 【JavassistProxyFactory】 无参构造函数 {}");
     try {
       Resources.classForName("javassist.util.proxy.ProxyFactory");
     } catch (Throwable e) {

@@ -9,6 +9,8 @@ import java.util.Set;
 
 import org.apache.ibatis.builder.annotation.MapperAnnotationBuilder;
 import org.apache.ibatis.io.ResolverUtil;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
@@ -20,6 +22,8 @@ import org.apache.ibatis.session.SqlSession;
  * */
 public class MapperRegistry {
 
+  private static final Log log = LogFactory.getLog(MapperRegistry.class);
+
   private final Configuration config;
 
   /**
@@ -30,6 +34,7 @@ public class MapperRegistry {
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
+    log.warn("进入 【MapperRegistry】 无参构造函数 {}，并持有 Configuration ：" + config);
     this.config = config;
   }
 

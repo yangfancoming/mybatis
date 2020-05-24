@@ -41,12 +41,12 @@ public abstract class BaseBuilder {
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
   /**
-   * 从{@link @configuration}中获取类型别名注册器和类型处理器的注册器赋值
+   * 从{@link Configuration}中获取类型别名注册器和类型处理器的注册器赋值
    * 给{@link #typeAliasRegistry}和{@link #typeHandlerRegistry}
    * @param configuration mybatsi全局配置信息
    */
   public BaseBuilder(Configuration configuration) {
-    log.warn(  " 构造函数1740：this.configuration 地址：" + configuration);
+    log.warn("进入 【BaseBuilder】 构造函数 {}");
     this.configuration = configuration;
     this.typeAliasRegistry = configuration.getTypeAliasRegistry(); // -modify
     this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();  // -modify

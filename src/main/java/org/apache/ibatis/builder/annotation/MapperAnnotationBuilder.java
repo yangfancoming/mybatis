@@ -116,7 +116,7 @@ public class MapperAnnotationBuilder {
       try {
         // issue #237
         if (!method.isBridge()) {
-          //解析方法上的注解式sql语句
+          // 解析方法上的注解式sql语句
           parseStatement(method);
         }
       } catch (IncompleteElementException e) {
@@ -614,5 +614,4 @@ public class MapperAnnotationBuilder {
     configuration.addKeyGenerator(id, answer);
     return answer;
   }
-
 }
