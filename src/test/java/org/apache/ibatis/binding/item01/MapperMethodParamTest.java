@@ -79,5 +79,4 @@ class MapperMethodParamTest {
     mapper.insertUsingHashMap(params);
     Assert.assertEquals(Long.valueOf(Long.MAX_VALUE),mapper.selectById1("foo"));
   }
-
 }

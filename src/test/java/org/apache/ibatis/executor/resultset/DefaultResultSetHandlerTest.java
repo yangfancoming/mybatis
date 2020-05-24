@@ -88,9 +88,7 @@ class DefaultResultSetHandlerTest {
   void shouldThrowExceptionWithColumnName() throws Exception {
     final MappedStatement ms = getMappedStatement();
     final RowBounds rowBounds = new RowBounds(0, 100);
-    final DefaultResultSetHandler defaultResultSetHandler =
-      new DefaultResultSetHandler(null, ms,null, null, null, rowBounds);
-
+    final DefaultResultSetHandler defaultResultSetHandler = new DefaultResultSetHandler(null, ms,null, null, null, rowBounds);
     final ResultSetWrapper rsw = mock(ResultSetWrapper.class);
     when(rsw.getResultSet()).thenReturn(mock(ResultSet.class));
     final ResultMapping resultMapping = mock(ResultMapping.class);
