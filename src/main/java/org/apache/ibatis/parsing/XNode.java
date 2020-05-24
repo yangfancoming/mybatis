@@ -335,9 +335,7 @@ public class XNode {
     return properties;
   }
 
-  /**
-   * 给了一个toString方法，这样子在显示的时候更加友好
-   */
+  // 给了一个toString方法，这样子在显示的时候更加友好
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
@@ -378,9 +376,7 @@ public class XNode {
    * @return 节点的属性内容
    */
   private Properties parseAttributes(Node n) {
-    /**
-     * 获取Node之中的属性，然后是进行遍历属性获取内容
-     */
+    // 获取Node之中的属性，然后是进行遍历属性获取内容
     Properties attributes = new Properties();
     NamedNodeMap attributeNodes = n.getAttributes();
     if (attributeNodes != null) {
@@ -430,5 +426,4 @@ public class XNode {
     }
     return null;
   }
-
 }

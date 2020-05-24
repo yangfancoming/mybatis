@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -22,6 +24,8 @@ import org.xml.sax.SAXException;
  */
 public class XMLMapperEntityResolver implements EntityResolver {
 
+  private static final Log log = LogFactory.getLog(XMLMapperEntityResolver.class);
+
   private static final String IBATIS_CONFIG_SYSTEM = "ibatis-3-config.dtd";
   private static final String IBATIS_MAPPER_SYSTEM = "ibatis-3-mapper.dtd";
   private static final String MYBATIS_CONFIG_SYSTEM = "mybatis-3-config.dtd";
@@ -29,6 +33,10 @@ public class XMLMapperEntityResolver implements EntityResolver {
 
   private static final String MYBATIS_CONFIG_DTD = "org/apache/ibatis/builder/xml/mybatis-3-config.dtd";
   private static final String MYBATIS_MAPPER_DTD = "org/apache/ibatis/builder/xml/mybatis-3-mapper.dtd";
+
+  public XMLMapperEntityResolver() {
+    log.warn("进入 【XMLMapperEntityResolver】 无参构造函数 {}");
+  }
 
   /**
    * Converts a public DTD into a local one.
@@ -68,5 +76,4 @@ public class XMLMapperEntityResolver implements EntityResolver {
     }
     return source;
   }
-
 }

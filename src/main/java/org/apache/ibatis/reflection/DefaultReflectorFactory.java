@@ -21,7 +21,7 @@ public class DefaultReflectorFactory implements ReflectorFactory {
   */
   private final ConcurrentMap<Class<?>, Reflector> reflectorMap = new ConcurrentHashMap<>();
 
-  public DefaultReflectorFactory() {
+  public DefaultReflectorFactory() { // -modify
     log.warn("进入 【DefaultReflectorFactory】 无参构造函数 {}");
   }
 

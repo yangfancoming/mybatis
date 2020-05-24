@@ -12,20 +12,17 @@
   </properties>
 
   <environments default="development">
+
     <environment id="development">
-
       <transactionManager type="JDBC"/>
-
       <dataSource type="POOLED">
         <!-- driver 和 url 属性将会由 A022.properties 文件中对应的值来替换-->
         <property name="driver" value="${jdbc.driver}" />
         <property name="url" value="${jdbc.url}" />
-
         <!-- username 和 password 将会由 properties 元素中设置的相应值来替换-->
         <property name="username" value="root" />
         <property name="password" value="12345" />
       </dataSource>
-
     </environment>
   </environments>
 

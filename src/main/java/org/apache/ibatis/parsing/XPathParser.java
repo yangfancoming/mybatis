@@ -33,7 +33,7 @@ public class XPathParser {
   private final Document document;
   // 是否开启验证
   private boolean validation;
-  // 用于加载本地DTD文件，具体实现为XMLMapperEntityResolver类
+  // 用于加载本地DTD文件，具体实现为 XMLMapperEntityResolver 类
   private EntityResolver entityResolver;
   // mybatis-config.xml 中<propteries>标签定义的键值对集合
   private Properties variables;
@@ -107,7 +107,7 @@ public class XPathParser {
 
   /* 【Reader 系列】 */
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
-    log.warn(  " 构造函数1737：");
+    log.warn("进入 【XPathParser】 无参构造函数 1737");
     commonConstructor(validation, variables, entityResolver);
     document = createDocument(new InputSource(reader));
     log.warn(  "createDocument 创建：XPathParser#Document 对象：" + document.hashCode());

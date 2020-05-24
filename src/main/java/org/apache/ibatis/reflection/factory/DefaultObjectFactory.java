@@ -16,6 +16,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.ReflectionException;
 import org.apache.ibatis.reflection.Reflector;
 
@@ -26,7 +28,13 @@ import org.apache.ibatis.reflection.Reflector;
  */
 public class DefaultObjectFactory implements ObjectFactory, Serializable {
 
+  private static final Log log = LogFactory.getLog(DefaultObjectFactory.class);
+
   private static final long serialVersionUID = -8855120656740914948L;
+
+  public DefaultObjectFactory() {  // -modify
+    log.warn("进入 【DefaultObjectFactory】 无参构造函数 {}");
+  }
 
   @Override
   public <T> T create(Class<T> type) {

@@ -40,9 +40,9 @@ public class XMLConfigBuilder extends BaseBuilder {
   private boolean parsed;
   // 用于解析全局xml配置文件的XPathParser对象
   private final XPathParser parser;
-  // 用于保存 <environments default="development"> 标签的default
+  // 用于保存 <environments default="development"> 标签的default，通过构造函数传入。
   private String environment;
-  // 反射工厂，用于创建和缓存反射对象
+  // 反射工厂，用于创建和缓存反射对象，只是用在 settingsAsProperties() 方法中
   private final ReflectorFactory localReflectorFactory = new DefaultReflectorFactory();
 
   /**
@@ -124,8 +124,8 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   // 外部调用此方法对mybatis的全局xml文件进行解析
   /**
-   * 对Mybatis配置文件xml中的标签信息进行解析封装，然后添加到Mybatis全局配置信息中
-   * @return Mybatis全局配置信息对象
+   * 对Mybatis全局配置文件xml中的<configuation>标签信息进行解析封装，然后添加到Mybatis全局配置信息Configuration中
+   * @return Mybatis全局配置信息对象Configuration
    */
   public Configuration parse() {
     log.warn("开始解析全局xml配置文件");
@@ -133,13 +133,12 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (parsed) throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     parsed = true;
     /**  解析 xml 全局配置文件
-     注意一个 xpath 表达式 /configuration 这个表达式 代表的是 MyBatis 全局xml文件的 <configuration> 节点
-     这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
-     即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
+     注意一个 xpath 表达式 /configuration， 这个表达式 代表的是 MyBatis 全局xml文件的 <configuration> 节点
+     这里通过 xpath 选中这个节点，并传递给 parseConfiguration 方法， 即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
      */
-    XNode xNode = parser.evalNode("/configuration");  // 对应<configuation>节点
+    XNode xNode = parser.evalNode("/configuration");
     log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
-    // 2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
+    // 2.完成全局xml文件下的configuration节点下的所有标签的解析
     parseConfiguration(xNode);
     return configuration;
   }
@@ -150,11 +149,13 @@ public class XMLConfigBuilder extends BaseBuilder {
    *
    * 读取节点的信息，并通过对应的方法去解析配置，解析到的配置全部会放在configuration里面
    * <!ELEMENT configuration (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?)>
+   * @param root   对应<configuation> 标签
    * */
   private void parseConfiguration(XNode root) {
     try {
-      // issue #117 read properties first // 最先解析<properties>节点
+      // issue #117 read properties first
       XNode propertiesNode = root.evalNode("properties");
+      // 最先解析<properties>节点 并保存到Configuration对象中
       propertiesElement(propertiesNode);
       // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似。最终，所有的setting属性都被存储在Configuration对象中。
       Properties settings = settingsAsProperties(root.evalNode("settings"));
@@ -198,7 +199,6 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private Properties settingsAsProperties(XNode context) {
     if (context == null) return new Properties();
-
     /**
      * 解析<settings>标签，并返回Properties对象，其中name属性为key ，value属性为value
      *   <settings>
@@ -222,7 +222,7 @@ public class XMLConfigBuilder extends BaseBuilder {
 
   /**
    * 加载虚拟文件系统配置，读取服务器资源
-   * VFS含义是虚拟文件系统；主要是通过程序能够方便读取本地文件系统、FTP文件系统等系统中的文件资源
+   * VFS含义是虚拟文件系统；主要是通过程序能够方便读取本地文件系统、FTP文件系统等系统中的文件资源。
    * Mybatis中提供了VFS这个配置，主要是通过该配置可以加载自定义的虚拟文件系统应用程序
    */
   private void loadCustomVfs(Properties settings) throws ClassNotFoundException {
@@ -255,9 +255,10 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
-   如果<typeAliases>节点下定义了<package>节点，那么MyBatis会给该包下的所有类起一个别名（以类名首字母小写作为别名）
-   如果<typeAliases>节点下定义了<typeAlias>节点，那么MyBatis就会给指定的类起指定的别名。
-   这些别名都会被存入configuration的typeAliasRegistry容器中。
+   * 如果<typeAliases>节点下定义了<package>节点，那么MyBatis会给该包下的所有类起一个别名（以类名首字母小写作为别名）
+   * 如果<typeAliases>节点下定义了<typeAlias>节点，那么MyBatis就会给指定的类起指定的别名。
+   * 这些别名都会被存入configuration的typeAliasRegistry容器中。
+   * @param parent   对应<typeAliases> 标签
    */
   private void typeAliasesElement(XNode parent) {
     if (parent == null)  return; // -modify-
@@ -361,29 +362,28 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * 读取<Properties>标签的属性变量，以及合并configuration的属性变量，然后重新赋值到parser和configuration的属性变量中。
    * 1.首先读取在 properties 元素体中指定的属性；
    * 2.其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；
    * 3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
-   * 因此，通过方法参数传递的属性的优先级最高，resource 或 url 指定的属性优先级中等，在 properties 元素体中指定的属性优先级最低。
-   */
-  /**
-   * 读取<Properties>标签的属性变量，以及合并configuration的属性变量，然后重新赋值到parser和configuration的属性变量中。
+   * 因此，三种优先级从低到高分别为： <property> 子节点指定的属性 <  resource 或 url 指定的配置文件中的属性  <  通过方法参数传递的props 属性
+   *  @param context 对应 全局 <configuration> 标签下的 <properties> 标签
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
     log.warn("开始解析 <properties> 标签  XNode 地址：" + context.hashCode());
     /**
-     * 1.首先读取在 properties 元素体中指定的属性；
+     * 1.首先 读取在 <property> 子节点中的所有属性值 eg：11,22,33,44
      * 获取<properties>节点的所有子节点 并将这些节点内容转换为Properties对象
      * 情况一： defaults =  size为0
      *  <properties resource="dbconfig.properties"/>
      *
      * 情况二： defaults =  size 为 4
-     *   <properties resource="A022.properties">
-     *     <property name="jdbc.driver" value="bar"/>
-     *     <property name="jdbc.url" value="foo"/>
-     *     <property name="jdbc.username" value="bar"/>
-     *     <property name="jdbc.password" value="foo"/>
+     *   <properties resource="dbconfig.properties">
+     *     <property name="jdbc.driver" value="11"/>
+     *     <property name="jdbc.url" value="22"/>
+     *     <property name="jdbc.username" value="33"/>
+     *     <property name="jdbc.password" value="44"/>
      *   </properties>
      */
     Properties defaults = context.getChildrenAsProperties();
@@ -391,21 +391,25 @@ public class XMLConfigBuilder extends BaseBuilder {
     String resource = context.getStringAttribute("resource");
     // 获取<properties>节点上的url属性
     String url = context.getStringAttribute("url");
-    // resource 和 url 两个属性不能同时存在
+    // resource 和 url 两个属性不能同时存在，如果同时存在则抛出异常
     if (resource != null && url != null) {
       throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
     }
-    // 2.其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；
+    // 2.其次，读取从 <properties> 父标签中resource或url指定的配置文件(dbconfig.properties)中的内容，且会覆盖步骤1中(<property>子节点)的重复的属性；
+    // eg：1,2,3,4
     if (resource != null) {
-      // 将dbconfig.properties配置文件内容转换为Properties对象，添加至defaults容器中 会产生覆盖操作 eg: 将文件中的键值对替换掉  xml标签中的对应的value <property name="jdbc.driver" value="1"/>
       Properties resourceAsProperties = Resources.getResourceAsProperties(resource);
+      // 覆盖掉步骤1中的重复属性(如果有的话)
       defaults.putAll(resourceAsProperties);
     } else if (url != null) {
       // 获取url属性值对应的properties文件中的键值对，并添加至defaults容器中  会产生覆盖操作
       defaults.putAll(Resources.getUrlAsProperties(url));
     }
-    // 3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
-    // 入口搜索串：private XMLConfigBuilder(XPathParser parser, String environment, Properties props)
+    /**
+     *  3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
+     *  入口地址
+     * @see XMLConfigBuilder#XMLConfigBuilder(org.apache.ibatis.parsing.XPathParser, java.lang.String, java.util.Properties)
+    */
     Properties vars = configuration.getVariables();
     if (vars != null) defaults.putAll(vars);
     parser.setVariables(defaults);

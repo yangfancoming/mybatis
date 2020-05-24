@@ -22,7 +22,7 @@ public class InterceptorChain {
   // 表示拦截器链中所有的拦截器
   private final List<Interceptor> interceptors = new ArrayList<>();
 
-  public InterceptorChain() {
+  public InterceptorChain() { // -modify
     log.warn("进入 【InterceptorChain】 无参构造函数 {}");
   }
 
