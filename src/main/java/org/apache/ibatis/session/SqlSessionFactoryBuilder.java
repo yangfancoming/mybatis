@@ -74,15 +74,21 @@ public class SqlSessionFactoryBuilder {
     return build(inputStream, null, properties);
   }
 
-  /** XMLConfigBuilder#parse 方法是配置解析的主要方法
-   我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，
-   构造出Configuration，最终返回new DefaultSqlSessionFactory(config)的SqlSessionFactory实例
-  */
+  /**
+   * 新建一个对mybatis的XML配置文件进行解析的解析器对应配置文件先进性解析封装
+   * XMLConfigBuilder#parse 方法是配置解析的主要方法
+   * 我们可以看到SqlSessionFactoryBuilder 通过XMLConfigBuilder 去解析我们传入的mybatis的配置文件，
+   * 构造出Configuration，最终返回new DefaultSqlSessionFactory(config)的SqlSessionFactory实例
+   * @param inputStream 配置文件文件流
+   * @param environment 加载哪种环境(开发环境/生产环境)，包括数据源和事务管理器
+   * @param properties 属性配置文件，那些属性可以用${propName}语法形式多次用在配置文件中
+   * @return
+   */
   public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
     try {
-      // 创建全局配置文件解析器
+      // 创建全局配置文件解析器  //新建一个对mybatis的XML配置文件进行解析的解析器
       XMLConfigBuilder parser = new XMLConfigBuilder(inputStream, environment, properties);
-      // 调用 parse 方法解析配置文件，生成 Configuration 对象
+      // 调用 parse 方法解析配置文件，生成 Configuration 对象 //parse：对Mybatis配置文件xml中的标签信息进行解析封装，然后添加到Mybatis全局配置信息中，返回Mybatis全局配置信息对象
       Configuration configuration = parser.parse();
       /**
        创建 DefaultSqlSessionFactory
@@ -92,10 +98,13 @@ public class SqlSessionFactoryBuilder {
       SqlSessionFactory build = build(configuration);
       return build;
     } catch (Exception e) {
+      //包装解析异常，进行更加具体的描述
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);
     } finally {
+      //重置异常上下文实例
       ErrorContext.instance().reset();
       try {
+        //关闭配置文件文件流
         inputStream.close();
       } catch (IOException e) {
         // Intentionally ignore. Prefer previous error.

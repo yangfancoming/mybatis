@@ -17,6 +17,8 @@ import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * 主要提供{@link #configuration},{@link #typeHandlerRegistry},{@link #typeHandlerRegistry}的处理。
+ *
  * BaseBuilder 并没有对子类进行任何’约束’, 只是重复性代码的容器
  * 这个父类维护了一个全局的Configuration对象，MyBatis的配置文件解析后就以Configuration对象的形式存储。
  * MapperBuilderAssistant
@@ -33,11 +35,16 @@ public abstract class BaseBuilder {
 
   // Mybatis初始化过程的核心对象，Mybatis中几乎全部的配置信息会保存到该对象中。该对象在Mybatis初始化过程中创建且是全局唯一的
   protected final Configuration configuration;
-  // 定义的别名都会记录在该对象中
+  // 定义的别名都会记录在该对象中  类型别名注册器
   protected final TypeAliasRegistry typeAliasRegistry;
-  // 指定数据库类型与Java类型的转换器
+  // 指定数据库类型与Java类型的转换器  类型处理器的注册器
   protected final TypeHandlerRegistry typeHandlerRegistry;
 
+  /**
+   * 从{@link @configuration}中获取类型别名注册器和类型处理器的注册器赋值
+   * 给{@link #typeAliasRegistry}和{@link #typeHandlerRegistry}
+   * @param configuration mybatsi全局配置信息
+   */
   public BaseBuilder(Configuration configuration) {
     log.warn(  " 构造函数1740：this.configuration 地址：" + configuration);
     this.configuration = configuration;
@@ -65,12 +72,18 @@ public abstract class BaseBuilder {
   }
 
   // 获取value的值,按照‘,’分割为数组并转为hashset,如果value为null,则使用默认值defaultValue
+  /**
+   * 将{@link @value}以','分隔的形式转换成{@link Set},如果{@link @value}为null,就用{@link @defaultValue}
+   */
   protected Set<String> stringSetValueOf(String value, String defaultValue) {
     value = value == null ? defaultValue : value;
     return new HashSet<>(Arrays.asList(value.split(",")));
   }
 
   // 根据别名查询对应的JDBC数据类型,JdbcType是mybatis对java.sql.Types的一次包装,并且是个枚举类,详细的信息可以查看org.apache.ibatis.type.JdbcType
+  /**
+   * 找出对应{@link @alias}的{@link JdbcType},若{@link @alias}为null返回null,若没有找到就会抛出{@link BuilderException}
+   */
   protected JdbcType resolveJdbcType(String alias) {
     if (alias == null) return null;
     try {
@@ -86,6 +99,9 @@ public abstract class BaseBuilder {
    ResultSet.TYPE_SCROLL_INSENSITIVE 结果集的游标可以上下移动，当数据库变化时，当前结果集不变。
    ResultSet.TYPE_SCROLL_SENSITIVE 返回可滚动的结果集，当数据库变化时，当前结果集同步改变。
   */
+  /**
+   * 找出对应{@link @alias}的{@link ResultSetType},若{@link @alias}为null返回null,若没有找到就会抛出{@link BuilderException}
+   */
   protected ResultSetType resolveResultSetType(String alias) {
     if (alias == null) return null;
     try {
@@ -96,6 +112,10 @@ public abstract class BaseBuilder {
   }
 
   // 根据别名获取ParameterMode类型,可选值为IN, OUT, INOUT,详细信息可参照org.apache.ibatis.mapping.ParameterMode类
+  /**
+   * 找出对应{@link @alias}的{@link ParameterMode},若{@link @alias}为null返回null,若没有找到就会抛出{@link BuilderException},
+   * <p>ParameterMode： {@link ParameterMode#IN},{@link ParameterMode#OUT},{@link ParameterMode#INOUT}</p>
+   */
   protected ParameterMode resolveParameterMode(String alias) {
     if (alias == null) return null;
     try {
@@ -105,6 +125,9 @@ public abstract class BaseBuilder {
     }
   }
 
+  /**
+   * 创建{@link @alias}的实例，{@link @alias}为null返回null,若在创建抛出任何异常信息都会封装到{@link BuilderException}抛出
+   */
   protected Object createInstance(String alias) {
     Class<?> clazz = resolveClass(alias);
     if (clazz == null) return null;
@@ -115,6 +138,9 @@ public abstract class BaseBuilder {
     }
   }
 
+  /**
+   * 通过类别名注册器typeAliasRegistry解析出对应的类 实际调用{@link #resolveAlias(String)}，返回类实例
+   */
   protected <T> Class<? extends T> resolveClass(String alias) {
     if (alias == null) return null;
     try {
@@ -124,9 +150,14 @@ public abstract class BaseBuilder {
     }
   }
 
+  /**
+   * 构建TypeHandler，不没有注册到{@link #typeHandlerRegistry}，只是返回TypeHandler实例对象，实际调用{@link #resolveTypeHandler(Class, Class)}
+   * @param javaType 可以不传的，不传就用typeHandlerAlias的无参构造方法，传就尝试调用带有接收javaType的构造方法[p:即使调用失败也不会抛出异常，而是调用无参构造方法]
+   * @param typeHandlerAlias 若null,该方法直接返回null;若传入的包+类没有继承{@link TypeHandler}会抛出{@link BuilderException}
+   */
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, String typeHandlerAlias) {
     if (typeHandlerAlias == null) return null;
-    // 通过类型别名映射解析别名
+    // 通过类型别名映射解析别名  //获取typeHandlerAlias对应的类
     Class<?> type = resolveClass(typeHandlerAlias);
     // 如果type不为null且type不为TypeHandler接口的实现类，抛出异常
     if (type != null && !TypeHandler.class.isAssignableFrom(type)) {
@@ -138,6 +169,12 @@ public abstract class BaseBuilder {
     return resolveTypeHandler(javaType, typeHandlerType);
   }
 
+  /**
+   * 构建TypeHandler，没有注册到{@link #typeHandlerRegistry}，只是返回TypeHandler实例对象
+   * @param javaType 可以不传的，但是不传，也是可以的，但是不建议。
+   * @param typeHandlerType 若为null,该方法直接返回null
+   * @return
+   */
   protected TypeHandler<?> resolveTypeHandler(Class<?> javaType, Class<? extends TypeHandler<?>> typeHandlerType) {
     if (typeHandlerType == null)  return null;
     // javaType ignored for injected handlers see issue #746 for full detail

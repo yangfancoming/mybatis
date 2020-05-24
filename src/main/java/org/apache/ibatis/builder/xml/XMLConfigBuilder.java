@@ -92,6 +92,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     this(inputStream, environment, null);
   }
 
+  /**
+   * @param inputStream 配置文件InputStream
+   * @param environment 加载哪种环境(开发环境/生产环境)，包括数据源和事务管理器
+   * @param props 属性配置文件，那些属性可以用${propName}语法形式多次用在配置文件中
+   */
   public XMLConfigBuilder(InputStream inputStream, String environment, Properties props) {
     this(new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment, props);
   }
@@ -100,22 +105,31 @@ public class XMLConfigBuilder extends BaseBuilder {
    * 最终构造函数
    *  当创建XMLConfigBuilder对象时，就会初始化Configuration对象，
    *  并且在初始化Configuration对象的时候，一些别名会被注册到Configuration的 typeAliasRegistry 容器中
+   * @param parser Mybatis配置文件xml对应的XML解析器
+   * @param environment 加载哪种环境(开发环境/生产环境)，包括数据源和事务管理器
+   * @param props 属性配置文件，那些属性可以用${propName}语法形式多次用在配置文件中
    */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
+    //新建一个Mybatis全局配置信息类对象
     super(new Configuration());
+    //设置错误报文实例的资源引用
     ErrorContext.instance().resource("SQL Mapper Configuration");
-    this.parsed = false;
+    this.parsed = false; //parse表示是否已经解析了
     this.parser = parser;
     this.environment = environment;
-    configuration.setVariables(props);
+    configuration.setVariables(props); //设置属性文件的变量到配置类configuration
     log.warn(" 构造函数1736：XPathParser 地址：" + parser);
     log.warn(" 构造函数1736：configuration 地址：" + configuration);
   }
 
   // 外部调用此方法对mybatis的全局xml文件进行解析
+  /**
+   * 对Mybatis配置文件xml中的标签信息进行解析封装，然后添加到Mybatis全局配置信息中
+   * @return Mybatis全局配置信息对象
+   */
   public Configuration parse() {
     log.warn("开始解析全局xml配置文件");
-    // 1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析
+    // 1.判断是否已经解析过，不重复解析 //判断是否已经完成对mybatis-config.xml配置文件的解析  //每个XMLConfig Builder只能使用一次;
     if (parsed) throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     parsed = true;
     /**  解析 xml 全局配置文件
@@ -123,7 +137,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      这里通过 xpath 选中这个节点，并传 递给 parseConfiguration 方法
      即： 在mybatis-config.xml配置文件中查找<configuration>节点，并开始解析
      */
-    XNode xNode = parser.evalNode("/configuration");
+    XNode xNode = parser.evalNode("/configuration");  //对应<configuation>节点
     log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
     // 2.完成全局xml文件下的configuration节点下的所有标签信息  解析全局xml配置文件
     parseConfiguration(xNode);
@@ -131,6 +145,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * 解析mybatis-config.xml所有标签信息，并实例化标签对应的对象，配置进 {@link XMLConfigBuilder#configuration} 里
    * 解析核心配置文件的关键方法，
    *
    * 读取节点的信息，并通过对应的方法去解析配置，解析到的配置全部会放在configuration里面
@@ -177,6 +192,10 @@ public class XMLConfigBuilder extends BaseBuilder {
    *  2.转成 Properties 对象后 进行一次校检
    * @param context <settings>标签
    */
+  /**
+   * 读取<setting></setting>便签信息，每个<setting/>的name属性对应着Configuration的属性变量名，
+   * 该放会检验<setting/>标签的name属性能不能在Configuration查找出来，如果查找不出来，抛出异常
+   */
   private Properties settingsAsProperties(XNode context) {
     if (context == null) return new Properties();
 
@@ -201,6 +220,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     return props;
   }
 
+  /**
+   * 加载虚拟文件系统配置，读取服务器资源
+   * VFS含义是虚拟文件系统；主要是通过程序能够方便读取本地文件系统、FTP文件系统等系统中的文件资源
+   * Mybatis中提供了VFS这个配置，主要是通过该配置可以加载自定义的虚拟文件系统应用程序
+   */
   private void loadCustomVfs(Properties settings) throws ClassNotFoundException {
     String value = settings.getProperty("vfsImpl");
     if (value == null) return; // modify
@@ -216,6 +240,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * 制定日志的实现(log4j等)
    *    <settings>
    *        <setting name="logImpl" value="NO_LOGGING"/>
    *    </settings>
@@ -267,6 +292,8 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * <plugins/>元素，每个插件就是mybatis的拦截器。
+   * @param parent <plugins/>标签
    *   <plugins>
    *     <plugin interceptor="org.apache.goat.chapter200.D10.MyFirstPlugin">
    *       <property name="username" value="goat"/>
@@ -294,6 +321,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
+  /**
+   *  ObjectFactory 标签 -- [对象工厂 {@link ObjectFactory}]
+   * @param context
+   * @throws Exception
+   */
   private void objectFactoryElement(XNode context) throws Exception {
     if (context == null) return; // -modify
     log.warn("开始解析 <objectFactory> 标签  XNode 地址：" + context.hashCode());
@@ -304,6 +336,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setObjectFactory(factory);
   }
 
+  /**
+   *  ObjectWrapperFactory 标签 -- [对象包装类工厂{@link ObjectWrapperFactory}]
+   * @param context
+   * @throws Exception
+   */
   private void objectWrapperFactoryElement(XNode context) throws Exception {
     if (context == null) return; // -modify
     String type = context.getStringAttribute("type");
@@ -311,6 +348,11 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setObjectWrapperFactory(factory);
   }
 
+  /**
+   * reflectorFactory标签 -- [反射信息类工厂{@link ReflectorFactory}]
+   * @param context
+   * @throws Exception
+   */
   private void reflectorFactoryElement(XNode context) throws Exception {
     if (context == null) return; // -modify
     String type = context.getStringAttribute("type");
@@ -323,6 +365,9 @@ public class XMLConfigBuilder extends BaseBuilder {
    * 2.其次，读取从 properties 元素的类路径 resource 或 url 指定的属性，且会覆盖已经指定了的重复属性；
    * 3.最后，读取作为方法参数传递的属性，且会覆盖已经从 properties 元素体和 resource 或 url 属性中加载了的重复属性。
    * 因此，通过方法参数传递的属性的优先级最高，resource 或 url 指定的属性优先级中等，在 properties 元素体中指定的属性优先级最低。
+   */
+  /**
+   * 读取<Properties>标签的属性变量，以及合并configuration的属性变量，然后重新赋值到parser和configuration的属性变量中。
    */
   private void propertiesElement(XNode context) throws Exception {
     if (context == null) return; // modify-
@@ -368,6 +413,9 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn(  " propertiesElement()：解析<properties> 标签完毕 ：" +  defaults);
   }
 
+  /**
+   * 将<setting/>标签的设置全部设置进去Configuation
+   */
   private void settingsElement(Properties settings) {
     // 设置 autoMappingBehavior 属性，默认值为 PARTIAL
     configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(settings.getProperty("autoMappingBehavior", "PARTIAL")));
@@ -401,6 +449,22 @@ public class XMLConfigBuilder extends BaseBuilder {
     configuration.setConfigurationFactory(resolveClass(settings.getProperty("configurationFactory")));
   }
 
+  /**
+   * &lt;Environments/&gt;标签元素
+   * <p>
+   *     获取&lt;Environments/&gt;下的default属性取得当前Mybatis所需要的环境ID并赋值给 {@link XMLConfigBuilder#environment},
+   *     然后获取&lt;environment/&gt;的id属性(环境ID)并赋值给{@link @id},判断{@link @id}是不是{@link XMLConfigBuilder#environment},
+   *     是就做以下操作
+   *     <ol>
+   *         <li>获取环境ID</li>
+   *         <li>获取事务管理器工厂的实例对象,赋值给 {@link @txFactory}</li>
+   *         <li>获取数据库数据源工厂的实例对象{@link @dsFactory}，然后从{@link @dsFactory} 获取数据源，赋值给 {@link @dataSoure}</li>
+   *         <li>传入{@link @txFactory},{@link @dataSoure},{@link @id} 构建 {@link Environment} 传入 {@link XMLConfigBuilder#configuration}</li>
+   *     </ol>
+   * </p>
+   * @param context
+   * @throws Exception
+   */
   private void environmentsElement(XNode context) throws Exception {
     if (context == null) return; // modify-
     log.warn("开始解析 <environments> 标签  XNode 地址：" + context.hashCode());
