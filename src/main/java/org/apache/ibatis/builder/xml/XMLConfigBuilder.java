@@ -386,7 +386,7 @@ public class XMLConfigBuilder extends BaseBuilder {
      *     <property name="jdbc.password" value="44"/>
      *   </properties>
      */
-    Properties defaults = context.getChildrenAsProperties();
+    Properties defaults = context.getChildrenAsProperties(); // 获取<Properties>标签下的所有<property> 子标签的属性键值对
     // 获取<properties>节点上的resource属性  eg: resource="dbconfig.properties"
     String resource = context.getStringAttribute("resource");
     // 获取<properties>节点上的url属性
@@ -395,9 +395,8 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (resource != null && url != null) {
       throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference. Please specify one or the other.");
     }
-    // 2.其次，读取从 <properties> 父标签中resource或url指定的配置文件(dbconfig.properties)中的内容，且会覆盖步骤1中(<property>子节点)的重复的属性；
-    // eg：1,2,3,4
     if (resource != null) {
+      // 2.其次，读取从 <properties> 父标签中resource或url指定的配置文件(dbconfig.properties)中的内容，且会覆盖步骤1中(<property>子节点)的重复的属性； eg：1,2,3,4
       Properties resourceAsProperties = Resources.getResourceAsProperties(resource);
       // 覆盖掉步骤1中的重复属性(如果有的话)
       defaults.putAll(resourceAsProperties);
