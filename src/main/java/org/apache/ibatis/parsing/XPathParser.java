@@ -107,7 +107,7 @@ public class XPathParser {
 
   /* 【Reader 系列】 */
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
-    log.warn("进入 【XPathParser】 无参构造函数 1737");
+    log.warn("进入 【XPathParser】 无参 构造函数 1737");
     commonConstructor(validation, variables, entityResolver);
     document = createDocument(new InputSource(reader));
     log.warn(  "createDocument 创建：XPathParser#Document 对象：" + document.hashCode());

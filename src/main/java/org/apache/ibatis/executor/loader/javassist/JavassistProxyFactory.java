@@ -33,7 +33,7 @@ public class JavassistProxyFactory implements org.apache.ibatis.executor.loader.
   private static final String WRITE_REPLACE_METHOD = "writeReplace";
 
   public JavassistProxyFactory() {
-    log.warn("进入 【JavassistProxyFactory】 无参构造函数 {}");
+    log.warn("进入 【JavassistProxyFactory】 无参 构造函数 {}");
     try {
       Resources.classForName("javassist.util.proxy.ProxyFactory");
     } catch (Throwable e) {

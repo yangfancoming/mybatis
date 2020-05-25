@@ -114,7 +114,7 @@ public class XMLMapperBuilder extends BaseBuilder {
 
   /**
    * 解析局部xml <!ELEMENT mapper (cache-ref | cache | resultMap* | parameterMap* | sql* | insert* | update* | delete* | select* )+>
-   * @param context
+   * @param context  对应 <mapper> 标签  eg：<mapper namespace="org.apache.goat.chapter100.C.C001.EmployeeMapper">
    */
   private void configurationElement(XNode context) {
     try {

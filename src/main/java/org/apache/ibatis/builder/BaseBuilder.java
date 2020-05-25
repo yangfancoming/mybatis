@@ -46,10 +46,10 @@ public abstract class BaseBuilder {
    * @param configuration mybatsi全局配置信息
    */
   public BaseBuilder(Configuration configuration) {
-    log.warn("进入 【BaseBuilder】 构造函数 {}");
+    log.warn("进入 【BaseBuilder】 单参 构造函数 {}");
     this.configuration = configuration;
     this.typeAliasRegistry = configuration.getTypeAliasRegistry(); // -modify
-    this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();  // -modify
+    this.typeHandlerRegistry = configuration.getTypeHandlerRegistry(); // -modify
   }
 
   public Configuration getConfiguration() {

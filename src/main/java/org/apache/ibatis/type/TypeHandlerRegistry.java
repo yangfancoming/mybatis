@@ -53,7 +53,7 @@ public final class TypeHandlerRegistry {
   private Class<? extends TypeHandler> defaultEnumTypeHandler = EnumTypeHandler.class;
 
   public TypeHandlerRegistry() {
-    log.warn("进入 【TypeHandlerRegistry】 无参构造函数 {}");
+    log.warn("进入 【TypeHandlerRegistry】 无参 构造函数 {}");
     register(Boolean.class, new BooleanTypeHandler());
     register(boolean.class, new BooleanTypeHandler());
     register(JdbcType.BOOLEAN, new BooleanTypeHandler());

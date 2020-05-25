@@ -23,7 +23,7 @@ public class InterceptorChain {
   private final List<Interceptor> interceptors = new ArrayList<>();
 
   public InterceptorChain() { // -modify
-    log.warn("进入 【InterceptorChain】 无参构造函数 {}");
+    log.warn("进入 【InterceptorChain】 无参 构造函数 {}");
   }
 
   /**

@@ -12,7 +12,7 @@ public class DefaultObjectWrapperFactory implements ObjectWrapperFactory {
   private static final Log log = LogFactory.getLog(DefaultObjectWrapperFactory.class);
 
   public DefaultObjectWrapperFactory() { // -modify
-    log.warn("进入 【DefaultObjectWrapperFactory】 无参构造函数 {}");
+    log.warn("进入 【DefaultObjectWrapperFactory】 无参 构造函数 {}");
   }
 
   @Override

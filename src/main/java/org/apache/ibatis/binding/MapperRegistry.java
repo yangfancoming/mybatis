@@ -34,7 +34,7 @@ public class MapperRegistry {
   private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
 
   public MapperRegistry(Configuration config) {
-    log.warn("进入 【MapperRegistry】 无参构造函数 {}，并持有 Configuration ：" + config);
+    log.warn("进入 【MapperRegistry】 无参 构造函数 {}，并持有 Configuration ：" + config);
     this.config = config;
   }
 

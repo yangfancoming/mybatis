@@ -35,7 +35,7 @@ public class XMLMapperEntityResolver implements EntityResolver {
   private static final String MYBATIS_MAPPER_DTD = "org/apache/ibatis/builder/xml/mybatis-3-mapper.dtd";
 
   public XMLMapperEntityResolver() {
-    log.warn("进入 【XMLMapperEntityResolver】 无参构造函数 {}");
+    log.warn("进入 【XMLMapperEntityResolver】 无参 构造函数 {}");
   }
 
   /**

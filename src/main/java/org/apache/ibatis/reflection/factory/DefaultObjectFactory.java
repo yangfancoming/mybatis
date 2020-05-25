@@ -33,7 +33,7 @@ public class DefaultObjectFactory implements ObjectFactory, Serializable {
   private static final long serialVersionUID = -8855120656740914948L;
 
   public DefaultObjectFactory() {  // -modify
-    log.warn("进入 【DefaultObjectFactory】 无参构造函数 {}");
+    log.warn("进入 【DefaultObjectFactory】 无参 构造函数 {}");
   }
 
   @Override

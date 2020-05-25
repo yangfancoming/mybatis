@@ -42,7 +42,7 @@ public class TypeAliasRegistry {
 
   // 注册系统内置的类型别名
   public TypeAliasRegistry() {
-    log.warn("进入 【TypeAliasRegistry】 无参构造函数 {}");
+    log.warn("进入 【TypeAliasRegistry】 无参 构造函数 {}");
     // 字符串类型
     registerAlias("string", String.class);
     // 基本包装类型

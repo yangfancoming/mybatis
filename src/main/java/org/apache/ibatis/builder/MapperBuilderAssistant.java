@@ -15,6 +15,8 @@ import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.CacheBuilder;
 import org.apache.ibatis.mapping.Discriminator;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -40,6 +42,8 @@ import org.apache.ibatis.type.TypeHandler;
 */
 public class MapperBuilderAssistant extends BaseBuilder {
 
+  private static final Log log = LogFactory.getLog(MapperBuilderAssistant.class);
+
   // 对应 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 namespace 属性
   private String currentNamespace;
   private final String resource;
@@ -48,6 +52,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
 
   public MapperBuilderAssistant(Configuration configuration, String resource) {
     super(configuration);
+    log.warn("进入 【MapperBuilderAssistant】 双参 构造函数 {}");
     ErrorContext.instance().resource(resource);
     this.resource = resource;
   }
