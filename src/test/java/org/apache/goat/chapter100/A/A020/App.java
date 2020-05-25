@@ -6,12 +6,15 @@ import org.junit.jupiter.api.Test;
 
 
 /**
+ *  <properties> 标签 配置的三种情况列举：
  * 源码位置：
  * @see XMLConfigBuilder#propertiesElement(org.apache.ibatis.parsing.XNode)
 */
 public class App extends MyBaseDataTest {
 
   /**
+   *
+   * 第一种情况： 只指定了外部配置文件
    *  <properties> 标签从外部配置文件读取属性值
    * 读取的是  resources/dbconfig.properties 路径下 属性文件
    */
@@ -21,6 +24,7 @@ public class App extends MyBaseDataTest {
   }
 
   /**
+   * 第二种情况： 只指定了 子标签属性   没有其他(外部配置文件)
    *  <properties> 标签从内部配置文件读取属性值
    * 读取的是  <properties> 下的子标签
    *     <property name="jdbc.driver" value="bar"/>
@@ -34,6 +38,18 @@ public class App extends MyBaseDataTest {
   }
 
   /**
+   *
+   * 第三种情况： 同时指定 外部配置文件 和 子标签属性
+   * 出现 优先级覆盖的情况
+  */
+  @Test
+  void test3() throws Exception {
+    setUpByReaderNoOpen("org/apache/goat/chapter100/A/A020/properties3.xml");
+  }
+
+  /**
+   *
+   * 总体测试用例：
    *  <properties> 标签从外部配置文件读取属性值
    * 读取的是  resources/dbconfig.properties 路径下 属性文件
    *
@@ -44,7 +60,7 @@ public class App extends MyBaseDataTest {
    * 因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的是 properties 属性中指定的属性。
    */
   @Test
-  void test3() throws Exception {
-    setUpByInputStreamNoOpen("org/apache/goat/chapter100/A/A020/properties3.xml");
+  void test4() throws Exception {
+    setUpByInputStreamNoOpen("org/apache/goat/chapter100/A/A020/properties4.xml");
   }
 }
