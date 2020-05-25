@@ -75,7 +75,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
    *  doit 这里P2 isReference 到底是什么意思呢？
   */
   public String applyCurrentNamespace(String base, boolean isReference) {
-    if (base == null)  return null; // modify-
+    if (base == null)  return null; // -modify
     if (isReference) {
       // is it qualified with any namespace yet?
       if (base.contains("."))  return base;

@@ -606,7 +606,7 @@ public class Configuration {
     //根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = (executorType == null) ? defaultExecutorType : executorType;
     // doit 这行代码我怎么觉得 是没有用的呢？
-    // executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // modify-
+    // executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // -modify
     Executor executor;
     //2.BATCH
     if (ExecutorType.BATCH == executorType) {

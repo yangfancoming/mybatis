@@ -170,7 +170,7 @@ public class XNode {
   }
 
   public String getStringBody(String def) {
-    return (body == null) ? def : body; // modify-
+    return (body == null) ? def : body; // -modify
   }
 
   public Boolean getBooleanBody() {
@@ -183,7 +183,7 @@ public class XNode {
    */
   public Boolean getBooleanBody(Boolean def) {
     //两个函数的不同在于这个函数具有一个默认值，而上面的没有
-    return (body == null) ? def : Boolean.valueOf(Boolean.valueOf(body)); // modify-
+    return (body == null) ? def : Boolean.valueOf(Boolean.valueOf(body)); // -modify
   }
 
   public Integer getIntBody() {
@@ -191,7 +191,7 @@ public class XNode {
   }
 
   public Integer getIntBody(Integer def) {
-    return (body == null) ? def : Integer.valueOf(Integer.parseInt(body)); // modify-
+    return (body == null) ? def : Integer.valueOf(Integer.parseInt(body)); // -modify
   }
 
   public Long getLongBody() {
@@ -199,7 +199,7 @@ public class XNode {
   }
 
   public Long getLongBody(Long def) {
-    return (body == null) ? def : Long.valueOf(Long.parseLong(body)); // modify-
+    return (body == null) ? def : Long.valueOf(Long.parseLong(body)); // -modify
   }
 
   public Double getDoubleBody() {
@@ -207,7 +207,7 @@ public class XNode {
   }
 
   public Double getDoubleBody(Double def) {
-    return (body == null) ? def : Double.valueOf(Double.parseDouble(body)); // modify-
+    return (body == null) ? def : Double.valueOf(Double.parseDouble(body)); // -modify
   }
 
   public Float getFloatBody() {
@@ -215,7 +215,7 @@ public class XNode {
   }
 
   public Float getFloatBody(Float def) {
-    return (body == null) ? def : Float.valueOf(Float.parseFloat(body)); // modify-
+    return (body == null) ? def : Float.valueOf(Float.parseFloat(body)); // -modify
   }
 
   public <T extends Enum<T>> T getEnumAttribute(Class<T> enumType, String name) {
@@ -224,7 +224,7 @@ public class XNode {
 
   public <T extends Enum<T>> T getEnumAttribute(Class<T> enumType, String name, T def) {
     String value = getStringAttribute(name);
-    return (value == null) ? def : Enum.valueOf(enumType, value); // modify-
+    return (value == null) ? def : Enum.valueOf(enumType, value); // -modify
   }
 
   public String getStringAttribute(String name) {
@@ -233,7 +233,7 @@ public class XNode {
 
   public String getStringAttribute(String name, String def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : value; // modify-
+    return (value == null) ? def : value; // -modify
   }
 
   public Boolean getBooleanAttribute(String name) {
@@ -248,7 +248,7 @@ public class XNode {
   public Boolean getBooleanAttribute(String name, Boolean def) {
     //从attributes获取key，如果存在则进行类型转换，否则就返回默认值
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Boolean.valueOf(Boolean.valueOf(value)); // modify-
+    return (value == null) ? def : Boolean.valueOf(Boolean.valueOf(value)); // -modify
   }
 
   public Integer getIntAttribute(String name) {
@@ -257,7 +257,7 @@ public class XNode {
 
   public Integer getIntAttribute(String name, Integer def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Integer.valueOf(Integer.parseInt(value)); // modify-
+    return (value == null) ? def : Integer.valueOf(Integer.parseInt(value)); // -modify
   }
 
   public Long getLongAttribute(String name) {
@@ -267,7 +267,7 @@ public class XNode {
   public Long getLongAttribute(String name, Long def) {
     String value = attributes.getProperty(name);
     // sos 这里千万不能使用  Long.parseLong(value) 否则自动拆箱后会报空异常，所以必须要装箱和def保持类型一样
-    return (value == null) ? def : Long.valueOf(Long.parseLong(value)); // modify-
+    return (value == null) ? def : Long.valueOf(Long.parseLong(value)); // -modify
   }
 
   public Double getDoubleAttribute(String name) {
@@ -276,7 +276,7 @@ public class XNode {
 
   public Double getDoubleAttribute(String name, Double def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Double.valueOf(Double.parseDouble(value)); // modify-
+    return (value == null) ? def : Double.valueOf(Double.parseDouble(value)); // -modify
   }
 
   public Float getFloatAttribute(String name) {
@@ -285,7 +285,7 @@ public class XNode {
 
   public Float getFloatAttribute(String name, Float def) {
     String value = attributes.getProperty(name);
-    return (value == null) ? def : Float.valueOf(Float.parseFloat(value)); // modify-
+    return (value == null) ? def : Float.valueOf(Float.parseFloat(value)); // -modify
   }
 
   /**

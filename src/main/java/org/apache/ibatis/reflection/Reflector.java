@@ -429,7 +429,7 @@ public class Reflector {
     sb.append(method.getName());
     Class<?>[] parameters = method.getParameterTypes();
     for (int i = 0; i < parameters.length; i++) {
-      sb.append((i == 0)? ':':','); // modify-
+      sb.append((i == 0)? ':':','); // -modify
       sb.append(parameters[i].getName());   // 追加参数类型全限定名称
     }
     return sb.toString();

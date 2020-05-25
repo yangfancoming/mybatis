@@ -261,7 +261,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    * @param parent   对应<typeAliases> 标签
    */
   private void typeAliasesElement(XNode parent) {
-    if (parent == null)  return; // -modify-
+    if (parent == null)  return; // --modify
     log.warn("开始解析 <typeAliases> 标签  XNode 地址：" + parent.hashCode());
     // 遍历<typeAliases>下的所有子节点  dtd约束该标签下 只能出现 <package> 或 <typeAlias> 标签
     for (XNode child : parent.getChildren()) {
@@ -304,7 +304,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    *   </plugins>
    */
   private void pluginElement(XNode parent) throws Exception {
-    if (parent == null) return;  // modify-
+    if (parent == null) return;  // -modify
     log.warn("开始解析 <plugins> 标签  XNode 地址：" + parent.hashCode());
     // 遍历<plugins>标签  获取<plugin>
     for (XNode child : parent.getChildren()) {
@@ -370,7 +370,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    *  @param context 对应 全局 <configuration> 标签下的 <properties> 标签
    */
   private void propertiesElement(XNode context) throws Exception {
-    if (context == null) return; // modify-
+    if (context == null) return; // -modify
     log.warn("开始解析 <properties> 标签  XNode 地址：" + context.hashCode());
     /**
      * 1.首先 读取在 <property> 子节点中的所有属性值 eg：11,22,33,44
@@ -470,7 +470,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    * @throws Exception
    */
   private void environmentsElement(XNode context) throws Exception {
-    if (context == null) return; // modify-
+    if (context == null) return; // -modify
     log.warn("开始解析 <environments> 标签  XNode 地址：" + context.hashCode());
     if (environment == null) {
       // 获取 <environments default="pro_mysql"> 标签中的 default 属性
@@ -577,7 +577,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   private void typeHandlerElement(XNode parent) {
-    if (parent == null) return; // modify-
+    if (parent == null) return; // -modify
     log.warn("开始解析 <typeHandlers> 标签  XNode 地址：" + parent.hashCode());
     for (XNode child : parent.getChildren()) {
       // 子节点为package时，获取其name属性的值，然后自动扫描package下的自定义typeHandler
