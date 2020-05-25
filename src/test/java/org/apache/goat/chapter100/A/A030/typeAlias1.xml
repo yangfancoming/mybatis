@@ -12,7 +12,7 @@
      -->
     <typeAlias type="org.apache.goat.common.model.Foo" alias="Foo0"/>
 
-    <!-- 别名为空的情况-->
+    <!-- 别名为空的情况  使用注解注册别名 -->
     <typeAlias type="org.apache.goat.common.model.Bar" />
 
   </typeAliases>

@@ -1,11 +1,13 @@
 package org.apache.goat.chapter100.A.A030;
 
 import org.apache.common.MyBaseDataTest;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.junit.jupiter.api.Test;
 
 
 /**
- * 源码搜索串：   private void typeAliasesElement(XNode parent)
+ * 源码位置
+ * @see XMLConfigBuilder#typeAliasesElement(org.apache.ibatis.parsing.XNode)
 */
 class App extends MyBaseDataTest {
 
