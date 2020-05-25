@@ -26,14 +26,16 @@ public class GenericTokenParser {
    * @param handler 表处理器
    */
   public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {
+    log.warn("进入 【GenericTokenParser】  三参 构造函数 {}");
     this.openToken = openToken;
     this.closeToken = closeToken;
     this.handler = handler;
   }
 
   /**
-   * 解析statement中的sql语句
-   * 将 openToken 和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
+   * 用处：
+   * 1. 解析   <dataSource type="POOLED"> 标签内的子标签 <property name="driver" value="${jdbc.driver}" /> 中的 ${jdbc.driver} 值。
+   * 2. 解析statement中的sql 语句，将 openToken 和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
    * @param text 待解析文本节点   "\n	 select * from tbl_employee where id = #{id} \n "
    */
   public String parse(String text) {
@@ -68,7 +70,6 @@ public class GenericTokenParser {
         offset = start + openToken.length();
         // 从此处开始查找结束的标记
         int end = text.indexOf(closeToken, offset);
-
         while (end > -1) {
           if (end > offset && src[end - 1] == '\\') {
             // this close token is escaped. remove the backslash and continue.  // 此结束标记是转义的
@@ -89,7 +90,7 @@ public class GenericTokenParser {
           // 找到了结束的标记， 则放入处理器进行处理
           //  WARN:handler 的实现类为： class org.apache.ibatis.builder.SqlSourceBuilder$ParameterMappingTokenHandler
           log.warn("handler 的实现类为： " + handler.getClass());
-          builder.append(handler.handleToken(expression.toString()));
+          builder.append(handler.handleToken(expression.toString())); // sos 策略模式！！！
           offset = end + closeToken.length();
         }
       }

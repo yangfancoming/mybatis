@@ -47,10 +47,10 @@ public class XNode {
   public XNode(XPathParser xpathParser, Node node, Properties variables) {
     this.xpathParser = xpathParser;
     this.node = node;
-    this.name = node.getNodeName();
+    this.name = node.getNodeName(); // 条件断点 this.name.equals("datasource")
     this.variables = variables;
 //    log.warn(  "构造函数1745：xpathParser 地址：" + this.xpathParser.hashCode() + "---节点名称：" + this.name);
-    //获取当前节点的所有属性
+    // 获取当前节点的所有属性
     this.attributes = parseAttributes(node);
     //获取当前节点的文本节点内容，当然获取到的数据是已经经过TokenHandler处理过的
     this.body = parseBody(node);
@@ -327,9 +327,9 @@ public class XNode {
       // 获取 <property> 节点的 name 和 value 属性
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");
-      //只有当节点同时具有name和value属性才会添加到properties中
+      // 只有同时具有name和value属性的节点，才会被添加到properties中
       if (name != null && value != null) {
-        properties.setProperty(name, value);// 设置属性到属性对象中
+        properties.setProperty(name, value);
       }
     }
     return properties;
@@ -382,7 +382,7 @@ public class XNode {
     if (attributeNodes != null) {
       for (int i = 0; i < attributeNodes.getLength(); i++) {
         Node attribute = attributeNodes.item(i);
-        //就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse()去处理下
+        // 就是利用Node类的函数去获取该节点的所有属性名和值，只是在获取属性值后会调用PropertyParser.parse()去处理下
         String value = PropertyParser.parse(attribute.getNodeValue(), variables);
 //        log.warn(  " parseAttributes()：标签名：<" +  StringUtils.rightPad(n.getNodeName() + ">", 20) + " \t 属性值：" + value);
         attributes.put(attribute.getNodeName(), value);

@@ -52,7 +52,7 @@ public class PropertyParser {
     // 有没有对${}比较熟悉，这个符号就是mybatis配置文件中的占位符，例如定义datasource时用到的 <property name="driverClassName" value="${driver}" />
     // 同时也可以解释在VariableTokenHandler中的handleToken时，如果content在properties中不存在时，返回的内容要加上${}了。
     GenericTokenParser parser = new GenericTokenParser("${", "}", handler);
-    // 此处专门查找`${}`关键字符，并替换为相应的variable值
+    // 此处专门查找`${}`关键字符，并替换为相应的 variables 中的值
     return parser.parse(string);
   }
 
