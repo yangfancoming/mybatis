@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!--
+
+<!ELEMENT 标签名称 (a,b*,c?,d+)> 表示
+    子标签a 必须要出现，且只能出现一次
+    子标签b 可以出现也可以不出现，出现的话 可以出现多次
+    子标签c 可以出现也可以不出现，出现的话 只能出现一次
+    子标签d 必须要出现，并可以出现多次
+
+-->
 <!ELEMENT configuration (properties?, settings?, typeAliases?, typeHandlers?, objectFactory?, objectWrapperFactory?, reflectorFactory?, plugins?, environments?, databaseIdProvider?, mappers?)>
 
 <!ELEMENT databaseIdProvider (property*)>

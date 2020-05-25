@@ -70,7 +70,4 @@ class App extends MyBaseDataTest {
     FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
     System.out.println(fooMapper.getClass()); // class com.sun.proxy.$Proxy13
   }
-
-
-
 }

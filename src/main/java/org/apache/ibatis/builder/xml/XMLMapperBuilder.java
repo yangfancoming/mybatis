@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
