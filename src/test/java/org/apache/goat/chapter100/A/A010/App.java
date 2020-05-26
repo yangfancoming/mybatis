@@ -18,7 +18,6 @@ public class App extends MyBaseDataTest {
   @Test
   void Reader() throws Exception {
     setUpByReader(XMLPATH);
-
   }
 
   /** 解决方式二： 局部xml中的sql 查询字典使用as映射
@@ -29,5 +28,4 @@ public class App extends MyBaseDataTest {
   void InputStream() throws Exception {
     setUpByInputStream(XMLPATH);
   }
-
 }
