@@ -58,6 +58,10 @@ public class App extends MyBaseDataTest {
    * 2.然后根据 properties 元素中的 resource 属性读取类路径下属性文件或根据 url 属性指定的路径读取属性文件，并覆盖已读取的同名属性。
    * 3.最后读取作为方法参数传递的属性，并覆盖已读取的同名属性。
    * 因此，通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的是 properties 属性中指定的属性。
+   *
+   * sos  以上三种情况解析完成后，将保存到全局Configuration对象中，以后再任何需要使用的地方 可以使用
+   * 比如  <environment id="development"> 标签中的  <property name="driver" value="${jdbc.driver}" /> 标签
+   * 其中，${jdbc.driver} 就可以被 Configuration对象中的pros替换掉
    */
   @Test
   void test4() throws Exception {
