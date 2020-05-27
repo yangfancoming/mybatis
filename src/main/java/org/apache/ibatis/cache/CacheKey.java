@@ -118,5 +118,4 @@ public class CacheKey implements Cloneable, Serializable {
     clonedCacheKey.updateList = new ArrayList<>(updateList);
     return clonedCacheKey;
   }
-
 }
