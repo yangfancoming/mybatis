@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- *  <properties> 标签 配置的三种情况列举：
- * 源码位置：
+ * 源码位置： <properties> 标签 配置的三种情况列举：
  * @see XMLConfigBuilder#propertiesElement(org.apache.ibatis.parsing.XNode)
 */
 public class App extends MyBaseDataTest {

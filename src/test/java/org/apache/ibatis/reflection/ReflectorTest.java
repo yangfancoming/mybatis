@@ -9,6 +9,7 @@ import org.apache.ibatis.reflection.model.Child;
 import org.apache.ibatis.reflection.model.Section;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.submitted.extends_with_constructor.Student;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,8 +38,9 @@ class ReflectorTest {
   @Test
   void testGetablePropertyNames() {
     Reflector reflector = reflectorFactory.findForClass(Configuration.class);
-    System.out.println(reflector.hasSetter("阿道夫"));
-    System.out.println(reflector.hasSetter("mapUnderscoreToCamelCase"));
+    Assert.assertEquals(false,reflector.hasSetter("NoExist"));
+    Assert.assertEquals(true,reflector.hasSetter("mapUnderscoreToCamelCase"));
+    Assert.assertEquals(true,reflector.hasSetter("multipleResultSetsEnabled"));
   }
 
   @Test
