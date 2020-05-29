@@ -46,8 +46,11 @@ public class MapperBuilderAssistant extends BaseBuilder {
 
   // 对应 当前局部xml配置文件中命名空间  eg: <mapper namespace="org.apache.ibatis.domain.blog.mappers.BlogMapper"> 中的 namespace 属性
   private String currentNamespace;
+
   private final String resource;
+
   private Cache currentCache;
+
   private boolean unresolvedCacheRef; // issue #676
 
   public MapperBuilderAssistant(Configuration configuration, String resource) {
