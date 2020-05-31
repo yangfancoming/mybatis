@@ -348,5 +348,4 @@ public class MapperBuilderAssistant extends BaseBuilder {
   public MappedStatement addMappedStatement(String id, SqlSource sqlSource, StatementType statementType,SqlCommandType sqlCommandType, Integer fetchSize, Integer timeout, String parameterMap, Class<?> parameterType,String resultMap, Class<?> resultType, ResultSetType resultSetType, boolean flushCache, boolean useCache, boolean resultOrdered, KeyGenerator keyGenerator, String keyProperty, String keyColumn, String databaseId,LanguageDriver lang) {
     return addMappedStatement(id, sqlSource, statementType, sqlCommandType, fetchSize, timeout, parameterMap, parameterType, resultMap, resultType, resultSetType, flushCache, useCache, resultOrdered, keyGenerator, keyProperty,keyColumn, databaseId, lang, null);
   }
-
 }
