@@ -45,5 +45,4 @@ public class TransactionalCacheManager {
   private TransactionalCache getTransactionalCache(Cache cache) {
     return transactionalCaches.computeIfAbsent(cache, TransactionalCache::new);
   }
-
 }

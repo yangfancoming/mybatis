@@ -21,5 +21,4 @@ public class IncompleteElementException extends BuilderException {
   public IncompleteElementException(Throwable cause) {
     super(cause);
   }
-
 }
