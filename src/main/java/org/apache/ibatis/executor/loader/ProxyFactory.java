@@ -15,5 +15,4 @@ public interface ProxyFactory {
   }
 
   Object createProxy(Object target, ResultLoaderMap lazyLoader, Configuration configuration, ObjectFactory objectFactory, List<Class<?>> constructorArgTypes, List<Object> constructorArgs);
-
 }

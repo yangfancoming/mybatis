@@ -647,5 +647,4 @@ public class PooledDataSource implements DataSource {
   public Logger getParentLogger() {
     return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
   }
-
 }

@@ -107,5 +107,4 @@ public class PoolState {
     builder.append("\n===============================================================");
     return builder.toString();
   }
-
 }

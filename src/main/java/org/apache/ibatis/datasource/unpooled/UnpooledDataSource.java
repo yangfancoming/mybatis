@@ -306,5 +306,4 @@ public class UnpooledDataSource implements DataSource {
     // requires JDK version 1.6
     return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
   }
-
 }

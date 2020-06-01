@@ -56,5 +56,4 @@ public class JndiDataSourceFactory implements DataSourceFactory {
     }
     return contextProperties;
   }
-
 }

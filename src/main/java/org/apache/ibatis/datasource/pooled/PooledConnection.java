@@ -234,5 +234,4 @@ class PooledConnection implements InvocationHandler {
       throw new SQLException("Error accessing PooledConnection. Connection is invalid.");
     }
   }
-
 }

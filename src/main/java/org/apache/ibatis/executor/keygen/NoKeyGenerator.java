@@ -24,5 +24,4 @@ public class NoKeyGenerator implements KeyGenerator {
   public void processAfter(Executor executor, MappedStatement ms, Statement stmt, Object parameter) {
     // Do Nothing
   }
-
 }

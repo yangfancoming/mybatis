@@ -12,5 +12,4 @@ public interface DataSourceFactory {
 
   // 获取数据源 DataSource 对象
   DataSource getDataSource();
-
 }
