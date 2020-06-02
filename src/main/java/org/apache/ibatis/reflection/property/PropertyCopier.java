@@ -4,7 +4,7 @@ package org.apache.ibatis.reflection.property;
 import java.lang.reflect.Field;
 import org.apache.ibatis.reflection.Reflector;
 
-//     顾名思义，这个类就是就是将一个对象的属性值赋给另一个对象中对应的属性。
+// 顾名思义，这个类就是就是将一个对象的属性值赋给另一个对象中对应的属性。
 public final class PropertyCopier {
 
   private PropertyCopier() {
@@ -36,5 +36,4 @@ public final class PropertyCopier {
       parent = parent.getSuperclass();
     }
   }
-
 }
