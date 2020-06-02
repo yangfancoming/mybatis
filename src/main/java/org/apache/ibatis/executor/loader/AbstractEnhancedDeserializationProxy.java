@@ -76,5 +76,4 @@ public abstract class AbstractEnhancedDeserializationProxy {
   }
 
   protected abstract AbstractSerialStateHolder newSerialStateHolder(Object userBean, Map<String, ResultLoaderMap.LoadPair> unloadedProperties,ObjectFactory objectFactory, List<Class<?>> constructorArgTypes, List<Object> constructorArgs);
-
 }
