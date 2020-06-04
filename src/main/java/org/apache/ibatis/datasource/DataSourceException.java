@@ -23,5 +23,4 @@ public class DataSourceException extends PersistenceException {
   public DataSourceException(Throwable cause) {
     super(cause);
   }
-
 }
