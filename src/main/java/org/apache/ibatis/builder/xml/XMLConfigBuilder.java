@@ -157,11 +157,11 @@ public class XMLConfigBuilder extends BaseBuilder {
       XNode propertiesNode = root.evalNode("properties");
       // 最先解析<properties>节点 并保存到Configuration对象中
       propertiesElement(propertiesNode);
-      // 解析<settings>节点 并将其转换为 Properties 对象。 <settings>属性的解析过程和 <properties>属性的解析过程极为类似。最终，所有的setting属性都被存储在Configuration对象中。
+      // 解析<settings>节点 将其转换为Properties对象，并判断解析出的settings属性是否合法(在Configuration对象中存在)
       Properties settings = settingsAsProperties(root.evalNode("settings"));
-      // 加载 vfs
+      // 根据<settings>中的配置，动态加载vfs
       loadCustomVfs(settings);
-      // 加载自定义日志  日志加载配置
+      // 根据<settings>中的配置，动态加载自定义日志
       loadCustomLogImpl(settings);
       // 解析<typeAliases>节点
       typeAliasesElement(root.evalNode("typeAliases"));
