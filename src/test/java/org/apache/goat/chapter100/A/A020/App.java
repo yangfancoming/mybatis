@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 public class App extends MyBaseDataTest {
 
   /**
-   *
    * 第一种情况： 只指定了外部配置文件
    *  <properties> 标签从外部配置文件读取属性值
    * 读取的是  resources/dbconfig.properties 路径下 属性文件
@@ -37,7 +36,6 @@ public class App extends MyBaseDataTest {
   }
 
   /**
-   *
    * 第三种情况： 同时指定 外部配置文件 和 子标签属性
    * 出现 优先级覆盖的情况
   */
