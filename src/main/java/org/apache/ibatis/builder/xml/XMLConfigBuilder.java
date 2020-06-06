@@ -163,9 +163,9 @@ public class XMLConfigBuilder extends BaseBuilder {
       loadCustomVfs(settings);
       // 根据<settings>中的配置，动态加载自定义日志
       loadCustomLogImpl(settings);
-      // 解析<typeAliases>节点
+      // 解析<typeAliases>节点，并保存到Configuration对象中
       typeAliasesElement(root.evalNode("typeAliases"));
-      // 解析<plugins>节点
+      // 解析<plugins>节点，并保存到Configuration对象中
       pluginElement(root.evalNode("plugins"));
       // 解析 objectFactory 配置  mybatis为结果创建对象时都会用到objectFactory
       objectFactoryElement(root.evalNode("objectFactory"));
@@ -265,14 +265,13 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn("开始解析 <typeAliases> 标签  XNode 地址：" + parent.hashCode());
     // 遍历<typeAliases>下的所有子节点  dtd约束该标签下 只能出现 <package> 或 <typeAlias> 标签
     for (XNode child : parent.getChildren()) {
-      // 若为<package>
+      // 若为<package> 则获取其name属性  eg：<package name="org.apache.goat.common"/>
       if ("package".equals(child.getName())) {
-        //  获取name属性 <package name="org.apache.goat.common"/>
         String typeAliasPackage = child.getStringAttribute("name");
         // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中的typeAliases
         typeAliasRegistry.registerAliases(typeAliasPackage); // -modify
       } else {
-        // 若为<typeAlias> 获取其alias和type属性
+        // 若为<typeAlias> 则获取其alias和type属性
         String alias = child.getStringAttribute("alias");
         String type = child.getStringAttribute("type");
         try {
