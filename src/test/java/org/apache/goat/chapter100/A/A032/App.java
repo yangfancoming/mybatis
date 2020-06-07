@@ -34,4 +34,5 @@ class App extends MyBaseDataTest {
   void test4() throws Exception {
     setUpByReaderNoOpen(XMLPATH);  // FOO1  报错！ 测试时记得 打开局部xml中的注释 否则 运行其他测试方法时会报错
   }
+
 }
