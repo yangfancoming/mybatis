@@ -51,5 +51,4 @@ class App extends MyBaseDataTest {
     Blog zoo = blogMapper.selectBlog(1);
     System.out.println(zoo);
   }
-
 }
