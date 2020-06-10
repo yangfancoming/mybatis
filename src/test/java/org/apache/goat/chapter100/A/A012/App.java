@@ -16,5 +16,4 @@ class App extends MyBaseDataTest {
   void test1() throws Exception {
     setUpByReader(XMLPATH);
   }
-
 }
