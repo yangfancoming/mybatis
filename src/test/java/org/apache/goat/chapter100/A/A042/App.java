@@ -36,7 +36,6 @@ class App extends MyBaseDataTest {
     System.out.println(foo);
   }
 
-
   @Test
   void test()   {
     FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
@@ -55,5 +54,4 @@ class App extends MyBaseDataTest {
     Zoo zoo = zooMapper.selectById(1);
     System.out.println(zoo);
   }
-
 }
