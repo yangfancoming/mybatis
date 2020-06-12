@@ -77,5 +77,4 @@ class App extends MyBaseDataTest {
     // 从 MappedStatement 中获取sql文本
 //    mappedStatement.get(NAME_SPACE).getBoundSql()
   }
-
 }
