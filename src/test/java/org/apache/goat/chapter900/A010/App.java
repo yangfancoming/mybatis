@@ -115,7 +115,4 @@ public class App {
     Connection conn = driver.connect(url, info);
     System.out.println(conn);
   }
-
-
-
 }
