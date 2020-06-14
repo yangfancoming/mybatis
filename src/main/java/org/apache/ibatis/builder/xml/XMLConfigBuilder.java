@@ -277,11 +277,12 @@ public class XMLConfigBuilder extends BaseBuilder {
         try {
           // 通过全限定类名 反射获取模板类
           Class<?> clazz = Resources.classForName(type);
-          // 这里直接处理类，别名没有配置也没关系，里面会生成一个getSimpleName或者根据Alias注解去取别名
+          // 没有显示指定别名的情况：会生成一个getSimpleName或者根据Alias注解去取别名
           // 和<package> 一样会注册进configuration的typeAliasRegistry中的typeAliases
           if (alias == null) {
             typeAliasRegistry.registerAlias(clazz);
           } else {
+            // 显示指定别名的情况：
             typeAliasRegistry.registerAlias(alias, clazz);
           }
         } catch (ClassNotFoundException e) { //4.其他类型直接报错

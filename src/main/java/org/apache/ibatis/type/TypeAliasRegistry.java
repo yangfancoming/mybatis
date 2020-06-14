@@ -148,6 +148,7 @@ public class TypeAliasRegistry {
     resolverUtil.find(new ResolverUtil.IsA(superType), packageName);
     // 添加完成后再取出来
     Set<Class<? extends Class<?>>> typeSet = resolverUtil.getClasses();
+    // 取出来后，再遍历进行注册
     for (Class<?> type : typeSet) {
       // Ignore inner classes and interfaces (including package-info.java)  Skip also inner classes. See issue #6
       // 忽略 匿名类、接口、成员内部类
