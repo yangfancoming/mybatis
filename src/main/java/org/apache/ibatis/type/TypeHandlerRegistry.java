@@ -443,5 +443,4 @@ public final class TypeHandlerRegistry {
   public Collection<TypeHandler<?>> getTypeHandlers() {
     return Collections.unmodifiableCollection(allTypeHandlersMap.values());
   }
-
 }

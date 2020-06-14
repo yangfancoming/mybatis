@@ -1,6 +1,7 @@
 package org.apache.goat.chapter100.A.A025.item01;
 
 import org.apache.common.MyBaseDataTest;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.junit.Test;
 
 /**
@@ -9,6 +10,9 @@ import org.junit.Test;
  * @ Description: TODO
  * @ author  山羊来了
  * @ date 2020/3/15---13:14
+ *
+ * 源码位置
+ * @see XMLConfigBuilder#typeHandlerElement(org.apache.ibatis.parsing.XNode)
  */
 public class App extends MyBaseDataTest {
 

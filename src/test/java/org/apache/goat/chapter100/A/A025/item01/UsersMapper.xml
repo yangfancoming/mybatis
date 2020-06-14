@@ -6,14 +6,14 @@
 
   <!--
     注：也可以在<resultmap>标签的 <result> 子标签下填写 typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"
-    这样mybatis-config.xml中的typehandler就可以省略了。
+    这样mybatis-config.xml中的 typehandler 就可以省略了。
   -->
 
     <resultMap id="usersMapper" type="org.apache.goat.chapter100.A.A025.item01.Users">
       <id column="id" property="id"/>
       <result column="username" property="username"/>
       <result column="password" property="password"/>
-      <result column="sex1" property="sex1" />
+      <result column="sex1" property="sex1" typeHandler="org.apache.goat.chapter100.A.A025.item01.MyEnumEmpStatusTypeHandler" />
 <!--      针对数据库中字段值为 0,1 的情况可以正确解析-->
 <!--      <result column="sex1" property="sex1" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>-->
 <!--      针对数据库中字段值为 male,female 的情况可以正确解析-->

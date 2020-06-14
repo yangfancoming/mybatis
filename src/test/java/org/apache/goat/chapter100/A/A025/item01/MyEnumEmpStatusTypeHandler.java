@@ -41,5 +41,4 @@ public class MyEnumEmpStatusTypeHandler implements TypeHandler<SexEnum> {
     System.out.println("从数据库中获取的状态码:" + code);
     return SexEnum.valueOf(code);
   }
-
 }

@@ -7,14 +7,11 @@
 
 
 <!--  <typeHandlers>-->
-<!--    <typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="org.apache.goat.chapter100.A.A025.item01.SexEnum"/>-->
+<!--    <typeHandler handler  ="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType ="org.apache.goat.chapter100.A.A025.item01.SexEnum"/>-->
 <!--  </typeHandlers>-->
 
-
 <!--  <typeHandlers>-->
-<!--    <typeHandler-->
-<!--      handler="org.apache.goat.chapter100.A.A025.item01.MyEnumEmpStatusTypeHandler"-->
-<!--      javaType="org.apache.goat.chapter100.A.A025.item01.SexEnum" />-->
+<!--    <typeHandler handler  ="org.apache.goat.chapter100.A.A025.item01.MyEnumEmpStatusTypeHandler" javaType ="org.apache.goat.chapter100.A.A025.item01.SexEnum" />-->
 <!--  </typeHandlers>-->
 
 
