@@ -265,7 +265,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn("开始解析 <typeAliases> 标签  XNode 地址：" + parent.hashCode());
     // 遍历<typeAliases>下的所有子节点  dtd约束该标签下 只能出现 <package> 或 <typeAlias> 标签
     for (XNode child : parent.getChildren()) {
-      // 若为<package> 则获取其name属性  eg：<package name="org.apache.goat.common"/>
+      // 若为 <package> 则获取其name属性  eg：<package name="org.apache.goat.common"/>
       if ("package".equals(child.getName())) {
         String typeAliasPackage = child.getStringAttribute("name");
         // 为该包下的所有类起个别名，并注册进configuration的typeAliasRegistry中的typeAliases

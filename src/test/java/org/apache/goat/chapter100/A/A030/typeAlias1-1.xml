@@ -11,10 +11,6 @@
                 alias:指定新的别名
      -->
     <typeAlias type="org.apache.goat.common.model.Foo" alias="Foo0"/>
-
-    <!-- 别名alias属性为空的情况  使用注解注册别名 -->
-<!--    <typeAlias type="org.apache.goat.common.model.Bar" />-->
-
   </typeAliases>
 
 </configuration>
