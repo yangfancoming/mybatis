@@ -40,5 +40,4 @@ public class App extends MyBaseJavaMapperConfig {
 //    System.out.println(mark);
     System.out.println(Objects.nonNull(dsa)&& dsa == 1 ? new Integer(4) : dsa);
   }
-
 }
