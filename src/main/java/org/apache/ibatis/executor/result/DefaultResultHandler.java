@@ -30,5 +30,4 @@ public class DefaultResultHandler implements ResultHandler<Object> {
   public List<Object> getResultList() {
     return list;
   }
-
 }
