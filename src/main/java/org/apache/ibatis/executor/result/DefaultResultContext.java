@@ -40,5 +40,4 @@ public class DefaultResultContext<T> implements ResultContext<T> {
   public void stop() {
     this.stopped = true;
   }
-
 }
