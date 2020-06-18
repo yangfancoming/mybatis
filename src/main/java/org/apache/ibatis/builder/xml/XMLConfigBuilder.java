@@ -472,15 +472,10 @@ public class XMLConfigBuilder extends BaseBuilder {
     if (context == null) return; // -modify
     log.warn("开始解析 <environments> 标签  XNode 地址：" + context.hashCode());
     if (environment == null) {
-      // 获取 <environments default="pro_mysql"> 标签中的 default 属性
+      // 获取 <environments default="pro_mysql"> 主标签中的 default 属性
       environment = context.getStringAttribute("default");
     }
-    /**
-     * context.getChildren() 获取 <environments default="pro_mysql"> 标签下的所有子标签
-     *     <environment id="dev_hsqldb">
-     *     <environment id="pro_mysql">
-     *     <environment id="test_mysql">
-    */
+    // context.getChildren() 获取 <environments default="pro_mysql"> 标签下的所有子标签
     for (XNode child : context.getChildren()) {
       // ① <environment id="pro_mysql">
       String id = child.getStringAttribute("id");

@@ -71,7 +71,5 @@ public final class Environment {
     public Environment build() {
       return new Environment(id, transactionFactory, dataSource);
     }
-
   }
-
 }

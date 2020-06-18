@@ -2,9 +2,13 @@ package org.apache.goat.chapter100.A.A036;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.junit.jupiter.api.Test;
 
-
+/**
+ * 源码位置： <settings> 标签解析
+ * @see XMLConfigBuilder#environmentsElement(org.apache.ibatis.parsing.XNode)
+ */
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A036/mybatis-config.xml";
@@ -21,5 +25,4 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
     System.out.println(foo);
   }
-
 }
