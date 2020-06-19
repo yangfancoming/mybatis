@@ -88,5 +88,4 @@ class App extends MyBaseDataTest {
     List<Foo> all2 = fooMapper2.findAll(); // 查库
     System.out.println(all2);
   }
-
 }
