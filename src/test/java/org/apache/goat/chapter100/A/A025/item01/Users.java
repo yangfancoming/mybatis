@@ -46,5 +46,4 @@ public class Users {
   public void setSex1(SexEnum sex1) {
     this.sex1 = sex1;
   }
-
 }
