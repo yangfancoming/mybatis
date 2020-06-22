@@ -11,5 +11,4 @@ import org.apache.goat.common.model.Employee;
 	 boolean updateEmp(Employee employee);
 
 	 Integer deleteEmpById(Integer id);
-	
 }
