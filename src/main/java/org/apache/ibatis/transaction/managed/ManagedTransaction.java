@@ -72,5 +72,4 @@ public class ManagedTransaction implements Transaction {
   public Integer getTimeout() throws SQLException {
     return null;
   }
-
 }

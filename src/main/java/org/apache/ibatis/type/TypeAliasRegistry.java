@@ -205,5 +205,4 @@ public class TypeAliasRegistry {
   public Map<String, Class<?>> getTypeAliases() {
     return Collections.unmodifiableMap(typeAliases);
   }
-
 }
