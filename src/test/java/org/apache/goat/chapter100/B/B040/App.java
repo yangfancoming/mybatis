@@ -31,5 +31,4 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("selectById",1);
     System.out.println(foo); //
   }
-
 }
