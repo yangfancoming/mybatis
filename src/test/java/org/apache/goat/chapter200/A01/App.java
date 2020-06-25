@@ -65,7 +65,4 @@ class App {
     Foo foo2 = sqlSession.selectOne("selectById",2);
     System.out.println(foo2 == foo1); // 走缓存
   }
-
-
-
 }
