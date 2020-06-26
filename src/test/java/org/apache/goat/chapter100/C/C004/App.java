@@ -32,5 +32,4 @@ class App extends MyBaseDataTest {
     mapper.addEmp2(employee);
     System.out.println(employee);
   }
-
 }
