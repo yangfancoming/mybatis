@@ -22,6 +22,4 @@ public class App {
     Target targetProxy = (Target) TargetProxy.wrap(target,transactionInterceptor);
     targetProxy.execute(" HelloWord ");
   }
-
-
 }
