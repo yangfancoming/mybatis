@@ -91,5 +91,4 @@ public class VendorDatabaseIdProvider implements DatabaseIdProvider {
   public void setProperties(Properties p) {
     this.properties = p;
   }
-
 }

@@ -189,5 +189,4 @@ public class XMLStatementBuilder extends BaseBuilder {
     if (lang != null) langClass = resolveClass(lang);
     return configuration.getLanguageDriver(langClass);
   }
-
 }

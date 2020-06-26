@@ -3,6 +3,7 @@ package org.apache.goat.chapter100.A.A038;
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
+import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLStatementBuilder;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
@@ -13,7 +14,10 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-
+/**
+ * 源码位置： <databaseIdProvider> 标签解析
+ * @see XMLConfigBuilder#databaseIdProviderElement(org.apache.ibatis.parsing.XNode)
+ */
 class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A038/mybatis-config.xml";
@@ -34,7 +38,7 @@ class App extends MyBaseDataTest {
    * <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo"  databaseId="hsqldb">
    *   结果：  id=1, lastname=null, firstname=111
    * 
-   * 局部xml中的两个sql 标签是一样的  mybatis 根据 databaseId 属性不同 进行区分
+   * 局部xml中的两个sql 标签是一样的，mybatis根据 databaseId 属性不同 进行区分
   */
   @Test
   void test1() {
@@ -58,7 +62,7 @@ class App extends MyBaseDataTest {
   void databaseIdMatchesCurrentTest2() throws Exception{
     Method testNoParamMethod = xmlStatementBuilder.getClass().getDeclaredMethod(NAME_SPACE, String.class,String.class,String.class);
     testNoParamMethod.setAccessible(true);
-    //通过反射调用 databaseIdMatchesCurrent() 方法
+    // 通过反射调用 databaseIdMatchesCurrent() 方法
     Object result = testNoParamMethod.invoke(xmlStatementBuilder, "","","");
     System.out.println(result);
   }
