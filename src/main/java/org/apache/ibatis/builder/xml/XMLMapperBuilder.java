@@ -123,7 +123,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       if (StringUtils.isEmpty(namespace))  throw new BuilderException("Mapper's namespace cannot be empty"); // -modify
       // 记录当前 局部xml的命名空间 org.apache.ibatis.domain.blog.mappers.BlogMapper
       builderAssistant.setCurrentNamespace(namespace);
-      // 解析<cache-ref>节点
+      // 解析<cache-ref>节点cache-ref
       cacheRefElement(context.evalNode("cache-ref"));
       // 解析<cache>节点，可以设置缓存类型和属性，或是指定自定义的缓存
       cacheElement(context.evalNode("cache"));

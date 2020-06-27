@@ -2,6 +2,7 @@ package org.apache.goat.chapter100.G.G021;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.model.Foo;
+import org.apache.ibatis.executor.BaseExecutor;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,8 @@ import java.util.List;
  * @ Description: TODO
  * @ author  山羊来了
  * @ date 2020/2/7---14:33
+ * 源码位置： <databaseIdProvider> 标签解析
+ * @see BaseExecutor#queryFromDatabase(org.apache.ibatis.mapping.MappedStatement, java.lang.Object, org.apache.ibatis.session.RowBounds, org.apache.ibatis.session.ResultHandler, org.apache.ibatis.cache.CacheKey, org.apache.ibatis.mapping.BoundSql)
  */
 public class App extends MyBaseDataTest {
 
@@ -47,7 +50,6 @@ public class App extends MyBaseDataTest {
   @Test
   public void test() {
     List<Foo> all1 = cache1.findAll(); // 查库
-    System.out.println(all1);
     //第二次查询，由于是同一个sqlSession,会在缓存中查找查询结果 如果有，则直接从缓存中取出来，不和数据库进行交互
     List<Foo> all2 = cache1.findAll(); // 走缓存
     Assert.assertTrue(all1 == all2);
@@ -55,7 +57,7 @@ public class App extends MyBaseDataTest {
 
   // 1、sqlSession不同。 导致的一级缓存无效
   @Test
-  public void test1() throws Exception {
+  public void test1() {
     SqlSession sqlSession1 = sqlSessionFactory.openSession();
     CacheLevel1Mapper pm1 = sqlSession1.getMapper(CacheLevel1Mapper.class);
 
@@ -98,5 +100,4 @@ public class App extends MyBaseDataTest {
     List<Foo> all2 = cache1.findAll(); // 查库
     Assert.assertFalse(all1 == all2);
   }
-
 }

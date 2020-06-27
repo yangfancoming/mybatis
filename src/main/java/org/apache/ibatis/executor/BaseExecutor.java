@@ -55,9 +55,9 @@ public abstract class BaseExecutor implements Executor {
   protected Executor wrapper;
   // 延迟加载队列 (线程安全队列)
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
-  // 一级缓存，用于缓存查询结果 -modify
+  // 一级缓存，实质就是一个HashMap<Object, Object>，用于缓存查询结果 -modify
   public PerpetualCache localCache;
-  // 一级缓存，用于缓存输出类型参数（存储过程）
+  // 出参一级缓存，用于缓存输出类型参数（存储过程） ，当statment为callable的时候使用
   protected PerpetualCache localOutputParameterCache;
   protected Configuration configuration;
   // 用来记录嵌套查询的层数
@@ -116,6 +116,14 @@ public abstract class BaseExecutor implements Executor {
   public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
     if (closed) throw new ExecutorException("Executor was closed.");
+    /**
+     *  由于嵌套查询，这里会查询多次。 第一个查询，并且当前的语句需要刷新缓存，则进行缓存的刷新
+     * 如果当前的查询语句设置了清除缓存的属性为true，那么就要把一级缓存清除
+     * 当然里面还需要满足queryStack==0的条件，这个条件涉及到了嵌套查询(nested select/query)，如果是嵌套查询的最外层查询（第一个查询），才进行缓存的清理动作，否则不进行。
+     * 这里的queryStack是查询的层级，取决于nested select的层数，例如一个Blog有一个Author，一个Author有一个Account，其中Author和Account都使用了嵌套查询，
+     * 并且不是延迟加载(fetchType设置)，那么Author查询的时候queryStack就会是1，Account查询的时候queryStack为2。
+     * 针对嵌套查询这里就说这么多，后续会专门写一篇嵌套查询原理的文章，包括非延迟加载以及延迟加载的不同情况的处理方式。
+    */
     if (queryStack == 0 && ms.isFlushCacheRequired()) {
       // 如果不是嵌套查询，且 <select> 的 flushCache=true 时才会清空缓存
       clearLocalCache();
@@ -126,7 +134,7 @@ public abstract class BaseExecutor implements Executor {
       // 首先从一级缓存中进行查询  //根据cachekey从localCache去查
       list = (resultHandler == null) ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
-        // 如果命中缓存，则处理存储过程 // 如果查到localCache缓存，处理localOutputParameterCache
+        // 如果命中缓存，则处理存储过程 // 如果查到localCache缓存，处理localOutputParameterCache输出参数
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
       } else {
         // 如果缓存中没有对应的数据，则查数据库中查询数据
@@ -135,8 +143,9 @@ public abstract class BaseExecutor implements Executor {
     } finally {
       queryStack--;
     }
+    // 最外层的查询已经结束
     if (queryStack == 0) {
-      // 延迟加载队列中所有元素
+      // 延迟加载队列中所有元素 // 所有非延迟的嵌套查询也已经查完了，那么就可以把嵌套查询的结果放入到需要的对象中
       for (DeferredLoad deferredLoad : deferredLoads) {
         deferredLoad.load();
       }
@@ -286,13 +295,19 @@ public abstract class BaseExecutor implements Executor {
   // 从数据库查询数据
   private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql) throws SQLException {
     List<E> list;
-    // 在缓存中添加占位符
+    /**
+     * 在缓存池中添加占位符,此处代码的作用就是为了防止嵌套查询是查询了相同的数据
+     * 这里为什么要先占位呢？
+     *  回答：嵌套的延迟加载有可能用的是同一个对象，这里说明已经开始查了，但是由于处理嵌套的查询，此查询还没有查完，再次执行嵌套查询，且查询的是相同的东西，那么就不用再查了
+     *  举个例子：一个Blog有一个Author，而Author中又嵌套了一个Blog，那么Blog还没有放到缓存中，但是嵌套查询现在查Author，Author中的Blog又是第一个Blog查询的数据，
+     *  这里放置一个占位符就是为了说明，这个Blog已经在查询了，结果还没出来而已，不要急，等结果出来了再进行配对。
+     */
     localCache.putObject(key, EXECUTION_PLACEHOLDER);
     try {
       // 而具体的查询实现doQuery被延迟到了子类来实现
       list = doQuery(ms, parameter, rowBounds, resultHandler, boundSql);
     } finally {
-      // 删除占位符
+      // 删除缓冲池中的占位符
       localCache.removeObject(key);
     }
     // 将从数据库查询的结果添加到一级缓存中
@@ -378,7 +393,7 @@ public abstract class BaseExecutor implements Executor {
     public void load() {
       @SuppressWarnings("unchecked")
       // we suppose we get back a List
-        List<Object> list = (List<Object>) localCache.getObject(key);
+      List<Object> list = (List<Object>) localCache.getObject(key);
       Object value = resultExtractor.extractObjectFromList(list, targetType);
       resultObject.setValue(property, value);
     }

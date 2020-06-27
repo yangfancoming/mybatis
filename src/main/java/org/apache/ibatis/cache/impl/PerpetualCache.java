@@ -76,5 +76,4 @@ public class PerpetualCache implements Cache {
     if (getId() == null) throw new CacheException("Cache instances require an ID.");
     return getId().hashCode();
   }
-
 }

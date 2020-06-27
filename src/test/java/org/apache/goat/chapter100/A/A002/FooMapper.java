@@ -12,5 +12,4 @@ public interface FooMapper {
   List<Foo> findAll();
 
   int deleteById(Integer id);
-
 }

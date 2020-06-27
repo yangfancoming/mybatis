@@ -32,5 +32,4 @@ class CacheOrderTest {
     Cache cache = ms.getCache();
     assertEquals("org.apache.ibatis.submitted.cacheorder.Mapper2", cache.getId());
   }
-
 }
