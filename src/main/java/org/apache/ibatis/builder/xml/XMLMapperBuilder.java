@@ -247,22 +247,25 @@ public class XMLMapperBuilder extends BaseBuilder {
   private void cacheElement(XNode context) {
     log.warn("开始解析<cache> 标签");
     if (context == null) return; // modify
-    // 获取type属性
+    // 获取type属性   // 底层缓存类型，默认为PERPETUAL，用户可以自行定义自己的Cache
     String type = context.getStringAttribute("type", "PERPETUAL");
+    // 解析缓存类
     Class<? extends Cache> typeClass = typeAliasRegistry.resolveAlias(type);
-    // 获取eviction属性 默认使用排除算法缓存类型
+    // 获取eviction属性 默认使用排除算法缓存类型  // 淘汰策略
     String eviction = context.getStringAttribute("eviction", "LRU");
+    // 淘汰策略所使用的缓存类型
     Class<? extends Cache> evictionClass = typeAliasRegistry.resolveAlias(eviction);
-    // 获取flushInterval属性 缓存自动刷新时间
+    // 获取flushInterval属性 缓存自动刷新时间 // 刷新间隔
     Long flushInterval = context.getLongAttribute("flushInterval");
-    // 获取size属性 缓存存储实例引用的大小
+    // 获取size属性 缓存存储实例引用的大小 // 缓存大小
     Integer size = context.getIntAttribute("size");
-    // 是否是只读缓存
+    // 是否是只读缓存   // 是否可以写（是否只读的反义）
     boolean readWrite = !context.getBooleanAttribute("readOnly", false);
+    // 是否使用阻塞的方式
     boolean blocking = context.getBooleanAttribute("blocking", false);
-    // 获取子节点配置
+    // 获取子节点配置 // 一些属性值
     Properties props = context.getChildrenAsProperties();
-    // 初始化缓存实现
+    // 初始化缓存实现 // 创建新的cache对象
     builderAssistant.useNewCache(typeClass, evictionClass, flushInterval, size, readWrite, blocking, props);
   }
 

@@ -91,19 +91,20 @@ public class CacheBuilder {
   public Cache build() {
     // 设置默认的缓存类型（PerpetualCache）和 缓存装饰器（LruCache）
     setDefaultImplementations();
-    // 通过反射创建缓存
+    // 通过反射创建缓存 // 创建底层Cache实例，底层Cache有个Id
     Cache cache = newBaseCacheInstance(implementation, id);
     setCacheProperties(cache);
     // issue #352, do not apply decorators to custom caches // 仅对内置缓存 PerpetualCache 应用装饰器
+    // 自定义的cache不再进行任何的装饰
     if (PerpetualCache.class.equals(cache.getClass())) {
-      // 遍历装饰器集合，应用装饰器
+      // 遍历装饰器集合，应用装饰器 // 配置的包装器(淘汰策略的包装器就在decorators中)
       for (Class<? extends Cache> decorator : decorators) {
         // 通过反射创建装饰器实例
         cache = newCacheDecoratorInstance(decorator, cache);
         // 应用标准的装饰器，比如 LoggingCache、 SynchronizedCache
         setCacheProperties(cache);
       }
-      // 为 Cache 添加装饰器
+      // 为 Cache 添加装饰器  // 基本包装器
       cache = setStandardDecorators(cache);
     } else if (!LoggingCache.class.isAssignableFrom(cache.getClass())) {
       // 应用具有日志功能的缓存装饰器
@@ -128,19 +129,20 @@ public class CacheBuilder {
       if (size != null && metaCache.hasSetter("size")) {
         metaCache.setValue("size", size);
       }
-      // 添加 ScheduledCache 装饰器
+      // 添加 ScheduledCache 装饰器 // 当clearInterval设置了值时，就用ScheduledCache进行装饰
       if (clearInterval != null) {
         cache = new ScheduledCache(cache);
         ((ScheduledCache) cache).setClearInterval(clearInterval);
       }
-      // 添加 SerializedCache 装饰器
+      // 添加 SerializedCache 装饰器  // readOnly设置为false时，使用SerializedCache进行装饰
       if (readWrite) {
         cache = new SerializedCache(cache);
       }
-      // 添加 LoggingCache 装饰器
+      // 添加 LoggingCache 装饰器 // 使用LoggingCache进行装饰
       cache = new LoggingCache(cache);
-      // 添加  SynchronizedCache 装饰器，保证线程安全
+      // 添加  SynchronizedCache 装饰器，保证线程安全 // 使用SynchronizedCache进行装饰
       cache = new SynchronizedCache(cache);
+      // 如果blocking属性设置为true时，使用BlockingCache进行装饰
       if (blocking) {
         // 添加 BlockingCache 装饰器
         cache = new BlockingCache(cache);

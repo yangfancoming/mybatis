@@ -3,6 +3,7 @@ package org.apache.goat.chapter100.G.G025;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.model.Foo;
+import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,9 @@ import java.util.List;
  * 					增删改执行完成后就会清楚缓存； 测试：flushCache="true"：（一级二级都会清除）
  * 					查询标签默认：flushCache="false"：如果flushCache=true;每次查询之后都会清空缓存；缓存是没有被使用的；
  * 			4）、sqlSession.clearCache();只是清除当前session的一级缓存；
+ *
+ * 源码位置：二级缓存 <cache> 标签解析
+ * @see XMLMapperBuilder#cacheElement(org.apache.ibatis.parsing.XNode)
 */
 class App extends MyBaseDataTest {
 
