@@ -27,8 +27,4 @@ class App extends MyBaseDataTest {
     List<Customer> list = mapper.testSelect(customer);
     System.out.println(list);
   }
-
-
-
-
 }
