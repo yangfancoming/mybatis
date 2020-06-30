@@ -18,14 +18,10 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter600/item02/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-
   @Test
   void Reader() throws Exception {
     setUpByReader(XMLPATH,DBSQL);
     Foo foo1 = sqlSession.selectOne("com.goat.test.namespace.findList",2);
 //    System.out.println(foo1); //
   }
-
-
-
 }
