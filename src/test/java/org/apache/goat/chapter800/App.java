@@ -97,5 +97,4 @@ public class App {
     Animal convertAnimal = (Animal)beanWrapper.get(new PropertyTokenizer("[0]"));
     System.out.println(convertAnimal.getName());
   }
-
 }
