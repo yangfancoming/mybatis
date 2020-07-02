@@ -603,10 +603,10 @@ public class Configuration {
    * 因为SqlSession对数据库的访问需要使用Executor来实现
    * */
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
-    //根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
+    // 根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = (executorType == null) ? defaultExecutorType : executorType;
     // doit 这行代码我怎么觉得 是没有用的呢？
-    // executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // -modify
+//     executorType = executorType == null ? ExecutorType.SIMPLE : executorType; // -modify
     Executor executor;
     //2.BATCH
     if (ExecutorType.BATCH == executorType) {
@@ -616,9 +616,9 @@ public class Configuration {
     } else { //4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
-    //5.如果开启了二级缓存，就装饰一下。(默认开启) 装饰器模式 装饰模式
+    // 5.如果开启了二级缓存，就装饰一下。(默认开启) 装饰器模式 装饰模式
     if (cacheEnabled)  executor = new CachingExecutor(executor);
-    //6.插件化处理  责任链模式 使用每一个拦截器重新包装 executor 并返回
+    // 6.插件化处理  责任链模式 使用每一个拦截器重新包装 executor 并返回
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

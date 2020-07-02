@@ -36,6 +36,7 @@ public class CachingExecutor implements Executor {
 
   //  装饰者(CachingExecutor)持有被装饰者(SimpleExecutor)的引用！！！
   public final Executor delegate; // SimpleExecutor -modify
+
   private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
   public CachingExecutor(Executor delegate) {

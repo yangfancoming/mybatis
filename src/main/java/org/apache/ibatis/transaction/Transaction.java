@@ -35,5 +35,4 @@ public interface Transaction {
    * Get transaction timeout if set.
    */
   Integer getTimeout() throws SQLException;
-
 }

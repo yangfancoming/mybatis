@@ -32,5 +32,4 @@ public interface Interceptor {
   default void setProperties(Properties properties) {
     // NOP
   }
-
 }
