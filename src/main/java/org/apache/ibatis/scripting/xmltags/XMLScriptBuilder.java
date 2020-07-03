@@ -90,7 +90,7 @@ public class XMLScriptBuilder extends BaseBuilder {
     // 获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
     List<SqlNode> contents = new ArrayList<>();
     // 获取SQL下面的子节点
-    NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
+    NodeList children = node.getNode().getChildNodes(); // 这里的children只有一个节点；
     // 遍历子节点，解析成对应的sqlNode类型，并添加到contents中
     for (int i = 0; i < children.getLength(); i++) {
       XNode child = node.newXNode(children.item(i));
