@@ -9,7 +9,6 @@ public interface EmployeeMapper {
 
 	public Employee getEmpById(Integer id);
 
-
   public Employee getEmpByIdAndLastName(Integer id,String lastName);
 
   public Employee getEmpByIdAndLastName1(Integer id,String lastName);

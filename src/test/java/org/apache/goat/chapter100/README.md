@@ -32,16 +32,12 @@
     B060 使用 mapper 接口类的 xml 方式 
     B062 使用 mapper 接口类的 注解 方式 （ @select注解和局部xml的<delete>标签不能同时出现）
 # 局部 xml 
-    C000 局部xml 之
     C001 局部xml 之  简单CRUD
     C002 局部xml 之  多参数查询
     C004 局部xml 之  <insert><selectKey> mysql  新增 获取自动增长 主键
     C006 局部xml 之  <insert><selectKey> Oracle 新增 获取序列 主键
     
-    C010 局部xml 之  参数处理 之  单个参数 
-    C010 局部xml 之  参数处理 之  多个参数
-    C010 局部xml 之  参数处理 之  POJO
-    C010 局部xml 之  参数处理 之  Map
+    C010 局部xml 之  参数处理 之  参数传递之： 【单个参数】  【多个参数】  【POJO】  【Map】
     C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
     
     C030 局部xml 之  <insert> 

@@ -27,5 +27,4 @@ class App4 extends MyBaseDataTest {
     Employee temp = mapper.getEmpByIdAndLastName4(employee);
     System.out.println(temp);
   }
-
 }
