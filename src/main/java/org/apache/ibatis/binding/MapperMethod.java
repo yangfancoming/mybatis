@@ -222,9 +222,9 @@ public class MapperMethod {
   }
   // 静态内部类，封装了具体执行的动作
   public static class SqlCommand {
-    // xml标签的id   通过它可以找到 MappedStatement eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
+    // xml标签的id   通过它可以找到 MappedStatement    eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
     private final String name;
-    // CRUD的具体类型
+    // CRUD的具体类型   eg： UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH
     private final SqlCommandType type;
 
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {

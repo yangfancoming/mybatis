@@ -28,10 +28,7 @@ abstract class AbstractLazyTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
 
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/lazyload_proxyfactory_comparison/CreateDB.sql");
-
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/lazyload_proxyfactory_comparison/CreateDB.sql");
     sqlSession = sqlSessionFactory.openSession();
     mapper = sqlSession.getMapper(Mapper.class);
   }
