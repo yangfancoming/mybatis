@@ -38,5 +38,4 @@ class JavassistTest {
       Assertions.assertEquals(1, user.getGroups().size());
     }
   }
-
 }

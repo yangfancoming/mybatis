@@ -79,5 +79,4 @@ class InsertTest {
       assertEquals(1, batchResults.size());
     }
   }
-
 }

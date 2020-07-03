@@ -34,5 +34,4 @@ class MissingIdPropertyTest {
       Assertions.assertEquals(3, car.getCarParts().size());
     }
   }
-
 }

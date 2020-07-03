@@ -17,5 +17,4 @@ class DisallowDotsOnNamesTest {
         Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/disallowdotsonnames/ibatisConfig.xml");
         Assertions.assertThrows(PersistenceException.class, () -> new SqlSessionFactoryBuilder().build(reader));
     }
-
 }

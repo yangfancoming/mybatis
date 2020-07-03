@@ -26,10 +26,7 @@ class MapperExtendTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/mapper_extend/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/mapper_extend/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/mapper_extend/CreateDB.sql");
   }
 
   @Test
@@ -82,9 +79,7 @@ class MapperExtendTest {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       Mapper mapper = sqlSession.getMapper(Mapper.class);
       when(mapper).noMappedStatement();
-      then(caughtException()).isInstanceOf(BindingException.class)
-        .hasMessage("Invalid bound statement (not found): "
-          + Mapper.class.getName() + ".noMappedStatement");
+      then(caughtException()).isInstanceOf(BindingException.class).hasMessage("Invalid bound statement (not found): " + Mapper.class.getName() + ".noMappedStatement");
     }
   }
 }

@@ -49,5 +49,4 @@ class MapTypeHandlerTest {
       Assertions.assertThrows(PersistenceException.class, () -> mapper.getUserXML(params));
     }
   }
-
 }

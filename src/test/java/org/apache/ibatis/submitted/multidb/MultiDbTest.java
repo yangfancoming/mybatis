@@ -11,6 +11,7 @@ public class MultiDbTest extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/ibatis/submitted/multidb/MultiDbConfig.xml";
   public static final String DBSQL = "org/apache/ibatis/submitted/multidb/CreateDB.sql";
+
   MultiDbMapper mapper;
   
   @BeforeEach

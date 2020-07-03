@@ -331,7 +331,5 @@ class MemberAccessTest extends MyBaseDataTest {
       properties.put("arg3", arg3);
       properties.put("arg4", arg4);
     }
-
   }
-
 }

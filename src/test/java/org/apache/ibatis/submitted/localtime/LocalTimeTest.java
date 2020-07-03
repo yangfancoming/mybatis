@@ -23,8 +23,7 @@ public class LocalTimeTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/localtime/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-        "org/apache/ibatis/submitted/localtime/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/localtime/CreateDB.sql");
   }
 
   @Test
@@ -54,5 +53,4 @@ public class LocalTimeTest {
       assertEquals(t, record.getT());
     }
   }
-
 }

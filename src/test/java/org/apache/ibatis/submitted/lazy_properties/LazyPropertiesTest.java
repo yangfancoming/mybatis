@@ -30,10 +30,7 @@ class LazyPropertiesTest {
         .getResourceAsReader("org/apache/ibatis/submitted/lazy_properties/mybatis-config.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
-
-    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),
-            "org/apache/ibatis/submitted/lazy_properties/CreateDB.sql");
+    BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/lazy_properties/CreateDB.sql");
   }
 
   @Test

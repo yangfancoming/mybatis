@@ -85,5 +85,4 @@ class DmlMapperReturnTypesTest {
     final Boolean rows = mapper.updateReturnsBoolean(new User(1, "shouldReturnBoolean"));
     assertTrue(rows);
   }
-
 }

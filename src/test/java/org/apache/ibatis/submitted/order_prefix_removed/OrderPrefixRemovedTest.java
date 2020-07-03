@@ -24,7 +24,6 @@ class OrderPrefixRemovedTest {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/order_prefix_removed/CreateDB.sql");
-
   }
 
   @Test

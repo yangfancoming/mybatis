@@ -69,5 +69,4 @@ class FooMapperTest {
     conn.close();
     session.close();
   }
-
 }

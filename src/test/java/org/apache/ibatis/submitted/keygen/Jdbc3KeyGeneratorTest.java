@@ -42,6 +42,7 @@ class Jdbc3KeyGeneratorTest {
     }
     BaseDataTest.runScript(sqlSessionFactory.getConfiguration().getEnvironment().getDataSource(),"org/apache/ibatis/submitted/keygen/CreateDB.sql");
   }
+
   @AfterEach
   public void after(){
     sqlSession.rollback();
@@ -216,8 +217,7 @@ class Jdbc3KeyGeneratorTest {
     Country country = new Country("China", "CN");
     when(mapper).insertMultiParams_keyPropertyWithoutParamName(country, 1);
     then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining(
-      "Could not determine which parameter to assign generated keys to. "
-        + "Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). "
+      "Could not determine which parameter to assign generated keys to. Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). "
         + "Specified key properties are [id] and available parameters are [");
   }
 
@@ -226,8 +226,7 @@ class Jdbc3KeyGeneratorTest {
     Country country = new Country("China", "CN");
     when(mapper).insertMultiParams_keyPropertyWithWrongParamName(country, 1);
     then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining(
-      "Could not find parameter 'bogus'. "
-        + "Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). "
+      "Could not find parameter 'bogus'. Note that when there are multiple parameters, 'keyProperty' must include the parameter name (e.g. 'param.id'). "
         + "Specified key properties are [bogus.id] and available parameters are [");
   }
 
@@ -354,15 +353,13 @@ class Jdbc3KeyGeneratorTest {
   @Test
   void shouldFailIfTooManyGeneratedKeys() {
     when(mapper).tooManyGeneratedKeys(new Country());
-    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining(
-      "Too many keys are generated. There are only 1 target objects.");
+    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining("Too many keys are generated. There are only 1 target objects.");
   }
 
   @Test
   void shouldFailIfTooManyGeneratedKeys_ParamMap() {
     when(mapper).tooManyGeneratedKeysParamMap(new Country(), 1);
-    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining(
-      "Too many keys are generated. There are only 1 target objects.");
+    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining("Too many keys are generated. There are only 1 target objects.");
   }
 
   @Test
@@ -370,7 +367,6 @@ class Jdbc3KeyGeneratorTest {
     mapper.tooManyGeneratedKeysParamMap(new Country(), 1);
     mapper.tooManyGeneratedKeysParamMap(new Country(), 1);
     when(sqlSession).flushStatements();
-    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining(
-      "Too many keys are generated. There are only 2 target objects.");
+    then(caughtException()).isInstanceOf(PersistenceException.class).hasMessageContaining("Too many keys are generated. There are only 2 target objects.");
   }
 }

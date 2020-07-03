@@ -29,5 +29,4 @@ class IncludeTest extends MyBaseDataTest {
     final Map<String, Object> result = sqlSession.selectOne("org.apache.ibatis.submitted.includes.mapper.select");
     Assertions.assertEquals(Integer.valueOf(3), result.size());
   }
-
 }

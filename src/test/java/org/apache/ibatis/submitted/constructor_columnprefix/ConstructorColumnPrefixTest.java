@@ -57,5 +57,4 @@ class ConstructorColumnPrefixTest {
     assertEquals("Jane", article2.getAuthor().getName());
     assertEquals("Mary", article2.getCoauthor().getName());
   }
-
 }

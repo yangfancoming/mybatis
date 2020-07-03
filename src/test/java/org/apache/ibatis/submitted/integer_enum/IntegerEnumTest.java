@@ -17,5 +17,4 @@ class IntegerEnumTest extends BaseDataTest {
     SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
     builder.build(reader);
   }
-
 }

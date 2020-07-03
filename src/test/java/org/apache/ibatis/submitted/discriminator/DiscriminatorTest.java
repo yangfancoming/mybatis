@@ -46,5 +46,4 @@ class DiscriminatorTest {
     assertEquals(Truck.class, owners.get(0).getVehicle().getClass());
     assertEquals(Car.class, owners.get(1).getVehicle().getClass());
   }
-
 }

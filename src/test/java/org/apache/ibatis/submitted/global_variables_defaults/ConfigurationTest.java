@@ -47,5 +47,4 @@ class ConfigurationTest {
     Assertions.assertThat(configuration.getDatabaseId()).isNull();
     Assertions.assertThat(((SupportClasses.CustomObjectFactory) configuration.getObjectFactory()).getProperties().getProperty("name")).isEqualTo("custom");
   }
-
 }

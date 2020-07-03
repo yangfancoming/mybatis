@@ -18,26 +18,20 @@ public class XmlMapperTest {
 
   @Test
   void applyDefaultValueOnXmlMapper() throws IOException {
-
     Properties props = new Properties();
     props.setProperty(PropertyParser.KEY_ENABLE_DEFAULT_VALUE, "true");
-
     Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/global_variables_defaults/mybatis-config.xml");
     SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(reader, props);
     Configuration configuration = factory.getConfiguration();
     configuration.addMapper(XmlMapper.class);
     SupportClasses.CustomCache cache = SupportClasses.Utils.unwrap(configuration.getCache(XmlMapper.class.getName()));
-
     Assertions.assertThat(cache.getName()).isEqualTo("default");
-
     try (SqlSession sqlSession = factory.openSession()) {
       XmlMapper mapper = sqlSession.getMapper(XmlMapper.class);
-
       Assertions.assertThat(mapper.ping()).isEqualTo("Hello");
       Assertions.assertThat(mapper.selectOne()).isEqualTo("1");
       Assertions.assertThat(mapper.selectFromVariable()).isEqualTo("9999");
     }
-
   }
 
   @Test
@@ -54,17 +48,13 @@ public class XmlMapperTest {
     Configuration configuration = factory.getConfiguration();
     configuration.addMapper(XmlMapper.class);
     SupportClasses.CustomCache cache = SupportClasses.Utils.unwrap(configuration.getCache(XmlMapper.class.getName()));
-
     Assertions.assertThat(cache.getName()).isEqualTo("custom");
-
     try (SqlSession sqlSession = factory.openSession()) {
       XmlMapper mapper = sqlSession.getMapper(XmlMapper.class);
-
       Assertions.assertThat(mapper.ping()).isEqualTo("Hi");
       Assertions.assertThat(mapper.selectOne()).isEqualTo("1");
       Assertions.assertThat(mapper.selectFromVariable()).isEqualTo("5555");
     }
-
   }
 
   public interface XmlMapper {
@@ -74,7 +64,5 @@ public class XmlMapperTest {
     String selectOne();
 
     String selectFromVariable();
-
   }
-
 }

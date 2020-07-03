@@ -23,7 +23,6 @@ class HeavyInitialLoadTest {
     try (Reader reader = Resources.getResourceAsReader("org/apache/ibatis/submitted/heavy_initial_load/ibatisConfig.xml")) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     }
-
     sqlSessionFactory.getConfiguration().getEnvironment().getDataSource().getConnection().close();
   }
 
@@ -32,12 +31,9 @@ class HeavyInitialLoadTest {
   /**
    * Test to demonstrate the effect of the
    * https://issues.apache.org/jira/browse/OGNL-121 issue in ognl on mybatis.
-   *
    * Use the thing mapper for the first time in multiple threads. The mapper contains
    * a lot of ognl references to static final class members like:
-   *
    * <code>@org.apache.ibatis.submitted.heavy_initial_load.Code@_1.equals(code)</code>
-   *
    * Handling of these references is optimized in ognl (because they never change), but
    * version 2.6.9 has a bug in caching the result . As a result the reference is
    * translated to a 'null' value, which is used to invoke the 'equals' method on
@@ -56,14 +52,11 @@ class HeavyInitialLoadTest {
           throwables.add(exception);
         }
       });
-
       threads[i].start();
     }
-
     for (int i = 0; i < THREAD_COUNT; i++) {
       threads[i].join();
     }
-
     Assertions.assertTrue(throwables.isEmpty(), "There were exceptions: " + throwables);
   }
 

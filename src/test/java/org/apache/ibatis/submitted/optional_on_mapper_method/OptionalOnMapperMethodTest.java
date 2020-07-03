@@ -75,5 +75,4 @@ class OptionalOnMapperMethodTest {
       assertSame(optionalMockUser, user);
     }
   }
-
 }
