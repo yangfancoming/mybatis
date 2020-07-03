@@ -42,5 +42,4 @@ public class MapperProxyFactory<T> {
     // 通过 JDK 动态代理创建代理对象
     return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[] { mapperInterface }, mapperProxy);
   }
-
 }

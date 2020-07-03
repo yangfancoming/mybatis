@@ -95,7 +95,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       configurationElement(parser.evalNode("/mapper"));
       // 当前局部xml解析完成后 将该Mapper.xml添加至configuration的LoadedResource(已解析资源集合)中 防止被重复解析
       configuration.addLoadedResource(resource);
-      // 将当前上级循环中解析的mapper.xml对应的Mapper Class  注册进 configuration 的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
+      // 将当前上级循环中解析的mapper.xml对应的MapperClass  注册进configuration的 mapperRegistry 的 knownMappers 容器中 。 通过命名空间绑定 Mapper 接口
       // 将解析的SQL和接口中的方法绑定
       bindMapperForNamespace(builderAssistant.getCurrentNamespace());
     }
