@@ -10,7 +10,7 @@
   parameterType ：即将传入的语句参数的完全限定类名或别名 。 这个属性是可边的 ，因为 MyBatis 可以推断出传入语句的具体参数，因此不建议配置该属性 。
   flushCache ：默认值为 true ，任何时候只要语句被调用，都会清空一级缓存和 二级缓存 。
   timeout ：设置在抛出异常之前，驱动程序等待数据库返回请求结果的秒数 。
-  stateme 口 tType ：对于 STATEMENT 、 PREPARED 、 CALLABLE, MyBatis 会分别使用
+  statementType ：对于 STATEMENT 、 PREPARED 、 CALLABLE, MyBatis 会分别使用
   对应的 Statement 、 PreparedStatement 、 Callable S tatement ，默认值为 PREPARED 。
   useGeneratedKeys ：默认值为 false 。 如果设置为 true, MyBatis 会使用 JDBC 的 get Ge口eratedKeys 方法来取出由数据库内部生成的主键 。
   keyProperty : MyBatis 通过 getGeneratedKeys 获取主键值后将要赋值的属性名 。如果希望得到多个数据库自动生成的列，属性值也可以是以逗号分隔的属性名称列表 。

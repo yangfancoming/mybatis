@@ -30,5 +30,4 @@ class App extends MyBaseDataTest {
     int i = userMapper.deleteById(user1);
     System.out.println(i);
   }
-
 }

@@ -10,7 +10,6 @@ class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C040/mybatis-config.xml";
 
-
   @Test
   void insert1() throws Exception  {
     setUpByReader(XMLPATH);
@@ -31,10 +30,4 @@ class App extends MyBaseDataTest {
     user = userMapper.selectById(1L);
     System.out.println(user);
   }
-
-  @Test
-  void insert2() throws Exception  {
-
-  }
-
 }

@@ -36,5 +36,4 @@ class App extends MyBaseDataTest {
     Object o = sqlSession.insert("org.apache.goat.chapter100.C.C070.FooMapper.insertUser", user);
     System.out.println(o);
   }
-
 }
