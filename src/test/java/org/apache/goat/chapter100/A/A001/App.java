@@ -19,5 +19,4 @@ class App extends MyBaseDataTest {
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
     System.out.println(foo);
   }
-
 }
