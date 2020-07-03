@@ -141,9 +141,9 @@ public class MapperAnnotationBuilder {
     }
   }
 
-/**
- 本函数功能： 优先判断当前类下有无XML配置，有则加载，无则通过MapperAnnotationBuilder#parseStatement()方法解析类上的注解
-*/
+  /**
+   本函数功能： 优先判断当前类下有无XML配置，有则加载，无则通过MapperAnnotationBuilder#parseStatement()方法解析类上的注解
+   */
   private void loadXmlResource() {
     // Spring may not know the real resource name so we check a flag to prevent loading again a resource twice
     // spring可能不知道真正的资源名，所以我们检查一个标志以防止再次加载一个资源两次
@@ -152,7 +152,7 @@ public class MapperAnnotationBuilder {
       /**
        *  这里发现它会去加载跟Class文件同一目录下且同名的xml配置文件
        *  xmlResource ： org/apache/goat/chapter100/A044/ZooMapper.xml
-      */
+       */
       String xmlResource = type.getName().replace('.', '/') + ".xml";
       // #1347
       InputStream inputStream = type.getResourceAsStream("/" + xmlResource);
@@ -166,7 +166,7 @@ public class MapperAnnotationBuilder {
            *  这里发现找不到相应的xml配置文件也没关系，这里其实它认为有其他两种方式实现
            *  1.SqlsessionFactory指定了mapperLocations
            *  2.Class类上有注解形式代替了xml配置
-          */
+           */
         }
       }
       if (inputStream != null) {
@@ -522,10 +522,10 @@ public class MapperAnnotationBuilder {
       @SuppressWarnings("unchecked")
       Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>) ((result.typeHandler() == UnknownTypeHandler.class) ? null : result.typeHandler());
       ResultMapping resultMapping = assistant.buildResultMapping(resultType,
-          nullOrEmpty(result.property()), nullOrEmpty(result.column()),
-          result.javaType() == void.class ? null : result.javaType(),
-          result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
-          hasNestedSelect(result) ? nestedSelectId(result) : null,null,null,null,typeHandler,flags,null,null,isLazy(result));
+        nullOrEmpty(result.property()), nullOrEmpty(result.column()),
+        result.javaType() == void.class ? null : result.javaType(),
+        result.jdbcType() == JdbcType.UNDEFINED ? null : result.jdbcType(),
+        hasNestedSelect(result) ? nestedSelectId(result) : null,null,null,null,typeHandler,flags,null,null,isLazy(result));
       resultMappings.add(resultMapping);
     }
   }
@@ -568,16 +568,16 @@ public class MapperAnnotationBuilder {
       @SuppressWarnings("unchecked")
       Class<? extends TypeHandler<?>> typeHandler = (Class<? extends TypeHandler<?>>) (arg.typeHandler() == UnknownTypeHandler.class ? null : arg.typeHandler());
       ResultMapping resultMapping = assistant.buildResultMapping(
-          resultType,
-          nullOrEmpty(arg.name()),
-          nullOrEmpty(arg.column()),
-          arg.javaType() == void.class ? null : arg.javaType(),
-          arg.jdbcType() == JdbcType.UNDEFINED ? null : arg.jdbcType(),
-          nullOrEmpty(arg.select()),
-          nullOrEmpty(arg.resultMap()),
-          null,
-          nullOrEmpty(arg.columnPrefix()),
-          typeHandler,flags,null,null,false);
+        resultType,
+        nullOrEmpty(arg.name()),
+        nullOrEmpty(arg.column()),
+        arg.javaType() == void.class ? null : arg.javaType(),
+        arg.jdbcType() == JdbcType.UNDEFINED ? null : arg.jdbcType(),
+        nullOrEmpty(arg.select()),
+        nullOrEmpty(arg.resultMap()),
+        null,
+        nullOrEmpty(arg.columnPrefix()),
+        typeHandler,flags,null,null,false);
       resultMappings.add(resultMapping);
     }
   }

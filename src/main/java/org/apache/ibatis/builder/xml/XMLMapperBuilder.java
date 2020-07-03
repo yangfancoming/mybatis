@@ -521,5 +521,4 @@ public class XMLMapperBuilder extends BaseBuilder {
     configuration.addLoadedResource("namespace:" + namespace);
     configuration.addMapper(boundType);
   }
-
 }

@@ -87,26 +87,26 @@ public class XMLScriptBuilder extends BaseBuilder {
    *   </select>
   */
   protected MixedSqlNode parseDynamicTags(XNode node) {
-    //获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
+    // 获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点
     List<SqlNode> contents = new ArrayList<>();
-    //获取SQL下面的子节点
+    // 获取SQL下面的子节点
     NodeList children = node.getNode().getChildNodes(); //这里的children只有一个节点；
-    //遍历子节点，解析成对应的sqlNode类型，并添加到contents中
+    // 遍历子节点，解析成对应的sqlNode类型，并添加到contents中
     for (int i = 0; i < children.getLength(); i++) {
       XNode child = node.newXNode(children.item(i));
       log.warn("开始解析 crud 标签下的所有动态标签  XNode 地址：" + StringUtils.rightPad(child.hashCode()+"", 15)  + "节点名称：" + child.getName());
-      //如果是文本节点，则先解析成TextSqlNode对象
+      // 如果是文本节点，则先解析成TextSqlNode对象
       if (child.getNode().getNodeType() == Node.CDATA_SECTION_NODE || child.getNode().getNodeType() == Node.TEXT_NODE) {
-        //直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
+        // 直接获取数据内容，类似"select * from .."纯文本语句 //获取文本信息
         String data = child.getStringBody("");//  select * from customers where 1=1
         TextSqlNode textSqlNode = new TextSqlNode(data);   //创建TextSqlNode对象
-        //判断是否是动态Sql，检查纯文本语句是否含有 "${ " 字符串，有则为true。 eg: "#{ " 则为false
+        // 判断是否是动态Sql，检查纯文本语句是否含有 "${ " 字符串，有则为true。 eg: "#{ " 则为false
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
           isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
           log.warn("发现<动态>文本类型节点，节点内容：" + data.replaceAll("\n",""));
-        } else { //不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
-          //返回最普通的含有data的StaticTextSqlNode对象
+        } else { // 不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
+          // 返回最普通的含有data的StaticTextSqlNode对象
           contents.add(new StaticTextSqlNode(data));
           log.warn("发现<静态>文本类型节点，节点内容：" + data.replaceAll("\n",""));
         }
@@ -122,10 +122,9 @@ public class XMLScriptBuilder extends BaseBuilder {
         isDynamic = true;
       }
     }
-    //用contents构建MixedSqlNode对象
+    // 用contents构建MixedSqlNode对象
     return new MixedSqlNode(contents);
   }
-
 
   /** 主要应用于对trim/where/set/if等类型为ELEMENT节点的补充解析。 */
   private interface NodeHandler {
@@ -139,10 +138,10 @@ public class XMLScriptBuilder extends BaseBuilder {
     }
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
-      //获取name和value属性
+      // 获取name和value属性
       final String name = nodeToHandle.getStringAttribute("name");
       final String expression = nodeToHandle.getStringAttribute("value");
-      //包装成简单的VarDeclSqlNode类
+      // 包装成简单的VarDeclSqlNode类
       final VarDeclSqlNode node = new VarDeclSqlNode(name, expression);
       targetContents.add(node);
     }
@@ -155,7 +154,7 @@ public class XMLScriptBuilder extends BaseBuilder {
 
     @Override
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
-      //trim标签下可包含where/set/if/when等标签，将之封装成MixedSqlNode
+      // trim标签下可包含where/set/if/when等标签，将之封装成MixedSqlNode
       MixedSqlNode mixedSqlNode = parseDynamicTags(nodeToHandle);
       // read prefix/preffixOverrides/suffix/suffixOverrides properties
       String prefix = nodeToHandle.getStringAttribute("prefix");
@@ -222,7 +221,7 @@ public class XMLScriptBuilder extends BaseBuilder {
       targetContents.add(forEachSqlNode);
     }
   }
-  /**  用于解析 if 标签节点 */
+  /**  用于解析 <if> 标签节点 */
   private class IfHandler implements NodeHandler {
     public IfHandler() {
       // Prevent Synthetic Access
@@ -258,9 +257,9 @@ public class XMLScriptBuilder extends BaseBuilder {
     public void handleNode(XNode nodeToHandle, List<SqlNode> targetContents) {
       List<SqlNode> whenSqlNodes = new ArrayList<>();
       List<SqlNode> otherwiseSqlNodes = new ArrayList<>();
-      //解析choose...when..otherwise结构
+      // 解析choose...when..otherwise结构
       handleWhenOtherwiseNodes(nodeToHandle, whenSqlNodes, otherwiseSqlNodes);
-      //检查otherwise标签是否只有一个，大于一个则报错
+      // 检查otherwise标签是否只有一个，大于一个则报错
       SqlNode defaultSqlNode = getDefaultSqlNode(otherwiseSqlNodes);
       ChooseSqlNode chooseSqlNode = new ChooseSqlNode(whenSqlNodes, defaultSqlNode);
       targetContents.add(chooseSqlNode);
@@ -289,5 +288,4 @@ public class XMLScriptBuilder extends BaseBuilder {
       return defaultSqlNode;
     }
   }
-
 }

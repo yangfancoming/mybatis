@@ -2,11 +2,16 @@ package org.apache.goat.chapter100.E.E050;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Employee2;
+import org.apache.ibatis.scripting.xmltags.XMLScriptBuilder;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-
+/**
+ * 源码位置： <if> 标签解析
+ * @see XMLScriptBuilder.NodeHandler#handleNode(org.apache.ibatis.parsing.XNode, java.util.List)
+ */
 class App2 extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/E/E050/mybatis-config.xml";
@@ -25,7 +30,7 @@ class App2 extends MyBaseDataTest {
     Employee2 employee2 = new Employee2();
     employee2.setId(1);
     List<Employee2> list = mapper.testIf(employee2);
-    System.out.println(list);
+    Assert.assertEquals(1,list.size());
   }
 
   /**
@@ -38,7 +43,7 @@ class App2 extends MyBaseDataTest {
     EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
     Employee2 employee2 = new Employee2();
     List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
-    System.out.println(list);
+    Assert.assertEquals(9,list.size());
   }
 
   /**
@@ -52,7 +57,7 @@ class App2 extends MyBaseDataTest {
     Employee2 employee2 = new Employee2();
     employee2.setId(2);
     List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
-    System.out.println(list);
+    Assert.assertEquals(1,list.size());
   }
 
   /**
@@ -67,7 +72,6 @@ class App2 extends MyBaseDataTest {
     employee2.setEmail("642744551@qq.com");// 测试 trim()
     employee2.setGender("1");// 测试 trim()
     List<Employee2> list = mapper.getEmpsByConditionIf(employee2);
-    System.out.println(list);
+    Assert.assertEquals(7,list.size());
   }
-
 }
