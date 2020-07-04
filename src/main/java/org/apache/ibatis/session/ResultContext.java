@@ -11,5 +11,4 @@ public interface ResultContext<T> {
   boolean isStopped();
 
   void stop();
-
 }
