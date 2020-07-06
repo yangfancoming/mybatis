@@ -35,5 +35,4 @@ public class RowBounds {
   public int getLimit() {
     return limit;
   }
-
 }
