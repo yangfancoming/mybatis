@@ -103,5 +103,4 @@ public class PropertyParser {
       return "${" + content + "}";
     }
   }
-
 }
