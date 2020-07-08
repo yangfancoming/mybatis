@@ -79,8 +79,7 @@ public interface SqlSession extends Closeable {
 
   /**
    * The selectMap is a special case in that it is designed to convert a list
-   * of results into a Map based on one of the properties in the resulting
-   * objects.
+   * of results into a Map based on one of the properties in the resulting objects.
    * @param <K> the returned Map keys type
    * @param <V> the returned Map values type
    * @param statement Unique identifier matching the statement to use.
@@ -92,8 +91,7 @@ public interface SqlSession extends Closeable {
 
   /**
    * The selectMap is a special case in that it is designed to convert a list
-   * of results into a Map based on one of the properties in the resulting
-   * objects.
+   * of results into a Map based on one of the properties in the resulting objects.
    * @param <K> the returned Map keys type
    * @param <V> the returned Map values type
    * @param statement Unique identifier matching the statement to use.
