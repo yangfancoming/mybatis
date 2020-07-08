@@ -60,5 +60,4 @@ public enum AutoMappingUnknownColumnBehavior {
   private static class LogHolder {
     private static final Log log = LogFactory.getLog(AutoMappingUnknownColumnBehavior.class);
   }
-
 }

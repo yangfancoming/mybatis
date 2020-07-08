@@ -43,7 +43,6 @@ public class Plugin implements InvocationHandler {
  * ]}
  *
  * 一个Class对应一个Set，Class为StatementHandler.class，Set为StataementHandler中的两个方法
- *
  * 如果我new的是StatementHandler接口的实现类，那么可以为之生成代理，因为signatureMap中的key有StatementHandler这个接口
  * 如果我new的是Executor接口的实现类，那么直接会把Executor接口的实现类原样返回，因为signatureMap中的key并没有Executor这个接口
 */

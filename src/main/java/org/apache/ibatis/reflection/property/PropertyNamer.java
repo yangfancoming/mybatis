@@ -51,5 +51,4 @@ public final class PropertyNamer {
   public static boolean isSetter(String name) {
     return name.startsWith("set");
   }
-
 }

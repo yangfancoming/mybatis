@@ -189,5 +189,4 @@ public class BeanWrapper extends BaseWrapper {
   public <E> void addAll(List<E> list) {
     throw new UnsupportedOperationException();
   }
-
 }
