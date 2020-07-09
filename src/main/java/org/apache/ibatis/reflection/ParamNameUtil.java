@@ -26,5 +26,4 @@ public class ParamNameUtil {
     List<String> collect = Arrays.stream(executable.getParameters()).map(Parameter::getName).collect(Collectors.toList());
     return collect;
   }
-
 }

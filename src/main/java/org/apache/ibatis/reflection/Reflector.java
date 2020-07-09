@@ -200,7 +200,7 @@ public class Reflector {
 
   // 收集get方法
   private void addGetMethod(String name, Method method) {
-    //检查属性名是否合法，检查条件方法名不以$开头，不等于serialVersionUID  不等于class
+    // 检查属性名是否合法，检查条件方法名不以$开头，不等于serialVersionUID  不等于class
     if (isValidPropertyName(name)) {
       getMethods.put(name, new MethodInvoker(method));
       // 解析返回值类型
