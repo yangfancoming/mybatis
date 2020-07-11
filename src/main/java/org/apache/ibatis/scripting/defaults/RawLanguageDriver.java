@@ -33,5 +33,4 @@ public class RawLanguageDriver extends XMLLanguageDriver {
       throw new BuilderException("Dynamic content is not allowed when using RAW language");
     }
   }
-
 }

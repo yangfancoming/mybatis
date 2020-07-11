@@ -55,5 +55,4 @@ public class LanguageDriverRegistry {
     register(defaultDriverClass);
     this.defaultDriverClass = defaultDriverClass;
   }
-
 }

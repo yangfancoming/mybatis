@@ -57,5 +57,4 @@ public class RawSqlSource implements SqlSource {
     //此处的sqlSource为RawSqlSource的内部属性
     return sqlSource.getBoundSql(parameterObject);
   }
-
 }

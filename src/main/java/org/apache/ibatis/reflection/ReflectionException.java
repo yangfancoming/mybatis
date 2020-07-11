@@ -23,5 +23,4 @@ public class ReflectionException extends PersistenceException {
   public ReflectionException(Throwable cause) {
     super(cause);
   }
-
 }
