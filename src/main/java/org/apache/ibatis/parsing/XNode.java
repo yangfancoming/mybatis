@@ -130,7 +130,6 @@ public class XNode {
     return builder.toString();
   }
 
-
   /**
    * 下面是引用 XPathParse 的一些解析方法
    * @param expression 解析的表达式
