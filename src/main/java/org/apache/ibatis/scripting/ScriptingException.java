@@ -23,5 +23,4 @@ public class ScriptingException extends PersistenceException {
   public ScriptingException(Throwable cause) {
     super(cause);
   }
-
 }
