@@ -19,7 +19,4 @@ class App2 extends MyBaseDataTest {
     Employee2 employee = mapper.getEmpAndDept(1);
     System.out.println(employee);
   }
-
-
-
 }

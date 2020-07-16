@@ -35,6 +35,6 @@
 
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/E018/EmployeeMapper.xml"/>
+    <mapper resource="org/apache/goat/chapter100/E/E018/EmployeeMapper.xml"/>
   </mappers>
 </configuration>

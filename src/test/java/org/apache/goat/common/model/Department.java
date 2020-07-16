@@ -8,7 +8,6 @@ public class Department {
 	private String departmentName;
 	private List<Employee> emps;
 
-
   public Integer getId() {
     return id;
   }
