@@ -25,5 +25,4 @@ public class MyErrorHandler implements ErrorHandler {
   public void fatalError(SAXParseException exception)  {
     System.out.println("自定义ErrorHandler fatalError.............");
   }
-
 }

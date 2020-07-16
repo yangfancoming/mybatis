@@ -20,5 +20,4 @@ public interface MapperWithOneAndMany {
        many = @Many(select = "selectPostsById"))
   })
   List<Blog> selectWithBothOneAndMany();
-
 }
