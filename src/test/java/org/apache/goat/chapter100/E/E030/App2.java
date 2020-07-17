@@ -4,6 +4,9 @@ import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Department;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 class App2 extends MyBaseDataTest {
 
@@ -21,6 +24,9 @@ class App2 extends MyBaseDataTest {
 
   }
 
-
+  @Test
+  public void test(){
+    System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+  }
 
 }

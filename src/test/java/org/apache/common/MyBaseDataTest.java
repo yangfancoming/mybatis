@@ -76,5 +76,4 @@ public abstract class MyBaseDataTest {
     if (sqlSession != null) sqlSession.close();
     log.warn(  "此次测试运行结束，关闭 sqlSession ");
   }
-
 }

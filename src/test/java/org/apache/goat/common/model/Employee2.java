@@ -10,6 +10,7 @@ public class Employee2 implements Serializable {
 	private String email;
 	private String gender;
   private Department dept;
+
   public Employee2() {
   }
 
@@ -68,6 +69,6 @@ public class Employee2 implements Serializable {
 
   @Override
   public String toString() {
-    return "Employee{" + "id=" + id + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", gender='" + gender + '\'' + '}';
+    return "Employee2{" + "id=" + id + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", gender='" + gender + '\'' + ", dept=" + dept + '}';
   }
 }
