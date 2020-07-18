@@ -12,9 +12,7 @@ class App2 extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/E/E030/mybatis-config.xml";
 
-  /**
 
-   */
   @Test
   void getEmpByIdStep() throws Exception  {
     setUpByReader(XMLPATH);
