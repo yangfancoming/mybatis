@@ -3,6 +3,9 @@ package org.apache.goat.chapter800;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2020/7/20.
@@ -14,11 +17,16 @@ import java.math.BigDecimal;
 public class AppTemp {
 
   @Test
-  public void test1(){
-    BigDecimal temp1 = new BigDecimal(100);
-    BigDecimal temp2 = new BigDecimal(60);
+  public void test2(){
+    BigDecimal temp1 = new BigDecimal(0);
+    BigDecimal temp2 = new BigDecimal(0);
     BigDecimal subtract = temp1.subtract(temp2);
     System.out.println(subtract);
-
+  }
+  @Test
+  public void test3() throws ParseException {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Date dateStr = sdf.parse("1970-01-01");
+    System.out.println(dateStr);
   }
 }
