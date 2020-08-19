@@ -29,7 +29,6 @@ public class AppTemp {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Date dateStr = sdf.parse("1970-01-01");
     System.out.println(dateStr);
-
   }
 
   @Test
