@@ -81,7 +81,7 @@ public class XMLScriptBuilder extends BaseBuilder {
 
   /**
    * 解析sql语句
-   * node是我们要解析的SQL语句: <select id="selectAllAuthors" resultType="org.apache.ibatis.domain.blog.Author" >select * from author</select>
+   * node 是我们要解析的SQL语句:
    *   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
    *     select * from foo where id = #{id}
    *   </select>
@@ -103,7 +103,7 @@ public class XMLScriptBuilder extends BaseBuilder {
         // 判断是否是动态Sql，检查纯文本语句是否含有 "${ " 字符串，有则为true。 eg: "#{ " 则为false
         if (textSqlNode.isDynamic()) {
           contents.add(textSqlNode);
-          isDynamic = true;//如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
+          isDynamic = true;// 如果是动态SQL,则直接使用TextSqlNode类型，并将isDynamic标识置为true
           log.warn("发现<动态>文本类型节点，节点内容：" + data.replaceAll("\n",""));
         } else { // 不是动态sql，则创建StaticTextSqlNode对象，表示静态SQL
           // 返回最普通的含有data的StaticTextSqlNode对象
