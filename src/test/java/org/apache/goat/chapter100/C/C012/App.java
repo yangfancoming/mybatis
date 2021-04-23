@@ -34,6 +34,9 @@ class App extends MyBaseDataTest {
 
   public static final String XMLPATH = "org/apache/goat/chapter100/C/C012/mybatis-config.xml";
 
+  /**
+   *  ${} 示例   select * from tbl_employee where id = ${id}
+  */
   @Test
   void getEmpByIdAndLastName1() throws Exception  {
     setUpByReader(XMLPATH);
@@ -42,6 +45,9 @@ class App extends MyBaseDataTest {
     System.out.println(employee);
   }
 
+  /**
+   *  #{} 示例   select * from tbl_employee where id = #{id}
+   */
   @Test
   void getEmpByIdAndLastName2() throws Exception  {
     setUpByReader(XMLPATH);
