@@ -46,6 +46,15 @@ Essentials
     策略模式，例如： NodeHandler handler = nodeHandlerMap.get(nodeName);
     动态代理+责任链模式： mybatis 插件
     
+# Mybatis中用到了哪些设计模式？
+    日志模块：代理模式、适配器模式
+    数据源模块：代理模式、工厂模式
+    缓存模块：装饰器模式
+    初始化阶段：建造者模式
+    代理阶段：策略模式
+    数据读写阶段：模板模式
+    插件化开发：责任链模式
+    
 # Mapper动态代理开发（重点） 
     底层是通过接口，JDK动态代理，原生MybatisAPI来实现的
     只写接口，实现类由mybatis生成
