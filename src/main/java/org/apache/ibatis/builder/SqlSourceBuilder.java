@@ -33,7 +33,7 @@ public class SqlSourceBuilder extends BaseBuilder {
     // 创建sql语句解析器   美井 # 在这里解析
     GenericTokenParser parser = new GenericTokenParser("#{", "}", handler);
     // 获取真实的可执行性的sql语句 // 解析原始sql
-    // select * from tbl_employee where id = #{id}   select * from tbl_employee where id = ?
+    // select * from tbl_employee where id = #{id}  替换后  select * from tbl_employee where id = ?
     String sql = parser.parse(originalSql);
     // 包装成StaticSqlSource返回   // 创建出StaticSqlSource对象
     return new StaticSqlSource(configuration, sql, handler.getParameterMappings());
