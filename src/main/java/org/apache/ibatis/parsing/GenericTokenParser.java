@@ -73,7 +73,7 @@ public class GenericTokenParser {
         while (end > -1) {
           if (end > offset && src[end - 1] == '\\') {
             // this close token is escaped. remove the backslash and continue.  // 此结束标记是转义的
-            //添加openToken前offset后位置的字符到bulider中
+            // 添加openToken前offset后位置的字符到bulider中
             expression.append(src, offset, end - offset - 1).append(closeToken);
             offset = end + closeToken.length();//重设offset
             end = text.indexOf(closeToken, offset);

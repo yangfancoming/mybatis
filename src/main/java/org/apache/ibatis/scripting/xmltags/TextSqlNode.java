@@ -69,21 +69,21 @@ public class TextSqlNode implements SqlNode {
 
     @Override
     public String handleToken(String content) {
-      //获取用户提供的实参
+      // 获取用户提供的实参
       Object parameter = context.getBindings().get("_parameter");
-      //如果实参为null
+      // 如果实参为null
       if (parameter == null) {
-        //将参考上下文的value key设为null
+        // 将参考上下文的value key设为null
         context.getBindings().put("value", null);
-        //如果实参是一个常用数据类型的类（Integer.class,String.class,Byte.class等等）
+        // 如果实参是一个常用数据类型的类（Integer.class,String.class,Byte.class等等）
       } else if (SimpleTypeRegistry.isSimpleType(parameter.getClass())) {
-        //将参考上下文的value key设为该实参
+        // 将参考上下文的value key设为该实参
         context.getBindings().put("value", parameter);
       }
-      //通过OGNL解析参考上下文的值
+      // 通过OGNL解析参考上下文的值
       Object value = OgnlCache.getValue(content, context.getBindings());
       String srtValue = value == null ? "" : String.valueOf(value); // issue #274 return "" instead of "null"
-      //检测合法性
+      // 检测合法性
       checkInjection(srtValue);
       return srtValue;
     }
