@@ -36,7 +36,7 @@ public class BoundSql {
     //sql : SELECT us_code FROM xxx WHERE us_code = ? AND us_keyid IS NOT NULL
     // 到达这里的sql(即用来构建BoundSql实例的sql), 是进行 #{ } 和 ${ } 替换完毕之后的结果sql
     this.sql = sql;
-    //parameterMappings : [ParameterMapping{property='username', mode=IN, javaType=class java.lang.Object, jdbcType=null, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}]
+    // parameterMappings : [ParameterMapping{property='username', mode=IN, javaType=class java.lang.Object, jdbcType=null, numericScale=null, resultMapId='null', jdbcTypeName='null', expression='null'}]
     // 这里的parameterMappings列表参数里的item个数, 以及每个item的属性名称等等, 都是和上面的sql中的 ? 完全一一对应的.
     this.parameterMappings = parameterMappings;
     // parameterObject : 用户传入的数据

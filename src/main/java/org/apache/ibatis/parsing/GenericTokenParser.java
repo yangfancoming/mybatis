@@ -15,9 +15,9 @@ public class GenericTokenParser {
    openToken="${";
    closeToken="}";
   */
-  private final String openToken; //参数开始标志
-  private final String closeToken; //参数解析标志
-  private final TokenHandler handler; //ParameterMappingTokenHandler,参数hanler
+  private final String openToken; // 参数开始标志
+  private final String closeToken; // 参数解析标志
+  private final TokenHandler handler; // ParameterMappingTokenHandler,参数hanler
 
   /**
    * 利用带参数的构造函数初始化各项属性

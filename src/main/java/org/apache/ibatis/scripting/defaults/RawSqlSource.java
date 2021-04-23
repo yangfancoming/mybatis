@@ -25,19 +25,19 @@ import org.apache.ibatis.session.Configuration;
  * @since 3.2.0
  */
 public class RawSqlSource implements SqlSource {
-  //内部封装的sqlSource对象，getBoundSql方法会委托给这个对象
+  // 内部封装的sqlSource对象，getBoundSql方法会委托给这个对象
   private final SqlSource sqlSource;
 
   public RawSqlSource(Configuration configuration, SqlNode rootSqlNode, Class<?> parameterType) {
-    //调用getSql方法，完成SQL语句的拼装和初步解析，与DynamicSqlSource中相同
+    // 调用getSql方法，完成SQL语句的拼装和初步解析，与DynamicSqlSource中相同
     this(configuration, getSql(configuration, rootSqlNode), parameterType);
   }
 
   public RawSqlSource(Configuration configuration, String sql, Class<?> parameterType) {
-    //创建sqlSourceBuilder  // 通过SqlSourceBuilder来创建sqlSource  //通过SqlSourceBuilder完成占位符的解析和替换操作
+    // 创建sqlSourceBuilder  // 通过SqlSourceBuilder来创建sqlSource  //通过SqlSourceBuilder完成占位符的解析和替换操作
     SqlSourceBuilder sqlSourceParser = new SqlSourceBuilder(configuration);
     Class<?> clazz = parameterType == null ? Object.class : parameterType;
-    //解析sql，创建StaticSqlSource对象  //返回StaticSqlSource
+    // 解析sql，创建StaticSqlSource对象  //返回StaticSqlSource
     sqlSource = sqlSourceParser.parse(sql, clazz, new HashMap<>());
   }
 
@@ -46,15 +46,15 @@ public class RawSqlSource implements SqlSource {
    */
   private static String getSql(Configuration configuration, SqlNode rootSqlNode) {
     DynamicContext context = new DynamicContext(configuration, null);
-    //这里的rootSqlNode就是之前得到的MixedSqlNode，它会遍历内部的SqlNode,逐个调用sqlNode的apply方法。StaticTextSqlNode会直接context.appendSql方法
-    //rootSqlNode为MixedSqlNode
+    // 这里的rootSqlNode就是之前得到的MixedSqlNode，它会遍历内部的SqlNode,逐个调用sqlNode的apply方法。StaticTextSqlNode会直接context.appendSql方法
+    // rootSqlNode为MixedSqlNode
     rootSqlNode.apply(context);
     return context.getSql();
   }
 
   @Override
   public BoundSql getBoundSql(Object parameterObject) {
-    //此处的sqlSource为RawSqlSource的内部属性
+    // 此处的sqlSource为RawSqlSource的内部属性
     return sqlSource.getBoundSql(parameterObject);
   }
 }
