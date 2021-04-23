@@ -38,7 +38,7 @@
     C006 局部xml 之  <insert><selectKey> Oracle 新增 获取序列 主键
     
     C010 局部xml 之  参数处理 之  参数传递之： 【单个参数】  【多个参数】  【POJO】  【Map】
-    C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}
+    C012 局部xml 之  参数处理 之  #{xxx} 和 ${xxx}  美井
     
     C030 局部xml 之  <insert> 
     C040 局部xml 之  <update> 

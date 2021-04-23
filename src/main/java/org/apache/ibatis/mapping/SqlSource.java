@@ -17,7 +17,7 @@ package org.apache.ibatis.mapping;
  * StaticTextSqlNode	   不含上述节点
  * 除了StaticTextSqlNode节点外，其余对应的都是动态语句。
  *
- * 星井
+ * 美井
  * 在编写mybatis的sql语句的时候，经常用到的是#{}的字符去替代其中的查询入参，偶尔也会在网上看到${}这样的字符使用
  * 前者 #{} 调用的为 RawSqlSource 帮助类进行生成具体的sql，
  * 后者 ${} 则是通过 DynamicSqlSource 帮助类来实现的。

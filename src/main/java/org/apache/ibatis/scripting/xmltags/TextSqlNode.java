@@ -48,7 +48,7 @@ public class TextSqlNode implements SqlNode {
     return true;
   }
 
-  // 星井 $ 在这里解析
+  // 美井 $ 在这里解析
   private GenericTokenParser createParser(TokenHandler handler) {
     return new GenericTokenParser("${", "}", handler);
   }
