@@ -25,7 +25,7 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
  * ParameterMappingTokenHandler
  * SqlSourceBuilder
  * XMLConfigBuilder ： 解析mybatis中configLocation属性中的全局xml文件，内部会使用XMLMapperBuilder解析各个xml文件。
- * XMLMapperBuilder ： 遍历mybatis中mapperLocations属性中的xml文件中每个节点的Builder，比如user.xml，内部会使用XMLStatementBuilder处理xml中的每个节点。
+ * XMLMapperBuilder ： 遍历mybatis中 mapperLocations 属性中的xml文件中每个节点的Builder，比如user.xml，内部会使用XMLStatementBuilder处理xml中的每个节点。
  * XMLStatementBuilder ： 解析xml文件中各个节点，比如select,insert,update,delete节点，内部会使用XMLScriptBuilder处理节点的sql部分，遍历产生的数据会丢到Configuration的mappedStatements中。
  * XMLScriptBuilder ： 解析xml中各个节点sql部分的Builder。
 */

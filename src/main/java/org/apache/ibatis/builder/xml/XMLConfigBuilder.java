@@ -140,6 +140,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     log.warn("开始解析 <configuration> 标签  XNode 地址：" + xNode.hashCode());
     // 2.完成全局xml文件下的configuration节点下的所有标签的解析
     parseConfiguration(xNode);
+    log.warn("解析完毕 <configuration> 标签  XNode 地址：" + xNode.hashCode());
     return configuration;
   }
 
@@ -668,6 +669,7 @@ public class XMLConfigBuilder extends BaseBuilder {
         }
       }
     }
+    log.warn("解析完毕 <mappers> 标签  XNode 地址：" + parent.hashCode());
   }
 
   /**

@@ -60,31 +60,28 @@ public class XMLScriptBuilder extends BaseBuilder {
   }
 
   public SqlSource parseScriptNode() {
-    /**
-     *     解析SQL语句节点，创建MixedSqlNode对象
-     *     获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句 可能都有多个SqlNode对象
-     *     包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
-     *
-     * 传入的context参数为：
-     * <select resultType="org.apache.goat.common.Customer" id="getTest">
-     *    <if test="id!=null">
-     *         and id = #{id}
-     *    </if>
-     * </select>
-    */
+    // 解析select\insert\ update\delete标签中的SQL语句，最终将解析到的SqlNode封装到MixedSqlNode中的  List<SqlNode> 集合中
     MixedSqlNode rootSqlNode = parseDynamicTags(context);
-    // 为SqlSource接口 选定实现类 动态版的 DynamicSqlSource 或 原生版的 RawSqlSource
+    /**
+     *      为SqlSource接口 选定实现类 动态版的 DynamicSqlSource 或 原生版的 RawSqlSource
+     *      如果SQL中包含${}和动态SQL语句，则将SqlNode封装到DynamicSqlSource
+     *      如果SQL中包含#{}，则将SqlNode封装到RawSqlSource中，并指定parameterType
+    */
     SqlSource sqlSource = isDynamic ? new DynamicSqlSource(configuration, rootSqlNode) : new RawSqlSource(configuration, rootSqlNode, parameterType);// -modify
     log.warn("parseScriptNode()：为 SqlSource 接口选定 实现类：" + sqlSource.getClass());
     return sqlSource;
   }
 
   /**
-   * 解析sql语句
+   * 解析select\insert\ update\delete标签中的SQL语句，最终将解析到的SqlNode封装到MixedSqlNode中的  List<SqlNode> 集合中
    * node 是我们要解析的SQL语句:
    *   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.Foo" >
    *     select * from foo where id = #{id}
    *   </select>
+   *
+   *     解析SQL语句节点，创建MixedSqlNode对象
+   *     获取select/update/insert/delete节点下的Sql语句节点包装成相应的SqlNode对象，每个CRUD语句 可能都有多个SqlNode对象
+   *     包装成混合型SqlNode对象，'Mixed'译为混合，很贴切的名字
   */
   protected MixedSqlNode parseDynamicTags(XNode node) {
     // 获取CRUD节点下所有子节点，包括文本内容<trim>等动态sql节点

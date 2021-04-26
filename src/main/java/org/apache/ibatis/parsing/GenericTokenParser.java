@@ -37,6 +37,7 @@ public class GenericTokenParser {
    * 1. 解析   <dataSource type="POOLED"> 标签内的子标签 <property name="driver" value="${jdbc.driver}" /> 中的 ${jdbc.driver} 值。
    * 2. 解析statement中的sql 语句，将 openToken 和 endToken 间的字符串取出来用handler处理下，然后再拼接到一块
    * @param text 待解析文本节点   "\n	 select * from tbl_employee where id = #{id} \n "
+   * @return                      "\n	 select * from tbl_employee where id = null \n "
    */
   public String parse(String text) {
     if (text == null || text.isEmpty()) return "";
