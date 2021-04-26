@@ -98,13 +98,13 @@ public class SqlSessionFactoryBuilder {
       SqlSessionFactory build = build(configuration);
       return build;
     } catch (Exception e) {
-      //包装解析异常，进行更加具体的描述
+      // 包装解析异常，进行更加具体的描述
       throw ExceptionFactory.wrapException("Error building SqlSession.", e);
     } finally {
-      //重置异常上下文实例
+      // 重置异常上下文实例
       ErrorContext.instance().reset();
       try {
-        //关闭配置文件文件流
+        // 关闭配置文件文件流
         inputStream.close();
       } catch (IOException e) {
         // Intentionally ignore. Prefer previous error.
