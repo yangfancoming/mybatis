@@ -74,7 +74,13 @@ public class XMLMapperBuilder extends BaseBuilder {
     this(new XPathParser(inputStream, true, configuration.getVariables(), new XMLMapperEntityResolver()), configuration, resource, sqlFragments);
   }
 
-  // 最终构造函数
+  /**
+   * 最终构造函数
+   * 这里需要注意的是传入的 sqlFragments 参数 是 Configuration 对象中的，赋值给了 XMLMapperBuilder 对象中的 sqlFragments
+   * 这样 XMLMapperBuilder 就持有了 是Configuration 对象sqlFragments属性的引用，再后续的XMLMapperBuilder解析局部xml中的<sql>
+   * 并填充sqlFragments属性时，那么操作的其实就是Configuration对象的sqlFragments
+   * {@link XMLMapperBuilder#sqlElement(List)}
+  */
   private XMLMapperBuilder(XPathParser parser, Configuration configuration, String resource, Map<String, XNode> sqlFragments) {
     // 将configuration赋给父类 BaseBuilder
     super(configuration);
@@ -131,7 +137,7 @@ public class XMLMapperBuilder extends BaseBuilder {
       parameterMapElement(context.evalNodes("/mapper/parameterMap"));
       // 解析<resultMap>节点
       resultMapElements(context.evalNodes("/mapper/resultMap"));
-      // 解析<SQL>节点，SQL节点可以使一些SQL片段被复用
+      // 解析<sql>节点，sql节点可以使一些SQL片段被复用
       sqlElement(context.evalNodes("/mapper/sql"));
       // 解析<CRUD>标签 （select|insert|update|delete节点） // 解析 statement
       buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
@@ -410,6 +416,12 @@ public class XMLMapperBuilder extends BaseBuilder {
     return builderAssistant.buildDiscriminator(resultType, column, javaTypeClass, jdbcTypeEnum, typeHandlerClass, discriminatorMap);
   }
 
+  /**
+   * @param list -  当前局部xml文件中的所有 <sql>标签集合
+   * 例如：
+   *   <sql id="myTag">id IN (1,2,3)</sql>
+   *   <sql id="table_name">  from ${tableName} </sql>
+  */
   private void sqlElement(List<XNode> list) {
     if (configuration.getDatabaseId() != null) {
       sqlElement(list, configuration.getDatabaseId());

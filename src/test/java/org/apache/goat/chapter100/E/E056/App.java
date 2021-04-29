@@ -2,10 +2,13 @@ package org.apache.goat.chapter100.E.E056;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Customer;
+import org.apache.ibatis.parsing.XNode;
+import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 
 class App extends MyBaseDataTest {
@@ -38,4 +41,10 @@ class App extends MyBaseDataTest {
     System.out.println(test3);
   }
 
+  @Test
+  void temp()  {
+    Configuration configuration = sqlSessionFactory.getConfiguration();
+    Map<String, XNode> sqlFragments = configuration.getSqlFragments();
+    System.out.println(sqlFragments);
+  }
 }
