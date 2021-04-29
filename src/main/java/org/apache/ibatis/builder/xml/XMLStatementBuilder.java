@@ -86,7 +86,7 @@ public class XMLStatementBuilder extends BaseBuilder {
     LanguageDriver langDriver = getLanguageDriver(lang);
     // Parse selectKey after includes and remove them. 处理selectKey
     processSelectKeyNodes(id, parameterTypeClass, langDriver);
-    // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)
+    // Parse the SQL (pre: <selectKey> and <include> were parsed and removed)  为什么要移除呢？秘密都隐藏在 applyIncludes()方法内部了。
     // 设置主键自增的方式
     KeyGenerator keyGenerator;
     String keyStatementId = id + SelectKeyGenerator.SELECT_KEY_SUFFIX;

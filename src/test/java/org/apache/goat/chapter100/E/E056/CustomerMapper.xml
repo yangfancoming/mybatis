@@ -8,14 +8,20 @@
 <!--    <if test="id!=null">and id = #{id}</if>-->
 <!--  </select>-->
 
-  <sql id="myTag">id IN (1,2,3)</sql>
+<!--  <sql id="myTag">id IN (1,2,3)</sql>-->
 
-  <!-- 这个<include refid="myTag" /> 会自动把上面的代码贴过来 (来达到文本复用的目的) -->
-  <select id="getTest2" resultType="org.apache.goat.common.model.Customer">
-    SELECT * FROM customers WHERE <include refid="myTag"/>
-  </select>
+<!--  &lt;!&ndash; 这个<include refid="myTag" /> 会自动把上面的代码贴过来 (来达到文本复用的目的) &ndash;&gt;-->
+<!--  <select id="getTest2" resultType="org.apache.goat.common.model.Customer">-->
+<!--    SELECT * FROM customers WHERE <include refid="myTag"/>-->
+<!--  </select>-->
 
-  <sql id="table_name">  from ${tableName} </sql>
+<!--  <sql id="table_name">  from ${tableName} </sql>-->
+
+<!--
+这就是sqlFragment，它可以为select|insert|update|delete标签服务，可以定义很多sqlFragment，然后使用include标签引入多个sqlFragment。
+在工作中，也是比较常用的一个功能，它的优点很明显，复用sql片段，
+它的缺点也很明显，不能完整的展现sql逻辑，如果一个标签，include了四至五个sqlFragment，其可读性就非常差了。
+-->
 
 
 
@@ -26,5 +32,46 @@
 <!--    </include>-->
 <!--    where id = #{id}-->
 <!--  </select>-->
+
+
+
+<!--  <sql id="studentProperties">-->
+<!--    select * from customers-->
+<!--  </sql>-->
+
+<!--  <select id="getTest4" resultType="int">-->
+<!--    select count(1) from (-->
+<!--    <include refid="studentProperties"/>-->
+<!--    ) tmp-->
+<!--  </select>-->
+
+
+
+  <!--全部字段-->
+  <sql id="Base_Column_List">
+    id, name, email, birth, photo
+  </sql>
+
+  <!--表名-->
+  <sql id="sometable">
+    ${table}
+  </sql>
+
+  <!--refid可以使用${}-->
+  <sql id="someinclude">
+    from
+    <include refid="${include_target}"/>
+  </sql>
+
+  <!--SQL-->
+  <select id="selectById" resultType="org.apache.goat.common.model.Customer">
+    select
+    <include refid="Base_Column_List" />
+    <include refid="someinclude">
+      <property name="table" value="customers"/>
+      <property name="include_target" value="sometable"/>
+    </include>
+    where id=#{customerId, jdbcType=INTEGER}
+  </select>
 
 </mapper>

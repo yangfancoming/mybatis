@@ -13,4 +13,8 @@ import java.util.List;
    List<Customer> getTest2(Customer employee);
 
    Customer getTest3(Integer id);
+
+   int getTest4();
+
+   Customer selectById(Integer id);
 }
