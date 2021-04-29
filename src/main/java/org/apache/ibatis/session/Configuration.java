@@ -195,7 +195,7 @@ public class Configuration {
    * @see MapperAnnotationBuilder#loadXmlResource
   */
   protected final Set<String> loadedResources = new HashSet<>();
-  // 存储已经解析过的mapper对应的xml节点  //mapper文件中配置的sql元素，key为命名空间+ID
+  // 存储已经解析过的mapper对应的xml节点  // mapper文件中配置的sql元素，key为命名空间+ID
   protected final Map<String, XNode> sqlFragments = new StrictMap<>("XML fragments parsed from previous mappers");
   // 存储所有未处理的
   protected final Collection<XMLStatementBuilder> incompleteStatements = new LinkedList<>();

@@ -9,7 +9,6 @@
 		select * from tbl_employee where id = #{wagaga}
 	</select>
 
-  <!--  -->
   <select id="getEmpByIdAndLastName" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
@@ -25,7 +24,6 @@
   <select id="getEmpByIdAndLastName3" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
   </select>
-
 
   <select id="getEmpByIdAndLastName4" resultType="org.apache.goat.common.model.Employee">
     select * from tbl_employee where id = #{id} and last_name = #{lastName}
