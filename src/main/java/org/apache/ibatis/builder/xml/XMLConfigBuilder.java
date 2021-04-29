@@ -422,33 +422,54 @@ public class XMLConfigBuilder extends BaseBuilder {
    */
   private void settingsElement(Properties settings) {
     // 设置 autoMappingBehavior 属性，默认值为 PARTIAL
+    // 指定 MyBatis 应如何自动映射列到字段或属性。PARTIAL 只会自动映射没有定义嵌套结果映射的字段。
     configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(settings.getProperty("autoMappingBehavior", "PARTIAL")));
+    // 指定发现自动映射目标未知列（或未知属性类型）的行为。NONE: 不做任何反应
     configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(settings.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
-    // 设置 cacheEnabled 属性，默认值为 true
+    // 设置 cacheEnabled 属性，默认值为 true  // 全局性地开启或关闭所有映射器配置文件中已配置的任何缓存。默认为开启
     configuration.setCacheEnabled(booleanValueOf(settings.getProperty("cacheEnabled"), true));
+    // 指定 Mybatis 创建可延迟加载对象所用到的代理工具。JAVASSIST （MyBatis 3.3 以上）
     configuration.setProxyFactory((ProxyFactory) createInstance(settings.getProperty("proxyFactory")));
+    //延迟加载的全局开关。默认为关闭
     configuration.setLazyLoadingEnabled(booleanValueOf(settings.getProperty("lazyLoadingEnabled"), false));
+    // 开启时，任一方法的调用都会加载该对象的所有延迟加载属性。 否则，每个延迟加载属性会按需加载
     configuration.setAggressiveLazyLoading(booleanValueOf(settings.getProperty("aggressiveLazyLoading"), false));
+    // 是否允许单个语句返回多结果集,默认我true
     configuration.setMultipleResultSetsEnabled(booleanValueOf(settings.getProperty("multipleResultSetsEnabled"), true));
+    // 使用列标签代替列名。
     configuration.setUseColumnLabel(booleanValueOf(settings.getProperty("useColumnLabel"), true));
+    // 允许 JDBC 支持自动生成主键，需要数据库驱动支持。
     configuration.setUseGeneratedKeys(booleanValueOf(settings.getProperty("useGeneratedKeys"), false));
+    // 配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（PreparedStatement）； BATCH 执行器不仅重用语句还会执行批量更新。
     String property = settings.getProperty("defaultExecutorType", "SIMPLE");
     // 若全局配置 <setting name="defaultExecutorType" value="FUCK"/> 这里会抛出异常 No enum constant org.apache.ibatis.session.ExecutorType.FUCK    1
     configuration.setDefaultExecutorType(ExecutorType.valueOf(property));
+    // 设置超时时间，它决定数据库驱动等待数据库响应的秒数。
     configuration.setDefaultStatementTimeout(integerValueOf(settings.getProperty("defaultStatementTimeout"), null));
+    // 为驱动的结果集获取数量（fetchSize）设置一个建议值。此参数只可以在查询设置中被覆盖。
     configuration.setDefaultFetchSize(integerValueOf(settings.getProperty("defaultFetchSize"), null));
+    // 是否开启驼峰命名自动映射，即从经典数据库列名 A_COLUMN 映射到经典 Java 属性名 aColumn。
     configuration.setMapUnderscoreToCamelCase(booleanValueOf(settings.getProperty("mapUnderscoreToCamelCase"), false));
+    // 是否允许在嵌套语句中使用分页
     configuration.setSafeRowBoundsEnabled(booleanValueOf(settings.getProperty("safeRowBoundsEnabled"), false));
+    // MyBatis 利用本地缓存机制（Local Cache）防止循环引用和加速重复的嵌套查询。 默认值为 SESSION，会缓存一个会话中执行的所有查询。
     configuration.setLocalCacheScope(LocalCacheScope.valueOf(settings.getProperty("localCacheScope", "SESSION")));
+    // 当没有为参数指定特定的 JDBC 类型时，空值的默认 JDBC 类型。这里为OTHER,也可以设置为null
     configuration.setJdbcTypeForNull(JdbcType.valueOf(settings.getProperty("jdbcTypeForNull", "OTHER")));
+    // 指定对象的哪些方法触发一次延迟加载。
     configuration.setLazyLoadTriggerMethods(stringSetValueOf(settings.getProperty("lazyLoadTriggerMethods"), "equals,clone,hashCode,toString"));
+    // 是否允许在嵌套语句中使用结果处理器（ResultHandler）。如果允许使用则设置为 false。
     configuration.setSafeResultHandlerEnabled(booleanValueOf(settings.getProperty("safeResultHandlerEnabled"), true));
+    // 指定动态 SQL 生成使用的默认脚本语言。默认为 XMLLanguageDriver
     configuration.setDefaultScriptingLanguage(resolveClass(settings.getProperty("defaultScriptingLanguage")));
-    // 解析默认的枚举处理器
+    // 解析默认的枚举处理器 // 指定 Enum 使用的默认 TypeHandler 。
     configuration.setDefaultEnumTypeHandler(resolveClass(settings.getProperty("defaultEnumTypeHandler")));
+    // 指定当结果集中值为 null 的时候是否调用映射对象的 setter（map 对象时为 put）方法。
     configuration.setCallSettersOnNulls(booleanValueOf(settings.getProperty("callSettersOnNulls"), false));
     configuration.setUseActualParamName(booleanValueOf(settings.getProperty("useActualParamName"), true));
+    // 当返回行的所有列都是空时，MyBatis默认返回 null。 当开启这个设置时，MyBatis会返回一个空实例。
     configuration.setReturnInstanceForEmptyRow(booleanValueOf(settings.getProperty("returnInstanceForEmptyRow"), false));
+    // 指定 MyBatis 增加到日志名称的前缀
     configuration.setLogPrefix(settings.getProperty("logPrefix"));
     configuration.setConfigurationFactory(resolveClass(settings.getProperty("configurationFactory")));
   }

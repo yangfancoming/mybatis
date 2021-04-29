@@ -231,7 +231,7 @@ public class MapperMethod {
       // 拿到全名 比如 org.mybatis.example.UserMapper.selectByPrimaryKey
       final String methodName = method.getName();
       final Class<?> declaringClass = method.getDeclaringClass();
-      // 解析 MappedStatement  //MappedStatement对象,封装一个Mapper接口对应的sql操作
+      // 解析 MappedStatement  // MappedStatement对象,封装一个Mapper接口对应的sql操作
       MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass,configuration);
       // 检测当前方法是否有对应的 MappedStatement
       if (ms == null) {
