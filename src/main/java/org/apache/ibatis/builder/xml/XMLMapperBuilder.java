@@ -120,6 +120,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   /**
    * 解析局部xml <!ELEMENT mapper (cache-ref | cache | resultMap* | parameterMap* | sql* | insert* | update* | delete* | select* )+>
    * @param context  对应 <mapper> 标签  eg：<mapper namespace="org.apache.goat.chapter100.C.C001.EmployeeMapper">
+   *  doit 为啥 parameterMap resultMap sql  这三个标签的解析 前面要加上 /mapper/ ？？？
    */
   private void configurationElement(XNode context) {
     try {
@@ -147,7 +148,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   }
 
   private void buildStatementFromContext(List<XNode> list) {
-    String databaseId = (configuration.getDatabaseId() != null) ? configuration.getDatabaseId() :null; // -modify
+    String databaseId = (configuration.getDatabaseId() != null) ? configuration.getDatabaseId() : null; // -modify
     buildStatementFromContext(list, databaseId);
   }
 
