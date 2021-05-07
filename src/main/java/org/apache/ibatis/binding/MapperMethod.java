@@ -13,6 +13,8 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Flush;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.cursor.Cursor;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.mapping.StatementType;
@@ -33,12 +35,15 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class MapperMethod {
 
+  private static final Log log = LogFactory.getLog(MapperMethod.class);
+
   // 一个内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
   private final SqlCommand command;
   // 一个内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
+    log.warn("methodCache缓存未命中，新建 MapperMethod 对象，接口类名：【" + mapperInterface.getName() + "】" + "方法名：【" + method.getName() + "】");
     // 创建 SqlCommand 对象，该对象包含一些和 SQL 相关的信息
     command = new SqlCommand(config, mapperInterface, method);
     // 创建 MethodSignature 对象， 由类名可知，该对象包含了被拦截方法的一些信息
@@ -228,6 +233,7 @@ public class MapperMethod {
     private final SqlCommandType type;
 
     public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method) {
+      log.warn(" SqlCommand 对象 开始创建，接口类名：【" + mapperInterface.getName() + "】" + "方法名：【" + method.getName() + "】");
       // 拿到全名 比如 org.mybatis.example.UserMapper.selectByPrimaryKey
       final String methodName = method.getName();
       final Class<?> declaringClass = method.getDeclaringClass();
@@ -254,6 +260,7 @@ public class MapperMethod {
           throw new BindingException("Unknown execution method for: " + name);
         }
       }
+      log.warn(" SqlCommand 对象 创建完毕，name：【" + name + "】" + "type：【" + type.name() + "】");
     }
 
     public String getName() {
@@ -267,16 +274,20 @@ public class MapperMethod {
     private MappedStatement resolveMappedStatement(Class<?> mapperInterface, String methodName, Class<?> declaringClass, Configuration configuration) {
       // 如果不是这个mapper接口的方法，再去查父类
       String statementId = mapperInterface.getName() + "." + methodName;
+      log.warn("resolveMappedStatement()方法，通过 statementId 查找 MappedStatement 对象，statementId：【" +statementId + "】");
       if (configuration.hasStatement(statementId)) {
+        log.warn("在本mapper接口类中查到方法，返回 MappedStatement 对象");
         return configuration.getMappedStatement(statementId);
       } else if (mapperInterface.equals(declaringClass)) {
         return null;
       }
+      log.warn("在本mapper接口类中未能查到方法，再去父类中遍历查找");
       // 遍历 mapperInterface 实现的所有接口
       for (Class<?> superInterface : mapperInterface.getInterfaces()) {
         if (declaringClass.isAssignableFrom(superInterface)) {
           MappedStatement ms = resolveMappedStatement(superInterface, methodName,declaringClass, configuration);
           if (ms != null) {
+            log.warn("在父类中查到方法，返回 MappedStatement 对象");
             return ms;
           }
         }

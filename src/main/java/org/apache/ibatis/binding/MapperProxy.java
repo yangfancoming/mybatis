@@ -8,13 +8,18 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.ExceptionUtil;
+import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.session.SqlSession;
 
 /**
  * 映射器代理，代理模式
  */
 public class MapperProxy<T> implements InvocationHandler, Serializable {
+
+  private static final Log log = LogFactory.getLog(MapperProxy.class);
 
   private static final long serialVersionUID = -6424540398559729838L;
   // 记录了关联的 SqlSession 对象
@@ -42,6 +47,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
    */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+      log.warn("动态代理拦截mapper方法 ，方法名：【" + method.getName() + "】" + "参数个数：【" + args.length + "】");
     /**
      *  代理以后，所有Mapper的方法调用时，都会调用这个invoke方法
      *  1.先判断执行的方法是不是Object类的方法，比如toString()，hashcode() 等方法，是的话则直接反射执行这些方法
