@@ -23,7 +23,7 @@ public class TypeParameterResolver {
   }
 
   /**
-   * 返回值类型
+   * 解析返回值类型
    * @return The return type of the method as {@link Type}. If it has type parameters in the declaration,<br>  they will be resolved to the actual runtime {@link Type}s.
    */
   public static Type resolveReturnType(Method method, Type srcType) {

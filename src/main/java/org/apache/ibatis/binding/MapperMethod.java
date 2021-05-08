@@ -5,10 +5,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.apache.ibatis.annotations.Flush;
 import org.apache.ibatis.annotations.MapKey;
@@ -37,9 +34,9 @@ public class MapperMethod {
 
   private static final Log log = LogFactory.getLog(MapperMethod.class);
 
-  // 一个内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
+  // 一个静态内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
   private final SqlCommand command;
-  // 一个内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
+  // 一个静态内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -319,6 +316,7 @@ public class MapperMethod {
     private final ParamNameResolver paramNameResolver; //用来存放参数信息
 
     public MethodSignature(Configuration configuration, Class<?> mapperInterface, Method method) {
+      log.warn(" MethodSignature 对象 开始创建，接口类名：【" + mapperInterface.getName() + "】" + "方法名：【" + method.getName() + "】");
       // 通过反射解析方法返回类型
       Type resolvedReturnType = TypeParameterResolver.resolveReturnType(method, mapperInterface);
       if (resolvedReturnType instanceof Class<?>) {
@@ -344,6 +342,10 @@ public class MapperMethod {
        * sos 该种方式 只有在 接口 fooMapper.deleteById(2) 调用才走这里   传统 sqlSession.selectOne("selectById",2)  方式不走这里
       */
       paramNameResolver = new ParamNameResolver(configuration, method);
+      String[] names = paramNameResolver.getNames();
+      StringBuilder sb = new StringBuilder();
+      Arrays.asList(names).forEach(x->sb.append(x));
+      log.warn(" MethodSignature 对象 创建完毕，返回值类型：【" + returnType.getName() + "】" + "参数值：【" + sb + "】");
     }
 
     /**
