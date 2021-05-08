@@ -11,6 +11,8 @@ import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
@@ -21,6 +23,8 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 
 
 public abstract class BaseStatementHandler implements StatementHandler {
+
+  private static final Log log = LogFactory.getLog(BaseStatementHandler.class);
 
   protected final Configuration configuration;
   protected final ObjectFactory objectFactory;
@@ -39,6 +43,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
 
   protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    log.warn(" BaseStatementHandler 对象 开始创建，SQL标签id为：【" + mappedStatement.getId() + "】");
     this.configuration = mappedStatement.getConfiguration();
     this.executor = executor;
     this.mappedStatement = mappedStatement;
@@ -55,6 +60,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
     // 创建ParameterHandler和ResultSetHandler
     this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
     this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowBounds, parameterHandler, resultHandler, boundSql);
+    log.warn(" BaseStatementHandler 对象 创建完毕，parameterHandler：【" + parameterHandler.getParameterObject() + "】" + "resultSetHandler：【" + resultSetHandler.toString() + "】");
   }
 
   @Override

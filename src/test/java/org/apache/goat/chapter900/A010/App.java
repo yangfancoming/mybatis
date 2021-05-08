@@ -38,7 +38,7 @@ public class App {
    *  比如方式一中的： Driver driver = new com.mysql.jdbc.Driver();
    */
   @Test
-  public void testConnection2() throws Exception {
+  public void test2() throws Exception {
     // 获取Driver实现类对象：通过反射  解耦！
     Class clazz = Class.forName("com.mysql.jdbc.Driver");
     Driver driver = (Driver) clazz.newInstance();
