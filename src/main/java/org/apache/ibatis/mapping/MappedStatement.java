@@ -78,6 +78,7 @@ public final class MappedStatement {
     private MappedStatement mappedStatement = new MappedStatement();
 
     public Builder(Configuration configuration, String id, SqlSource sqlSource, SqlCommandType sqlCommandType) {
+      log.warn("MappedStatement 对象 开始创建 id为：" + id);
       mappedStatement.configuration = configuration;
       mappedStatement.id = id;
       mappedStatement.sqlSource = sqlSource;
@@ -93,6 +94,7 @@ public final class MappedStatement {
       }
       mappedStatement.statementLog = LogFactory.getLog(logId);
       mappedStatement.lang = configuration.getDefaultScriptingLanguageInstance();
+      log.warn("MappedStatement 对象 创建完毕 id为：" + id);
     }
 
     public Builder resource(String resource) {

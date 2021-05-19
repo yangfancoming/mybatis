@@ -10,6 +10,8 @@ import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
@@ -21,9 +23,12 @@ import org.apache.ibatis.session.RowBounds;
 */
 public class RoutingStatementHandler implements StatementHandler {
 
+  private static final Log log = LogFactory.getLog(BaseStatementHandler.class);
+
   private final StatementHandler delegate;
 
   public RoutingStatementHandler(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    log.warn(" RoutingStatementHandler 对象 开始创建");
     switch (ms.getStatementType()) {
       case STATEMENT:
         delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql); break;
@@ -34,6 +39,7 @@ public class RoutingStatementHandler implements StatementHandler {
       default:
         throw new ExecutorException("Unknown statement type: " + ms.getStatementType());
     }
+    log.warn(" RoutingStatementHandler 对象 创建完毕，StatementHandler接口的类型为：【" + delegate + "】" );
   }
 
   //---------------------------------------------------------------------
