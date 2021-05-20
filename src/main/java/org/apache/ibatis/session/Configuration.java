@@ -609,23 +609,29 @@ public class Configuration {
   public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     /** 在MyBatis中，Configuration对象会采用new RoutingStatementHandler()来生成StatementHandler对象：
      * 然后它会根据Executor的类型去创建对应具体的statementHandler对象（SimpleStatementHandler，PreparedStatementHandler和CallableStatementHandler）。*/
+    log.warn(" StatementHandler 对象 开始创建，mappedStatementId：【" + mappedStatement.getId() + "】");
     StatementHandler statementHandler = new RoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
     // 对statementHandler 插入所有的Interceptor以便进行拦截，InterceptorChain里保存了所有的拦截器，它在Configuration 对象被构造出来的时候创建。
     statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
+    log.warn(" StatementHandler 对象 创建完毕，mappedStatementId：【" + mappedStatement.getId() + "】");
     return statementHandler;
   }
 
   /**对ParameterHandler 进行拦截**/
   public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
+    log.warn(" ParameterHandler 对象 开始创建，mappedStatementId：【" + mappedStatement.getId() + "】");
     ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
     parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
+    log.warn(" ParameterHandler 对象 创建完毕，mappedStatementId：【" + mappedStatement.getId() + "】");
     return parameterHandler;
   }
 
   /**对ResultSetHandler 进行拦截**/
   public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,ResultHandler resultHandler, BoundSql boundSql) {
+    log.warn(" ResultSetHandler 对象 开始创建，mappedStatementId：【" + mappedStatement.getId() + "】");
     ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
     resultSetHandler = (ResultSetHandler) interceptorChain.pluginAll(resultSetHandler);
+    log.warn(" ResultSetHandler 对象 创建完毕，mappedStatementId：【" + mappedStatement.getId() + "】");
     return resultSetHandler;
   }
 
