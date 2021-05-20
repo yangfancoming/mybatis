@@ -585,6 +585,7 @@ public class Configuration {
    * 因为SqlSession对数据库的访问需要使用Executor来实现
    * */
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
+    log.warn(" Executor 对象 开始创建，executorType类型为：【" + executorType.name() + "】");
     // 根据executorType来选择实现子类  //1.如果executorType是null，那就使用defaultExecutorType = ExecutorType.SIMPLE
     executorType = (executorType == null) ? defaultExecutorType : executorType;
     // doit 这行代码我怎么觉得 是没有用的呢？
@@ -602,6 +603,7 @@ public class Configuration {
     if (cacheEnabled)  executor = new CachingExecutor(executor);
     // 6.插件化处理  责任链模式 使用每一个拦截器重新包装 executor 并返回
     executor = (Executor) interceptorChain.pluginAll(executor);
+    log.warn(" Executor 对象 创建完毕，executorType类型为：【" + executorType.name() + "】");
     return executor;
   }
 
