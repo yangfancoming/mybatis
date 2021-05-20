@@ -1,11 +1,11 @@
 
 package org.apache.ibatis.io;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Unit test for VFS getInstance method in multi-thread environment

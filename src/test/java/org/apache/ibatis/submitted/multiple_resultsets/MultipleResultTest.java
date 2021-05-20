@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.multiple_resultsets;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -16,6 +13,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.List;
 
 /*
  * This class contains tests for multiple results.

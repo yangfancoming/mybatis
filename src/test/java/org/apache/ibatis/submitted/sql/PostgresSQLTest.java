@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.sql;
 
-import java.util.List;
-import java.util.Properties;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -15,6 +12,9 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

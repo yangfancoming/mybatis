@@ -1,14 +1,14 @@
 
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 提供了 object.getName,object.getAge 以及类似 object.getParent().getName(),object.getParent().getParent().getName() 的取值方式

@@ -2,7 +2,10 @@ package org.apache.goat.chapter900.A010;
 
 import org.junit.jupiter.api.Test;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * Created by 64274 on 2019/10/22.

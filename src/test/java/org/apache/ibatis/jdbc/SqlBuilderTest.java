@@ -3,6 +3,7 @@ package org.apache.ibatis.jdbc;
 
 import org.junit.jupiter.api.Test;
 
+import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

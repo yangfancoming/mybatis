@@ -7,10 +7,11 @@ import org.apache.ibatis.session.TransactionIsolationLevel;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionException;
 
-// jdbc 原生接口
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.DataSource;
+
+// jdbc 原生接口
 
 /**
  * {@link Transaction} that makes use of the JDBC commit and rollback facilities directly.

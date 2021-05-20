@@ -1,10 +1,10 @@
 
 package org.apache.ibatis.mapping;
 
+import org.apache.ibatis.session.Configuration;
+
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.ibatis.session.Configuration;
 
 /**
  * 一个ParameterMap对应一个SQL语句中所有的参数，就行ParameterMapping的集合

@@ -4,7 +4,6 @@ package org.apache.ibatis.datasource.jndi;
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.datasource.DataSourceException;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +16,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JndiDataSourceFactoryTest extends BaseDataTest {
 

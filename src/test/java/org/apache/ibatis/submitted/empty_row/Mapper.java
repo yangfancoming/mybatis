@@ -1,10 +1,10 @@
 
 package org.apache.ibatis.submitted.empty_row;
 
-import java.util.Map;
-
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.Map;
 
 public interface Mapper {
 

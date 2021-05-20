@@ -1,8 +1,6 @@
 
 package org.apache.ibatis.submitted.named_constructor_args;
 
-import java.io.Reader;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.annotations.Arg;
 import org.apache.ibatis.annotations.ConstructorArgs;
@@ -15,7 +13,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.googlecode.catchexception.apis.BDDCatchException.*;
+import java.io.Reader;
+
+import static com.googlecode.catchexception.apis.BDDCatchException.caughtException;
+import static com.googlecode.catchexception.apis.BDDCatchException.when;
 import static org.assertj.core.api.BDDAssertions.then;
 
 class InvalidNamedConstructorArgsTest {

@@ -3,6 +3,7 @@ package org.apache.common;
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.Configuration;
+
 import java.io.IOException;
 import java.io.InputStream;
 

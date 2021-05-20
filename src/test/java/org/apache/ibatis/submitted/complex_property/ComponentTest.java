@@ -1,8 +1,6 @@
 
 package org.apache.ibatis.submitted.complex_property;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.Reader;
 import java.util.Calendar;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ComponentTest {
   private static SqlSessionFactory sqlSessionFactory;

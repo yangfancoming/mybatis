@@ -1,11 +1,7 @@
 
 package org.apache.ibatis.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  @Results 对应XML中的 标签为 <resultMap />，用来表示结果集和行结果的映射关系

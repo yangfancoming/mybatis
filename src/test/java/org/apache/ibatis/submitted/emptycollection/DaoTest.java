@@ -1,10 +1,6 @@
 
 package org.apache.ibatis.submitted.emptycollection;
 
-import java.io.Reader;
-import java.sql.Connection;
-import java.util.List;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
@@ -14,6 +10,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.sql.Connection;
+import java.util.List;
 
 class DaoTest {
   private Connection conn;

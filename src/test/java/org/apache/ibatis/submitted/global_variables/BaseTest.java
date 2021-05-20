@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.global_variables;
 
-import java.io.Reader;
-import java.lang.reflect.Field;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.io.Resources;
@@ -13,6 +10,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.lang.reflect.Field;
 
 class BaseTest {
 

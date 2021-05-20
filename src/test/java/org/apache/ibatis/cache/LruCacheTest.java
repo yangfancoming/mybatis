@@ -3,9 +3,9 @@ package org.apache.ibatis.cache;
 
 import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 //Least Recently Used  最少使用频率
 class LruCacheTest {

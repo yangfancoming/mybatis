@@ -1,10 +1,6 @@
 
 package org.apache.ibatis.submitted.typehandler;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.Reader;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.io.Resources;
@@ -18,6 +14,11 @@ import org.apache.ibatis.type.JdbcType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class TypeHandlerTest {
 

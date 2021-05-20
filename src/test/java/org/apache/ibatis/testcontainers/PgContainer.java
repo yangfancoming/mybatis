@@ -2,10 +2,10 @@
 
 package org.apache.ibatis.testcontainers;
 
-import javax.sql.DataSource;
-
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
+
+import javax.sql.DataSource;
 
 public class PgContainer {
 

@@ -1,10 +1,11 @@
 
 package org.apache.ibatis.transaction;
 
-import java.util.Properties;
 import org.apache.ibatis.session.TransactionIsolationLevel;
-import java.sql.Connection;
+
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.util.Properties;
 
 /**
  * Creates {@link Transaction} instances.

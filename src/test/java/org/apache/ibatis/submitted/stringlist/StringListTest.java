@@ -1,12 +1,6 @@
 
 package org.apache.ibatis.submitted.stringlist;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.Reader;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
@@ -16,6 +10,13 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class StringListTest {
 

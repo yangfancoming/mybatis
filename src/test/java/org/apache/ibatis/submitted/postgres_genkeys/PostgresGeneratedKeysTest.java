@@ -1,8 +1,6 @@
 
 package org.apache.ibatis.submitted.postgres_genkeys;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -14,6 +12,8 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("TestcontainersTests")
 class PostgresGeneratedKeysTest {

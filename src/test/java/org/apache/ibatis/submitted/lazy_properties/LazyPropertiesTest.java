@@ -1,12 +1,6 @@
 
 package org.apache.ibatis.submitted.lazy_properties;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.Reader;
-import java.util.Collections;
-import java.util.HashSet;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.executor.loader.ProxyFactory;
 import org.apache.ibatis.executor.loader.cglib.CglibProxyFactory;
@@ -18,6 +12,13 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.Collections;
+import java.util.HashSet;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class LazyPropertiesTest {
 

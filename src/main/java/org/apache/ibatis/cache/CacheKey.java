@@ -1,12 +1,12 @@
 
 package org.apache.ibatis.cache;
 
+import org.apache.ibatis.reflection.ArrayUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-
-import org.apache.ibatis.reflection.ArrayUtil;
 
 /**
  Mybatis 的缓存使用了 key-value 的形式存入到 HashMap 中，而 key 的话，Mybatis 使用了 CacheKey 来表示 key，它的生成规则为：mappedStementId + offset + limit + SQL + queryParams + environment生成一个哈希码.

@@ -1,19 +1,18 @@
 
 package org.apache.ibatis.submitted.rounding;
 
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 class RoundingHandlersTest {
 

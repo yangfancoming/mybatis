@@ -1,8 +1,6 @@
 
 package org.apache.ibatis.submitted.substitution_in_annots;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.mapping.Environment;
@@ -13,6 +11,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SubstitutionInAnnotsTest {
 

@@ -1,11 +1,12 @@
 
 package org.apache.ibatis.reflection;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ExceptionUtilTest {
 

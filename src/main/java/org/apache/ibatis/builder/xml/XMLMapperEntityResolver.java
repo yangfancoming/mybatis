@@ -1,16 +1,16 @@
 
 package org.apache.ibatis.builder.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * MyBatis DTD 文件的脱机实体解析器

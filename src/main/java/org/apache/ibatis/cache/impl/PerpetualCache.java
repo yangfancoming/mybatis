@@ -1,11 +1,11 @@
 
 package org.apache.ibatis.cache.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  Mybatis 为 Cache 接口提供的唯一一个实现类就是 PerpetualCache， 因为 PerpetualCache 类中并没有 private final Cache delegate;

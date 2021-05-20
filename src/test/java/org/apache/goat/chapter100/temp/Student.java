@@ -1,7 +1,5 @@
 package org.apache.goat.chapter100.temp;
 
-import java.util.ArrayList;
-
 /**
  * Created by Administrator on 2019/12/5.
  *

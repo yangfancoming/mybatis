@@ -1,12 +1,7 @@
 
 package org.apache.ibatis.builder.xsd;
 
-import org.apache.ibatis.builder.CustomLongTypeHandler;
-import org.apache.ibatis.builder.CustomObjectWrapperFactory;
-import org.apache.ibatis.builder.CustomReflectorFactory;
-import org.apache.ibatis.builder.CustomStringTypeHandler;
-import org.apache.ibatis.builder.ExampleObjectFactory;
-import org.apache.ibatis.builder.ExamplePlugin;
+import org.apache.ibatis.builder.*;
 import org.apache.ibatis.builder.mapper.CustomMapper;
 import org.apache.ibatis.builder.typehandler.CustomIntegerTypeHandler;
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;

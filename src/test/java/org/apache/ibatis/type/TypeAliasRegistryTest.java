@@ -3,11 +3,10 @@ package org.apache.ibatis.type;
 
 import org.apache.ibatis.domain.misc.RichType;
 import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TypeAliasRegistryTest {
 

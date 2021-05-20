@@ -1,10 +1,6 @@
 
 package org.apache.ibatis.submitted.simplelistparameter;
 
-import java.io.Reader;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +9,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.List;
 
 class SimpleListParameterTest {
 

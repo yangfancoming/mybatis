@@ -1,24 +1,20 @@
 
 package org.apache.ibatis.submitted.cursor_simple;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.IOException;
-import java.util.Iterator;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.session.*;
 import org.apache.ibatis.testcontainers.PgContainer;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.util.Iterator;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("TestcontainersTests")
 class PostgresCursorTest {

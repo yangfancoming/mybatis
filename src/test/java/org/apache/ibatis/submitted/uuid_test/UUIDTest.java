@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.uuid_test;
 
-import java.io.Reader;
-import java.util.UUID;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
@@ -13,6 +10,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.UUID;
 
 class UUIDTest {
 

@@ -1,11 +1,7 @@
 
 package org.apache.ibatis.submitted.sqlprovider;
 
-import org.apache.ibatis.annotations.Lang;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 
 import java.lang.annotation.ElementType;

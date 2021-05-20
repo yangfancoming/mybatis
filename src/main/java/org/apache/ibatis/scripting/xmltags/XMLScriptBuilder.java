@@ -1,11 +1,6 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.BaseBuilder;
 import org.apache.ibatis.builder.BuilderException;
@@ -18,6 +13,11 @@ import org.apache.ibatis.scripting.defaults.RawSqlSource;
 import org.apache.ibatis.session.Configuration;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 这个XMLScriptBuilder类才是真正负责在背后解析mapper文件中的每个<select/>,<insert/>,<update/>,<delete/>节点内的SQL字符串(其中可能包含动态SQL部分,诸如<if/>,<where/>等) 的功臣.

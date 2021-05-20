@@ -1,7 +1,15 @@
 
 package org.apache.ibatis.submitted.timezone_edge_case;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.ibatis.BaseDataTest;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.Reader;
 import java.sql.Connection;
@@ -12,15 +20,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.TimeZone;
 
-import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TimezoneEdgeCaseTest {
 

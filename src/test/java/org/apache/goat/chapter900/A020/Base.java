@@ -3,9 +3,6 @@ package org.apache.goat.chapter900.A020;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import java.sql.*;
 
 /**

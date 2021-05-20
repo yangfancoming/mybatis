@@ -1,9 +1,9 @@
 
 package org.apache.ibatis.reflection.invoker;
 
-import java.lang.reflect.Field;
-
 import org.apache.ibatis.reflection.Reflector;
+
+import java.lang.reflect.Field;
 
 
 // 如果没有setter, 则使用该方法， 通过Filed类直接设置成员变量的值

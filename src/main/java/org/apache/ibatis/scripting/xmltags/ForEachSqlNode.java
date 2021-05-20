@@ -1,10 +1,10 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.Map;
-
 import org.apache.ibatis.parsing.GenericTokenParser;
 import org.apache.ibatis.session.Configuration;
+
+import java.util.Map;
 
 /**
  * ForEachSqlNode，在动态SQL语句中，通常需要对一个集合进行迭代，Mybatis提供了<foreach>标签实现该功能。

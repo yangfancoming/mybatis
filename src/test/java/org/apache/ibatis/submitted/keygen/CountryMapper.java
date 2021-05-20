@@ -1,13 +1,13 @@
 
 package org.apache.ibatis.submitted.keygen;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface CountryMapper {
 

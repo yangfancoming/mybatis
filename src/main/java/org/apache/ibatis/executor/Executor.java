@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.executor;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -12,6 +9,9 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**  Mybatis对外统一提供了一个操作接口类Executor，提供的接口方法有update、query、flushStatements、commit、rollback等接口函数
  * Executor是mybatis为了封装语句执行、调用结果集解析的核心接口。

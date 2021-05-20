@@ -3,8 +3,9 @@ package org.apache.ibatis.cache;
 
 import org.apache.ibatis.cache.decorators.FifoCache;
 import org.apache.ibatis.cache.impl.PerpetualCache;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 // 先进先出
 class FifoCacheTest {

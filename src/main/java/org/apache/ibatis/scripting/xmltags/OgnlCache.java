@@ -1,13 +1,12 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import ognl.Ognl;
 import ognl.OgnlException;
-
 import org.apache.ibatis.builder.BuilderException;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 在 MyBatis 中 ， 使用 OgnlCache 对原生的 OGNL 进行了封装 。 OGNL 表达式的解析过程是比较耗时的，

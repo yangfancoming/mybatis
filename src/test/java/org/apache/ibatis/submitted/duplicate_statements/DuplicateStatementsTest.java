@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.duplicate_statements;
 
-import java.io.Reader;
-import java.util.List;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
@@ -14,6 +11,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.List;
 
 class DuplicateStatementsTest {
 

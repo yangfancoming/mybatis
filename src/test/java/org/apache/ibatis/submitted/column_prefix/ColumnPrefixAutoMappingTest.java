@@ -1,12 +1,12 @@
 
 package org.apache.ibatis.submitted.column_prefix;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ColumnPrefixAutoMappingTest extends ColumnPrefixTest {
 

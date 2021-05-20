@@ -1,10 +1,10 @@
 
 package org.apache.ibatis.cache;
 
+import org.apache.ibatis.cache.decorators.TransactionalCache;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.ibatis.cache.decorators.TransactionalCache;
 
 /**
  TransactionalCacheManager 用于管理 CachingExecutor 使用的二级缓存：

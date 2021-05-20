@@ -1,11 +1,6 @@
 
 package org.apache.ibatis.executor.loader;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import javax.sql.DataSource;
-
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
@@ -19,6 +14,10 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
+
+import javax.sql.DataSource;
+import java.sql.SQLException;
+import java.util.List;
 
 
 public class ResultLoader {

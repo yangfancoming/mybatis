@@ -1,11 +1,6 @@
 
 package org.apache.ibatis.submitted.encoding;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.Reader;
-import java.nio.charset.Charset;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +8,11 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.nio.charset.Charset;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EncodingTest {
 

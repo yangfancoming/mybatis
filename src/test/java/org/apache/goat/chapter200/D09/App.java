@@ -3,7 +3,6 @@ package org.apache.goat.chapter200.D09;
 
 import org.apache.goat.chapter200.D05.Target;
 import org.apache.goat.chapter200.D05.TargetImpl;
-
 import org.junit.Test;
 
 /**

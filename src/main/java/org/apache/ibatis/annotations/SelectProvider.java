@@ -1,11 +1,7 @@
 
 package org.apache.ibatis.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  方便动态生成sql语句，可以在注解中声明自定义生成sql语句的方法和类的type：

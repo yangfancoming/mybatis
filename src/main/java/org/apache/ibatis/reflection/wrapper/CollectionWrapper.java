@@ -1,12 +1,12 @@
 
 package org.apache.ibatis.reflection.wrapper;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.property.PropertyTokenizer;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 提供了 集合的add,addAll 方法, setValue,getValue hasSetter 等方法均抛出异常

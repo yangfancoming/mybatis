@@ -1,9 +1,9 @@
 
 package org.apache.ibatis.submitted.column_prefix;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
+
+import java.util.List;
 
 class ColumnPrefixNestedQueryTest extends ColumnPrefixTest {
 

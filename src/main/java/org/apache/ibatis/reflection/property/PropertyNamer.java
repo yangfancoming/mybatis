@@ -1,8 +1,9 @@
 
 package org.apache.ibatis.reflection.property;
 
-import java.util.Locale;
 import org.apache.ibatis.reflection.ReflectionException;
+
+import java.util.Locale;
 
 /**
  这个类提供了几个用来判断属性特征和从方面名称中获取属性名称的函数，

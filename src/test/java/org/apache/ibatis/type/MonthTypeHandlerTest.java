@@ -1,13 +1,14 @@
 
 package org.apache.ibatis.type;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.apache.ibatis.executor.result.ResultMapException;
+import org.junit.jupiter.api.Test;
 
 import java.time.Month;
 
-import org.apache.ibatis.executor.result.ResultMapException;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 class MonthTypeHandlerTest extends BaseTypeHandlerTest {

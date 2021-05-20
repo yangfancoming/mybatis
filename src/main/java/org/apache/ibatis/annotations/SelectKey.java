@@ -1,13 +1,9 @@
 
 package org.apache.ibatis.annotations;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.apache.ibatis.mapping.StatementType;
+
+import java.lang.annotation.*;
 
 /** @SelectKey 通过 SQL 语句获得主键的注解；
  用于在sql语句执行前（后）插入执行，如在执行前（后）查询当前自增张id的值，注解中声明的属性为：

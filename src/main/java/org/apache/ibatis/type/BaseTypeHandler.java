@@ -1,13 +1,15 @@
 
 package org.apache.ibatis.type;
 
+import org.apache.ibatis.executor.result.ResultMapException;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.session.Configuration;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.ibatis.executor.result.ResultMapException;
-import org.apache.ibatis.session.Configuration;
 
 /**
  * The base {@link TypeHandler} for references a generic type.
@@ -16,6 +18,8 @@ import org.apache.ibatis.session.Configuration;
  * In other words, {@code null} value handling should be performed on subclass.
  */
 public abstract class BaseTypeHandler<T> extends TypeReference<T> implements TypeHandler<T> {
+
+  private static final Log log = LogFactory.getLog(BaseTypeHandler.class);
 
   /**
    * @deprecated Since 3.5.0 - See https://github.com/mybatis/mybatis-3/issues/1203. This field will remove future.
@@ -42,6 +46,7 @@ public abstract class BaseTypeHandler<T> extends TypeReference<T> implements Typ
       }
     } else {
       try {
+        log.warn(" BaseTypeHandler 对象 为PreparedStatement设置非空参数，参数位置：【" + i + "】" + "参数值：【" + parameter.toString() + "】" + "jdbcType：【" + jdbcType + "】");
         setNonNullParameter(ps, i, parameter, jdbcType);
       } catch (Exception e) {
         throw new TypeException("Error setting non null for parameter #" + i + " with JdbcType " + jdbcType + " . Try setting a different JdbcType for this parameter or a different configuration property.Cause: " + e, e);

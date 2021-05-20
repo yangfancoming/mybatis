@@ -1,10 +1,10 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
+import org.apache.ibatis.session.Configuration;
+
 import java.util.Collections;
 import java.util.List;
-
-import org.apache.ibatis.session.Configuration;
 
 /**
  很简单，就是固定了参数prefix=SET、suffix=null(会将suffixOverrides符合的条件置为空)、suffixOverrides=List[","]，其余调用父类方法即可，详见上文

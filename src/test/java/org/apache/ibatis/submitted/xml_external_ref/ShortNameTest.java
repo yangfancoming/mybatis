@@ -1,11 +1,14 @@
 
 package org.apache.ibatis.submitted.xml_external_ref;
+
 import org.apache.common.MyBaseXmlConfig;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 

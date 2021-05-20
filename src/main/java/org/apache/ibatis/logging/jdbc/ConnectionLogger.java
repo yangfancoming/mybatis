@@ -1,15 +1,16 @@
 
 package org.apache.ibatis.logging.jdbc;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+import org.apache.ibatis.reflection.ExceptionUtil;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.reflection.ExceptionUtil;
 
 /**
  * Connection proxy to add logging.
@@ -18,6 +19,7 @@ import org.apache.ibatis.reflection.ExceptionUtil;
  */
 public final class ConnectionLogger extends BaseJdbcLogger implements InvocationHandler {
 
+  private static final Log log = LogFactory.getLog(ConnectionLogger.class);
   //真正的连接对象
   private final Connection connection;
 
@@ -35,6 +37,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
       if (Object.class.equals(method.getDeclaringClass())) {
         return method.invoke(this, params);
       }
+      log.warn(" 进入 ConnectionLogger 动态代理对象 invoke()方法 ，方法名：【" + method.getName() + "】");
       /**
        如果调 用 的是  prepareStatement()、prepareCall() 、 createStatement()方法，
        则在创建相应 Statement 对象后，为其创建代理对象并返回该代理对象
@@ -47,6 +50,7 @@ public final class ConnectionLogger extends BaseJdbcLogger implements Invocation
         PreparedStatement stmt = (PreparedStatement) method.invoke(connection, params);
         //为该 PreparedStatement 对象创建代理对象
         stmt = PreparedStatementLogger.newInstance(stmt, statementLog, queryStack);
+        log.warn(" 进入 ConnectionLogger 动态代理对象 invoke()方法 ，返回PreparedStatement对象：【" + stmt + "】");
         return stmt;
       } else if ("prepareCall".equals(method.getName())) {
         if (isDebugEnabled()) {

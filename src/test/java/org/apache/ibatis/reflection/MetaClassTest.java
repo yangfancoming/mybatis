@@ -1,14 +1,14 @@
 
 package org.apache.ibatis.reflection;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.domain.misc.RichType;
 import org.apache.ibatis.domain.misc.User;
 import org.apache.ibatis.domain.misc.generics.GenericConcrete;
 import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,11 +1,6 @@
 
 package org.apache.ibatis.exceptions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.ibatis.binding.BindingException;
 import org.apache.ibatis.builder.BuilderException;
 import org.apache.ibatis.cache.CacheException;
@@ -20,6 +15,11 @@ import org.apache.ibatis.session.SqlSessionException;
 import org.apache.ibatis.transaction.TransactionException;
 import org.apache.ibatis.type.TypeException;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GeneralExceptionsTest {
 

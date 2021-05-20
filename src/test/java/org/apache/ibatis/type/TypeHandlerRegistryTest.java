@@ -1,7 +1,9 @@
 
 package org.apache.ibatis.type;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.ibatis.domain.misc.RichType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.sql.CallableStatement;
@@ -11,9 +13,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.domain.misc.RichType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TypeHandlerRegistryTest {
 

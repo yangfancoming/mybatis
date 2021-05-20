@@ -1,12 +1,7 @@
 
 package org.apache.ibatis.executor.loader;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import javassist.util.proxy.Proxy;
-
 import org.apache.ibatis.domain.blog.Author;
 import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.loader.javassist.JavassistProxyFactory;
@@ -15,6 +10,10 @@ import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 

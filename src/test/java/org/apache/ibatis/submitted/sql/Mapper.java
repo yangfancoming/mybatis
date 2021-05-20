@@ -1,12 +1,12 @@
 
 package org.apache.ibatis.submitted.sql;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.builder.annotation.ProviderMethodResolver;
 import org.apache.ibatis.jdbc.SQL;
+
+import java.util.List;
 
 public interface Mapper {
 

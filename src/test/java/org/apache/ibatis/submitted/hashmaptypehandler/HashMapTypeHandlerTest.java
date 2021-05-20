@@ -1,9 +1,6 @@
 
 package org.apache.ibatis.submitted.hashmaptypehandler;
 
-import java.io.Reader;
-import java.util.HashMap;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +9,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.HashMap;
 
 class HashMapTypeHandlerTest {
 

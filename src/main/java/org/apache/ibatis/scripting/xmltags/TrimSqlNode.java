@@ -1,14 +1,9 @@
 
 package org.apache.ibatis.scripting.xmltags;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.StringTokenizer;
-
 import org.apache.ibatis.session.Configuration;
+
+import java.util.*;
 
 /**
  * TrimSqlNode会根据子节点的解析结果，添加或删除响应的前缀或后缀，比如有这么一段配置

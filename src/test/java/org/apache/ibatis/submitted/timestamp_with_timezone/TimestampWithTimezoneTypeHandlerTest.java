@@ -1,13 +1,6 @@
 
 package org.apache.ibatis.submitted.timestamp_with_timezone;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.Reader;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +9,13 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TimestampWithTimezoneTypeHandlerTest {
 

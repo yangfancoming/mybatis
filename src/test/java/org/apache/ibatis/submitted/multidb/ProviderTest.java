@@ -1,15 +1,15 @@
 
 package org.apache.ibatis.submitted.multidb;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.Reader;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProviderTest {
 

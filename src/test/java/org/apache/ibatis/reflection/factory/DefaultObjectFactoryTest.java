@@ -4,7 +4,9 @@ package org.apache.ibatis.reflection.factory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 class DefaultObjectFactoryTest {

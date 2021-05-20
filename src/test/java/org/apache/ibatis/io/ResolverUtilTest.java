@@ -1,15 +1,15 @@
 
 package org.apache.ibatis.io;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.ibatis.annotations.CacheNamespace;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Set;
 
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ResolverUtilTest {

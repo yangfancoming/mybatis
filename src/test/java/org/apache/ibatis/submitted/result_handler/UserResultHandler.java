@@ -1,11 +1,11 @@
 
 package org.apache.ibatis.submitted.result_handler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.ibatis.session.ResultContext;
 import org.apache.ibatis.session.ResultHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
   自定义 的 结果集处理器  需要实现 ResultHandler 接口

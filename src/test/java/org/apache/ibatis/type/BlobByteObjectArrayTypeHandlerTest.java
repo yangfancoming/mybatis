@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 
 import static org.assertj.core.api.Assertions.assertThat;

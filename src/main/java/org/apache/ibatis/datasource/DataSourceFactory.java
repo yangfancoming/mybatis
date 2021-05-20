@@ -1,8 +1,8 @@
 
 package org.apache.ibatis.datasource;
 
-import java.util.Properties;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 
 public interface DataSourceFactory {

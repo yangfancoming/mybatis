@@ -1,10 +1,6 @@
 
 package org.apache.ibatis.submitted.nestedresulthandler_multiple_association;
 
-import java.io.Reader;
-
-import java.util.List;
-
 import org.apache.ibatis.BaseDataTest;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,6 +9,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.Reader;
+import java.util.List;
 
 class NestedResultHandlerMultipleAssociationTest {
 
