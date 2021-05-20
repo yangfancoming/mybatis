@@ -38,9 +38,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
   // NOTE: 记录SQL语句对应的MappedStatement和BoundSql
   protected final MappedStatement mappedStatement;
   protected BoundSql boundSql;
-
   protected final RowBounds rowBounds;
-
 
   protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
     log.warn(" BaseStatementHandler 对象 开始创建，SQL标签id为：【" + mappedStatement.getId() + "】");
@@ -62,6 +60,9 @@ public abstract class BaseStatementHandler implements StatementHandler {
     this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowBounds, parameterHandler, resultHandler, boundSql);
     log.warn(" BaseStatementHandler 对象 创建完毕，parameterHandler：【" + parameterHandler.getParameterObject() + "】" + "resultSetHandler：【" + resultSetHandler.toString() + "】");
   }
+
+  // 抽象方法 让子类去实现
+  protected abstract Statement instantiateStatement(Connection connection) throws SQLException;
 
   @Override
   public BoundSql getBoundSql() {
@@ -90,8 +91,6 @@ public abstract class BaseStatementHandler implements StatementHandler {
       throw new ExecutorException("Error preparing statement.  Cause: " + e, e);
     }
   }
-
-  protected abstract Statement instantiateStatement(Connection connection) throws SQLException;
 
   protected void setStatementTimeout(Statement stmt, Integer transactionTimeout) throws SQLException {
     Integer queryTimeout = null;

@@ -48,9 +48,7 @@ public final class PreparedStatementLogger extends BaseJdbcLogger implements Inv
           return method.invoke(statement, params);
         }
       } else if (SET_METHODS.contains(method.getName())) {
-        /**
-         如果调用 SET_MTHODS 集合中的方法， 则通过 setColumn() 方法记录到 BaseJdbcLogger 中定义的 三个 column*集合
-        */
+        // 如果调用 SET_MTHODS 集合中的方法， 则通过 setColumn() 方法记录到 BaseJdbcLogger 中定义的 三个 column*集合
         if ("setNull".equals(method.getName())) {
           setColumn(params[0], null);
         } else {

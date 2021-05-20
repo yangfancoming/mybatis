@@ -20,7 +20,6 @@ import java.util.List;
 
 /**
  创建了一个Statement对象，由于Statement对象不支持“?”参数，所以，parameterize()是空实现。
-
  SimpleStatementHandler等于下面两句话。
  Statement stm = conn.createStatement()
  return stm.execute(sql);
@@ -85,5 +84,4 @@ public class SimpleStatementHandler extends BaseStatementHandler {
   public void parameterize(Statement statement) {
     // N/A
   }
-
 }
