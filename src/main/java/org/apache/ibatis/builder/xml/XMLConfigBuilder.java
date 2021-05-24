@@ -628,11 +628,14 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   /**
+   * 通过源码可以看到只有1和4两种情况 直接使用configuration.addMappers()来 为对应的接口类创建MapperProxyFactory 保存在knownMappers中
+   * 而2和3两种情况是不能直接获取到接口类，所以在org.apache.ibatis.builder.xml.XMLMapperBuilder#bindMapperForNamespace(java.lang.String)
+   * 方法中使用反射的方式来创建对应的接口类 为对应的接口类创建MapperProxyFactory 保存在knownMappers中
    <mappers>
-       <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
-       <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
-       <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
-       <package name="org.apache.ibatis.builder.mapper"/>
+     1  <mapper resource="org/apache/ibatis/builder/BlogMapper.xml"/>
+     2  <mapper url="file:./src/test/java/org/apache/ibatis/builder/NestedBlogMapper.xml"/>
+     3  <mapper class="org.apache.ibatis.builder.CachedAuthorMapper"/>
+     4  <package name="org.apache.ibatis.builder.mapper"/>
    </mappers>
    * 解析配置文件的mappers子节点，方法主要是实现一个大体框架，按照resource->url->class的优先级读取配置，
    * 具体的解析细节是依赖于 XMLMapperBuilder 来实现的，

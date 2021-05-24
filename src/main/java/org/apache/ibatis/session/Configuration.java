@@ -596,7 +596,7 @@ public class Configuration {
       executor = new BatchExecutor(this, transaction);
     } else if (ExecutorType.REUSE == executorType) { //3.REUSE
       executor = new ReuseExecutor(this, transaction);
-    } else { //4.SIMPLE
+    } else { // 4.SIMPLE
       executor = new SimpleExecutor(this, transaction);
     }
     // 5.如果开启了二级缓存，就装饰一下。(默认开启) 装饰器模式 装饰模式

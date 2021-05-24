@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
  * 1、编写Interceptor的实现类
  * 2、使用@Intercepts注解完成插件签名
  * 3、将写好的插件注册到全局配置文件中
+ * 创建动态代理的时候，是按照插件配置顺序创建层层代理对象，
+ * 在执行目标方法的时候，是按照逆向顺序执行
 */
 
 public class App extends MyBaseDataTest {

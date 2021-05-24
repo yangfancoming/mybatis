@@ -109,9 +109,10 @@ public class MapperRegistry {
     if (hasMapper(type)) throw new BindingException("Type " + type + " is already known to the MapperRegistry.");
     boolean loadCompleted = false;
     try {
-      // 将mapper接口包装成mapper代理  全局唯一入口
+      // 将mapper接口包装成mapper代理
       MapperProxyFactory<T> tMapperProxyFactory = new MapperProxyFactory<>(type);
       // 该集合的 key 是Mapper 接口对应的 Class 对象， value 为 MapperProxyFactory 工厂对象 可以为 Mapper 接口创建代理对象
+      // 全局唯一入口
       knownMappers.put(type, tMapperProxyFactory);
       /**
        It's important that the type is added before the parser is run otherwise the binding may automatically be attempted by the mapper parser. If the type is already known, it won't try.
