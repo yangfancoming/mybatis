@@ -25,7 +25,6 @@ import java.util.*;
 
 /**
  * MapperMethod 代理Mapper所有方法
- *
  * MapperMethod 的功能：
  * 1. 解析Mapper接口的方法，并封装成 MapperMethod 对象。
  * 2. 将Sql命令，正确路由到恰当的SqlSession的方法上。
@@ -352,7 +351,7 @@ public class MapperMethod {
      * 创建SqlSession对象需要传递的参数逻辑
      * args是用户mapper所传递的方法参数列表， 如果方法没有参数，则返回null.
      * 如果方法只包含一个参数并且不包含命名参数， 则返回传递的参数值。
-     * 如果包含多个参数或包含命名参数，则返回包含名字和对应值的map对象、
+     * 如果包含多个参数或包含命名参数，则返回包含名字和对应值的map对象
      */
     public Object convertArgsToSqlCommandParam(Object[] args) {
       return paramNameResolver.getNamedParams(args);
