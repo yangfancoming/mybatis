@@ -110,7 +110,7 @@ public class XMLConfigBuilder extends BaseBuilder {
    * @param props 属性配置文件，那些属性可以用${propName}语法形式多次用在配置文件中
    */
   private XMLConfigBuilder(XPathParser parser, String environment, Properties props) {
-    // 新建一个Mybatis全局配置信息类对象
+    // 全局唯一入口 新建Configuration对象
     super(new Configuration());
     // 设置错误报文实例的资源引用
     ErrorContext.instance().resource("SQL Mapper Configuration");

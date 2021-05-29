@@ -195,12 +195,12 @@ public class Configuration {
   protected final Map<String, String> cacheRefMap = new HashMap<>();
 
   public Configuration(Environment environment) {
-    this();
+    this(); //  即使调用有参构造器也会先去调用无参构造器
     log.warn("进入 【Configuration】 单参 构造函数 {}");
     this.environment = environment;
   }
 
-  //通过使用TypeAliasRegistry来注册一些类的别名
+  // 无参构造器 进行相应的初始化工作。 通过使用TypeAliasRegistry来注册一些类的别名
   public Configuration() {
     log.warn("进入 【Configuration】 无参 构造函数 {}");
     // 事务相关

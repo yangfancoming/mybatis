@@ -25,6 +25,9 @@ import java.util.Properties;
 
 /**
  * XpathParser的作用是提供根据Xpath表达式获取基本的DOM节点Node信息的操作
+ * mybatis使用 基于java原生的 DOM 解析方式
+ * 在加载 mybatis-config.xml 配置文件与映射文件时， 使用的是 DOM 解析方式， 并配合使用 XPath 解析 XML 配置文件。
+ * XPath 之于 XML 就好比 SQL 之于数据库。
  */
 public class XPathParser {
 
