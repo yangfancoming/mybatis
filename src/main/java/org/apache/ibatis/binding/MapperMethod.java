@@ -33,9 +33,9 @@ public class MapperMethod {
 
   private static final Log log = LogFactory.getLog(MapperMethod.class);
 
-  // 一个静态内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
+  // 静态内部类  SqlCommand表示该sql的类型，一般为select|update|insert|delete|flush等类型
   private final SqlCommand command;
-  // 一个静态内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
+  // 静态内部类  method适配器，一般解析mapper接口对应method的参数集合以及回参等
   private final MethodSignature method;
 
   public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -223,7 +223,9 @@ public class MapperMethod {
   }
   // 静态内部类，封装了具体执行的动作
   public static class SqlCommand {
-    // xml标签的id   通过它可以找到 MappedStatement    eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
+    // xml标签的id   通过它可以找到 MappedStatement
+    // eg：org.apache.goat.chapter100.E.E054.EmployeeMapper.getEmpsByConditionIf
+    // eg：org.apache.goat.chapter100.C.C050.UserMapper.deleteById
     private final String name;
     // CRUD的具体类型   eg： UNKNOWN, INSERT, UPDATE, DELETE, SELECT, FLUSH
     private final SqlCommandType type;
@@ -341,10 +343,7 @@ public class MapperMethod {
        * sos 该种方式 只有在 接口 fooMapper.deleteById(2) 调用才走这里   传统 sqlSession.selectOne("selectById",2)  方式不走这里
       */
       paramNameResolver = new ParamNameResolver(configuration, method);
-      String[] names = paramNameResolver.getNames();
-      StringBuilder sb = new StringBuilder();
-      Arrays.asList(names).forEach(x->sb.append(x));
-      log.warn(" MethodSignature 对象 创建完毕，返回值类型：【" + returnType.getName() + "】" + "参数值：【" + sb + "】");
+      log.warn(" MethodSignature 对象 创建完毕，返回值类型：【" + returnType.getName() + "】");
     }
 
     /**

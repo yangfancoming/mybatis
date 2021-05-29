@@ -21,7 +21,7 @@ public class App {
     InvocationHandler targetProxy = new TargetProxy(target);
     // hook 是被钩对象
     Target hook = (Target) Proxy.newProxyInstance(Target.class.getClassLoader(), new Class[]{Target.class}, targetProxy);
-    // 被钩对象执行时 先去执行钩子函数逻辑（TargetProxy#invoke）
+    // 被钩对象执行时 先去执行钩子函数逻辑（TargetProxy#invoke）  再去执行目标函数逻辑（TargetImpl#execute）
     System.out.println("返回值为：" + hook.execute("goat"));
   }
 
