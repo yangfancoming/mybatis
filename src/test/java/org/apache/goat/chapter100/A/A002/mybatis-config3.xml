@@ -4,8 +4,6 @@
 
 <configuration>
 
-
-
   <environments default="development">
 
     <environment id="development">
@@ -25,6 +23,7 @@
   </environments>
 
   <mappers>
-    <mapper resource="org/apache/goat/chapter100/B/B062/Foo.xml"/>
+    <mapper resource="org/apache/goat/chapter100/A/A002/Foo3.xml"/>
   </mappers>
+
 </configuration>

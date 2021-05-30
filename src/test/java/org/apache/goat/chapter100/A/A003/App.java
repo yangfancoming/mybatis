@@ -10,13 +10,13 @@ class App extends MyBaseDataTest {
   public static final String XMLPATH = "org/apache/goat/chapter100/A/A003/mybatis-config.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-  // mapper接口 方法重载问题 示例
+  // mapper接口 方法重载问题 示例     doit  这两个方法为啥都可以？？？  难道mapper接口可以函数重载？？？
   @Test
   void selectById() throws Exception  {
     setUpByReader(XMLPATH,DBSQL);
     FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
-//    Foo foo = fooMapper.selectById(1);
-//    System.out.println(foo);
+    Foo foo = fooMapper.selectById(1);
+    System.out.println(foo);
 
     Foo foo2 = fooMapper.selectById("2");
     System.out.println(foo2);

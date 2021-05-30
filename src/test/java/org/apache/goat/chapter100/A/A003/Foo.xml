@@ -7,7 +7,7 @@
 <!--    select * from foo where id = #{id}-->
 <!--  </select>-->
 
-  <select id="selectById" parameterType="string" resultType="org.apache.goat.common.model.Foo" >
+  <select id="selectById" resultType="org.apache.goat.common.model.Foo" >
     select * from foo where id = #{id}
   </select>
 </mapper>
