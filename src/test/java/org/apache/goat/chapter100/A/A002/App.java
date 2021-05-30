@@ -1,54 +1,63 @@
 package org.apache.goat.chapter100.A.A002;
 
 import org.apache.common.MyBaseDataTest;
-import org.apache.common.mapper.BlogMapper;
 import org.apache.goat.common.model.Foo;
 import org.apache.ibatis.BaseDataTest;
-import org.apache.ibatis.domain.blog.Blog;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
 import javax.sql.DataSource;
 
 
 class App extends MyBaseDataTest {
 
-  public static final String XMLPATH = "org/apache/goat/chapter100/A/A002/mybatis-config.xml";
+  public static final String XMLPATH1 = "org/apache/goat/chapter100/A/A002/mybatis-config.xml";
+  public static final String XMLPATH2 = "org/apache/goat/chapter100/A/A002/mybatis-config2.xml";
   public static final String DBSQL = "org/apache/goat/common/CreateDB.sql";
 
-  // 有mapper接口 入门示例
+  /**
+   *  mapper接口配合 全局xml + 局部xml  入门示例
+  */
   @Test
   void selectById() throws Exception  {
-    setUpByReader(XMLPATH,DBSQL);
-    FooMapper fooMapper = sqlSession.getMapper(FooMapper.class);
+    setUpByReader(XMLPATH1,DBSQL);
+    FooMapper1 fooMapper = sqlSession.getMapper(FooMapper1.class);
     Foo foo = fooMapper.selectById(1);
-    System.out.println(foo);
+    Assert.assertEquals(1,foo.getId());
   }
 
-  /**  3、通过Configuration对象构建SqlSessionFactory
-   *  挺长时间没碰 再次运行为啥又报错了？
-   *  因为没有对应的 局部xml实现 或是没有@Select 注解实现
-   *  org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): org.apache.goat.chapter100.A.A002.FooMapper.selectById
+  /**
+   *  mapper接口配合 全局xml + 注解 入门示例
+   */
+  @Test
+  void selectById2() throws Exception  {
+    setUpByReader(XMLPATH2,DBSQL);
+    FooMapper2 fooMapper = sqlSession.getMapper(FooMapper2.class);
+    Foo foo = fooMapper.selectById(1);
+    Assert.assertEquals(1,foo.getId());
+  }
+
+  /**
+   * mapper接口配合 构建Configuration对象  入门示例
    */
   @Test
   void gaga() throws Exception {
     // 配置
-    DataSource dataSource = BaseDataTest.createBlogDataSource();
+    DataSource dataSource = BaseDataTest.createGoatDataSource(DBSQL,"org/apache/common/goatdb.properties");
     TransactionFactory transactionFactory = new JdbcTransactionFactory();
     Environment environment = new Environment("NoCare",transactionFactory , dataSource);
     Configuration configuration = new Configuration(environment);
-    configuration.addMapper(BlogMapper.class);
-
+    configuration.addMapper(FooMapper2.class);
     // 使用
     SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     sqlSession = sqlSessionFactory.openSession(autoCommit);
-    BlogMapper blogMapper = sqlSession.getMapper(BlogMapper.class);
-    Blog zoo = blogMapper.selectBlog(1);
-    System.out.println(zoo);
+    FooMapper2 blogMapper = sqlSession.getMapper(FooMapper2.class);
+    Foo foo = blogMapper.selectById(1);
+    Assert.assertEquals(1,foo.getId());
   }
 }

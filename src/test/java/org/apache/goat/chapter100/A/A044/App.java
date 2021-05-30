@@ -35,7 +35,7 @@ class App extends MyBaseDataTest {
   /* 注解方式 正常*/
   @Test
   void test1() throws Exception  {
-//    setUpByReader(XMLPATH,DBSQL);
+//    setUpByReader(XMLPATH1,DBSQL);
 //    ZooMapper zooMapper = sqlSession.getMapper(ZooMapper.class);
 //    Zoo zoo = zooMapper.selectById(1);
 //    System.out.println(zoo);

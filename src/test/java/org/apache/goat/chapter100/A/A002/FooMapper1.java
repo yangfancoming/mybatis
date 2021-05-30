@@ -6,7 +6,7 @@ import org.apache.goat.common.model.Foo;
 
 import java.util.List;
 
-public interface FooMapper {
+public interface FooMapper1 {
 
   Foo selectById(Integer id);
 

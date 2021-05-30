@@ -74,4 +74,10 @@ public abstract class BaseDataTest {
     runScript(ds, JPETSTORE_DATA);
     return ds;
   }
+
+  public static DataSource createGoatDataSource(String sql ,String path) throws IOException, SQLException {
+    DataSource ds = createUnpooledDataSource(path);
+    runScript(ds, sql);
+    return ds;
+  }
 }

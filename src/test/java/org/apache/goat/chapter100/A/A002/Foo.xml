@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.apache.goat.chapter100.A.A002.FooMapper">
+<mapper namespace="org.apache.goat.chapter100.A.A002.FooMapper1">
 
   <select id="selectById" parameterType="int" resultType="org.apache.goat.common.model.Foo" >
     select * from foo where id = #{id}
