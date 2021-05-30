@@ -40,6 +40,7 @@ class App extends MyBaseDataTest {
     Configuration configuration = sqlSessionFactory.getConfiguration();
     Environment environment = configuration.getEnvironment();
     DataSource dataSource = environment.getDataSource();
+    // 验证全局xml文件配置
     Assert.assertTrue(dataSource instanceof UnpooledDataSource);
     Assert.assertEquals("development",environment.getId());
   }

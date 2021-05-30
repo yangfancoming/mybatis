@@ -2,6 +2,7 @@ package org.apache.goat.chapter100.A.A001;
 
 import org.apache.common.MyBaseDataTest;
 import org.apache.goat.common.model.Foo;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 
@@ -12,11 +13,13 @@ class App extends MyBaseDataTest {
 
   /**
    * 无mapper接口 入门示例
+   * 直接输入statementId <mapper namespace="com.goat.test.namespace"> +  <select id="selectById" >
+   * 来定位到对应的 crud标签
   */
   @Test
   void test1() throws Exception {
     setUpByReader(XMLPATH,DBSQL);
     Foo foo = sqlSession.selectOne("com.goat.test.namespace.selectById",1);
-    System.out.println(foo);
+    Assert.assertEquals(1,foo.getId());
   }
 }
