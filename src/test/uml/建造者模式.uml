@@ -3,15 +3,15 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
-    <node x="257.5" y="9.5">org.apache.ibatis.executor.statement.StatementHandler</node>
-    <node x="614.5" y="98.0">org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
-    <node x="197.99999999999997" y="177.0">org.apache.ibatis.executor.statement.PreparedStatementHandler</node>
-    <node x="408.0" y="177.0">org.apache.ibatis.executor.statement.CallableStatementHandler</node>
-    <node x="209.99999999999997" y="98.0">org.apache.ibatis.executor.statement.BaseStatementHandler</node>
-    <node x="0.0" y="177.0">org.apache.ibatis.executor.statement.SimpleStatementHandler</node>
+    <node x="269.5" y="9.5">org.apache.ibatis.executor.statement.StatementHandler</node>
+    <node x="0.0" y="177.0">org.apache.ibatis.executor.statement.PreparedStatementHandler</node>
+    <node x="626.5" y="98.0">org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
+    <node x="210.00000000000003" y="177.0">org.apache.ibatis.executor.statement.CallableStatementHandler</node>
+    <node x="222.00000000000003" y="98.0">org.apache.ibatis.executor.statement.BaseStatementHandler</node>
+    <node x="420.0" y="177.0">org.apache.ibatis.executor.statement.SimpleStatementHandler</node>
   </nodes>
   <notes>
-    <note x="442.5" y="0.0">
+    <note x="454.5" y="0.0">
       <node>org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
       <value>Mybatis拦截StatementHandler就是它，他根据Executor类型创建对应的StatementHandler，并赋值到 delegate，\n所以插件分离还需要进一步分离出具体的statementHandler</value>
       <edge>
@@ -23,9 +23,7 @@
   <edges>
     <edge source="org.apache.ibatis.executor.statement.CallableStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
       <point x="0.0" y="-14.5" />
-      <point x="503.0" y="152.0" />
-      <point x="348.33333333333337" y="152.0" />
-      <point x="55.33333333333337" y="14.5" />
+      <point x="0.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.executor.statement.BaseStatementHandler" target="org.apache.ibatis.executor.statement.StatementHandler">
       <point x="0.0" y="-14.5" />
@@ -33,22 +31,24 @@
     </edge>
     <edge source="org.apache.ibatis.executor.statement.PreparedStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
       <point x="0.0" y="-14.5" />
-      <point x="0.0" y="14.5" />
+      <point x="95.0" y="152.0" />
+      <point x="249.66666666666669" y="152.0" />
+      <point x="-55.33333333333334" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.executor.statement.RoutingStatementHandler" target="org.apache.ibatis.executor.statement.StatementHandler">
       <point x="-46.0" y="-14.5" />
-      <point x="660.5" y="73.0" />
-      <point x="364.0" y="73.0" />
+      <point x="672.5" y="73.0" />
+      <point x="376.0" y="73.0" />
       <point x="35.5" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.executor.statement.SimpleStatementHandler" target="org.apache.ibatis.executor.statement.BaseStatementHandler">
       <point x="0.0" y="-14.5" />
-      <point x="89.0" y="152.0" />
-      <point x="237.66666666666663" y="152.0" />
-      <point x="-55.33333333333334" y="14.5" />
+      <point x="509.0" y="152.0" />
+      <point x="360.33333333333337" y="152.0" />
+      <point x="55.33333333333337" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="715.0" y="406.5" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="684.5" y="426.5" />
   <SelectedNodes>
     <node>org.apache.ibatis.executor.statement.RoutingStatementHandler</node>
   </SelectedNodes>

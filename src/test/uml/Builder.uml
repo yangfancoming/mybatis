@@ -3,121 +3,59 @@
   <ID>JAVA</ID>
   <OriginalElement>org.apache.ibatis.session.SqlSession</OriginalElement>
   <nodes>
-    <node x="367.7460937500001" y="287.0">org.apache.ibatis.builder.xml.XMLMapperBuilder</node>
-    <node x="16.166666666666742" y="208.0">org.apache.ibatis.builder.SqlSourceBuilder.ParameterMappingTokenHandler</node>
-    <node x="320.66666666666674" y="129.0">org.apache.ibatis.builder.MapperBuilderAssistant</node>
-    <node x="419.4335937500001" y="445.0">org.apache.ibatis.scripting.xmltags.XMLScriptBuilder</node>
-    <node x="276.70052083333337" y="0.0">org.apache.ibatis.builder.BaseBuilder</node>
-    <node x="409.26276041666677" y="366.0">org.apache.ibatis.builder.xml.XMLConfigBuilder</node>
-    <node x="25.050000000000068" y="129.0">org.apache.ibatis.builder.SqlSourceBuilder</node>
-    <node x="250.16666666666674" y="208.0">org.apache.ibatis.builder.xml.XMLStatementBuilder</node>
+    <node x="702.0" y="89.0">org.apache.ibatis.builder.xml.XMLMapperBuilder</node>
+    <node x="864.0" y="89.0">org.apache.ibatis.builder.SqlSourceBuilder.ParameterMappingTokenHandler</node>
+    <node x="504.0" y="89.0">org.apache.ibatis.builder.MapperBuilderAssistant</node>
+    <node x="1098.0" y="89.0">org.apache.ibatis.scripting.xmltags.XMLScriptBuilder</node>
+    <node x="342.0" y="89.0">org.apache.ibatis.builder.xml.XMLConfigBuilder</node>
+    <node x="537.0" y="0.0">org.apache.ibatis.builder.BaseBuilder</node>
+    <node x="180.0" y="89.0">org.apache.ibatis.builder.SqlSourceBuilder</node>
+    <node x="0.0" y="89.0">org.apache.ibatis.builder.xml.XMLStatementBuilder</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="org.apache.ibatis.scripting.xmltags.XMLScriptBuilder" target="org.apache.ibatis.builder.xml.XMLConfigBuilder">
-      <point x="0.0" y="-14.5" />
-      <point x="490.4335937500001" y="420.0" />
-      <point x="480.26276041666677" y="420.0" />
-      <point x="0.0" y="14.5" />
-    </edge>
     <edge source="org.apache.ibatis.builder.SqlSourceBuilder.ParameterMappingTokenHandler" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="42.80000000000001" y="-14.5" />
-      <point x="165.96666666666675" y="183.0" />
-      <point x="189.35052083333335" y="183.0" />
-      <point x="189.35052083333335" y="79.0" />
-      <point x="304.70052083333337" y="79.0" />
-      <point x="-28.0" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.xml.XMLStatementBuilder" target="org.apache.ibatis.builder.MapperBuilderAssistant">
-      <point x="60.0" y="-14.5" />
-      <point x="390.16666666666674" y="183.0" />
-      <point x="387.41666666666674" y="183.0" />
-      <point x="-22.25" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="971.0" y="59.0" />
+      <point x="625.0" y="59.0" />
+      <point x="32.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="35.49999999999997" y="-14.5" />
-      <point x="474.2460937500001" y="257.0" />
-      <point x="521.2252604166667" y="257.0" />
-      <point x="521.2252604166667" y="89.0" />
-      <point x="352.70052083333337" y="89.0" />
-      <point x="20.0" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.xml.XMLConfigBuilder">
-      <point x="47.33333333333334" y="14.5" />
-      <point x="486.0794270833335" y="346.0" />
-      <point x="480.26276041666677" y="346.0" />
-      <point x="2.8421709430404007E-14" y="-14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.xml.XMLConfigBuilder" target="org.apache.ibatis.builder.xml.XMLMapperBuilder">
-      <point x="-56.79999999999998" y="-14.5" />
-      <point x="423.46276041666675" y="346.0" />
-      <point x="391.41276041666674" y="346.0" />
-      <point x="-47.33333333333334" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="773.0" y="69.0" />
+      <point x="609.0" y="69.0" />
+      <point x="16.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.scripting.xmltags.XMLScriptBuilder" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="47.333333333333314" y="-14.5" />
-      <point x="537.7669270833335" y="420.0" />
-      <point x="566.5921875" y="420.0" />
-      <point x="566.5921875" y="49.0" />
-      <point x="384.70052083333337" y="49.0" />
-      <point x="52.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="1169.0" y="49.0" />
+      <point x="641.0" y="49.0" />
+      <point x="48.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.xml.XMLStatementBuilder" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="-20.0" y="-14.5" />
-      <point x="310.16666666666674" y="183.0" />
-      <point x="305.20052083333337" y="183.0" />
-      <point x="305.20052083333337" y="109.0" />
-      <point x="328.70052083333337" y="109.0" />
-      <point x="-4.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="80.0" y="49.0" />
+      <point x="545.0" y="49.0" />
+      <point x="-48.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.xml.XMLConfigBuilder" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="56.800000000000026" y="-14.5" />
-      <point x="537.0627604166668" y="346.0" />
-      <point x="551.2252604166667" y="346.0" />
-      <point x="551.2252604166667" y="59.0" />
-      <point x="376.70052083333337" y="59.0" />
-      <point x="44.0" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.SqlSourceBuilder" target="org.apache.ibatis.builder.SqlSourceBuilder.ParameterMappingTokenHandler">
-      <point x="47.33333333333337" y="14.5" />
-      <point x="143.38333333333344" y="183.0" />
-      <point x="123.16666666666674" y="183.0" />
       <point x="0.0" y="-14.5" />
+      <point x="413.0" y="69.0" />
+      <point x="577.0" y="69.0" />
+      <point x="-16.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.SqlSourceBuilder" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="-35.5" y="-14.5" />
-      <point x="60.55000000000007" y="59.0" />
-      <point x="288.70052083333337" y="59.0" />
-      <point x="-44.0" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.xml.XMLStatementBuilder">
-      <point x="-35.50000000000003" y="-14.5" />
-      <point x="403.2460937500001" y="257.0" />
-      <point x="370.16666666666674" y="257.0" />
-      <point x="40.0" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="251.0" y="59.0" />
+      <point x="561.0" y="59.0" />
+      <point x="-32.0" y="14.5" />
     </edge>
     <edge source="org.apache.ibatis.builder.MapperBuilderAssistant" target="org.apache.ibatis.builder.BaseBuilder">
-      <point x="-44.5" y="-14.5" />
-      <point x="365.16666666666674" y="109.0" />
-      <point x="336.70052083333337" y="109.0" />
-      <point x="4.0" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.xml.XMLMapperBuilder" target="org.apache.ibatis.builder.MapperBuilderAssistant">
-      <point x="11.833333333333286" y="-14.5" />
-      <point x="450.57942708333337" y="267.0" />
-      <point x="459.8046875" y="267.0" />
-      <point x="459.8046875" y="183.0" />
-      <point x="476.41666666666674" y="183.0" />
-      <point x="66.75" y="14.5" />
-    </edge>
-    <edge source="org.apache.ibatis.builder.SqlSourceBuilder.ParameterMappingTokenHandler" target="org.apache.ibatis.builder.SqlSourceBuilder">
-      <point x="-85.60000000000002" y="-14.5" />
-      <point x="37.56666666666672" y="183.0" />
-      <point x="48.716666666666754" y="183.0" />
-      <point x="-47.333333333333314" y="14.5" />
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.2000000000000002" x="283.50000000000006" y="237.0" />
+  <settings layout="Hierarchic Group" zoom="1.2000000000000002" x="284.41666666666663" y="237.0" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>

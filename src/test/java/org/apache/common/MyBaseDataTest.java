@@ -48,9 +48,10 @@ public abstract class MyBaseDataTest {
   }
 
   /** Reader 不使用数据库 */
-  public static void setUpByReaderNoOpen(String xmlPath) throws Exception {
+  public static SqlSessionFactory setUpByReaderNoOpen(String xmlPath) throws Exception {
     try (Reader reader = Resources.getResourceAsReader(xmlPath)) {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+      return sqlSessionFactory;
     }
   }
 

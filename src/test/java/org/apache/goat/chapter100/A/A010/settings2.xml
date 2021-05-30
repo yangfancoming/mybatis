@@ -6,7 +6,8 @@
 
   <!--全局配置-->
   <settings>
-    <setting name="阿道夫" value="gaga" />
+<!--    <setting name="defaultExecutorType" value="SIMPLE" />-->
+    <setting name="defaultExecutorType" value="FUCK"/>
   </settings>
 
 </configuration>
